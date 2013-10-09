@@ -1,8 +1,21 @@
 package org.adaptlab.chpir.android.survey;
 
-public class Response {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Responses")
+public class Response extends Model {
+	@Column(name = "Question")
 	private Question mQuestion;
+	@Column(name = "Response")
 	private String mResponse;
+	@Column(name = "Survey")
+	private Survey mSurvey;
+	
+	public Response() {
+		super();
+	}
 
 	public Question getQuestion() {
 		return mQuestion;
@@ -19,5 +32,12 @@ public class Response {
 	public void setResponse(String response) {
 		mResponse = response;
 	}
-
+	
+	public void setSurvey(Survey survey) {
+		mSurvey = survey;
+	}
+	
+	public Survey getSurvey() {
+		return mSurvey;
+	}
 }

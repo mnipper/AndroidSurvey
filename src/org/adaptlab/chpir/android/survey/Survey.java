@@ -1,13 +1,18 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Survey {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Surveys")
+public class Survey extends Model {
+	@Column(name = "Instrument")
 	private Instrument mInstrument;
-	private ArrayList<Response> mResponses;
 	
 	public Survey() {
-		mResponses = new ArrayList<Response>();
+		super();
 	}
 
 	public Instrument getInstrument() {
@@ -17,13 +22,9 @@ public class Survey {
 	public void setInstrument(Instrument instrument) {
 		mInstrument = instrument;
 	}
-
-	public ArrayList<Response> getResponses() {
-		return mResponses;
-	}
-
-	public void addResponse(Response response) {
-		mResponses.add(response);
+	
+	public List<Response> responses() {
+		return getMany(Response.class, "Survey");
 	}
 	
 }

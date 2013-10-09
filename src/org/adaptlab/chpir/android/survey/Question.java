@@ -2,8 +2,16 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
-public class Question {
-	public class QuestionTypes {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Questions")
+public class Question extends Model {
+	public static class QuestionTypes {
+		public static boolean validQuestionType(int questionType) {
+			return questionType >= 0 && questionType <= 7;
+		}
 		public final static int SELECT_ONE = 0;
 		public final static int SELECT_MULTIPLE = 1;
 		public final static int SELECT_ONE_WRITE_OTHER = 2;
@@ -14,12 +22,19 @@ public class Question {
 		public final static int REAR_PICTURE = 7;
 	}
 	
+	@Column(name = "Text")
 	private String mText;
+	@Column(name = "QuestionType")
 	private int mQuestionType;
+	@Column(name = "QuestionID")
+	private String mQuestionID;
+	@Column(name = "Instrument")
+	private Instrument mInstrument;
+	
 	private ArrayList<String> mOptions;
-	private String mQuestionIdentifier;
 	
 	public Question() {
+		super();
 		mOptions = new ArrayList<String>();
 	}
 
@@ -35,12 +50,17 @@ public class Question {
 		return mQuestionType;
 	}
 
+	// Set question type to free response if invalid question type
 	public void setQuestionType(int questionType) {
-		mQuestionType = questionType;
+		if (QuestionTypes.validQuestionType(questionType)) {
+			mQuestionType = questionType;
+		} else {
+			mQuestionType = QuestionTypes.FREE_RESPONSE;
+		}
 	}
 	
 	public boolean hasOptions() {
-		return mOptions.size() > 1;
+		return mOptions.size() > 0;
 	}
 	
 	public ArrayList<String> getOptions() {
@@ -51,11 +71,4 @@ public class Question {
 		mOptions.add(option);
 	}
 
-	public String getQuestionIdentifier() {
-		return mQuestionIdentifier;
-	}
-
-	public void setQuestionIdentifier(String questionIdentifier) {
-		mQuestionIdentifier = questionIdentifier;
-	}
 }

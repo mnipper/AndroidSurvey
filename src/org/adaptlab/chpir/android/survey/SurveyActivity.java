@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 public class SurveyActivity extends SingleFragmentActivity {
 	public static final String EXTRA_SURVEY_ID =
-			"com.adaptlab.chpir.android.survey.survey_id";
+			"org.adaptlab.chpir.android.survey.survey_id";
 	
 	@Override
 	protected Fragment createFragment() {
@@ -15,5 +15,4 @@ public class SurveyActivity extends SingleFragmentActivity {
 			return new SurveyFragment();
 		}
 	}
-	
 }

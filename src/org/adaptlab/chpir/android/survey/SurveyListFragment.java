@@ -37,6 +37,13 @@ public class SurveyListFragment extends ListFragment {
 	}
 	
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (REQUEST_NEW_SURVEY == requestCode) {
+			// TODO: refresh list
+		}
+	}
+	
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent i = new Intent(getActivity(), SurveyActivity.class);
 		i.putExtra(SurveyActivity.EXTRA_SURVEY_ID, id);

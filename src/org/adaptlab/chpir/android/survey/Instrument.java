@@ -2,11 +2,19 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
-public class Instrument {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Instruments")
+public class Instrument extends Model {
 	private ArrayList<Question> mQuestions;
+	
+	@Column(name = "Title")
 	private String mTitle;
 	
 	public Instrument() {
+		super();
 		mQuestions = new ArrayList<Question>();
 	}
 

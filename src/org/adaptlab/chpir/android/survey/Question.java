@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.ArrayList;
+
 public class Question {
 	public class QuestionTypes {
 		public final static int SELECT_ONE = 0;
@@ -14,6 +16,7 @@ public class Question {
 	
 	private String mText;
 	private int mQuestionType;
+	private ArrayList<String> mOptions;
 
 	public String getText() {
 		return mText;
@@ -29,5 +32,21 @@ public class Question {
 
 	public void setQuestionType(int questionType) {
 		mQuestionType = questionType;
+	}
+	
+	public boolean hasOptions() {
+		return mOptions != null;
+	}
+	
+	public ArrayList<String> getOptions() {
+		return mOptions;
+	}
+	
+	public void addOption(String option) {
+		if (mOptions == null) {
+			mOptions = new ArrayList<String>();
+		}
+		
+		mOptions.add(option);
 	}
 }

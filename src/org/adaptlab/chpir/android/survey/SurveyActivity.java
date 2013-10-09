@@ -1,22 +1,19 @@
 package org.adaptlab.chpir.android.survey;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
+import android.support.v4.app.Fragment;
 
-public class SurveyActivity extends Activity {
-
+public class SurveyActivity extends SingleFragmentActivity {
+	public static final String EXTRA_SURVEY_ID =
+			"com.adaptlab.chpir.android.survey.survey_id";
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_survey);
+	protected Fragment createFragment() {
+		long surveyId = getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
+		if (surveyId != -1) {
+			return SurveyFragment.newInstance(surveyId);
+		} else {
+			return new SurveyFragment();
+		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.survey, menu);
-		return true;
-	}
-
+	
 }

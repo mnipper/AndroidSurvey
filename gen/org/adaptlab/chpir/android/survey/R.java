@@ -26,6 +26,7 @@ public final class R {
     public static final class id {
         public static final int action_settings=0x7f080001;
         public static final int fragmentContainer=0x7f080000;
+        public static final int menu_item_new_survey=0x7f080002;
     }
     public static final class layout {
         public static final int activity_fragment=0x7f030000;
@@ -33,11 +34,12 @@ public final class R {
     }
     public static final class menu {
         public static final int survey=0x7f070000;
+        public static final int survey_list_options=0x7f070001;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
+        public static final int new_survey=0x7f050002;
     }
     public static final class style {
         /** 

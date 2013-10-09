@@ -3,6 +3,6 @@
 
     <string name="app_name">Survey</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="new_survey">New Survey</string>
 
 </resources>

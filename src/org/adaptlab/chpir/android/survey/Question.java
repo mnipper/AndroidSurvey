@@ -17,6 +17,11 @@ public class Question {
 	private String mText;
 	private int mQuestionType;
 	private ArrayList<String> mOptions;
+	private String mQuestionIdentifier;
+	
+	public Question() {
+		mOptions = new ArrayList<String>();
+	}
 
 	public String getText() {
 		return mText;
@@ -35,7 +40,7 @@ public class Question {
 	}
 	
 	public boolean hasOptions() {
-		return mOptions != null;
+		return mOptions.size() > 1;
 	}
 	
 	public ArrayList<String> getOptions() {
@@ -43,10 +48,14 @@ public class Question {
 	}
 	
 	public void addOption(String option) {
-		if (mOptions == null) {
-			mOptions = new ArrayList<String>();
-		}
-		
 		mOptions.add(option);
+	}
+
+	public String getQuestionIdentifier() {
+		return mQuestionIdentifier;
+	}
+
+	public void setQuestionIdentifier(String questionIdentifier) {
+		mQuestionIdentifier = questionIdentifier;
 	}
 }

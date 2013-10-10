@@ -8,6 +8,7 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Surveys")
 public class Survey extends Model {
+	
 	@Column(name = "Instrument")
 	private Instrument mInstrument;
 	
@@ -26,5 +27,4 @@ public class Survey extends Model {
 	public List<Response> responses() {
 		return getMany(Response.class, "Survey");
 	}
-	
 }

@@ -2,35 +2,32 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "Questions")
 public class Question extends Model {
-	public static class QuestionTypes {
-		public static boolean validQuestionType(int questionType) {
-			return questionType >= 0 && questionType <= 7;
-		}
-		public final static int SELECT_ONE = 0;
-		public final static int SELECT_MULTIPLE = 1;
-		public final static int SELECT_ONE_WRITE_OTHER = 2;
-		public final static int SELECT_MULTIPLE_WRITE_OTHER = 3;
-		public final static int FREE_RESPONSE = 4;
-		public final static int SLIDER = 5;
-		public final static int FRONT_PICTURE = 6;
-		public final static int REAR_PICTURE = 7;
+	
+	private static final String TAG = "QuestionModel";
+	public static enum QuestionType {
+		SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
+		SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
+		FRONT_PICTURE, REAR_PICTURE;
 	}
 	
 	@Column(name = "Text")
 	private String mText;
 	@Column(name = "QuestionType")
-	private int mQuestionType;
+	private QuestionType mQuestionType;
 	@Column(name = "QuestionID")
 	private String mQuestionID;
 	@Column(name = "Instrument")
 	private Instrument mInstrument;
 	
+	// TODO: Break options into its own class
 	private ArrayList<String> mOptions;
 	
 	public Question() {
@@ -46,19 +43,36 @@ public class Question extends Model {
 		mText = text;
 	}
 
-	public int getQuestionType() {
+	public QuestionType getQuestionType() {
 		return mQuestionType;
 	}
 
 	// Set question type to free response if invalid question type
-	public void setQuestionType(int questionType) {
-		if (QuestionTypes.validQuestionType(questionType)) {
-			mQuestionType = questionType;
+	public void setQuestionType(String questionType) {
+		if (validQuestionType(questionType)) {
+			mQuestionType = QuestionType.valueOf(questionType);
 		} else {
-			mQuestionType = QuestionTypes.FREE_RESPONSE;
+			Log.e(TAG, "Received invalid question type: " + questionType);
+			mQuestionType = QuestionType.FREE_RESPONSE;
 		}
 	}
 	
+	public String getQuestionID() {
+		return mQuestionID;
+	}
+
+	public void setQuestionID(String questionID) {
+		mQuestionID = questionID;
+	}
+
+	public Instrument getInstrument() {
+		return mInstrument;
+	}
+
+	public void setInstrument(Instrument instrument) {
+		mInstrument = instrument;
+	}
+
 	public boolean hasOptions() {
 		return mOptions.size() > 0;
 	}
@@ -70,5 +84,12 @@ public class Question extends Model {
 	public void addOption(String option) {
 		mOptions.add(option);
 	}
-
+	
+	private static boolean validQuestionType(String questionType) {
+		for (QuestionType type : QuestionType.values()) {
+			if (type.name().equals(questionType))
+				return true;
+		}
+		return false;
+	}
 }

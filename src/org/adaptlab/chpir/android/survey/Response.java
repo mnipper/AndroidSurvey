@@ -6,6 +6,7 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Responses")
 public class Response extends Model {
+	
 	@Column(name = "Question")
 	private Question mQuestion;
 	@Column(name = "Response")

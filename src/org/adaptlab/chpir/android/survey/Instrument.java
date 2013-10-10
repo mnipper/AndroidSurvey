@@ -1,29 +1,20 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Instruments")
 public class Instrument extends Model {
-	private ArrayList<Question> mQuestions;
 	
 	@Column(name = "Title")
 	private String mTitle;
 	
 	public Instrument() {
 		super();
-		mQuestions = new ArrayList<Question>();
-	}
-
-	public ArrayList<Question> getQuestions() {
-		return mQuestions;
-	}
-
-	public void addQuestion(Question question) {
-		mQuestions.add(question);
 	}
 
 	public String getTitle() {
@@ -34,4 +25,19 @@ public class Instrument extends Model {
 		mTitle = title;
 	}
 	
+	public List<Question> questions() {
+		return getMany(Question.class, "Instrument");
+	}
+	
+	public static List<Instrument> getAll() {
+		return new Select()
+			.from(Instrument.class)
+			.orderBy("Id ASC")
+			.execute();
+	}
+	
+	@Override
+	public String toString() {
+		return mTitle;
+	}
 }

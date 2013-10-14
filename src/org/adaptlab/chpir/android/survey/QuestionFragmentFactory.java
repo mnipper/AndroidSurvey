@@ -2,7 +2,6 @@ package org.adaptlab.chpir.android.survey;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +33,6 @@ public class QuestionFragmentFactory {
 		}
 		
 		return qf;
-	}
-	
-	public interface QuestionTemplate {
-		public Fragment createFragment();
 	}
 	
 	public static class SelectOneQuestionFragment extends Fragment {

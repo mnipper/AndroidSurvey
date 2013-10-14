@@ -47,13 +47,11 @@ public class Question extends Model {
 		return mQuestionType;
 	}
 
-	// Set question type to free response if invalid question type
 	public void setQuestionType(String questionType) {
 		if (validQuestionType(questionType)) {
 			mQuestionType = QuestionType.valueOf(questionType);
 		} else {
 			Log.e(TAG, "Received invalid question type: " + questionType);
-			mQuestionType = QuestionType.FREE_RESPONSE;
 		}
 	}
 	

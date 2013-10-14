@@ -9,25 +9,28 @@ import android.view.ViewGroup;
 
 public class QuestionFragmentFactory {
 	
-	public static Fragment createQuestion(Question.QuestionType type) {
+	public static Fragment createQuestion(String type) {
 		Fragment qf = null;
 		
 		//TODO: Write automated test to ensure every QuestionType in
 		//      Question.QuestionType is covered in factory
-		if ("SELECT_ONE".equals(type.toString())) {
+		if ("SELECT_ONE".equals(type)) {
 			qf = new SelectOneQuestionFragment();
-		} else if ("SELECT_MULTIPLE".equals(type.toString())) {
+		} else if ("SELECT_MULTIPLE".equals(type)) {
 			qf = new SelectMultipleQuestionFragment();
-		} else if ("SELECT_ONE_WRITE_OTHER".equals(type.toString())) {
+		} else if ("SELECT_ONE_WRITE_OTHER".equals(type)) {
 			qf = new SelectOneWriteOtherQuestionFragment();
-		} else if ("SELECT_MULTIPLE_WRITE_OTHER".equals(type.toString())) {
+		} else if ("SELECT_MULTIPLE_WRITE_OTHER".equals(type)) {
 			qf = new SelectMultipleWriteOtherQuestionFragment();
-		} else if ("FREE_RESPONSE".equals(type.toString())) {
+		} else if ("FREE_RESPONSE".equals(type)) {
 			qf = new FreeResponseQuestionFragment();
-		} else if ("FRONT_PICURE".equals(type.toString())) {
+		} else if ("FRONT_PICURE".equals(type)) {
 			qf = new FrontPictureQuestionFragment();
-		} else if ("REAR_PICTURE".equals(type.toString())) {
+		} else if ("REAR_PICTURE".equals(type)) {
 			qf = new RearPictureQuestionFragment();
+		} else {
+			// Return free response fragment if unknown question type
+			qf = new FreeResponseQuestionFragment();
 		}
 		
 		return qf;

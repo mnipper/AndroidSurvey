@@ -45,19 +45,19 @@ public class SurveyFragment extends Fragment {
 				if (questionIndex < mInstrument.questions().size() - 1) {
 					mQuestion = mInstrument.questions().get(questionIndex + 1);
 					mQuestionText.setText(mQuestion.getText());
-					Fragment questionFragment = QuestionFragmentFactory
-							 .createQuestion(mQuestion.getQuestionType());
-						FragmentManager fm = getChildFragmentManager();
-						fm.beginTransaction()
-							.replace(R.id.question_container, questionFragment)
+					FragmentManager fm = getChildFragmentManager();
+					fm.beginTransaction()
+						.replace(R.id.question_container, QuestionFragmentFactory
+							.createQuestion(mQuestion.getQuestionType().toString()))
 							.commit();
-
+				} else {
+					// End of survey
 				}
 			}		
 		});
 		
 		Fragment questionFragment = QuestionFragmentFactory
-			 .createQuestion(mQuestion.getQuestionType());
+			 .createQuestion(mQuestion.getQuestionType().toString());
 		FragmentManager fm = getChildFragmentManager();
 		if (fm.findFragmentById(R.id.question_container) == null) {
 			fm.beginTransaction()

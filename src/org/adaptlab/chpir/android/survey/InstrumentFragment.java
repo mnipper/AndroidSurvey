@@ -29,6 +29,7 @@ public class InstrumentFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DatabaseSeed.seedInstrument();
 		mInstrumentList = Instrument.getAll();
 		Log.d(TAG, "Instrument list is: " + mInstrumentList);
 	}

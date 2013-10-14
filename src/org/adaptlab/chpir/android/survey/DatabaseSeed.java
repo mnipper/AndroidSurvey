@@ -18,8 +18,15 @@ public class DatabaseSeed {
 		setOptions(q2, 5);
 		
 		Question q3 = createQuestion(ins, "q115", "SELECT_ONE_WRITE_OTHER",
-				"This is an example select multiple question");
+				"This is an example select one write other question");
 		setOptions(q3, 4);
+		
+		Question q4 = createQuestion(ins, "q121", "SELECT_MULTIPLE_WRITE_OTHER",
+				"This is an example select multiple write other question");
+		setOptions(q4, 4);
+		
+		Question q5 = createQuestion(ins, "q125", "FREE_RESPONSE",
+				"This is an example free response question");
 	}
 	
 	private static Question createQuestion(Instrument i, String qid, String qtype, String text) {

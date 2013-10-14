@@ -16,8 +16,6 @@ import android.widget.Spinner;
 
 public class InstrumentFragment extends Fragment {
 	private final static String TAG = "InstrumentFragment";
-	public final static String EXTRA_INSTRUMENT_ID = 
-			"org.adaptlab.chpir.android.survey.instrument_id";
 	
 	private Instrument mInstrument;
 	private List<Instrument> mInstrumentList;
@@ -35,7 +33,7 @@ public class InstrumentFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_survey, parent, false);
+		View v = inflater.inflate(R.layout.fragment_instrument, parent, false);
 
 		mInstrumentSpinner = (Spinner)v.findViewById(R.id.instruments_spinner);	
 		mInstrumentSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -55,16 +53,16 @@ public class InstrumentFragment extends Fragment {
 		mStartButton = (Button)v.findViewById(R.id.start_survey_button);
 		mStartButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				if (mInstrumentSpinner.getSelectedItem() != null) {
-					long instrumentId = mInstrument.getId();
-					Intent i = new Intent(getActivity(), SurveyActivity.class);
-					i.putExtra(EXTRA_INSTRUMENT_ID, instrumentId);
-					startActivity(i);
+				if (mInstrument == null) {
+					return;
 				}
+				
+				long instrumentId = mInstrument.getId();
+				Intent i = new Intent(getActivity(), SurveyActivity.class);
+				i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+				startActivity(i);
 			}
 		});
-		
-		mStartButton.setEnabled(!mInstrumentList.isEmpty());
 		
 		return v;
 	}

@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;

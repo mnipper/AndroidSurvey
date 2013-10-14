@@ -5,35 +5,27 @@
     android:orientation="vertical" >
     
     <TextView 
+        android:id="@+id/question_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/survey_title_label"
-        style="?android:listSeparatorTextViewStyle" />
+        android:layout_height="wrap_content" />
     
-    <Spinner
-        android:id="@+id/instruments_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp" />
-
+    <FrameLayout
+        android:id="@+id/question_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
     <LinearLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="right|center_vertical" >
-
+        android:orientation="horizontal" >
+        
         <Button
-            android:id="@+id/start_survey_button"
+            android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal|right"
-            android:text="@string/start_survey"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp" />
-
+            android:text="@string/next_button" />
+        
     </LinearLayout>
-    
 </LinearLayout>

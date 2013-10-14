@@ -74,7 +74,7 @@ public class Question extends Model {
 	}
 
 	public boolean hasOptions() {
-		return mOptions.size() > 0;
+		return !mOptions.isEmpty();
 	}
 	
 	public ArrayList<String> getOptions() {

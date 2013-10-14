@@ -1,7 +1,11 @@
 package org.adaptlab.chpir.android.survey;
 
-import android.app.Activity;
+import android.support.v4.app.Fragment;
 
-public class SurveyActivity extends Activity {
-
+public class SurveyActivity extends SingleFragmentActivity {
+	
+	@Override
+	protected Fragment createFragment() {
+		return new SurveyFragment();
+	}
 }

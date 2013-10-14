@@ -1,7 +1,70 @@
 package org.adaptlab.chpir.android.survey;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class SurveyFragment extends Fragment {
+	public final static String EXTRA_INSTRUMENT_ID = 
+			"org.adaptlab.chpir.android.survey.instrument_id";
+	
+	private Question mQuestion;
+	private Instrument mInstrument;
+	
+	private TextView mQuestionText;
+	private Button mNextButton;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
+		if (instrumentId == -1) {
+			return;
+		}
+		mInstrument = Instrument.load(Instrument.class, instrumentId);
+		mQuestion = mInstrument.questions().get(0);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+			Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_survey, parent, false);
+		
+		mQuestionText = (TextView)v.findViewById(R.id.question_text);
+		mQuestionText.setText(mQuestion.getText());
+		
+		mNextButton = (Button)v.findViewById(R.id.next_button);
+		mNextButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				int questionIndex = mInstrument.questions().indexOf(mQuestion);
+				if (questionIndex < mInstrument.questions().size() - 1) {
+					mQuestion = mInstrument.questions().get(questionIndex + 1);
+					mQuestionText.setText(mQuestion.getText());
+					Fragment questionFragment = QuestionFragmentFactory
+							 .createQuestion(mQuestion.getQuestionType());
+						FragmentManager fm = getChildFragmentManager();
+						fm.beginTransaction()
+							.replace(R.id.question_container, questionFragment)
+							.commit();
 
+				}
+			}		
+		});
+		
+		Fragment questionFragment = QuestionFragmentFactory
+			 .createQuestion(mQuestion.getQuestionType());
+		FragmentManager fm = getChildFragmentManager();
+		if (fm.findFragmentById(R.id.question_container) == null) {
+			fm.beginTransaction()
+				.add(R.id.question_container, questionFragment)
+				.commit();
+		}
+
+		return v;
+	}
 }

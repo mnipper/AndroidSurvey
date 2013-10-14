@@ -10,76 +10,77 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Questions")
 public class Question extends Model {
-	
-	private static final String TAG = "QuestionModel";
-	public static enum QuestionType {
-		SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
-		SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
-		FRONT_PICTURE, REAR_PICTURE;
-	}
-	
-	@Column(name = "Text")
-	private String mText;
-	@Column(name = "QuestionType")
-	private QuestionType mQuestionType;
-	@Column(name = "QuestionID")
-	private String mQuestionID;
-	@Column(name = "Instrument")
-	private Instrument mInstrument;
-	
-	public Question() {
-		super();
-	}
 
-	public String getText() {
-		return mText;
-	}
+    private static final String TAG = "QuestionModel";
 
-	public void setText(String text) {
-		mText = text;
-	}
+    public static enum QuestionType {
+        SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
+        SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
+        FRONT_PICTURE, REAR_PICTURE;
+    }
 
-	public QuestionType getQuestionType() {
-		return mQuestionType;
-	}
+    @Column(name = "Text")
+    private String mText;
+    @Column(name = "QuestionType")
+    private QuestionType mQuestionType;
+    @Column(name = "QuestionID")
+    private String mQuestionID;
+    @Column(name = "Instrument")
+    private Instrument mInstrument;
 
-	public void setQuestionType(String questionType) {
-		if (validQuestionType(questionType)) {
-			mQuestionType = QuestionType.valueOf(questionType);
-		} else {
-			Log.e(TAG, "Received invalid question type: " + questionType);
-		}
-	}
-	
-	public String getQuestionID() {
-		return mQuestionID;
-	}
+    public Question() {
+        super();
+    }
 
-	public void setQuestionID(String questionID) {
-		mQuestionID = questionID;
-	}
+    public String getText() {
+        return mText;
+    }
 
-	public Instrument getInstrument() {
-		return mInstrument;
-	}
+    public void setText(String text) {
+        mText = text;
+    }
 
-	public void setInstrument(Instrument instrument) {
-		mInstrument = instrument;
-	}
+    public QuestionType getQuestionType() {
+        return mQuestionType;
+    }
 
-	public boolean hasOptions() {
-		return !options().isEmpty();
-	}
-	
-	public List<Option> options() {
-		return getMany(Option.class, "Question");
-	}
-	
-	private static boolean validQuestionType(String questionType) {
-		for (QuestionType type : QuestionType.values()) {
-			if (type.name().equals(questionType))
-				return true;
-		}
-		return false;
-	}
+    public void setQuestionType(String questionType) {
+        if (validQuestionType(questionType)) {
+            mQuestionType = QuestionType.valueOf(questionType);
+        } else {
+            Log.e(TAG, "Received invalid question type: " + questionType);
+        }
+    }
+
+    public String getQuestionID() {
+        return mQuestionID;
+    }
+
+    public void setQuestionID(String questionID) {
+        mQuestionID = questionID;
+    }
+
+    public Instrument getInstrument() {
+        return mInstrument;
+    }
+
+    public void setInstrument(Instrument instrument) {
+        mInstrument = instrument;
+    }
+
+    public boolean hasOptions() {
+        return !options().isEmpty();
+    }
+
+    public List<Option> options() {
+        return getMany(Option.class, "Question");
+    }
+
+    private static boolean validQuestionType(String questionType) {
+        for (QuestionType type : QuestionType.values()) {
+            if (type.name().equals(questionType))
+                return true;
+        }
+        return false;
+    }
 }

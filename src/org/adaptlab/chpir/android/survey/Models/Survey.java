@@ -8,23 +8,23 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Surveys")
 public class Survey extends Model {
-	
-	@Column(name = "Instrument")
-	private Instrument mInstrument;
-	
-	public Survey() {
-		super();
-	}
 
-	public Instrument getInstrument() {
-		return mInstrument;
-	}
+    @Column(name = "Instrument")
+    private Instrument mInstrument;
 
-	public void setInstrument(Instrument instrument) {
-		mInstrument = instrument;
-	}
-	
-	public List<Response> responses() {
-		return getMany(Response.class, "Survey");
-	}
+    public Survey() {
+        super();
+    }
+
+    public Instrument getInstrument() {
+        return mInstrument;
+    }
+
+    public void setInstrument(Instrument instrument) {
+        mInstrument = instrument;
+    }
+
+    public List<Response> responses() {
+        return getMany(Response.class, "Survey");
+    }
 }

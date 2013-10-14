@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 
 public class FrontPictureQuestionFragment extends QuestionFragment {
 
-	@Override
-	protected void createQuestionComponent(ViewGroup questionComponent) {
-		// TODO Auto-generated method stub
+    @Override
+    protected void createQuestionComponent(ViewGroup questionComponent) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }

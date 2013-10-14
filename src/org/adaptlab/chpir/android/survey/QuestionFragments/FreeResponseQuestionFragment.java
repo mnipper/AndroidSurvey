@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 public class FreeResponseQuestionFragment extends QuestionFragment {
-	
-	@Override
-	protected void createQuestionComponent(ViewGroup questionComponent) {
-		EditText freeText = new EditText(getActivity());
-		freeText.setHint(R.string.free_response_edittext);
-		questionComponent.addView(freeText);
-	}
+
+    @Override
+    protected void createQuestionComponent(ViewGroup questionComponent) {
+        EditText freeText = new EditText(getActivity());
+        freeText.setHint(R.string.free_response_edittext);
+        questionComponent.addView(freeText);
+    }
 }

@@ -18,56 +18,58 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 public class InstrumentFragment extends Fragment {
-	private final static String TAG = "InstrumentFragment";
-	
-	private Instrument mInstrument;
-	private List<Instrument> mInstrumentList;
-	
-	private Button mStartButton;
-	private Spinner mInstrumentSpinner;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		DatabaseSeed.seedInstrument();
-		mInstrumentList = Instrument.getAll();
-		Log.d(TAG, "Instrument list is: " + mInstrumentList);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_instrument, parent, false);
+    private final static String TAG = "InstrumentFragment";
 
-		mInstrumentSpinner = (Spinner)v.findViewById(R.id.instruments_spinner);	
-		mInstrumentSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				mInstrument = mInstrumentList.get(position);
-				Log.d(TAG, "Selected instrument: " + mInstrument);
-			}
+    private Instrument mInstrument;
+    private List<Instrument> mInstrumentList;
 
-			public void onNothingSelected(AdapterView<?> parent) {
-				
-			}		
-		});
-		mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(getActivity(),
-				android.R.layout.simple_spinner_item, mInstrumentList));
-		
-		mStartButton = (Button)v.findViewById(R.id.start_survey_button);
-		mStartButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				if (mInstrument == null) {
-					return;
-				}
-				
-				long instrumentId = mInstrument.getId();
-				Intent i = new Intent(getActivity(), SurveyActivity.class);
-				i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-				startActivity(i);
-			}
-		});
-		
-		return v;
-	}
+    private Button mStartButton;
+    private Spinner mInstrumentSpinner;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DatabaseSeed.seedInstrument();
+        mInstrumentList = Instrument.getAll();
+        Log.d(TAG, "Instrument list is: " + mInstrumentList);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+            Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_instrument, parent, false);
+
+        mInstrumentSpinner = (Spinner) v.findViewById(R.id.instruments_spinner);
+        mInstrumentSpinner
+                .setOnItemSelectedListener(new OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent,
+                            View view, int position, long id) {
+                        mInstrument = mInstrumentList.get(position);
+                        Log.d(TAG, "Selected instrument: " + mInstrument);
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+        mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
+                getActivity(), android.R.layout.simple_spinner_item,
+                mInstrumentList));
+
+        mStartButton = (Button) v.findViewById(R.id.start_survey_button);
+        mStartButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (mInstrument == null) {
+                    return;
+                }
+
+                long instrumentId = mInstrument.getId();
+                Intent i = new Intent(getActivity(), SurveyActivity.class);
+                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                startActivity(i);
+            }
+        });
+
+        return v;
+    }
 }

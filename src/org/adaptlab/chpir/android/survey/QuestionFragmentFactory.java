@@ -1,150 +1,53 @@
 package org.adaptlab.chpir.android.survey;
 
+import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 
 public class QuestionFragmentFactory {
+	private static final String TAG = "QuestionFragmentFactory";
+	public static final String EXTRA_QUESTION_ID =
+		"org.adaptlab.chpir.android.survey.question_id";
 	
-	public static Fragment createQuestion(String type) {
-		Fragment qf = null;
+	public static Fragment createQuestionFragment(Question question) {
+		String type = question.getQuestionType().toString();
+		Fragment fragment = null;
 		
 		//TODO: Write automated test to ensure every QuestionType in
 		//      Question.QuestionType is covered in factory
 		if ("SELECT_ONE".equals(type)) {
-			qf = new SelectOneQuestionFragment();
+			fragment = new SelectOneQuestionFragment();
 		} else if ("SELECT_MULTIPLE".equals(type)) {
-			qf = new SelectMultipleQuestionFragment();
+			fragment = new SelectMultipleQuestionFragment();
 		} else if ("SELECT_ONE_WRITE_OTHER".equals(type)) {
-			qf = new SelectOneWriteOtherQuestionFragment();
+			fragment = new SelectOneWriteOtherQuestionFragment();
 		} else if ("SELECT_MULTIPLE_WRITE_OTHER".equals(type)) {
-			qf = new SelectMultipleWriteOtherQuestionFragment();
+			fragment = new SelectMultipleWriteOtherQuestionFragment();
 		} else if ("FREE_RESPONSE".equals(type)) {
-			qf = new FreeResponseQuestionFragment();
+			fragment = new FreeResponseQuestionFragment();
 		} else if ("FRONT_PICURE".equals(type)) {
-			qf = new FrontPictureQuestionFragment();
+			fragment = new FrontPictureQuestionFragment();
 		} else if ("REAR_PICTURE".equals(type)) {
-			qf = new RearPictureQuestionFragment();
+			fragment = new RearPictureQuestionFragment();
 		} else {
 			// Return free response fragment if unknown question type
-			qf = new FreeResponseQuestionFragment();
+			// This should never happen
+			Log.e(TAG, "Received unknown question type: " + type);
+			fragment = new FreeResponseQuestionFragment();
 		}
 		
-		return qf;
-	}
-	
-	public static class SelectOneQuestionFragment extends Fragment {
+		Bundle args = new Bundle();
+		args.putLong(EXTRA_QUESTION_ID, question.getId());
+		fragment.setArguments(args);
 		
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class SelectMultipleQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_multiple, parent, false);
-			return v;
-		}
-	}
-	
-	public static class SelectOneWriteOtherQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class SelectMultipleWriteOtherQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class FreeResponseQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class SliderQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class FrontPictureQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
-	}
-	
-	public static class RearPictureQuestionFragment extends Fragment {
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-		}
-		
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-				Bundle savedInstanceState) {
-			View v = inflater.inflate(R.layout.fragment_select_one, parent, false);
-			return v;
-		}
+		return fragment;
 	}
 }

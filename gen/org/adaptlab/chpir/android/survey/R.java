@@ -24,21 +24,21 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080007;
-        public static final int button_container=0x7f080005;
+        public static final int action_settings=0x7f080008;
+        public static final int button_container=0x7f080006;
         public static final int fragmentContainer=0x7f080000;
         public static final int instruments_spinner=0x7f080001;
-        public static final int next_button=0x7f080006;
-        public static final int question_container=0x7f080004;
-        public static final int question_text=0x7f080003;
+        public static final int next_button=0x7f080007;
+        public static final int question_component=0x7f080003;
+        public static final int question_container=0x7f080005;
+        public static final int question_text=0x7f080004;
         public static final int start_survey_button=0x7f080002;
     }
     public static final class layout {
         public static final int activity_fragment=0x7f030000;
         public static final int fragment_instrument=0x7f030001;
-        public static final int fragment_select_multiple=0x7f030002;
-        public static final int fragment_select_one=0x7f030003;
-        public static final int fragment_survey=0x7f030004;
+        public static final int fragment_question_factory=0x7f030002;
+        public static final int fragment_survey=0x7f030003;
     }
     public static final class menu {
         public static final int survey=0x7f070000;
@@ -46,7 +46,11 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int finish_button=0x7f050005;
+        public static final int free_response_edittext=0x7f050008;
         public static final int next_button=0x7f050004;
+        public static final int other_specify=0x7f050006;
+        public static final int other_specify_edittext=0x7f050007;
         public static final int start_survey=0x7f050002;
         public static final int survey_title_label=0x7f050003;
     }

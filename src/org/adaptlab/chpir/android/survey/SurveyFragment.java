@@ -1,5 +1,8 @@
 package org.adaptlab.chpir.android.survey;
 
+import org.adaptlab.chpir.android.survey.Models.Instrument;
+import org.adaptlab.chpir.android.survey.Models.Question;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.activeandroid.Model;
 
 public class SurveyFragment extends Fragment {
 	public final static String EXTRA_INSTRUMENT_ID = 
@@ -26,7 +31,7 @@ public class SurveyFragment extends Fragment {
 		if (instrumentId == -1) {
 			return;
 		}
-		mInstrument = Instrument.load(Instrument.class, instrumentId);
+		mInstrument = Model.load(Instrument.class, instrumentId);
 		mQuestion = mInstrument.questions().get(0);
 	}
 	
@@ -40,24 +45,28 @@ public class SurveyFragment extends Fragment {
 		
 		mNextButton = (Button)v.findViewById(R.id.next_button);
 		mNextButton.setOnClickListener(new View.OnClickListener() {
+			
 			public void onClick(View view) {
 				int questionIndex = mInstrument.questions().indexOf(mQuestion);
-				if (questionIndex < mInstrument.questions().size() - 1) {
+				int questionsInInstrument = mInstrument.questions().size() - 1;
+				
+				if (questionIndex < questionsInInstrument) {
 					mQuestion = mInstrument.questions().get(questionIndex + 1);
 					mQuestionText.setText(mQuestion.getText());
 					FragmentManager fm = getChildFragmentManager();
 					fm.beginTransaction()
-						.replace(R.id.question_container, QuestionFragmentFactory
-							.createQuestion(mQuestion.getQuestionType().toString()))
+						.replace(R.id.question_container,
+							QuestionFragmentFactory.createQuestionFragment(mQuestion))
 							.commit();
-				} else {
-					// End of survey
+					
+					if (questionIndex + 1 == questionsInInstrument) {
+						mNextButton.setText(R.string.finish_button);
+					}
 				}
 			}		
 		});
 		
-		Fragment questionFragment = QuestionFragmentFactory
-			 .createQuestion(mQuestion.getQuestionType().toString());
+		Fragment questionFragment = QuestionFragmentFactory.createQuestionFragment(mQuestion);
 		FragmentManager fm = getChildFragmentManager();
 		if (fm.findFragmentById(R.id.question_container) == null) {
 			fm.beginTransaction()

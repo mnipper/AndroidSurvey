@@ -35,8 +35,11 @@ public class SurveyFragment extends Fragment {
             return;
         }
         mInstrument = Model.load(Instrument.class, instrumentId);
+        
         mSurvey = new Survey();
         mSurvey.setInstrument(mInstrument);
+        mSurvey.save();
+        
         mQuestion = mInstrument.questions().get(0);
     }
 

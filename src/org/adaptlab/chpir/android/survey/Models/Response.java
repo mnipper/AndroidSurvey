@@ -13,6 +13,8 @@ public class Response extends Model {
 	private String mResponse;
 	@Column(name = "Survey")
 	private Survey mSurvey;
+	@Column(name = "Other_Response")
+	private String mOtherResponse;
 	
 	public Response() {
 		super();
@@ -40,5 +42,13 @@ public class Response extends Model {
 	
 	public Survey getSurvey() {
 		return mSurvey;
+	}
+	
+	public void setOtherResponse(String otherResponse) {
+	    mOtherResponse = otherResponse;
+	}
+	
+	public String getOtherResponse() {
+	    return mOtherResponse;
 	}
 }

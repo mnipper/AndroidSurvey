@@ -2,6 +2,8 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.R;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -30,6 +32,18 @@ public class SelectOneWriteOtherQuestionFragment extends
         
         otherText.setHint(R.string.other_specify_edittext);
         otherText.setEnabled(false);
+        otherText.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before,
+                    int count) { 
+                getResponse().setOtherResponse(s.toString());
+                getResponse().save();
+            }
+            
+            // Required by interface
+            public void beforeTextChanged(CharSequence s, int start,
+                    int count, int after) { }
+            public void afterTextChanged(Editable s) { }
+        });
         questionComponent.addView(otherText);
     }
 }

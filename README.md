@@ -17,4 +17,4 @@ Set the DO_SEEDING variable to true in DatabaseSeed.java and start the applicati
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-New question types are especially welcome!  See the wiki for instructions.
+New question types are especially welcome!  See this [wiki page](https://github.com/mnipper/AndroidSurvey.wiki.git) for instructions.

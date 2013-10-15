@@ -32,7 +32,7 @@ public class InstrumentFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Do seeding if running in emulator and if enabled in DatabaseSeed
         if ("generic".equals(Build.BRAND.toLowerCase())
-                && DatabaseSeed.doSeeding()) {
+                && DatabaseSeed.DO_SEEDING) {
             DatabaseSeed.seedInstrument();
         }
         mInstrumentList = Instrument.getAll();

@@ -6,6 +6,7 @@ import org.adaptlab.chpir.android.survey.Models.Option;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class SelectOneQuestionFragment extends QuestionFragment {
     private RadioGroup radioGroup;
@@ -27,6 +28,14 @@ public class SelectOneQuestionFragment extends QuestionFragment {
             radioButton.setId(optionId);
             radioGroup.addView(radioButton, optionId);
         }
+        
+        getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                getResponse().setResponse(checkedId+"");
+                getResponse().save();
+            }
+        });
+        
         questionComponent.addView(radioGroup);
         beforeAddViewHook(questionComponent);
     }

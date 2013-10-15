@@ -33,7 +33,7 @@ public class QuestionFragmentFactory {
             fragment = new SelectMultipleWriteOtherQuestionFragment();
         } else if ("FREE_RESPONSE".equals(type)) {
             fragment = new FreeResponseQuestionFragment();
-        } else if ("FRONT_PICURE".equals(type)) {
+        } else if ("FRONT_PICTURE".equals(type)) {
             fragment = new FrontPictureQuestionFragment();
         } else if ("REAR_PICTURE".equals(type)) {
             fragment = new RearPictureQuestionFragment();

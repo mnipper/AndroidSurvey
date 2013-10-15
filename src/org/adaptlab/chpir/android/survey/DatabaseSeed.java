@@ -28,6 +28,12 @@ public class DatabaseSeed {
 
         Question q5 = createQuestion(ins, "q125", "FREE_RESPONSE",
                 "This is an example free response question");
+        
+        Question q6 = createQuestion(ins, "q125", "FRONT_PICTURE",
+                "This is an example front picture question");
+        
+        Question q7 = createQuestion(ins, "q125", "REAR_PICTURE",
+                "This is an example rear picture question");
     }
 
     private static Question createQuestion(Instrument i, String qid,

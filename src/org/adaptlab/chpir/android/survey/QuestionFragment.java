@@ -1,7 +1,9 @@
 package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Question;
-import com.activeandroid.Model;
+import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.Survey;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,19 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.activeandroid.Model;
+
 public abstract class QuestionFragment extends Fragment {
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
 
     private Question mQuestion;
+    private Survey mSurvey;
+    private Response mResponse;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         long questionId = getArguments().getLong(
                 QuestionFragmentFactory.EXTRA_QUESTION_ID, -1);
+        long surveyId = getArguments().getLong(
+                QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);
 
-        if (questionId != -1) {
+        if (questionId != -1 && surveyId != -1) {
             mQuestion = Model.load(Question.class, questionId);
+            mSurvey = Model.load(Survey.class, surveyId);
+            mResponse = new Response();
+            mResponse.setQuestion(mQuestion);
+            mResponse.setSurvey(mSurvey);
         }
     }
 
@@ -37,7 +49,15 @@ public abstract class QuestionFragment extends Fragment {
         return v;
     }
 
-    public Question getQuestion() {
+    protected Question getQuestion() {
         return mQuestion;
+    }
+    
+    protected Survey getSurvey() {
+        return mSurvey;
+    }
+    
+    protected Response getResponse() {
+        return mResponse;
     }
 }

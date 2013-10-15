@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.activeandroid.Model;
 
 public class SurveyFragment extends Fragment {
@@ -19,6 +21,7 @@ public class SurveyFragment extends Fragment {
 
     private Question mQuestion;
     private Instrument mInstrument;
+    private Survey mSurvey;
 
     private TextView mQuestionText;
     private Button mNextButton;
@@ -32,6 +35,8 @@ public class SurveyFragment extends Fragment {
             return;
         }
         mInstrument = Model.load(Instrument.class, instrumentId);
+        mSurvey = new Survey();
+        mSurvey.setInstrument(mInstrument);
         mQuestion = mInstrument.questions().get(0);
     }
 
@@ -58,7 +63,7 @@ public class SurveyFragment extends Fragment {
                             .replace(
                                     R.id.question_container,
                                     QuestionFragmentFactory
-                                            .createQuestionFragment(mQuestion))
+                                            .createQuestionFragment(mQuestion, mSurvey))
                             .commit();
                     
                     mQuestionText.setText(mQuestion.getText());
@@ -71,7 +76,7 @@ public class SurveyFragment extends Fragment {
         });
 
         Fragment questionFragment = QuestionFragmentFactory
-                .createQuestionFragment(mQuestion);
+                .createQuestionFragment(mQuestion, mSurvey);
         FragmentManager fm = getChildFragmentManager();
         if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()

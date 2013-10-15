@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
@@ -18,8 +19,10 @@ public class QuestionFragmentFactory {
     private static final String TAG = "QuestionFragmentFactory";
     public static final String EXTRA_QUESTION_ID = 
             "org.adaptlab.chpir.android.survey.question_id";
+    public static final String EXTRA_SURVEY_ID = 
+            "org.adaptlab.chpir.android.survey.survey_id";
 
-    public static Fragment createQuestionFragment(Question question) {
+    public static Fragment createQuestionFragment(Question question, Survey survey) {
         String type = question.getQuestionType().toString();
         Fragment fragment = null;
 
@@ -50,6 +53,7 @@ public class QuestionFragmentFactory {
 
         Bundle args = new Bundle();
         args.putLong(EXTRA_QUESTION_ID, question.getId());
+        args.putLong(EXTRA_SURVEY_ID, survey.getId());
         fragment.setArguments(args);
 
         return fragment;

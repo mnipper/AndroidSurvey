@@ -27,7 +27,7 @@ public class SelectOneQuestionFragment extends QuestionFragment {
             radioButton.setId(optionId);
             radioGroup.addView(radioButton, optionId);
         }
-        beforeAddViewHook(questionComponent);
         questionComponent.addView(radioGroup);
+        beforeAddViewHook(questionComponent);
     }
 }

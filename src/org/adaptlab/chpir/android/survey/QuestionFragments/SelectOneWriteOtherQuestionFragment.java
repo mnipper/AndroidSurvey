@@ -17,6 +17,6 @@ public class SelectOneWriteOtherQuestionFragment extends
 
         EditText otherText = new EditText(getActivity());
         otherText.setHint(R.string.other_specify_edittext);
-        getRadioGroup().addView(otherText, getQuestion().options().size() + 1);
+        questionComponent.addView(otherText);
     }
 }

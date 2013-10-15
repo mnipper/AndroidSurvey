@@ -3,16 +3,25 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class SliderQuestionFragment extends QuestionFragment {
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        // TODO Implement
-        TextView temp = new TextView(getActivity());
-        temp.setText("This type of question is not yet implemented");
-        questionComponent.addView(temp);
+        final SeekBar slider = new SeekBar(getActivity());
+        slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                getResponse().setResponse(progress+"");
+                getResponse().save();
+            }
+
+            // Required by interface
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) { }     
+        });
+        questionComponent.addView(slider);
     }
 
 }

@@ -8,6 +8,8 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestio
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,6 +35,8 @@ public class QuestionFragmentFactory {
             fragment = new SelectMultipleWriteOtherQuestionFragment();
         } else if ("FREE_RESPONSE".equals(type)) {
             fragment = new FreeResponseQuestionFragment();
+        } else if ("SLIDER".equals(type)) {
+            fragment = new SliderQuestionFragment();
         } else if ("FRONT_PICTURE".equals(type)) {
             fragment = new FrontPictureQuestionFragment();
         } else if ("REAR_PICTURE".equals(type)) {

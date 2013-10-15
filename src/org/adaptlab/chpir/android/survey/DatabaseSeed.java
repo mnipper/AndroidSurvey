@@ -5,6 +5,10 @@ import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 
 public class DatabaseSeed {
+    public static boolean doSeeding() {
+        return false;
+    }
+    
     public static void seedInstrument() {
         Instrument ins = new Instrument();
         ins.setTitle("Test Instrument " + Instrument.getAll().size());
@@ -34,6 +38,9 @@ public class DatabaseSeed {
         
         Question q7 = createQuestion(ins, "q125", "REAR_PICTURE",
                 "This is an example rear picture question");
+        
+        Question q9 = createQuestion(ins, "q125", "SLIDER",
+                "This is an example slider question");
     }
 
     private static Question createQuestion(Instrument i, String qid,

@@ -52,7 +52,7 @@ public class SurveyFragment extends Fragment {
 
                 if (questionIndex < questionsInInstrument) {
                     mQuestion = mInstrument.questions().get(questionIndex + 1);
-                    mQuestionText.setText(mQuestion.getText());
+                    
                     FragmentManager fm = getChildFragmentManager();
                     fm.beginTransaction()
                             .replace(
@@ -60,6 +60,8 @@ public class SurveyFragment extends Fragment {
                                     QuestionFragmentFactory
                                             .createQuestionFragment(mQuestion))
                             .commit();
+                    
+                    mQuestionText.setText(mQuestion.getText());
 
                     if (questionIndex + 1 == questionsInInstrument) {
                         mNextButton.setText(R.string.finish_button);

@@ -5,7 +5,7 @@ import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 
 public class DatabaseSeed {
-    public static boolean DO_SEEDING = true;
+    public static boolean DO_SEEDING = false;
     
     public static void seedInstrument() {
         Instrument ins = new Instrument();

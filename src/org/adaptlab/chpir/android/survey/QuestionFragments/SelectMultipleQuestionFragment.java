@@ -2,9 +2,10 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.Models.Option;
-
+import org.adaptlab.chpir.android.survey.Models.Response;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 public class SelectMultipleQuestionFragment extends QuestionFragment {
     protected void beforeAddViewHook(ViewGroup questionComponent) {
@@ -13,10 +14,23 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
         for (Option option : getQuestion().options()) {
-            int optionId = getQuestion().options().indexOf(option);
+            final int optionId = getQuestion().options().indexOf(option);
             CheckBox checkbox = new CheckBox(getActivity());
             checkbox.setText(option.getText());
-            checkbox.setId(optionId);
+            checkbox.setId(optionId);     
+            checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        // Ignore generated response object so that
+                        // multiple responses can be recorded
+                        Response mResponse = new Response();
+                        mResponse.setQuestion(getQuestion());
+                        mResponse.setSurvey(getSurvey());
+                        mResponse.setResponse(optionId+"");
+                        mResponse.save();
+                    }
+                }
+             });
             questionComponent.addView(checkbox, optionId);
         }
         beforeAddViewHook(questionComponent);

@@ -22,9 +22,9 @@ public class SelectMultipleWriteOtherQuestionFragment extends
         checkbox.setId(otherId);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                otherText.setEnabled(isChecked);
+                
                 if (isChecked) {
-                    otherText.setEnabled(isChecked);
-                    
                     // Ignore generated response object so that
                     // multiple responses can be recorded
                     Response mResponse = new Response();
@@ -35,7 +35,7 @@ public class SelectMultipleWriteOtherQuestionFragment extends
                 }
             }
          });
-        questionComponent.addView(checkbox, getQuestion().options().size());
+        questionComponent.addView(checkbox, otherId);
 
         otherText.setHint(R.string.other_specify_edittext);
         otherText.setEnabled(false);

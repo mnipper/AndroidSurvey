@@ -7,6 +7,13 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 public class DatabaseSeed {
     public static boolean DO_SEEDING = false;
     
+    // Do seeding if running in debug mode and if enabled in DatabaseSeed
+    public static void seed() {
+        if (BuildConfig.DEBUG && DO_SEEDING) {
+            seedInstrument();
+        }
+    }
+    
     public static void seedInstrument() {
         Instrument ins = new Instrument();
         ins.setTitle("Test Instrument " + Instrument.getAll().size());

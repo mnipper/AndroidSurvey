@@ -5,8 +5,6 @@ import java.util.List;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,10 +29,7 @@ public class InstrumentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Do seeding if running in debug mode and if enabled in DatabaseSeed
-        if (BuildConfig.DEBUG && DatabaseSeed.DO_SEEDING) {
-            DatabaseSeed.seedInstrument();
-        }
+        DatabaseSeed.seed();
         mInstrumentList = Instrument.getAll();
         Log.d(TAG, "Instrument list is: " + mInstrumentList);
     }

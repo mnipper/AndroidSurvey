@@ -6,7 +6,7 @@ A survey application for Android that will soon have a Rails back-end.  The Andr
 
 Set the DO_SEEDING variable to true in DatabaseSeed.java and start the application.  This will add an instrument each time the app starts.  When you are happy with your database, set DO_SEEDING to false.
 
-Note: Currently this is set to only seed the database if being run in debug mode, and to ignore otherwise.  This is done to hopefully prevent seeding to making into production.  Open to suggestions on how to better do this.
+Note: Currently this is set to only seed the database if being run in debug mode, and to ignore otherwise.  This is done to hopefully prevent seeding from making it into production.  Open to suggestions on how to better do this.
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.

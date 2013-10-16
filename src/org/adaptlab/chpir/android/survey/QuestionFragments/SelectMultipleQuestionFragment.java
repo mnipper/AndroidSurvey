@@ -21,18 +21,22 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
             checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        // Ignore generated response object so that
-                        // multiple responses can be recorded
-                        Response mResponse = new Response();
-                        mResponse.setQuestion(getQuestion());
-                        mResponse.setSurvey(getSurvey());
-                        mResponse.setResponse(optionId+"");
-                        mResponse.save();
+                        saveMultiResponse(optionId);
                     }
                 }
              });
             questionComponent.addView(checkbox, optionId);
         }
         beforeAddViewHook(questionComponent);
+    }
+    
+    protected void saveMultiResponse(int id) {
+        // Ignore generated response object so that
+        // multiple responses can be recorded
+        Response mResponse = new Response();
+        mResponse.setQuestion(getQuestion());
+        mResponse.setSurvey(getSurvey());
+        mResponse.setResponse(id+"");
+        mResponse.save();
     }
 }

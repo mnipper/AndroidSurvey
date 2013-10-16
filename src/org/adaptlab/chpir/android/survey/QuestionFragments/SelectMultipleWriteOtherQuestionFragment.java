@@ -1,8 +1,6 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.R;
-import org.adaptlab.chpir.android.survey.Models.Response;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ViewGroup;

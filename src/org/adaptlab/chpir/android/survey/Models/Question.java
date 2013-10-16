@@ -48,6 +48,8 @@ public class Question extends Model {
         if (validQuestionType(questionType)) {
             mQuestionType = QuestionType.valueOf(questionType);
         } else {
+            // This should never happen
+            // We should prevent syncing data unless app is up to date
             Log.e(TAG, "Received invalid question type: " + questionType);
         }
     }

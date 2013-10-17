@@ -6,9 +6,12 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.activeandroid.Model;
@@ -59,5 +62,22 @@ public abstract class QuestionFragment extends Fragment {
     
     protected Response getResponse() {
         return mResponse;
+    }
+    
+    protected void addOtherTextView(EditText otherText) {
+        otherText.setHint(R.string.other_specify_edittext);
+        otherText.setEnabled(false);
+        otherText.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before,
+                    int count) { 
+                getResponse().setOtherResponse(s.toString());
+                getResponse().save();
+            }
+            
+            // Required by interface
+            public void beforeTextChanged(CharSequence s, int start,
+                    int count, int after) { }
+            public void afterTextChanged(Editable s) { }
+        });
     }
 }

@@ -49,8 +49,4 @@ public class Option extends Model implements ReceiveTable {
         // TODO Auto-generated method stub
         
     }
-    
-    public String remoteTableName() {
-        return "options";
-    }
 }

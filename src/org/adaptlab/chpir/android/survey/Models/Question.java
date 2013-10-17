@@ -101,8 +101,4 @@ public class Question extends Model implements ReceiveTable {
         // TODO Auto-generated method stub
         
     }
-    
-    public String remoteTableName() {
-        return "questions";
-    }
 }

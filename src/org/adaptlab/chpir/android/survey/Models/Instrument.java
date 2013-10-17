@@ -56,8 +56,4 @@ public class Instrument extends Model implements ReceiveTable {
             Log.e(TAG, "Error parsing object json", je);
         }
     }
-    
-    public String remoteTableName() {
-        return "instruments";
-    }
 }

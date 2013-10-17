@@ -18,7 +18,7 @@ public class Instrument extends Model implements ReceiveTable {
 
     public Instrument() {
         super();
-        CloudTable.addReceiveTable(this);
+        CloudTable.addReceiveTable(Instrument.class);
     }
 
     public String getTitle() {

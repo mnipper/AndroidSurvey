@@ -20,7 +20,7 @@ public class Option extends Model implements ReceiveTable {
 
     public Option() {
         super();
-        CloudTable.addReceiveTable(this);
+        CloudTable.addReceiveTable(Option.class);
     }
 
     public Question getQuestion() {

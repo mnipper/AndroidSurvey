@@ -34,7 +34,7 @@ public class Question extends Model implements ReceiveTable {
 
     public Question() {
         super();
-        CloudTable.addReceiveTable(this);
+        CloudTable.addReceiveTable(Question.class);
     }
 
     public String getText() {

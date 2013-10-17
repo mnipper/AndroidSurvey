@@ -16,7 +16,6 @@ import android.util.Log;
 
 public class HttpFetchr {
     private static final String TAG = "HttpFetchr";
-    private static final String ENDPOINT = "endpointapiurl";
     private static final String LAST_ID_API_PARAM = "last_id";
     private static final String RESULTS_API_PARAM = "results";
     private ReceiveTable mReceiveTable;
@@ -29,11 +28,13 @@ public class HttpFetchr {
         return new String(getUrlBytes(urlSpec));
     }
     
-    public ArrayList<ReceiveTable> fetch() {
-        ArrayList<ReceiveTable> items = new ArrayList<ReceiveTable>();
+    public void fetch() {
+        if (ActiveRecordCloudSync.getEndPoint() == null) {
+            return;
+        }
         
         try {
-            String url = Uri.parse(ENDPOINT).buildUpon()
+            String url = Uri.parse(ActiveRecordCloudSync.getEndPoint()).buildUpon()
                     .appendQueryParameter(LAST_ID_API_PARAM, mReceiveTable.lastId().toString())
                     .build().toString();
             String jsonString = getUrl(url);
@@ -49,7 +50,6 @@ public class HttpFetchr {
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse items", je);            
         }
-        return items;
     }
     
     private byte[] getUrlBytes(String urlSpec) throws IOException {

@@ -2,14 +2,18 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
 
+import org.adaptlab.chpir.android.cloudtable.CloudTable;
+import org.adaptlab.chpir.android.cloudtable.ReceiveTable;
+
 import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Questions")
-public class Question extends Model {
+public class Question extends Model implements ReceiveTable {
 
     private static final String TAG = "QuestionModel";
 
@@ -30,6 +34,7 @@ public class Question extends Model {
 
     public Question() {
         super();
+        CloudTable.addReceiveTable(this);
     }
 
     public String getText() {
@@ -76,6 +81,15 @@ public class Question extends Model {
 
     public List<Option> options() {
         return getMany(Option.class, "Question");
+    }
+    
+    public static List<Question> getAll() {
+        return new Select().from(Question.class).orderBy("Id ASC").execute();
+    }
+
+    @Override
+    public Long lastId() {
+        return getAll().get(getAll().size() - 1).getId();
     }
 
     private static boolean validQuestionType(String questionType) {

@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +17,8 @@ import android.util.Log;
 public class HttpFetchr {
     private static final String TAG = "HttpFetchr";
     private static final String ENDPOINT = "endpointapiurl";
+    private static final String LAST_ID_API_PARAM = "last_id";
+    private static final String RESULTS_API_PARAM = "results";
     private ReceiveTable mReceiveTable;
     
     public HttpFetchr(ReceiveTable receiveTable) {
@@ -30,13 +33,21 @@ public class HttpFetchr {
         ArrayList<ReceiveTable> items = new ArrayList<ReceiveTable>();
         
         try {
-        String url = Uri.parse(ENDPOINT).buildUpon()
-            .appendQueryParameter("last_id", mReceiveTable.lastId().toString())
-            .build().toString();
-        String jsonString = getUrl(url);
-
+            String url = Uri.parse(ENDPOINT).buildUpon()
+                    .appendQueryParameter(LAST_ID_API_PARAM, mReceiveTable.lastId().toString())
+                    .build().toString();
+            String jsonString = getUrl(url);
+            JSONObject jsonResult = new JSONObject(jsonString);
+            JSONArray jsonArray = jsonResult.getJSONArray(RESULTS_API_PARAM);
+            
+            for (int i = 0; i < jsonArray.length(); i++) {
+                mReceiveTable.createObjectFromJSON(jsonArray.getJSONObject(i));
+            }
+            
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
+        } catch (JSONException je) {
+            Log.e(TAG, "Failed to parse items", je);            
         }
         return items;
     }

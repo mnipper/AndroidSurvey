@@ -2,8 +2,8 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
 
-import org.adaptlab.chpir.android.cloudtable.CloudTable;
-import org.adaptlab.chpir.android.cloudtable.ReceiveTable;
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
 
 import android.util.Log;
 
@@ -34,7 +34,7 @@ public class Question extends Model implements ReceiveTable {
 
     public Question() {
         super();
-        CloudTable.addReceiveTable(Question.class);
+        ActiveRecordCloudSync.addReceiveTable(Question.class);
     }
 
     public String getText() {

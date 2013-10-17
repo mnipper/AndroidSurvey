@@ -2,8 +2,8 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
 
-import org.adaptlab.chpir.android.cloudtable.CloudTable;
-import org.adaptlab.chpir.android.cloudtable.ReceiveTable;
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -18,7 +18,7 @@ public class Instrument extends Model implements ReceiveTable {
 
     public Instrument() {
         super();
-        CloudTable.addReceiveTable(Instrument.class);
+        ActiveRecordCloudSync.addReceiveTable(Instrument.class);
     }
 
     public String getTitle() {

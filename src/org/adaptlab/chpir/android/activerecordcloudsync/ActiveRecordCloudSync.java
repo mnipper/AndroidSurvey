@@ -3,14 +3,15 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 import java.util.ArrayList;
 
 public class ActiveRecordCloudSync {
-    private static ArrayList<Class<?>> mReceiveTables = new ArrayList<Class<?>>();
+    private static ArrayList<Class<? extends ReceiveTable>> mReceiveTables =
+            new ArrayList<Class<? extends ReceiveTable>>();
     private static String mEndPoint;
     
-    public static void addReceiveTable(Class<?> receiveTable) {
+    public static void addReceiveTable(Class<? extends ReceiveTable> receiveTable) {
         mReceiveTables.add(receiveTable);
     }
     
-    public static ArrayList<Class<?>> getReceiveTables() {
+    public static ArrayList<Class<? extends ReceiveTable>> getReceiveTables() {
         return mReceiveTables;
     }
     

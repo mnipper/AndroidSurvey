@@ -11,17 +11,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.activeandroid.Model;
+
 import android.net.Uri;
 import android.util.Log;
 
 public class HttpFetchr {
     private static final String TAG = "HttpFetchr";
-    private static final String LAST_ID_API_PARAM = "last_id";
     private static final String RESULTS_API_PARAM = "results";
-    private ReceiveTable mReceiveTable;
+    private Class<? extends ReceiveTable> mReceiveTableClass;
+    private String mRemoteTableName;
     
-    public HttpFetchr(ReceiveTable receiveTable) {
-        mReceiveTable = receiveTable;
+    public HttpFetchr(Class<? extends ReceiveTable> receiveTableClass, String remoteTableName) {
+        mReceiveTableClass = receiveTableClass;
+        mRemoteTableName = remoteTableName;
     }
     
     public String getUrl(String urlSpec) throws IOException {
@@ -34,21 +37,24 @@ public class HttpFetchr {
         }
         
         try {
-            String url = Uri.parse(ActiveRecordCloudSync.getEndPoint()).buildUpon()
-                    .appendQueryParameter(LAST_ID_API_PARAM, mReceiveTable.lastId().toString())
-                    .build().toString();
+            String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName;
             String jsonString = getUrl(url);
             JSONObject jsonResult = new JSONObject(jsonString);
             JSONArray jsonArray = jsonResult.getJSONArray(RESULTS_API_PARAM);
             
             for (int i = 0; i < jsonArray.length(); i++) {
-                mReceiveTable.createObjectFromJSON(jsonArray.getJSONObject(i));
+                ReceiveTable tableInstance = mReceiveTableClass.newInstance();
+                tableInstance.createObjectFromJSON(jsonArray.getJSONObject(i));
             }
             
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
         } catch (JSONException je) {
             Log.e(TAG, "Failed to parse items", je);            
+        } catch (InstantiationException ie) {
+            Log.e(TAG, "Failed to instantiate receive table", ie);
+        } catch (IllegalAccessException iae) {
+            Log.e(TAG, "Failed to access receive table", iae);
         }
     }
     

@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -13,6 +16,7 @@ import com.activeandroid.query.Select;
 
 @Table(name = "Instruments")
 public class Instrument extends Model implements ReceiveTable {
+    private static final String TAG = "Instrument";
 
     @Column(name = "Title")
     private String mTitle;
@@ -50,9 +54,11 @@ public class Instrument extends Model implements ReceiveTable {
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
-        // TODO Auto-generated method stub
-        
+        try {
+            setTitle(jsonObject.getString("title"));
+            this.save();
+        } catch (JSONException je) {
+            Log.e(TAG, "Error parsing object json", je);
+        }
     }
-    
-
 }

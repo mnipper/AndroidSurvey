@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.util.ArrayList;
 
+// Kyle is a cool kid
 public class ActiveRecordCloudSync {
     private static ArrayList<Class<?>> mReceiveTables = new ArrayList<Class<?>>();
     private static String mEndPoint;

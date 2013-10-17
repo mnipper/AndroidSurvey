@@ -21,7 +21,7 @@ public class Option extends Model implements ReceiveTable {
 
     public Option() {
         super();
-        ActiveRecordCloudSync.addReceiveTable(Option.class);
+        ActiveRecordCloudSync.addReceiveTable("options", Option.class);
     }
 
     public Question getQuestion() {

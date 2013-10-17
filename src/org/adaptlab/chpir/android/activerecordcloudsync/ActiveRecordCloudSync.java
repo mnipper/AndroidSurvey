@@ -1,17 +1,20 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ActiveRecordCloudSync {
-    private static ArrayList<Class<? extends ReceiveTable>> mReceiveTables =
-            new ArrayList<Class<? extends ReceiveTable>>();
+    private static Map<String, Class<? extends ReceiveTable>> mReceiveTables =
+            new HashMap<String, Class<? extends ReceiveTable>>();
     private static String mEndPoint;
     
-    public static void addReceiveTable(Class<? extends ReceiveTable> receiveTable) {
-        mReceiveTables.add(receiveTable);
+    public static void addReceiveTable(String tableName, Class<? extends ReceiveTable> receiveTable) {
+        mReceiveTables.put(tableName, receiveTable);
     }
     
-    public static ArrayList<Class<? extends ReceiveTable>> getReceiveTables() {
+    public static Map<String, Class<? extends ReceiveTable>> getReceiveTables() {
         return mReceiveTables;
     }
     
@@ -24,8 +27,8 @@ public class ActiveRecordCloudSync {
     }
     
     public static void syncReceiveTables() {
-        for (Class<? extends ReceiveTable> tableClass : mReceiveTables) {
-            HttpFetchr httpFetchr = new HttpFetchr(tableClass);
+        for (Map.Entry<String, Class<? extends ReceiveTable>> entry : mReceiveTables.entrySet()) {
+            HttpFetchr httpFetchr = new HttpFetchr(entry.getKey(), entry.getValue());
             httpFetchr.fetch();
         }
     }

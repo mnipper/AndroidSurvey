@@ -35,7 +35,7 @@ public class Question extends Model implements ReceiveTable {
 
     public Question() {
         super();
-        ActiveRecordCloudSync.addReceiveTable(Question.class);
+        ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
     }
 
     public String getText() {

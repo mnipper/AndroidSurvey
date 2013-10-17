@@ -23,7 +23,7 @@ public class Instrument extends Model implements ReceiveTable {
 
     public Instrument() {
         super();
-        ActiveRecordCloudSync.addReceiveTable(Instrument.class);
+        ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
     }
 
     public String getTitle() {

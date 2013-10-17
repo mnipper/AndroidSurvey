@@ -34,12 +34,9 @@ public class HttpFetchr {
             .appendQueryParameter("last_id", mReceiveTable.lastId().toString())
             .build().toString();
         String jsonString = getUrl(url);
-        //JSONObject jsonObject = new JSONObject(jsonString);
 
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
-        } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse items", je);
         }
         return items;
     }

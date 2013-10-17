@@ -88,11 +88,6 @@ public class Question extends Model implements ReceiveTable {
         return new Select().from(Question.class).orderBy("Id ASC").execute();
     }
 
-    @Override
-    public Long lastId() {
-        return getAll().get(getAll().size() - 1).getId();
-    }
-
     private static boolean validQuestionType(String questionType) {
         for (QuestionType type : QuestionType.values()) {
             if (type.name().equals(questionType))
@@ -105,5 +100,9 @@ public class Question extends Model implements ReceiveTable {
     public void createObjectFromJSON(JSONObject jsonObject) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public String remoteTableName() {
+        return "questions";
     }
 }

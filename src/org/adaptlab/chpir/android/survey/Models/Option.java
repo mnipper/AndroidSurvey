@@ -43,15 +43,14 @@ public class Option extends Model implements ReceiveTable {
     public static List<Option> getAll() {
         return new Select().from(Option.class).orderBy("Id ASC").execute();
     }
-    
-    @Override
-    public Long lastId() {
-        return getAll().get(getAll().size() - 1).getId();
-    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public String remoteTableName() {
+        return "options";
     }
 }

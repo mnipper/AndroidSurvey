@@ -22,4 +22,11 @@ public class ActiveRecordCloudSync {
     public static String getEndPoint() {
         return mEndPoint;
     }
+    
+    public static void syncReceiveTables() {
+        for (Class<? extends ReceiveTable> tableClass : mReceiveTables) {
+            HttpFetchr httpFetchr = new HttpFetchr(tableClass);
+            httpFetchr.fetch();
+        }
+    }
 }

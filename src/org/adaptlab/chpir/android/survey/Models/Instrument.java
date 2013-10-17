@@ -48,11 +48,6 @@ public class Instrument extends Model implements ReceiveTable {
     }
 
     @Override
-    public Long lastId() {
-        return getAll().get(getAll().size() - 1).getId();
-    }
-
-    @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
             setTitle(jsonObject.getString("title"));
@@ -60,5 +55,9 @@ public class Instrument extends Model implements ReceiveTable {
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }
+    }
+    
+    public String remoteTableName() {
+        return "instruments";
     }
 }

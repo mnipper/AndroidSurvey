@@ -16,9 +16,9 @@ public class HttpFetchr {
     private Class<? extends ReceiveTable> mReceiveTableClass;
     private String mRemoteTableName;
     
-    public HttpFetchr(Class<? extends ReceiveTable> receiveTableClass, String remoteTableName) {
+    public HttpFetchr(Class<? extends ReceiveTable> receiveTableClass) {
         mReceiveTableClass = receiveTableClass;
-        mRemoteTableName = remoteTableName;
+        mRemoteTableName = receiveTableClass.getClass().getName().toLowerCase();
     }
     
     public String getUrl(String urlSpec) throws IOException {

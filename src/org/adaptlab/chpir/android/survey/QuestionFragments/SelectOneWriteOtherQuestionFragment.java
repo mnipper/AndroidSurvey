@@ -26,8 +26,7 @@ public class SelectOneWriteOtherQuestionFragment extends
             }
         });
         getRadioGroup().addView(radioButton, otherId);
-        
-        addOtherTextView(otherText);
+        addOtherResponseView(otherText);
         questionComponent.addView(otherText, otherId + 1);
     }
 }

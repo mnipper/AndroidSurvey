@@ -26,7 +26,7 @@ public class SelectMultipleWriteOtherQuestionFragment extends
          });
         questionComponent.addView(checkbox, otherId);
 
-        addOtherTextView(otherText);
+        addOtherResponseView(otherText);
         
         questionComponent
                 .addView(otherText, otherId + 1);

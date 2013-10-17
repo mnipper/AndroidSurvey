@@ -35,7 +35,6 @@ public class SelectOneQuestionFragment extends QuestionFragment {
                 getResponse().save();
             }
         });
-        
         questionComponent.addView(radioGroup);
         beforeAddViewHook(questionComponent);
     }

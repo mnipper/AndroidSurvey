@@ -64,7 +64,7 @@ public abstract class QuestionFragment extends Fragment {
         return mResponse;
     }
     
-    protected void addOtherTextView(EditText otherText) {
+    protected void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
         otherText.setEnabled(false);
         otherText.addTextChangedListener(new TextWatcher() {

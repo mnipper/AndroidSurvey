@@ -29,6 +29,6 @@ public class SelectMultipleWriteOtherQuestionFragment extends
         addOtherResponseView(otherText);
         
         questionComponent
-                .addView(otherText, otherId + 1);
+                .addView(otherText);
     }
 }

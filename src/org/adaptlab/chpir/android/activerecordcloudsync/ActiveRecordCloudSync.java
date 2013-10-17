@@ -1,9 +1,7 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class ActiveRecordCloudSync {
     private static Map<String, Class<? extends ReceiveTable>> mReceiveTables =

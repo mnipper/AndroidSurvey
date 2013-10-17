@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -98,5 +99,11 @@ public class Question extends Model implements ReceiveTable {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void createObjectFromJSON(JSONObject jsonObject) {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
+import org.json.JSONObject;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -46,5 +47,11 @@ public class Option extends Model implements ReceiveTable {
     @Override
     public Long lastId() {
         return getAll().get(getAll().size() - 1).getId();
+    }
+
+    @Override
+    public void createObjectFromJSON(JSONObject jsonObject) {
+        // TODO Auto-generated method stub
+        
     }
 }

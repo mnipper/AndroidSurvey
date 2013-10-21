@@ -113,13 +113,16 @@ public class Question extends Model implements ReceiveTable {
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
-            setText(jsonObject.getString("text"));
-            setQuestionType(jsonObject.getString("question_type"));
-            setQuestionId(jsonObject.getString("question_id"));            
-            Long instrumentId = jsonObject.getLong("instrument_id");
-            setInstrument(Instrument.findByRemoteId(instrumentId));
-            setRemoteId(jsonObject.getLong("id"));
-            this.save();
+            Long remoteId = jsonObject.getLong("id");
+            if (Question.findByRemoteId(remoteId) == null) {
+                setText(jsonObject.getString("text"));
+                setQuestionType(jsonObject.getString("question_type"));
+                setQuestionId(jsonObject.getString("question_id"));            
+                Long instrumentId = jsonObject.getLong("instrument_id");
+                setInstrument(Instrument.findByRemoteId(instrumentId));
+                setRemoteId(jsonObject.getLong("id"));
+                this.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         } 

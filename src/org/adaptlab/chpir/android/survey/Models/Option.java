@@ -56,15 +56,22 @@ public class Option extends Model implements ReceiveTable {
     public void setRemoteId(Long id) {
         mRemoteId = id;
     }
+    
+    public static Question findByRemoteId(Long id) {
+        return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
-            setText(jsonObject.getString("text"));
-            Long questionId = jsonObject.getLong("question_id");
-            setQuestion(Question.findByRemoteId(questionId));
-            setRemoteId(jsonObject.getLong("id"));
-            this.save();
+            Long remoteId = jsonObject.getLong("id");
+            if (Option.findByRemoteId(remoteId) == null) {
+                setText(jsonObject.getString("text"));
+                Long questionId = jsonObject.getLong("question_id");
+                setQuestion(Question.findByRemoteId(questionId));
+                setRemoteId(jsonObject.getLong("id"));
+                this.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }   

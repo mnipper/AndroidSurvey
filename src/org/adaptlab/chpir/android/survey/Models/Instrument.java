@@ -63,9 +63,12 @@ public class Instrument extends Model implements ReceiveTable {
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
-            setRemoteId(jsonObject.getLong("id"));
-            setTitle(jsonObject.getString("title"));
-            this.save();
+            Long remoteId = jsonObject.getLong("id");
+            if (Instrument.findByRemoteId(remoteId) == null) {
+                setRemoteId(remoteId);
+                setTitle(jsonObject.getString("title"));
+                this.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  

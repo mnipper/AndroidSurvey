@@ -32,6 +32,9 @@ public class Question extends Model implements ReceiveTable {
     private String mQuestionId;
     @Column(name = "Instrument")
     private Instrument mInstrument;
+    // https://github.com/pardom/ActiveAndroid/issues/22
+    @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private Long mRemoteId;
 
     public Question() {
         super();
@@ -74,10 +77,6 @@ public class Question extends Model implements ReceiveTable {
     public void setInstrument(Instrument instrument) {
         mInstrument = instrument;
     }
-    
-    public void setInstrumentById(Long id) {
-        mInstrument = Model.load(Instrument.class, id);
-    }
 
     public boolean hasOptions() {
         return !options().isEmpty();
@@ -98,14 +97,24 @@ public class Question extends Model implements ReceiveTable {
         }
         return false;
     }
+    
+    public Long getRemoteId() {
+        return mRemoteId;
+    }
+    
+    public void setRemoteId(Long id) {
+        mRemoteId = id;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
             setText(jsonObject.getString("text"));
             setQuestionType(jsonObject.getString("question_type"));
-            setQuestionId(jsonObject.getString("question_id"));
-            setInstrumentById(jsonObject.getLong("instrument_id"));
+            setQuestionId(jsonObject.getString("question_id"));            
+            Long instrumentId = jsonObject.getLong("instrument_id");
+            setInstrument(Model.load(Instrument.class, instrumentId));
+            setRemoteId(jsonObject.getLong("id"));
             this.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);

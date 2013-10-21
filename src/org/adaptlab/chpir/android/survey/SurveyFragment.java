@@ -40,6 +40,11 @@ public class SurveyFragment extends Fragment {
         mSurvey.setInstrument(mInstrument);
         mSurvey.save();
         
+        if (mInstrument.questions().size() == 0) {
+            // This instrument has no questions
+            return;
+        }
+        
         mQuestion = mInstrument.questions().get(0);
     }
 

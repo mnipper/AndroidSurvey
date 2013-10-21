@@ -105,6 +105,10 @@ public class Question extends Model implements ReceiveTable {
     public void setRemoteId(Long id) {
         mRemoteId = id;
     }
+    
+    public static Question findByRemoteId(Long id) {
+        return new Select().from(Question.class).where("RemoteId = ?", id).executeSingle();
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -113,7 +117,7 @@ public class Question extends Model implements ReceiveTable {
             setQuestionType(jsonObject.getString("question_type"));
             setQuestionId(jsonObject.getString("question_id"));            
             Long instrumentId = jsonObject.getLong("instrument_id");
-            setInstrument(Model.load(Instrument.class, instrumentId));
+            setInstrument(Instrument.findByRemoteId(instrumentId));
             setRemoteId(jsonObject.getLong("id"));
             this.save();
         } catch (JSONException je) {

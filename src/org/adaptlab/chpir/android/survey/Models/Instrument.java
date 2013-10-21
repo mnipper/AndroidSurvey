@@ -55,6 +55,10 @@ public class Instrument extends Model implements ReceiveTable {
     public String toString() {
         return mTitle;
     }
+    
+    public static Instrument findByRemoteId(Long id) {
+        return new Select().from(Instrument.class).where("RemoteId = ?", id).executeSingle();
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {

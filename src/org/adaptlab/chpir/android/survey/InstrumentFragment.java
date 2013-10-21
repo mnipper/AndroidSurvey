@@ -63,7 +63,7 @@ public class InstrumentFragment extends Fragment {
         mStartButton = (Button) v.findViewById(R.id.start_survey_button);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (mInstrument == null) {
+                if (mInstrument == null || mInstrument.questions().size() == 0) {
                     return;
                 }
 

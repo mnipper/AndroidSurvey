@@ -4,12 +4,18 @@ import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.util.Log;
+
 public class DatabaseSeed {
-    public static boolean DO_SEEDING = false;
+    private final static String TAG = "DatabaseSeed";
     
     // Do seeding if running in debug mode and if enabled in DatabaseSeed
-    public static void seed() {
-        if (BuildConfig.DEBUG && DO_SEEDING) {
+    public static void seed(Context context) {
+        if (BuildConfig.DEBUG && seedDatabase(context)) {
+            Log.d(TAG, "Seeding database...");
             seedInstrument();
         }
     }
@@ -66,5 +72,20 @@ public class DatabaseSeed {
             option.setText("This is option " + i);
             option.save();
         }
+    }
+    
+    public static boolean seedDatabase(Context context) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(
+                    context.getPackageName(),
+                            PackageManager.GET_META_DATA);
+            if (appInfo.metaData != null) {
+                    return appInfo.metaData.getBoolean("SEED_DB");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Cannot find database seed boolean in Android Manifest");
+        }
+
+        return false;
     }
 }

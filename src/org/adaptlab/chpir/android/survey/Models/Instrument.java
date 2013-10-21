@@ -19,6 +19,9 @@ public class Instrument extends Model implements ReceiveTable {
 
     @Column(name = "Title")
     private String mTitle;
+    // https://github.com/pardom/ActiveAndroid/issues/22
+    @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private Long mRemoteId;
 
     public Instrument() {
         super();
@@ -30,6 +33,14 @@ public class Instrument extends Model implements ReceiveTable {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+    
+    public Long getRemoteId() {
+        return mRemoteId;
+    }
+    
+    public void setRemoteId(Long id) {
+        mRemoteId = id;
     }
 
     public List<Question> questions() {
@@ -48,10 +59,11 @@ public class Instrument extends Model implements ReceiveTable {
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
+            setRemoteId(jsonObject.getLong("id"));
             setTitle(jsonObject.getString("title"));
             this.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
-        }
+        }  
     }
 }

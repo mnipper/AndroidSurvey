@@ -32,6 +32,7 @@ public class PollService extends IntentService {
         Log.i(TAG, "Received an intent: " + intent);
     }
     
+    // Control polling of api, set isOn to true to enable polling
     public static void setServiceAlarm(Context context, boolean isOn) {
         Intent i = new Intent(context, PollService.class);
         PendingIntent pi = PendingIntent.getService(

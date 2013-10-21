@@ -120,7 +120,7 @@ public class Question extends Model implements ReceiveTable {
                 setQuestionId(jsonObject.getString("question_id"));            
                 Long instrumentId = jsonObject.getLong("instrument_id");
                 setInstrument(Instrument.findByRemoteId(instrumentId));
-                setRemoteId(jsonObject.getLong("id"));
+                setRemoteId(remoteId);
                 this.save();
             }
         } catch (JSONException je) {

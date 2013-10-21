@@ -57,7 +57,7 @@ public class Option extends Model implements ReceiveTable {
         mRemoteId = id;
     }
     
-    public static Question findByRemoteId(Long id) {
+    public static Option findByRemoteId(Long id) {
         return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
     }
 
@@ -69,7 +69,7 @@ public class Option extends Model implements ReceiveTable {
                 setText(jsonObject.getString("text"));
                 Long questionId = jsonObject.getLong("question_id");
                 setQuestion(Question.findByRemoteId(questionId));
-                setRemoteId(jsonObject.getLong("id"));
+                setRemoteId(remoteId);
                 this.save();
             }
         } catch (JSONException je) {

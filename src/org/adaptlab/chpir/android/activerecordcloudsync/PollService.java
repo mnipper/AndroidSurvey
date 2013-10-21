@@ -20,9 +20,13 @@ public class PollService extends IntentService {
         @SuppressWarnings("deprecation")
         boolean isNetworkAvailable = cm.getBackgroundDataSetting() &&
             cm.getActiveNetworkInfo() != null;
-        if (!isNetworkAvailable) return;
+        if (!isNetworkAvailable) { 
+            Log.i(TAG, "Network is not available, short circuiting PollService...");
+            return;
+        }
         
-        Log.i(TAG, "Received an intnet: " + intent);
+        ActiveRecordCloudSync.syncReceiveTables();
+        Log.i(TAG, "Received an intent: " + intent);
     }
 
 }

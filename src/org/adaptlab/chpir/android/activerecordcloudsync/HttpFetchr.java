@@ -7,12 +7,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 import android.util.Log;
 
 public class HttpFetchr {
     private static final String TAG = "HttpFetchr";
-    private static final String RESULTS_API_PARAM = "results";
     private Class<? extends ReceiveTable> mReceiveTableClass;
     private String mRemoteTableName;
     
@@ -27,17 +26,21 @@ public class HttpFetchr {
     
     public void fetch() {
         if (ActiveRecordCloudSync.getEndPoint() == null) {
+            Log.i(TAG, "ActiveRecordCloudSync end point is not set!");
             return;
         }
         
         try {
             String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName;
+            Log.i(TAG, "Attempting to access " + url);
             String jsonString = getUrl(url);
-            JSONObject jsonResult = new JSONObject(jsonString);
-            JSONArray jsonArray = jsonResult.getJSONArray(RESULTS_API_PARAM);
+            Log.i(TAG, "Got JSON String: " + jsonString);
+            JSONArray jsonArray = new JSONArray(jsonString);
+            Log.i(TAG, "Received json result: " + jsonArray);
             
             for (int i = 0; i < jsonArray.length(); i++) {
                 ReceiveTable tableInstance = mReceiveTableClass.newInstance();
+                Log.i(TAG, "Creating object from JSON Object: " + jsonArray.getJSONObject(i));
                 tableInstance.createObjectFromJSON(jsonArray.getJSONObject(i));
             }
             

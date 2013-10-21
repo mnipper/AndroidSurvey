@@ -12,7 +12,7 @@ import android.util.Log;
 public class DatabaseSeed {
     private final static String TAG = "DatabaseSeed";
     
-    // Do seeding if running in debug mode and if enabled in DatabaseSeed
+    // Do seeding if running in debug mode and if enabled in AndroidManifest
     public static void seed(Context context) {
         if (BuildConfig.DEBUG && seedDatabase(context)) {
             Log.d(TAG, "Seeding database...");
@@ -20,6 +20,7 @@ public class DatabaseSeed {
         }
     }
     
+    @SuppressWarnings("unused")
     public static void seedInstrument() {
         Instrument ins = new Instrument();
         ins.setTitle("Test Instrument " + Instrument.getAll().size());

@@ -77,6 +77,7 @@ public class SurveyFragment extends Fragment {
                     
                     mQuestionText.setText(mQuestion.getText());
                 } else {
+                    // Hide survey activity when finish button pressed
                     getActivity().finish();
                     return;
                 }               

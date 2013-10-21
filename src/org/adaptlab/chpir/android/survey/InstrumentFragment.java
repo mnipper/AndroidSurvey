@@ -2,7 +2,11 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
+import org.adaptlab.chpir.android.survey.Models.Option;
+import org.adaptlab.chpir.android.survey.Models.Question;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +33,7 @@ public class InstrumentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DatabaseSeed.seed(getActivity());
+        appInit();
         mInstrumentList = Instrument.getAll();
         Log.d(TAG, "Instrument list is: " + mInstrumentList);
     }
@@ -71,5 +75,14 @@ public class InstrumentFragment extends Fragment {
         });
 
         return v;
+    }
+    
+    private final void appInit() {
+        DatabaseSeed.seed(getActivity());
+        ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
+        ActiveRecordCloudSync.addReceiveTable("options", Option.class);
+        ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
+        Intent i = new Intent(getActivity(), PollService.class);
+        getActivity().startService(i);
     }
 }

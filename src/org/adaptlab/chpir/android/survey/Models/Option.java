@@ -2,7 +2,6 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
 import org.json.JSONObject;
 
@@ -21,7 +20,6 @@ public class Option extends Model implements ReceiveTable {
 
     public Option() {
         super();
-        ActiveRecordCloudSync.addReceiveTable("options", Option.class);
     }
 
     public Question getQuestion() {

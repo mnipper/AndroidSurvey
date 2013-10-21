@@ -59,7 +59,7 @@ public class DatabaseSeed {
             String qtype, String text) {
         Question q = new Question();
         q.setInstrument(i);
-        q.setQuestionID(qid);
+        q.setQuestionId(qid);
         q.setQuestionType(qtype);
         q.setText(text);
         q.save();

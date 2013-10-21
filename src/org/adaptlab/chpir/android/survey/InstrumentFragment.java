@@ -82,7 +82,7 @@ public class InstrumentFragment extends Fragment {
         DatabaseSeed.seed(getActivity());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         //ActiveRecordCloudSync.addReceiveTable("options", Option.class);
-        //ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
+        ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.setEndPoint("http://192.168.1.117:3000/");
         Intent i = new Intent(getActivity(), PollService.class);
         getActivity().startService(i);

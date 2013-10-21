@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -27,8 +28,8 @@ public class Question extends Model implements ReceiveTable {
     private String mText;
     @Column(name = "QuestionType")
     private QuestionType mQuestionType;
-    @Column(name = "QuestionID")
-    private String mQuestionID;
+    @Column(name = "QuestionId")
+    private String mQuestionId;
     @Column(name = "Instrument")
     private Instrument mInstrument;
 
@@ -58,12 +59,12 @@ public class Question extends Model implements ReceiveTable {
         }
     }
 
-    public String getQuestionID() {
-        return mQuestionID;
+    public String getQuestionId() {
+        return mQuestionId;
     }
 
-    public void setQuestionID(String questionID) {
-        mQuestionID = questionID;
+    public void setQuestionId(String questionId) {
+        mQuestionId = questionId;
     }
 
     public Instrument getInstrument() {
@@ -72,6 +73,10 @@ public class Question extends Model implements ReceiveTable {
 
     public void setInstrument(Instrument instrument) {
         mInstrument = instrument;
+    }
+    
+    public void setInstrumentById(Long id) {
+        mInstrument = Model.load(Instrument.class, id);
     }
 
     public boolean hasOptions() {
@@ -96,7 +101,14 @@ public class Question extends Model implements ReceiveTable {
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
-        // TODO Auto-generated method stub
-        
+        try {
+            setText(jsonObject.getString("text"));
+            setQuestionType(jsonObject.getString("question_type"));
+            setQuestionId(jsonObject.getString("question_id"));
+            setInstrumentById(jsonObject.getLong("instrument_id"));
+            this.save();
+        } catch (JSONException je) {
+            Log.e(TAG, "Error parsing object json", je);
+        } 
     }
 }

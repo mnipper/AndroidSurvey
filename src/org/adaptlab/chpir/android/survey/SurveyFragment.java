@@ -52,13 +52,19 @@ public class SurveyFragment extends Fragment {
         mQuestionText.setText(mQuestion.getText());
 
         mNextButton = (Button) v.findViewById(R.id.next_button);
+        
+        // Only one question in this instrument
+        if (mInstrument.questions().size() == 1) {
+            mNextButton.setText(R.string.finish_button);
+        }
+        
         mNextButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 int questionIndex = mInstrument.questions().indexOf(mQuestion);
-                int questionsInInstrument = mInstrument.questions().size() - 1;
+                int questionsInInstrument = mInstrument.questions().size();
 
-                if (questionIndex < questionsInInstrument) {
+                if (questionIndex < questionsInInstrument - 1) {
                     mQuestion = mInstrument.questions().get(questionIndex + 1);
                     
                     FragmentManager fm = getChildFragmentManager();
@@ -70,11 +76,15 @@ public class SurveyFragment extends Fragment {
                             .commit();
                     
                     mQuestionText.setText(mQuestion.getText());
+                } else {
+                    getActivity().finish();
+                    return;
+                }               
 
-                    if (questionIndex + 1 == questionsInInstrument) {
-                        mNextButton.setText(R.string.finish_button);
-                    }
+                if (questionIndex + 2 == questionsInInstrument) {
+                    mNextButton.setText(R.string.finish_button);
                 }
+
             }
         });
 

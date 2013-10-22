@@ -29,6 +29,7 @@ public class PollService extends IntentService {
         }
         
         ActiveRecordCloudSync.syncReceiveTables();
+        ActiveRecordCloudSync.syncSendTables();
         Log.i(TAG, "Received an intent: " + intent);
     }
     

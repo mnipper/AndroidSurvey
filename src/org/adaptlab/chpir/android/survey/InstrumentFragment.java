@@ -80,10 +80,13 @@ public class InstrumentFragment extends Fragment {
     private final void appInit() {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
+        
+        // Assumes a webserver running on localhost of host machine at port 3000
+        ActiveRecordCloudSync.setEndPoint("http://10.0.2.2:3000/");
         ActiveRecordCloudSync.addReceiveTable("instruments.json", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions.json", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options.json", Option.class);
-        ActiveRecordCloudSync.setEndPoint("http://192.168.1.117:3000/");
+        
         PollService.setServiceAlarm(getActivity(), true);
     }
 }

@@ -1,11 +1,14 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.SendTable;
+import org.json.JSONObject;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "Responses")
-public class Response extends Model {
+public class Response extends Model implements SendTable {
 	
 	@Column(name = "Question")
 	private Question mQuestion;
@@ -51,4 +54,10 @@ public class Response extends Model {
 	public String getOtherResponse() {
 	    return mOtherResponse;
 	}
+
+    @Override
+    public JSONObject toJSON() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

@@ -47,7 +47,7 @@ public class QuestionFragmentFactory {
         } else {
             // Return free response fragment if unknown question type
             // This should never happen
-            Log.e(TAG, "Received unknown question type: " + type);
+            Log.wtf(TAG, "Received unknown question type: " + type);
             fragment = new FreeResponseQuestionFragment();
         }
 

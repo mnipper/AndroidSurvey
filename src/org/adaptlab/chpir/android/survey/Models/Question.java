@@ -58,7 +58,7 @@ public class Question extends Model implements ReceiveTable {
         } else {
             // This should never happen
             // We should prevent syncing data unless app is up to date
-            Log.e(TAG, "Received invalid question type: " + questionType);
+            Log.wtf(TAG, "Received invalid question type: " + questionType);
         }
     }
 

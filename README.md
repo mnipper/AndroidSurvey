@@ -2,6 +2,12 @@ AndroidSurvey
 =============
 A survey application for Android that will soon have a Rails back-end.  The Android app syncs instruments and survey results automatically when internet is detected on the Android device.  This application is being designed for conducting research-oriented surveys.  This application is being developed at Duke University in a joint effort between adaptlab and CHPIR.
 
+## Documentation
+* [Model Summary](https://github.com/mnipper/AndroidSurvey/wiki/Model-summary)
+* [Design Overview](https://github.com/mnipper/AndroidSurvey/wiki/Design-Overview)
+* [Adding a Question Type](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Question-Type)
+* [Syncing with a Remote Table](https://github.com/mnipper/AndroidSurvey/wiki/Syncing-with-Remote-Tables)
+
 ## Seeding the database
 
 Set the SEED_DB metadata variable to true in AndroidManifest and start the application.  This will add an instrument each time the app starts.  When you are happy with your database, set SEED_DB to false.

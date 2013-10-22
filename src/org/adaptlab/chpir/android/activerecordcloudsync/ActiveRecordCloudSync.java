@@ -41,8 +41,10 @@ public class ActiveRecordCloudSync {
     }
     
     public static void syncSendTables() {
-        for (Map.Entry<String, Class<? extends ReceiveTable>> entry : mReceiveTables.entrySet()) {
+        for (Map.Entry<String, Class<? extends SendTable>> entry : mSendTables.entrySet()) {
             Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
+            HttpPushr httpPushr = new HttpPushr(entry.getKey(), entry.getValue());
+            httpPushr.push();
         }   
     }
 }

@@ -2,14 +2,15 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import android.util.Log;
 
 public class ActiveRecordCloudSync {
     private static final String TAG="ActiveRecordCloudSync";
     private static Map<String, Class<? extends ReceiveTable>> mReceiveTables =
             new HashMap<String, Class<? extends ReceiveTable>>();
-    private static Map<String, Class<? extends SendTable>> mSendTables =
-            new HashMap<String, Class<? extends SendTable>>();
+    private static Map<String, Class<? extends SendModel>> mSendTables =
+            new HashMap<String, Class<? extends SendModel>>();
     private static String mEndPoint;
     
     public static void addReceiveTable(String tableName, Class<? extends ReceiveTable> receiveTable) {
@@ -20,7 +21,7 @@ public class ActiveRecordCloudSync {
         return mReceiveTables;
     }
     
-    public static void addSendTable(String tableName, Class<? extends SendTable> sendTable) {
+    public static void addSendTable(String tableName, Class<? extends SendModel> sendTable) {
         mSendTables.put(tableName, sendTable);
     }
     
@@ -41,7 +42,7 @@ public class ActiveRecordCloudSync {
     }
     
     public static void syncSendTables() {
-        for (Map.Entry<String, Class<? extends SendTable>> entry : mSendTables.entrySet()) {
+        for (Map.Entry<String, Class<? extends SendModel>> entry : mSendTables.entrySet()) {
             Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
             HttpPushr httpPushr = new HttpPushr(entry.getKey(), entry.getValue());
             httpPushr.push();

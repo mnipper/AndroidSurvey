@@ -1,17 +1,15 @@
 package org.adaptlab.chpir.android.survey.Models;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.SendTable;
+import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "Responses")
-public class Response extends Model implements SendTable {
+public class Response extends SendModel {
     private static final String TAG = "Response";
 	
 	@Column(name = "Question")
@@ -22,6 +20,8 @@ public class Response extends Model implements SendTable {
 	private Survey mSurvey;
 	@Column(name = "Other_Response")
 	private String mOtherResponse;
+	@Column(name = "SentToRemote")
+	private boolean mSent;
 	
 	public Response() {
 		super();
@@ -71,5 +71,15 @@ public class Response extends Model implements SendTable {
             Log.e(TAG, "JSON exception", je);
         }
         return jsonObject;
+    }
+    
+    @Override
+    public boolean isNotSent() {
+        return mSent;
+    }
+    
+    @Override
+    public void setAsSent() {
+        mSent = true;
     }
 }

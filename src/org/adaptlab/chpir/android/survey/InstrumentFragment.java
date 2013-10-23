@@ -30,6 +30,7 @@ public class InstrumentFragment extends Fragment {
     private List<Instrument> mInstrumentList;
 
     private Button mStartButton;
+    private Button mRefreshButton;
     private Spinner mInstrumentSpinner;
 
     @Override
@@ -55,12 +56,22 @@ public class InstrumentFragment extends Fragment {
                     }
 
                     public void onNothingSelected(AdapterView<?> parent) {
-
+                        
                     }
                 });
         mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
                 getActivity(), android.R.layout.simple_spinner_item,
                 mInstrumentList));
+        
+        mRefreshButton = (Button) v.findViewById(R.id.refresh_instruments_button);
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mInstrumentList = Instrument.getAll();
+                mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
+                        getActivity(), android.R.layout.simple_spinner_item,
+                        mInstrumentList));
+            }
+        });
 
         mStartButton = (Button) v.findViewById(R.id.start_survey_button);
         mStartButton.setOnClickListener(new View.OnClickListener() {

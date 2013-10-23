@@ -10,5 +10,6 @@
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>
     <string name="free_response_edittext">Answer here</string>
+    <string name="refresh_instruments">Refresh</string>
 
 </resources>

@@ -7,6 +7,8 @@ import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,6 +66,7 @@ public class InstrumentFragment extends Fragment {
         mStartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (mInstrument == null || mInstrument.questions().size() == 0) {
+                    if (mInstrument.questions().size() == 0) Log.i(TAG, "No questions");
                     return;
                 }
 
@@ -86,6 +89,9 @@ public class InstrumentFragment extends Fragment {
         ActiveRecordCloudSync.addReceiveTable("instruments.json", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions.json", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options.json", Option.class);
+
+        ActiveRecordCloudSync.addSendTable("responses", Response.class);
+        ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         
         PollService.setServiceAlarm(getActivity(), true);
     }

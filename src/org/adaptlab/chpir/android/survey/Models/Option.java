@@ -67,8 +67,7 @@ public class Option extends Model implements ReceiveTable {
             Long remoteId = jsonObject.getLong("id");
             if (Option.findByRemoteId(remoteId) == null) {
                 setText(jsonObject.getString("text"));
-                Long questionId = jsonObject.getLong("question_id");
-                setQuestion(Question.findByRemoteId(questionId));
+                setQuestion(Model.load(Question.class, jsonObject.getLong("question_id")));
                 setRemoteId(remoteId);
                 this.save();
             }

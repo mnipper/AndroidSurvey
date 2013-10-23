@@ -14,8 +14,8 @@ public class Response extends SendModel {
 	
 	@Column(name = "Question")
 	private Question mQuestion;
-	@Column(name = "Response")
-	private String mResponse;
+	@Column(name = "Text")
+	private String mText;
 	@Column(name = "Survey")
 	private Survey mSurvey;
 	@Column(name = "Other_Response")
@@ -35,12 +35,12 @@ public class Response extends SendModel {
 		mQuestion = question;
 	}
 
-	public String getResponse() {
-		return mResponse;
+	public String getText() {
+		return mText;
 	}
 
-	public void setResponse(String response) {
-		mResponse = response;
+	public void setResponse(String text) {
+		mText = text;
 	}
 	
 	public void setSurvey(Survey survey) {
@@ -61,16 +61,19 @@ public class Response extends SendModel {
 
     @Override
     public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
+        JSONObject json = new JSONObject();
         try {
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("survey_id", getSurvey().getId());
             jsonObject.put("question_id", getQuestion().getId());
-            jsonObject.put("response", getResponse());
+            jsonObject.put("text", getText());
             jsonObject.put("other_response", getOtherResponse());
+            
+            json.put("response", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
-        return jsonObject;
+        return json;
     }
     
     @Override

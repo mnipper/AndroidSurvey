@@ -43,18 +43,20 @@ public class HttpPushr {
                         new Select().from(mSendTableClass).orderBy("Id ASC").execute();
                 
                 for (SendModel element : allElements) {
-                    if (element.isNotSent()) {
+                    //if (element.isNotSent()) {
                         try {
                             HttpPost post = new HttpPost(ActiveRecordCloudSync.getEndPoint() + mRemoteTableName);
-                            StringEntity se = new StringEntity(element.toString());  
+                            StringEntity se = new StringEntity(element.toJSON().toString());  
                             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                             post.setEntity(se);
+                            Log.i(TAG, "Sending post request: " + element.toJSON().toString());
                             response = client.execute(post);
     
                             /*Checking response */
                             if(response!=null){
                                 InputStream in = response.getEntity().getContent(); //Get the data in the entity
                                 element.setAsSent();
+                                element.save();
                                 Log.i(TAG, in.toString());
                             }
     
@@ -64,7 +66,7 @@ public class HttpPushr {
     
                         Looper.loop(); //Loop in the message queue
                         }
-                    }
+                    //}
                 }
 
                 

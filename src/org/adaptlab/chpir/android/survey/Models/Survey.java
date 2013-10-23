@@ -38,13 +38,16 @@ public class Survey extends SendModel {
 
     @Override
     public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
+        JSONObject json = new JSONObject();
         try {
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("instrument_id", getInstrument().getId());
+            
+            json.put("survey", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
-        return jsonObject;
+        return json;
     }
     
     @Override

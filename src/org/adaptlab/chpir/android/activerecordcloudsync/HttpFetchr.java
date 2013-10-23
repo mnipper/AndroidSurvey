@@ -40,7 +40,6 @@ public class HttpFetchr {
             
             for (int i = 0; i < jsonArray.length(); i++) {
                 ReceiveTable tableInstance = mReceiveTableClass.newInstance();
-                Log.i(TAG, "Creating object from JSON Object: " + jsonArray.getJSONObject(i));
                 tableInstance.createObjectFromJSON(jsonArray.getJSONObject(i));
             }
             

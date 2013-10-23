@@ -43,7 +43,7 @@ public class HttpPushr {
                         new Select().from(mSendTableClass).orderBy("Id ASC").execute();
                 
                 for (SendModel element : allElements) {
-                    //if (element.isNotSent()) {
+                    if (!element.isSent()) {
                         try {
                             HttpPost post = new HttpPost(ActiveRecordCloudSync.getEndPoint() + mRemoteTableName);
                             StringEntity se = new StringEntity(element.toJSON().toString());  
@@ -66,7 +66,7 @@ public class HttpPushr {
     
                         Looper.loop(); //Loop in the message queue
                         }
-                    //}
+                    }
                 }
 
                 

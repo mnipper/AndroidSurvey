@@ -65,6 +65,7 @@ public class Instrument extends Model implements ReceiveTable {
         try {
             Long remoteId = jsonObject.getLong("id");
             if (Instrument.findByRemoteId(remoteId) == null) {
+                Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
                 setRemoteId(remoteId);
                 setTitle(jsonObject.getString("title"));
                 this.save();

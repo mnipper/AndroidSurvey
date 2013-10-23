@@ -25,6 +25,7 @@ public class Response extends SendModel {
 	
 	public Response() {
 		super();
+		mSent = false;
 	}
 
 	public Question getQuestion() {
@@ -77,7 +78,7 @@ public class Response extends SendModel {
     }
     
     @Override
-    public boolean isNotSent() {
+    public boolean isSent() {
         return mSent;
     }
     

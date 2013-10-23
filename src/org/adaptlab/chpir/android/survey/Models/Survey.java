@@ -22,6 +22,7 @@ public class Survey extends SendModel {
 
     public Survey() {
         super();
+        mSent = false;
     }
 
     public Instrument getInstrument() {
@@ -51,7 +52,7 @@ public class Survey extends SendModel {
     }
     
     @Override
-    public boolean isNotSent() {
+    public boolean isSent() {
         return mSent;
     }
     

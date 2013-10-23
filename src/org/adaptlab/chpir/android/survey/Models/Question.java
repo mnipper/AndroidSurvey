@@ -115,6 +115,7 @@ public class Question extends Model implements ReceiveTable {
         try {
             Long remoteId = jsonObject.getLong("id");
             if (Question.findByRemoteId(remoteId) == null) {
+                Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
                 setText(jsonObject.getString("text"));
                 setQuestionType(jsonObject.getString("question_type"));
                 setQuestionId(jsonObject.getString("question_id"));            

@@ -32,7 +32,7 @@ public abstract class QuestionFragment extends Fragment {
                 QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);
 
         if (questionId != -1 && surveyId != -1) {
-            mQuestion = Model.load(Question.class, questionId);
+            mQuestion = Question.findByRemoteId(questionId);
             mSurvey = Model.load(Survey.class, surveyId);
             mResponse = new Response();
             mResponse.setQuestion(mQuestion);

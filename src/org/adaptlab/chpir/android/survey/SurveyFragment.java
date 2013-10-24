@@ -34,7 +34,7 @@ public class SurveyFragment extends Fragment {
         if (instrumentId == -1) {
             return;
         }
-        mInstrument = Model.load(Instrument.class, instrumentId);
+        mInstrument = Instrument.findByRemoteId(instrumentId);
         
         mSurvey = new Survey();
         mSurvey.setInstrument(mInstrument);

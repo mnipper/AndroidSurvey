@@ -52,7 +52,7 @@ public class QuestionFragmentFactory {
         }
 
         Bundle args = new Bundle();
-        args.putLong(EXTRA_QUESTION_ID, question.getId());
+        args.putLong(EXTRA_QUESTION_ID, question.getRemoteId());
         args.putLong(EXTRA_SURVEY_ID, survey.getId());
         fragment.setArguments(args);
 

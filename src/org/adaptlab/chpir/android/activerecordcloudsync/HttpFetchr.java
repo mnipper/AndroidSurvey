@@ -12,10 +12,10 @@ import android.util.Log;
 
 public class HttpFetchr {
     private static final String TAG = "HttpFetchr";
-    private Class<? extends ReceiveTable> mReceiveTableClass;
+    private Class<? extends ReceiveModel> mReceiveTableClass;
     private String mRemoteTableName;
     
-    public HttpFetchr(String remoteTableName, Class<? extends ReceiveTable> receiveTableClass) {
+    public HttpFetchr(String remoteTableName, Class<? extends ReceiveModel> receiveTableClass) {
         mReceiveTableClass = receiveTableClass;
         mRemoteTableName = remoteTableName;
     }
@@ -39,7 +39,7 @@ public class HttpFetchr {
             Log.i(TAG, "Received json result: " + jsonArray);
             
             for (int i = 0; i < jsonArray.length(); i++) {
-                ReceiveTable tableInstance = mReceiveTableClass.newInstance();
+                ReceiveModel tableInstance = mReceiveTableClass.newInstance();
                 tableInstance.createObjectFromJSON(jsonArray.getJSONObject(i));
             }
             

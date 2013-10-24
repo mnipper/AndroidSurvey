@@ -2,19 +2,18 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveTable;
+import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 @Table(name = "Instruments")
-public class Instrument extends Model implements ReceiveTable {
+public class Instrument extends ReceiveModel {
     private static final String TAG = "Instrument";
 
     @Column(name = "Title")

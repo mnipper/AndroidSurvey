@@ -42,7 +42,8 @@ public class Survey extends SendModel {
         JSONObject json = new JSONObject();
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("instrument_id", getInstrument().getId());
+            jsonObject.put("instrument_id", getInstrument().getRemoteId());
+            jsonObject.put("device_id", AdminSettings.getDeviceId());
             
             json.put("survey", jsonObject);
         } catch (JSONException je) {

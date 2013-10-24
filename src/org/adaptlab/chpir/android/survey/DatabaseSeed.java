@@ -60,7 +60,7 @@ public class DatabaseSeed {
             String qtype, String text, Long remoteId) {
         Question q = new Question();
         q.setInstrument(i);
-        q.setQuestionId(qid);
+        q.setQuestionIdentifier(qid);
         q.setQuestionType(qtype);
         q.setText(text);
         q.setRemoteId(remoteId);

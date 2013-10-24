@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
@@ -28,8 +27,8 @@ public class Question extends ReceiveModel {
     private String mText;
     @Column(name = "QuestionType")
     private QuestionType mQuestionType;
-    @Column(name = "QuestionId")
-    private String mQuestionId;
+    @Column(name = "QuestionIdentifier")
+    private String mQuestionIdentifier;
     @Column(name = "Instrument")
     private Instrument mInstrument;
     // https://github.com/pardom/ActiveAndroid/issues/22
@@ -62,12 +61,12 @@ public class Question extends ReceiveModel {
         }
     }
 
-    public String getQuestionId() {
-        return mQuestionId;
+    public String getQuestionIdentifier() {
+        return mQuestionIdentifier;
     }
 
-    public void setQuestionId(String questionId) {
-        mQuestionId = questionId;
+    public void setQuestionIdentifier(String questionIdentifier) {
+        mQuestionIdentifier = questionIdentifier;
     }
 
     public Instrument getInstrument() {
@@ -118,8 +117,8 @@ public class Question extends ReceiveModel {
                 Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
                 setText(jsonObject.getString("text"));
                 setQuestionType(jsonObject.getString("question_type"));
-                setQuestionId(jsonObject.getString("question_id"));            
-                setInstrument(Model.load(Instrument.class, jsonObject.getLong("instrument_id")));
+                setQuestionIdentifier(jsonObject.getString("question_identifier"));            
+                setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
                 setRemoteId(remoteId);
                 this.save();
             }

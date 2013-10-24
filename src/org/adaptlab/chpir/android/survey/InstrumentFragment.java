@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
+import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -94,6 +95,8 @@ public class InstrumentFragment extends Fragment {
     private final void appInit() {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
+        
+        AdminSettings.setDeviceId("TestDevice1");
         
         // Assumes a webserver running on localhost of host machine at port 3000
         ActiveRecordCloudSync.setEndPoint("http://10.0.2.2:3000/");

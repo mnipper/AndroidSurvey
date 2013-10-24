@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
@@ -68,7 +67,7 @@ public class Option extends ReceiveModel {
             if (Option.findByRemoteId(remoteId) == null) {
                 Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
                 setText(jsonObject.getString("text"));
-                setQuestion(Model.load(Question.class, jsonObject.getLong("question_id")));
+                setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
                 setRemoteId(remoteId);
                 this.save();
             }

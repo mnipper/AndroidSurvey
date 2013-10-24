@@ -10,10 +10,12 @@ import android.util.Log;
 
 public class PollService extends IntentService {
     private static final String TAG = "PollService";
-    private static final int POLL_INTERVAL = 1000 * 15;
+    private static int DEFAULT_POLL_INTERVAL = 1000 * 15;
+    private static int sPollInterval;
 
     public PollService() {
         super(TAG);
+        sPollInterval = DEFAULT_POLL_INTERVAL;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class PollService extends IntentService {
         
         if (isOn) {
             alarmManager.setRepeating(AlarmManager.RTC,
-                    System.currentTimeMillis(), POLL_INTERVAL, pi);
+                    System.currentTimeMillis(), sPollInterval, pi);
         } else {
             alarmManager.cancel(pi);
             pi.cancel();
@@ -56,5 +58,9 @@ public class PollService extends IntentService {
         PendingIntent pi = PendingIntent.getService(
                 context, 0, i, PendingIntent.FLAG_NO_CREATE);
         return pi != null;
+    }
+    
+    public static void setPollInterval(int interval) {
+        sPollInterval = interval;
     }
 }

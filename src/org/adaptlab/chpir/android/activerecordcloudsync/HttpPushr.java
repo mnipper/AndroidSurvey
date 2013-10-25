@@ -60,8 +60,10 @@ public class HttpPushr {
                                     + element.toJSON().toString());
                             response = client.execute(post);
 
-                            /* Checking response */
-                            if (response != null) {
+                            /* Checking for successful response */
+                            if (response.getStatusLine().getStatusCode() >= 200 &&
+                                    response.getStatusLine().getStatusCode() < 300) {
+                                Log.i(TAG, "Received OK HTTP status for " + element.toJSON());
                                 InputStream in = response.getEntity()
                                         .getContent();
                                 element.setAsSent();

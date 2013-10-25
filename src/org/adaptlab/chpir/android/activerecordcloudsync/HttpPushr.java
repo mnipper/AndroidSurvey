@@ -20,58 +20,65 @@ public class HttpPushr {
     private static final String TAG = "HttpPushr";
     private Class<? extends SendModel> mSendTableClass;
     private String mRemoteTableName;
-    
-    public HttpPushr(String remoteTableName, Class<? extends SendModel> sendTableClass) {
+
+    public HttpPushr(String remoteTableName,
+            Class<? extends SendModel> sendTableClass) {
         mSendTableClass = sendTableClass;
         mRemoteTableName = remoteTableName;
     }
-    
+
     public void push() {
         if (ActiveRecordCloudSync.getEndPoint() == null) {
             Log.i(TAG, "ActiveRecordCloudSync end point is not set!");
             return;
         }
-        
-        Thread t = new Thread() {
-           public void run() {
-                Looper.prepare(); //For Preparing Message Pool for the child Thread
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
-                HttpResponse response;
-                
-                List<? extends SendModel> allElements =
-                        new Select().from(mSendTableClass).orderBy("Id ASC").execute();
-                
-                for (SendModel element : allElements) {
+
+        List<? extends SendModel> allElements = new Select()
+                .from(mSendTableClass).orderBy("Id ASC").execute();
+
+        for (final SendModel element : allElements) {
+            Thread t = new Thread() {
+                public void run() {
+                    Looper.prepare(); // For Preparing Message Pool for the
+                                      // child Thread
+                    HttpClient client = new DefaultHttpClient();
+                    HttpConnectionParams.setConnectionTimeout(
+                            client.getParams(), 10000); // Timeout Limit
+                    HttpResponse response;
+
                     if (!element.isSent()) {
                         try {
-                            HttpPost post = new HttpPost(ActiveRecordCloudSync.getEndPoint() + mRemoteTableName);
-                            StringEntity se = new StringEntity(element.toJSON().toString());  
-                            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                            HttpPost post = new HttpPost(
+                                    ActiveRecordCloudSync.getEndPoint()
+                                            + mRemoteTableName);
+                            StringEntity se = new StringEntity(element.toJSON()
+                                    .toString());
+                            se.setContentType(new BasicHeader(
+                                    HTTP.CONTENT_TYPE, "application/json"));
                             post.setEntity(se);
-                            Log.i(TAG, "Sending post request: " + element.toJSON().toString());
+                            Log.i(TAG, "Sending post request: "
+                                    + element.toJSON().toString());
                             response = client.execute(post);
-    
-                            /*Checking response */
-                            if(response!=null){
-                                InputStream in = response.getEntity().getContent(); //Get the data in the entity
+
+                            /* Checking response */
+                            if (response != null) {
+                                InputStream in = response.getEntity()
+                                        .getContent();
                                 element.setAsSent();
                                 element.save();
-                                Log.i(TAG, in.toString());
                             }
-    
-                        } catch(Exception e) {
+
+                        } catch (Exception e) {
                             Log.e(TAG, "Cannot establish connection", e);
                         }
-    
-                        Looper.loop(); //Loop in the message queue
-                        }
+
+                        Looper.loop(); // Loop in the message queue
                     }
                 }
-
-                
             };
 
-            t.start();      
+            t.start();
+        }
+
     }
 }

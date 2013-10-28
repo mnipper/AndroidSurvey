@@ -65,7 +65,7 @@ public class Response extends SendModel {
         JSONObject json = new JSONObject();
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("survey_id", getSurvey().getId());
+            jsonObject.put("survey_uuid", getSurvey().getUUID());
             jsonObject.put("device_id", AdminSettings.getDeviceId());
             jsonObject.put("question_id", getQuestion().getRemoteId());
             jsonObject.put("text", getText());

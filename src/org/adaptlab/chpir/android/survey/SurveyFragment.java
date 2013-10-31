@@ -105,12 +105,13 @@ public class SurveyFragment extends Fragment {
         Question nextQuestion = null;
         
         if (mQuestion.hasSkipPattern()) {
-            int responseIndex = Integer.parseInt(mSurvey.
-                    getResponseByQuestion(mQuestion).getText());
             try {
+                int responseIndex = Integer.parseInt(mSurvey.
+                        getResponseByQuestion(mQuestion).getText());
                 nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
             } catch (NumberFormatException e) {
-                Log.e(TAG, "Received a non-numeric skip response index: " + responseIndex);
+                Log.e(TAG, "Received a non-numeric skip response index for " + 
+                        mQuestion.getQuestionIdentifier());
             }
         } else {
             nextQuestion = mInstrument.questions().get(questionIndex + 1); 

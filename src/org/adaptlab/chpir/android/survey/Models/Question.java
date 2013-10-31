@@ -85,14 +85,25 @@ public class Question extends ReceiveModel {
         return getMany(Option.class, "Question");
     }
     
+    public boolean hasSkipPattern() {
+        for (Option option : options()) {
+            if (option.getNextQuestion() != null && 
+                    !option.getNextQuestion().getQuestionIdentifier().equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static List<Question> getAll() {
         return new Select().from(Question.class).orderBy("Id ASC").execute();
     }
 
     private static boolean validQuestionType(String questionType) {
         for (QuestionType type : QuestionType.values()) {
-            if (type.name().equals(questionType))
+            if (type.name().equals(questionType)) {
                 return true;
+            }
         }
         return false;
     }

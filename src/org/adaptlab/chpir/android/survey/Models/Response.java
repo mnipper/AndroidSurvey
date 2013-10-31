@@ -1,12 +1,16 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.List;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Responses")
 public class Response extends SendModel {
@@ -59,6 +63,10 @@ public class Response extends SendModel {
 	public String getOtherResponse() {
 	    return mOtherResponse;
 	}
+	
+    public static List<Response> getAll() {
+        return new Select().from(Response.class).orderBy("Id ASC").execute();
+    }
 
     @Override
     public JSONObject toJSON() {

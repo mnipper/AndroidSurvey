@@ -40,6 +40,15 @@ public class Survey extends SendModel {
     public List<Response> responses() {
         return getMany(Response.class, "Survey");
     }
+    
+    public Response getResponseByQuestion(Question question) {
+        for (Response response : responses()) {
+            if (response.getQuestion() == question) {
+                return response;
+            }
+        }
+        return null;
+    }
 
     @Override
     public JSONObject toJSON() {

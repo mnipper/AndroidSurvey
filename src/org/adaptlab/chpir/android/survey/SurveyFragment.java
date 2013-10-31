@@ -7,15 +7,15 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.activeandroid.Model;
-
 public class SurveyFragment extends Fragment {
+    private static final String TAG = "SurveyFragment";
     public final static String EXTRA_INSTRUMENT_ID = 
             "org.adaptlab.chpir.android.survey.instrument_id";
 
@@ -65,7 +65,8 @@ public class SurveyFragment extends Fragment {
                 int questionsInInstrument = mInstrument.questions().size();
 
                 if (questionIndex < questionsInInstrument - 1) {
-                    mQuestion = mInstrument.questions().get(questionIndex + 1);
+                    
+                    mQuestion = getNextQuestion(questionIndex);
                     
                     FragmentManager fm = getChildFragmentManager();
                     fm.beginTransaction()
@@ -98,5 +99,23 @@ public class SurveyFragment extends Fragment {
         }
 
         return v;
+    }
+    
+    private Question getNextQuestion(int questionIndex) {
+        Question nextQuestion = null;
+        
+        if (mQuestion.hasSkipPattern()) {
+            int responseIndex = Integer.parseInt(mSurvey.
+                    getResponseByQuestion(mQuestion).getText());
+            try {
+                nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Received a non-numeric skip response index: " + responseIndex);
+            }
+        } else {
+            nextQuestion = mInstrument.questions().get(questionIndex + 1); 
+        }
+        
+        return nextQuestion;
     }
 }

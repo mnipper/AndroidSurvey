@@ -23,6 +23,8 @@ public class Option extends ReceiveModel {
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
+    @Column(name = "NextQuestion")
+    private String mNextQuestion;
 
     public Option() {
         super();
@@ -56,6 +58,14 @@ public class Option extends ReceiveModel {
         mRemoteId = id;
     }
     
+    public Question getNextQuestion() {
+        return Question.findByQuestionIdentifier(mNextQuestion);
+    }
+    
+    private void setNextQuestion(String nextQuestion) {
+        mNextQuestion = nextQuestion;
+    }
+    
     public static Option findByRemoteId(Long id) {
         return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
     }
@@ -69,6 +79,7 @@ public class Option extends ReceiveModel {
                 setText(jsonObject.getString("text"));
                 setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
                 setRemoteId(remoteId);
+                setNextQuestion(jsonObject.getString("next_question"));
                 this.save();
             }
         } catch (JSONException je) {

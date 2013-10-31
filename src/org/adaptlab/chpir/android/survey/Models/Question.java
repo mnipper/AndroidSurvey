@@ -108,6 +108,10 @@ public class Question extends ReceiveModel {
     public static Question findByRemoteId(Long id) {
         return new Select().from(Question.class).where("RemoteId = ?", id).executeSingle();
     }
+    
+    public static Question findByQuestionIdentifier(String identifier) {
+        return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {

@@ -110,6 +110,7 @@ public class SurveyFragment extends Fragment {
                         getResponseByQuestion(mQuestion).getText());
                 nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
             } catch (NumberFormatException e) {
+                nextQuestion = mInstrument.questions().get(questionIndex + 1);
                 Log.wtf(TAG, "Received a non-numeric skip response index for " + 
                         mQuestion.getQuestionIdentifier());
             }

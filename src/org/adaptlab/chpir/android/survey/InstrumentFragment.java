@@ -32,6 +32,7 @@ public class InstrumentFragment extends Fragment {
 
     private Button mStartButton;
     private Button mRefreshButton;
+    private Button mAdminSettingsButton;
     private Spinner mInstrumentSpinner;
 
     @Override
@@ -88,6 +89,14 @@ public class InstrumentFragment extends Fragment {
                 startActivity(i);
             }
         });
+        
+        mAdminSettingsButton = (Button) v.findViewById(R.id.admin_settings_button);
+        mAdminSettingsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), AdminActivity.class);
+                startActivity(i);
+            }
+        });
 
         return v;
     }
@@ -96,8 +105,9 @@ public class InstrumentFragment extends Fragment {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
         
-        AdminSettings.setDeviceId("TestDevice1");
-        PollService.setPollInterval(1000 * 30);
+        AdminSettings.getInstance().setDeviceIdentifier("TestDevice1");
+        AdminSettings.getInstance().setSyncInterval(1);
+        PollService.setPollInterval(1000 * 60 * AdminSettings.getInstance().getSyncInterval());
         
         // Assumes a webserver running on localhost of host machine at port 3000
         ActiveRecordCloudSync.setEndPoint("http://10.0.2.2:3000/api/v1/");

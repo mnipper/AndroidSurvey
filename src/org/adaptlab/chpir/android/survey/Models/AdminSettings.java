@@ -1,17 +1,12 @@
 package org.adaptlab.chpir.android.survey.Models;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
-
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 @Table(name = "AdminSettings")
-public class AdminSettings extends ReceiveModel {
+public class AdminSettings extends Model {
     private static final String TAG = "AdminSettings";
     @Column(name = "DeviceIdentifier")
     private String mDeviceIdentifier;
@@ -60,19 +55,6 @@ public class AdminSettings extends ReceiveModel {
     public void setSyncInterval(int interval) {
         mSyncInterval = interval;
         save();
-    }
-
-    
-    @Override
-    public void createObjectFromJSON(JSONObject jsonObject) {
-        try {
-            Log.i(TAG, "Saving Admin Settings: " + jsonObject);
-            setDeviceIdentifier(jsonObject.getString("device_identifier"));
-            setSyncInterval(jsonObject.getInt("sync_interval"));
-            this.save();
-        } catch (JSONException je) {
-            Log.e(TAG, "Error parsing object json", je);
-        }  
     }
 
 }

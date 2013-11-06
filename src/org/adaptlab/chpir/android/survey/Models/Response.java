@@ -71,6 +71,7 @@ public class Response extends SendModel {
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
+        
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("survey_uuid", getSurvey().getUUID());
@@ -93,5 +94,10 @@ public class Response extends SendModel {
     @Override
     public void setAsSent() {
         mSent = true;
+    }
+    
+    @Override 
+    public boolean readyToSend() {
+        return getSurvey().readyToSend();
     }
 }

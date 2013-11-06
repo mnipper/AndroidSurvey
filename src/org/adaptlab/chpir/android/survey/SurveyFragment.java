@@ -80,6 +80,8 @@ public class SurveyFragment extends Fragment {
                 } else {
                     // Hide survey activity when finish button pressed
                     getActivity().finish();
+                    mSurvey.setAsComplete();
+                    mSurvey.save();
                     return;
                 }               
 

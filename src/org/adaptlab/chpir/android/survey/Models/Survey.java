@@ -22,10 +22,13 @@ public class Survey extends SendModel {
     private String mUUID;
     @Column(name = "SentToRemote")
     private boolean mSent;
+    @Column(name = "Complete")
+    private boolean mComplete;
 
     public Survey() {
         super();
         mSent = false;
+        mComplete = false;
         mUUID = UUID.randomUUID().toString();
     }
 
@@ -53,6 +56,7 @@ public class Survey extends SendModel {
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
+        
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("instrument_id", getInstrument().getRemoteId());
@@ -70,6 +74,10 @@ public class Survey extends SendModel {
         return mUUID;
     }
     
+    public void setAsComplete() {
+        mComplete = true;
+    }
+    
     @Override
     public boolean isSent() {
         return mSent;
@@ -78,5 +86,10 @@ public class Survey extends SendModel {
     @Override
     public void setAsSent() {
         mSent = true;
+    }
+    
+    @Override
+    public boolean readyToSend() {
+        return mComplete;
     }
 }

@@ -46,7 +46,7 @@ public class HttpPushr {
                             client.getParams(), 10000); // Timeout Limit
                     HttpResponse response;
 
-                    if (!element.isSent()) {
+                    if (!element.isSent() && element.readyToSend()) {
                         try {
                             HttpPost post = new HttpPost(
                                     ActiveRecordCloudSync.getEndPoint()

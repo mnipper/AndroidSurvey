@@ -128,15 +128,20 @@ public class Question extends ReceiveModel {
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
             Long remoteId = jsonObject.getLong("id");
-            if (Question.findByRemoteId(remoteId) == null) {
-                Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
-                setText(jsonObject.getString("text"));
-                setQuestionType(jsonObject.getString("question_type"));
-                setQuestionIdentifier(jsonObject.getString("question_identifier"));            
-                setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
-                setRemoteId(remoteId);
-                this.save();
+            
+            // If a question already exists, update it from the remote
+            Question question = Question.findByRemoteId(remoteId);
+            if (question == null) {
+                question = this;
             }
+            
+            Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
+            question.setText(jsonObject.getString("text"));
+            question.setQuestionType(jsonObject.getString("question_type"));
+            question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
+            question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
+            question.setRemoteId(remoteId);
+            question.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         } 

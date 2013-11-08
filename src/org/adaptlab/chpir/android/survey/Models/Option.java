@@ -74,14 +74,19 @@ public class Option extends ReceiveModel {
     public void createObjectFromJSON(JSONObject jsonObject) {
         try {
             Long remoteId = jsonObject.getLong("id");
-            if (Option.findByRemoteId(remoteId) == null) {
-                Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
-                setText(jsonObject.getString("text"));
-                setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
-                setRemoteId(remoteId);
-                setNextQuestion(jsonObject.getString("next_question"));
-                this.save();
+            
+            // If an option already exists, update it from the remote
+            Option option = Option.findByRemoteId(remoteId);
+            if (option == null) {
+                option = this;
             }
+            
+            Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
+            option.setText(jsonObject.getString("text"));
+            option.setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
+            option.setRemoteId(remoteId);
+            option.setNextQuestion(jsonObject.getString("next_question"));
+            option.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }   

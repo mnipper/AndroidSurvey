@@ -28,22 +28,19 @@ public class AdminFragment extends Fragment {
                 false);
         mDeviceIdentifierEditText = (EditText) v
                 .findViewById(R.id.device_identifier_edit_text);
-        mDeviceIdentifierEditText.setText(AdminSettings.getInstance()
-                .getDeviceIdentifier());
+        mDeviceIdentifierEditText.setText(AdminSettings.getDeviceIdentifier());
 
         mSyncIntervalEditText = (EditText) v
                 .findViewById(R.id.sync_interval_edit_text);
-        mSyncIntervalEditText.setText(AdminSettings.getInstance()
-                .getSyncInterval() + "");
+        mSyncIntervalEditText.setText(AdminSettings.getSyncInterval() + "");
 
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AdminSettings.getInstance().setDeviceIdentifier(
-                        mDeviceIdentifierEditText.getText().toString());
-                AdminSettings.getInstance().setSyncInterval(
-                        Integer.parseInt(mSyncIntervalEditText.getText()
-                                .toString()));
+                AdminSettings.setDeviceIdentifier(mDeviceIdentifierEditText
+                        .getText().toString());
+                AdminSettings.setSyncInterval(Integer
+                        .parseInt(mSyncIntervalEditText.getText().toString()));
                 getActivity().finish();
             }
         });

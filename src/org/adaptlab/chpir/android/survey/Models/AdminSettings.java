@@ -39,22 +39,22 @@ public class AdminSettings extends Model {
         super();
     }
     
-    public void setDeviceIdentifier(String id) {
-        mDeviceIdentifier = id;
-        save();
+    public static void setDeviceIdentifier(String id) {
+        getInstance().mDeviceIdentifier = id;
+        getInstance().save();
     }
     
-    public String getDeviceIdentifier() {
-        return mDeviceIdentifier;
+    public static String getDeviceIdentifier() {
+        return getInstance().mDeviceIdentifier;
     }
     
-    public int getSyncInterval() {
-        return mSyncInterval;
+    public static int getSyncInterval() {
+        return getInstance().mSyncInterval;
     }
     
-    public void setSyncInterval(int interval) {
-        mSyncInterval = interval;
-        save();
+    public static void setSyncInterval(int interval) {
+        getInstance().mSyncInterval = interval;
+        getInstance().save();
     }
 
 }

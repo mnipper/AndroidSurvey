@@ -11,8 +11,17 @@ public class ActiveRecordCloudSync {
             new LinkedHashMap<String, Class<? extends ReceiveModel>>();
     private static Map<String, Class<? extends SendModel>> mSendTables =
             new LinkedHashMap<String, Class<? extends SendModel>>();
+    
+    // The remote API endpoint url.
     private static String mEndPoint;
     
+    /**
+     * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
+     * ReceiveModel abstract class.
+     * 
+     * @param tableName
+     * @param receiveTable
+     */
     public static void addReceiveTable(String tableName, Class<? extends ReceiveModel> receiveTable) {
         mReceiveTables.put(tableName, receiveTable);
     }

@@ -105,9 +105,9 @@ public class InstrumentFragment extends Fragment {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
         
-        AdminSettings.getInstance().setDeviceIdentifier("TestDevice1");
-        AdminSettings.getInstance().setSyncInterval(1);
-        PollService.setPollInterval(1000 * 60 * AdminSettings.getInstance().getSyncInterval());
+        AdminSettings.setDeviceIdentifier("TestDevice1");
+        AdminSettings.setSyncInterval(1);
+        PollService.setPollInterval(1000 * 60 * AdminSettings.getSyncInterval());
         
         // Assumes a webserver running on localhost of host machine at port 3000
         ActiveRecordCloudSync.setEndPoint("http://10.0.2.2:3000/api/v1/");

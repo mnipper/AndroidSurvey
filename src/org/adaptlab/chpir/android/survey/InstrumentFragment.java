@@ -115,8 +115,8 @@ public class InstrumentFragment extends Fragment {
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
 
-        ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
+        ActiveRecordCloudSync.addSendTable("responses", Response.class);
         
         PollService.setServiceAlarm(getActivity(), true);
     }

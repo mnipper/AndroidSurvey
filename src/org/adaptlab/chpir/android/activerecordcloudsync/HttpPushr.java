@@ -36,50 +36,43 @@ public class HttpPushr {
         List<? extends SendModel> allElements = new Select()
                 .from(mSendTableClass).orderBy("Id ASC").execute();
 
-        for (final SendModel element : allElements) {
-            Thread t = new Thread() {
-                public void run() {
-                    Looper.prepare(); // For Preparing Message Pool for the
-                                      // child Thread
-                    HttpClient client = new DefaultHttpClient();
-                    HttpConnectionParams.setConnectionTimeout(
-                            client.getParams(), 10000); // Timeout Limit
-                    HttpResponse response;
+        for (SendModel element : allElements) {
+            HttpClient client = new DefaultHttpClient();
+            HttpConnectionParams
+                    .setConnectionTimeout(client.getParams(), 10000); // Timeout limit
 
-                    if (!element.isSent() && element.readyToSend()) {
-                        try {
-                            HttpPost post = new HttpPost(
-                                    ActiveRecordCloudSync.getEndPoint()
-                                            + mRemoteTableName);
-                            StringEntity se = new StringEntity(element.toJSON()
-                                    .toString());
-                            se.setContentType(new BasicHeader(
-                                    HTTP.CONTENT_TYPE, "application/json"));
-                            post.setEntity(se);
-                            Log.i(TAG, "Sending post request: "
-                                    + element.toJSON().toString());
-                            response = client.execute(post);
+            HttpResponse response;
 
-                            /* Checking for successful response */
-                            if (response.getStatusLine().getStatusCode() >= 200 &&
-                                    response.getStatusLine().getStatusCode() < 300) {
-                                Log.i(TAG, "Received OK HTTP status for " + element.toJSON());
-                                InputStream in = response.getEntity()
-                                        .getContent();
-                                element.setAsSent();
-                                element.save();
-                            }
+            if (!element.isSent() && element.readyToSend()) {
+                try {
+                    HttpPost post = new HttpPost(
+                            ActiveRecordCloudSync.getEndPoint()
+                                    + mRemoteTableName);
+                    StringEntity se = new StringEntity(element.toJSON()
+                            .toString());
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
+                            "application/json"));
+                    post.setEntity(se);
+                    Log.i(TAG, "Sending post request: "
+                            + element.toJSON().toString());
+                    response = client.execute(post);
 
-                        } catch (Exception e) {
-                            Log.e(TAG, "Cannot establish connection", e);
-                        }
-
-                        Looper.loop(); // Loop in the message queue
+                    /* Checking for successful response */
+                    if (response.getStatusLine().getStatusCode() >= 200
+                            && response.getStatusLine().getStatusCode() < 300) {
+                        Log.i(TAG,
+                                "Received OK HTTP status for "
+                                        + element.toJSON());
+                        InputStream in = response.getEntity().getContent();
+                        element.setAsSent();
+                        element.save();
                     }
-                }
-            };
 
-            t.start();
+                } catch (Exception e) {
+                    Log.e(TAG, "Cannot establish connection", e);
+                }
+
+            }
         }
 
     }

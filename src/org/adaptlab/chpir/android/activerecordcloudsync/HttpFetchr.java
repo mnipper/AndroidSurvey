@@ -3,8 +3,10 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -43,6 +45,8 @@ public class HttpFetchr {
                 tableInstance.createObjectFromJSON(jsonArray.getJSONObject(i));
             }
             
+        } catch (ConnectException cre) {
+            Log.e(TAG, "Connection was refused", cre);
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
         } catch (JSONException je) {

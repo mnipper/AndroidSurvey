@@ -110,7 +110,7 @@ public class InstrumentFragment extends Fragment {
         PollService.setPollInterval(1000 * 60 * AdminSettings.getSyncInterval());
         
         // Assumes a webserver running on localhost of host machine at port 3000
-        ActiveRecordCloudSync.setEndPoint("http://10.0.2.2:3000/api/v1/");
+        ActiveRecordCloudSync.setEndPoint("http://10.0.3.2:3000/api/v1/");
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);

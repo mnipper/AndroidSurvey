@@ -12,8 +12,6 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import com.activeandroid.query.Select;
-
-import android.os.Looper;
 import android.util.Log;
 
 public class HttpPushr {

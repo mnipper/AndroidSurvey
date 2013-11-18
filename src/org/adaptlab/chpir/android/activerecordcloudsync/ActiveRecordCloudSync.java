@@ -1,5 +1,8 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -55,6 +58,32 @@ public class ActiveRecordCloudSync {
             Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
             HttpPushr httpPushr = new HttpPushr(entry.getKey(), entry.getValue());
             httpPushr.push();
-        }   
+        }
+    }
+    
+    public static boolean isApiAvailable() {
+        return ping(getPingAddress(), 10000);
+    }
+    
+    private static String getPingAddress() {
+        if (!getReceiveTables().keySet().isEmpty()) {
+            return getEndPoint() + getReceiveTables().keySet().iterator().next();
+        }
+        return getEndPoint();
+    }
+    
+    private static boolean ping(String url, int timeout) {
+        url = url.replaceFirst("https", "http");
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            Log.i(TAG, "Received response code " + responseCode + " for api endpoint");
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (IOException exception) {
+            return false;
+        }
     }
 }

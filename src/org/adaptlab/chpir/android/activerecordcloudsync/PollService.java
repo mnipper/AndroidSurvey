@@ -25,8 +25,14 @@ public class PollService extends IntentService {
         @SuppressWarnings("deprecation")
         boolean isNetworkAvailable = cm.getBackgroundDataSetting() &&
             cm.getActiveNetworkInfo() != null;
+        
         if (!isNetworkAvailable) { 
             Log.i(TAG, "Network is not available, short circuiting PollService...");
+            return;
+        }
+        
+        if (!ActiveRecordCloudSync.isApiAvailable()) {
+            Log.i(TAG, "Api endpoint is not available, short circuiting PollService...");
             return;
         }
         

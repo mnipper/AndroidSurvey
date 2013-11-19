@@ -21,4 +21,5 @@
     <string name="sync_notification_complete_text">Syncing with server complete.</string>    
     <string name="network_unavailable">No network available on the device.</string> 
     <string name="api_unavailable">Remote api is not responsive.</string>   
+    <string name="surveys">surveys</string>  
 </resources>

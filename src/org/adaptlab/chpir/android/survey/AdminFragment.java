@@ -50,6 +50,7 @@ public class AdminFragment extends Fragment {
                         .parseInt(mSyncIntervalEditText.getText().toString()));
                 AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
+                PollService.restartServiceAlarm(getActivity());
                 ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
                 getActivity().finish();
             }

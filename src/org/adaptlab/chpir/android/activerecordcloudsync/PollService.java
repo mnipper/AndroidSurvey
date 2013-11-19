@@ -62,6 +62,11 @@ public class PollService extends IntentService {
     }
     
     public static void setPollInterval(int interval) {
-        sPollInterval = interval;
+            sPollInterval = interval;
+    }
+    
+    public static void restartServiceAlarm(Context context) {
+        setServiceAlarm(context, false);
+        setServiceAlarm(context, true);
     }
 }

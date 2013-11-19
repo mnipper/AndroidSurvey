@@ -3,7 +3,6 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

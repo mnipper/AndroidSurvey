@@ -28,17 +28,12 @@ public class PollService extends IntentService {
         
         if (!isNetworkAvailable) { 
             Log.i(TAG, "Network is not available, short circuiting PollService...");
-            return;
-        }
-        
-        if (!ActiveRecordCloudSync.isApiAvailable()) {
+        } else if (!ActiveRecordCloudSync.isApiAvailable()) {
             Log.i(TAG, "Api endpoint is not available, short circuiting PollService...");
-            return;
+        } else {
+            ActiveRecordCloudSync.syncReceiveTables();
+            ActiveRecordCloudSync.syncSendTables();
         }
-        
-        ActiveRecordCloudSync.syncReceiveTables();
-        ActiveRecordCloudSync.syncSendTables();
-        Log.i(TAG, "Received an intent: " + intent);
     }
     
     // Control polling of api, set isOn to true to enable polling

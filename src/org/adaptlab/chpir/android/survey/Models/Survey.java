@@ -60,7 +60,7 @@ public class Survey extends SendModel {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("instrument_id", getInstrument().getRemoteId());
-            jsonObject.put("device_identifier", AdminSettings.getDeviceIdentifier());
+            jsonObject.put("device_identifier", AdminSettings.getInstance().getDeviceIdentifier());
             jsonObject.put("uuid", mUUID);
             
             json.put("survey", jsonObject);

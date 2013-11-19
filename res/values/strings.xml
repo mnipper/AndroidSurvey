@@ -15,5 +15,6 @@
     <string name="sync_interval">Sync Interval (minutes)</string>
     <string name="save_button">Save</string>
     <string name="admin_settings">Admin</string>
+    <string name="api_endpoint">Api Endpoint Url</string>
         
 </resources>

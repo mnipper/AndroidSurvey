@@ -1,9 +1,12 @@
 package org.adaptlab.chpir.android.survey;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ public class AdminFragment extends Fragment {
 
     private EditText mDeviceIdentifierEditText;
     private EditText mSyncIntervalEditText;
+    private EditText mApiEndPointEditText;
     private Button mSaveButton;
 
     @Override
@@ -28,19 +32,26 @@ public class AdminFragment extends Fragment {
                 false);
         mDeviceIdentifierEditText = (EditText) v
                 .findViewById(R.id.device_identifier_edit_text);
-        mDeviceIdentifierEditText.setText(AdminSettings.getDeviceIdentifier());
+        mDeviceIdentifierEditText.setText(AdminSettings.getInstance().getDeviceIdentifier());
 
         mSyncIntervalEditText = (EditText) v
                 .findViewById(R.id.sync_interval_edit_text);
-        mSyncIntervalEditText.setText(AdminSettings.getSyncInterval() + "");
+        mSyncIntervalEditText.setText(AdminSettings.getInstance().getSyncIntervalInMinutes() + "");
+        
+        mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_edit_text);
+        mApiEndPointEditText.setText(AdminSettings.getInstance().getApiUrl());
 
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AdminSettings.setDeviceIdentifier(mDeviceIdentifierEditText
+                AdminSettings.getInstance().setDeviceIdentifier(mDeviceIdentifierEditText
                         .getText().toString());
-                AdminSettings.setSyncInterval(Integer
+                AdminSettings.getInstance().setSyncInterval(Integer
                         .parseInt(mSyncIntervalEditText.getText().toString()));
+                AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
+                AdminSettings.getInstance().save();
+                PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
+                ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
                 getActivity().finish();
             }
         });

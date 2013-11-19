@@ -31,6 +31,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number" />
+    
+    <TextView
+        android:id="@+id/api_endpoint_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/api_endpoint" />
+
+    <EditText
+        android:id="@+id/api_endpoint_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
 
     <Button
         android:id="@+id/save_admin_settings_button"

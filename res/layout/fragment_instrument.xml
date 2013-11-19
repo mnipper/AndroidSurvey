@@ -22,24 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="right|center_vertical" >
-        
-        <Button
-            android:id="@+id/admin_settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal|right"
-            android:text="@string/admin_settings"
-            android:layout_marginTop="6dp" />
-        
-        <Button
-            android:id="@+id/refresh_instruments_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal|right"
-            android:text="@string/refresh_instruments"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp" />
+        android:gravity="right|center_vertical" >      
+
 
         <Button
             android:id="@+id/start_survey_button"

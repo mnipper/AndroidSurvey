@@ -16,6 +16,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,16 +34,38 @@ public class InstrumentFragment extends Fragment {
     private List<Instrument> mInstrumentList;
 
     private Button mStartButton;
-    private Button mRefreshButton;
-    private Button mAdminSettingsButton;
     private Spinner mInstrumentSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        
         appInit();
         mInstrumentList = Instrument.getAll();
         Log.d(TAG, "Instrument list is: " + mInstrumentList);
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_instrument, menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_admin:
+                Intent i = new Intent(getActivity(), AdminActivity.class);
+                startActivity(i); 
+            case R.id.menu_item_refresh:
+                mInstrumentList = Instrument.getAll();
+                mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
+                        getActivity(), android.R.layout.simple_spinner_item,
+                        mInstrumentList));
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -64,16 +89,6 @@ public class InstrumentFragment extends Fragment {
         mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
                 getActivity(), android.R.layout.simple_spinner_item,
                 mInstrumentList));
-        
-        mRefreshButton = (Button) v.findViewById(R.id.refresh_instruments_button);
-        mRefreshButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                mInstrumentList = Instrument.getAll();
-                mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
-                        getActivity(), android.R.layout.simple_spinner_item,
-                        mInstrumentList));
-            }
-        });
 
         mStartButton = (Button) v.findViewById(R.id.start_survey_button);
         mStartButton.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +101,6 @@ public class InstrumentFragment extends Fragment {
                 long instrumentId = mInstrument.getId();
                 Intent i = new Intent(getActivity(), SurveyActivity.class);
                 i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-                startActivity(i);
-            }
-        });
-        
-        mAdminSettingsButton = (Button) v.findViewById(R.id.admin_settings_button);
-        mAdminSettingsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AdminActivity.class);
                 startActivity(i);
             }
         });

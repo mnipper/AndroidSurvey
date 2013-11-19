@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
+import java.util.Date;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -12,6 +14,7 @@ public class PollService extends IntentService {
     private static final String TAG = "PollService";
     private static int DEFAULT_POLL_INTERVAL = 1000 * 15;
     private static int sPollInterval;
+    private static Date lastUpdate;
 
     public PollService() {
         super(TAG);
@@ -31,6 +34,7 @@ public class PollService extends IntentService {
         } else if (!ActiveRecordCloudSync.isApiAvailable()) {
             Log.i(TAG, "Api endpoint is not available, short circuiting PollService...");
         } else {
+            lastUpdate = new Date();
             ActiveRecordCloudSync.syncReceiveTables();
             ActiveRecordCloudSync.syncSendTables();
         }
@@ -68,5 +72,9 @@ public class PollService extends IntentService {
     public static void restartServiceAlarm(Context context) {
         setServiceAlarm(context, false);
         setServiceAlarm(context, true);
+    }
+    
+    public static Date getLastUpdate() {
+        return lastUpdate;
     }
 }

@@ -16,5 +16,6 @@
     <string name="save_button">Save</string>
     <string name="admin_settings">Admin</string>
     <string name="api_endpoint">Api Endpoint Url</string>
+    <string name="last_update">Last update:  </string>
         
 </resources>

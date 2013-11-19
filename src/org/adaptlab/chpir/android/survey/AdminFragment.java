@@ -6,18 +6,19 @@ import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class AdminFragment extends Fragment {
 
     private EditText mDeviceIdentifierEditText;
     private EditText mSyncIntervalEditText;
     private EditText mApiEndPointEditText;
+    private TextView mLastUpdateTextView;
     private Button mSaveButton;
 
     @Override
@@ -40,6 +41,9 @@ public class AdminFragment extends Fragment {
         
         mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_edit_text);
         mApiEndPointEditText.setText(AdminSettings.getInstance().getApiUrl());
+        
+        mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
+        mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + PollService.getLastUpdate());
 
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {

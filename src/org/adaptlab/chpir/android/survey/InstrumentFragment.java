@@ -13,7 +13,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +25,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class InstrumentFragment extends Fragment {
+public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
 
     private Instrument mInstrument;
@@ -43,6 +45,9 @@ public class InstrumentFragment extends Fragment {
         
         appInit();
         mInstrumentList = Instrument.getAll();
+        
+        InstrumentAdapter adapter = new InstrumentAdapter(mInstrumentList);
+        setListAdapter(adapter);
         Log.d(TAG, "Instrument list is: " + mInstrumentList);
     }
     
@@ -60,52 +65,46 @@ public class InstrumentFragment extends Fragment {
                 startActivity(i); 
             case R.id.menu_item_refresh:
                 mInstrumentList = Instrument.getAll();
-                mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
-                        getActivity(), android.R.layout.simple_spinner_item,
-                        mInstrumentList));
+                InstrumentAdapter adapter = new InstrumentAdapter(mInstrumentList);
+                setListAdapter(adapter);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-            Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_instrument, parent, false);
-
-        mInstrumentSpinner = (Spinner) v.findViewById(R.id.instruments_spinner);
-        mInstrumentSpinner
-                .setOnItemSelectedListener(new OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent,
-                            View view, int position, long id) {
-                        mInstrument = mInstrumentList.get(position);
-                        Log.d(TAG, "Selected instrument: " + mInstrument);
-                    }
-
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        
-                    }
-                });
-        mInstrumentSpinner.setAdapter(new ArrayAdapter<Instrument>(
-                getActivity(), android.R.layout.simple_spinner_item,
-                mInstrumentList));
-
-        mStartButton = (Button) v.findViewById(R.id.start_survey_button);
-        mStartButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if (mInstrument == null || mInstrument.questions().size() == 0) {
-                    if (mInstrument.questions().size() == 0) Log.i(TAG, "No questions");
-                    return;
-                }
-
-                long instrumentId = mInstrument.getId();
-                Intent i = new Intent(getActivity(), SurveyActivity.class);
-                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-                startActivity(i);
+    
+    private class InstrumentAdapter extends ArrayAdapter<Instrument> {
+        public InstrumentAdapter(List<Instrument> instruments) {
+            super(getActivity(), 0, instruments);
+        }
+        
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater()
+                    .inflate(R.layout.list_item_instrument, null);
             }
-        });
-
-        return v;
+            
+            Instrument instrument = getItem(position);
+            
+            TextView titleTextView =
+                    (TextView)convertView.findViewById(R.id.instrument_list_item_titleTextView);
+            titleTextView.setText(instrument.getTitle());
+            
+            return convertView;
+        }    
+    }
+    
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Instrument instrument = ((InstrumentAdapter)getListAdapter()).getItem(position);
+        if (instrument == null || instrument.questions().size() == 0) {
+            return;
+        }
+        
+        long instrumentId = instrument.getId();
+        Intent i = new Intent(getActivity(), SurveyActivity.class);
+        i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+        startActivity(i);
     }
     
     private final void appInit() {

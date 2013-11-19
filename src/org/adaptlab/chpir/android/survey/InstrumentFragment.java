@@ -94,8 +94,8 @@ public class InstrumentFragment extends ListFragment {
 
             TextView surveysCompleteTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_surveysCompleteTextView);
-            surveysCompleteTextView.setText(instrument.surveys().size() + " "
-                    + getString(R.string.surveys));
+            surveysCompleteTextView.setText(instrument.questions().size() + " "
+                    + getString(R.string.questions));
 
             return convertView;
         }
@@ -109,7 +109,7 @@ public class InstrumentFragment extends ListFragment {
             return;
         }
 
-        long instrumentId = instrument.getId();
+        long instrumentId = instrument.getRemoteId();
         Intent i = new Intent(getActivity(), SurveyActivity.class);
         i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
         startActivity(i);

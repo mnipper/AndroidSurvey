@@ -38,9 +38,11 @@ public class PollService extends IntentService {
         if (!isNetworkAvailable) {
             Log.i(TAG,
                     "Network is not available, short circuiting PollService...");
+            showNotification(android.R.drawable.ic_dialog_alert, R.string.network_unavailable);
         } else if (!ActiveRecordCloudSync.isApiAvailable()) {
             Log.i(TAG,
                     "Api endpoint is not available, short circuiting PollService...");
+            showNotification(android.R.drawable.ic_dialog_alert, R.string.api_unavailable);
         } else {
             lastUpdate = new Date();
             showNotification(android.R.drawable.stat_sys_download, R.string.sync_notification_text);

@@ -23,7 +23,8 @@
         android:id="@+id/sync_interval_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sync_interval" />
+        android:text="@string/sync_interval"
+        android:layout_marginTop="18dp" />
 
     <EditText
         android:id="@+id/sync_interval_edit_text"
@@ -36,7 +37,8 @@
         android:id="@+id/api_endpoint_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/api_endpoint" />
+        android:text="@string/api_endpoint"
+        android:layout_marginTop="18dp" />
 
     <EditText
         android:id="@+id/api_endpoint_edit_text"
@@ -48,12 +50,15 @@
         android:id="@+id/last_update_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/last_update" />
+        android:text="@string/last_update"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/save_admin_settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save_button" />
+        android:text="@string/save_button"
+        android:layout_marginTop="18dp" />
 
 </LinearLayout>

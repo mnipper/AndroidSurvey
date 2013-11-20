@@ -56,11 +56,20 @@
         android:layout_marginTop="32dp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/save_admin_settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_button"
-        android:layout_marginTop="18dp" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom|center_horizontal" >
+        
+	    <Button
+	        android:id="@+id/save_admin_settings_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/save_button"
+	        android:layout_marginTop="18dp"
+	        android:width="200dp"
+	        android:layout_gravity="bottom" />
+	    
+    </LinearLayout>
 </LinearLayout>

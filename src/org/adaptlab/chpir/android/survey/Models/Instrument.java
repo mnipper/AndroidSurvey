@@ -58,6 +58,10 @@ public class Instrument extends ReceiveModel {
     public static Instrument findByRemoteId(Long id) {
         return new Select().from(Instrument.class).where("RemoteId = ?", id).executeSingle();
     }
+    
+    public List<Survey> surveys() {
+        return getMany(Survey.class, "Instrument");
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {

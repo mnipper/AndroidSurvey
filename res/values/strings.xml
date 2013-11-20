@@ -10,7 +10,7 @@
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>
     <string name="free_response_edittext">Answer here</string>
-    <string name="refresh_instruments">Refresh</string>
+    <string name="refresh">Refresh</string>
     <string name="device_identifier">Device Identifier</string>
     <string name="sync_interval">Sync Interval (minutes)</string>
     <string name="save_button">Save</string>
@@ -21,4 +21,6 @@
     <string name="sync_notification_complete_text">Syncing with server complete.</string>    
     <string name="network_unavailable">No network available on the device.</string> 
     <string name="api_unavailable">Remote api is not responsive.</string>   
+    <string name="surveys">surveys</string>  
+    <string name="questions">questions</string>  
 </resources>

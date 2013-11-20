@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+   <item android:id="@+id/menu_item_admin"
+     android:icon="@drawable/ic_menu_item_secure" 
+     android:title="@string/admin_settings"
+     android:showAsAction="ifRoom|withText" />
+   <item android:id="@+id/menu_item_refresh"
+     android:icon="@drawable/ic_menu_item_refresh" 
+     android:title="@string/refresh"
+     android:showAsAction="ifRoom|withText" />
+</menu>

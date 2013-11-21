@@ -11,6 +11,11 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -24,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
 
@@ -111,6 +117,10 @@ public class InstrumentFragment extends ListFragment {
     }
 
     private final void appInit() {
+        if (!BuildConfig.DEBUG) {
+            runDeviceSecurityChecks();
+        }
+        
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
 
@@ -131,5 +141,21 @@ public class InstrumentFragment extends ListFragment {
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
 
         PollService.setServiceAlarm(getActivity(), true);
+    }
+
+    private final void runDeviceSecurityChecks() {
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getActivity()
+                .getSystemService(Context.DEVICE_POLICY_SERVICE);
+        if (devicePolicyManager.getStorageEncryptionStatus() != DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE) {
+            new AlertDialog.Builder(getActivity())
+            .setTitle(R.string.encryption_required_title)
+            .setMessage(R.string.encryption_required_text)
+            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { 
+                    getActivity().finish();
+                }
+             })
+             .show();
+        }
     }
 }

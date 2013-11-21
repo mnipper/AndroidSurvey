@@ -32,6 +32,7 @@ import android.widget.TextView;
 @SuppressLint("NewApi")
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
+    private final static boolean REQUIRE_SECURITY_CHECKS = false;
 
     private List<Instrument> mInstrumentList;
 
@@ -117,7 +118,7 @@ public class InstrumentFragment extends ListFragment {
     }
 
     private final void appInit() {
-        if (!BuildConfig.DEBUG) {
+        if (REQUIRE_SECURITY_CHECKS) {
             runDeviceSecurityChecks();
         }
         

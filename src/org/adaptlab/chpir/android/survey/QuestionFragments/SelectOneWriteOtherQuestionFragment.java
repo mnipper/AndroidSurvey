@@ -16,6 +16,7 @@ public class SelectOneWriteOtherQuestionFragment extends
         final EditText otherText = new EditText(getActivity());
         
         radioButton.setText(R.string.other_specify);
+        radioButton.setTypeface(getInstrument().getTypeFace(getActivity().getApplicationContext()));
         final int otherId = getQuestion().options().size();
         radioButton.setId(otherId);
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {

@@ -50,6 +50,7 @@ public class SurveyFragment extends Fragment {
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         mQuestionText.setText(mQuestion.getText());
+        mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
 
         mNextButton = (Button) v.findViewById(R.id.next_button);
         

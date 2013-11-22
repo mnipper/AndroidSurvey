@@ -26,8 +26,10 @@ public class SelectOneQuestionFragment extends QuestionFragment {
             RadioButton radioButton = new RadioButton(getActivity());
             radioButton.setText(option.getText());
             radioButton.setId(optionId);
+            radioButton.setTypeface(getInstrument().getTypeFace(getActivity().getApplicationContext()));
             radioGroup.addView(radioButton, optionId);
         }
+
         
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {

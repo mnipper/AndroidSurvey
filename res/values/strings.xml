@@ -22,5 +22,6 @@
     <string name="network_unavailable">No network available on the device.</string> 
     <string name="api_unavailable">Remote api is not responsive.</string>   
     <string name="surveys">surveys</string>  
-    <string name="questions">questions</string>  
+    <string name="questions">questions</string><string name="hello">Hello World</string>
+      
 </resources>

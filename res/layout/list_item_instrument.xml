@@ -12,7 +12,7 @@
         android:paddingRight="4dp"
         android:paddingTop="10dp"
         android:text="Instrument title"
-        android:textSize="18sp" />  
+        android:textSize="36sp" />  
     
      <TextView
         android:id="@+id/instrument_list_item_surveysCompleteTextView"
@@ -23,6 +23,7 @@
         android:paddingRight="4dp"
         android:paddingTop="6dp"
         android:paddingBottom="10dp"
+        android:textSize="18dp"
         android:textColor="#545454" />   
 
 </RelativeLayout>

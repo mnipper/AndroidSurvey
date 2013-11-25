@@ -22,7 +22,7 @@ public class SingleFragmentActivityTest {
 	
 	@Test
 	public void shouldReturnLayoutResId() throws Exception {
-		assertNotNull(activityFragment.getLayoutResId());	//Not sure if this is the right test. Should test if Id is correct...
+		assertNotNull(activityFragment.getLayoutResId());	//TODO Not sure if this is the right test. Should test if Id is correct...
 	}
 	
 	@Test

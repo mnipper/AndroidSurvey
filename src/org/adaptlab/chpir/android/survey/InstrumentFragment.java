@@ -93,10 +93,11 @@ public class InstrumentFragment extends ListFragment {
             TextView titleTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_titleTextView);
             titleTextView.setText(instrument.getTitle());
+            titleTextView.setTypeface(instrument.getTypeFace(getActivity().getApplicationContext()));
 
-            TextView surveysCompleteTextView = (TextView) convertView
-                    .findViewById(R.id.instrument_list_item_surveysCompleteTextView);
-            surveysCompleteTextView.setText(instrument.questions().size() + " "
+            TextView questionCountTextView = (TextView) convertView
+                    .findViewById(R.id.instrument_list_item_questionCountTextView);
+            questionCountTextView.setText(instrument.questions().size() + " "
                     + getString(R.string.questions));
 
             return convertView;
@@ -119,7 +120,9 @@ public class InstrumentFragment extends ListFragment {
 
     private final void appInit() {
         if (REQUIRE_SECURITY_CHECKS) {
-            runDeviceSecurityChecks();
+            if (!runDeviceSecurityChecks()) {
+                return;
+            }
         }
         
         Log.i(TAG, "Initializing application...");
@@ -144,7 +147,7 @@ public class InstrumentFragment extends ListFragment {
         PollService.setServiceAlarm(getActivity(), true);
     }
 
-    private final void runDeviceSecurityChecks() {
+    private final boolean runDeviceSecurityChecks() {
         DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getActivity()
                 .getSystemService(Context.DEVICE_POLICY_SERVICE);
         if (devicePolicyManager.getStorageEncryptionStatus() != DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE) {
@@ -157,6 +160,8 @@ public class InstrumentFragment extends ListFragment {
                 }
              })
              .show();
+            return false;
         }
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
+import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
@@ -22,6 +23,7 @@ public abstract class QuestionFragment extends Fragment {
     private Question mQuestion;
     private Survey mSurvey;
     private Response mResponse;
+    private Instrument mInstrument;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public abstract class QuestionFragment extends Fragment {
             mResponse = new Response();
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
+            mInstrument = mSurvey.getInstrument();
         }
     }
 
@@ -62,6 +65,10 @@ public abstract class QuestionFragment extends Fragment {
     
     protected Response getResponse() {
         return mResponse;
+    }
+    
+    protected Instrument getInstrument() {
+        return mInstrument;
     }
     
     protected void addOtherResponseView(EditText otherText) {

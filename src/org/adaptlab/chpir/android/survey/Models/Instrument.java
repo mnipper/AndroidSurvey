@@ -6,7 +6,10 @@ import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
+import android.view.Gravity;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -21,6 +24,10 @@ public class Instrument extends ReceiveModel {
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
+    @Column(name = "Language")
+    private String mLanguage;
+    @Column(name = "Alignment")
+    private String mAlignment;
 
     public Instrument() {
         super();
@@ -40,6 +47,22 @@ public class Instrument extends ReceiveModel {
     
     public void setRemoteId(Long id) {
         mRemoteId = id;
+    }
+    
+    public String getLanguage() {
+        return mLanguage;
+    }
+    
+    private void setLanguage(String language) {
+        mLanguage = language;
+    }
+    
+    public String getAlignment() {
+        return mAlignment;
+    }
+    
+    private void setAlignment(String alignment) {
+        mAlignment = alignment;
     }
 
     public List<Question> questions() {
@@ -62,6 +85,22 @@ public class Instrument extends ReceiveModel {
     public List<Survey> surveys() {
         return getMany(Survey.class, "Instrument");
     }
+    
+    public Typeface getTypeFace(Context context) {
+        if (getLanguage().equals("khmer")) {
+            return Typeface.createFromAsset(context.getAssets(), "fonts/khmerOS.ttf"); 
+        } else {
+            return Typeface.DEFAULT;
+        }
+    }
+    
+    public int getDefaultGravity() {
+        if (getAlignment().equals("left")) {
+            return Gravity.LEFT;
+        } else {
+            return Gravity.RIGHT;
+        }
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -77,6 +116,8 @@ public class Instrument extends ReceiveModel {
             Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
             instrument.setRemoteId(remoteId);
             instrument.setTitle(jsonObject.getString("title"));
+            instrument.setLanguage(jsonObject.getString("language"));
+            instrument.setAlignment(jsonObject.getString("alignment"));
             instrument.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);

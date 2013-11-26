@@ -17,6 +17,7 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
             final int optionId = getQuestion().options().indexOf(option);
             CheckBox checkbox = new CheckBox(getActivity());
             checkbox.setText(option.getText());
+            checkbox.setTypeface(getInstrument().getTypeFace(getActivity().getApplicationContext()));
             checkbox.setId(optionId);     
             checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

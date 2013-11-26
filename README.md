@@ -7,6 +7,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Design Overview](https://github.com/mnipper/AndroidSurvey/wiki/Design-Overview)
 * [Adding a Question Type](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Question-Type)
 * [Syncing with a Remote Table](https://github.com/mnipper/AndroidSurvey/wiki/Syncing-with-Remote-Tables)
+* [Adding a Language](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Language)
 
 ## Seeding the database
 

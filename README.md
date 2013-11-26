@@ -10,12 +10,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Adding a Question Type](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Question-Type)
 * [Syncing with a Remote Table](https://github.com/mnipper/AndroidSurvey/wiki/Syncing-with-Remote-Tables)
 * [Adding a Language](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Language)
-
-## Seeding the database
-
-Set the SEED_DB metadata variable to true in AndroidManifest and start the application.  This will add an instrument each time the app starts.  When you are happy with your database, set SEED_DB to false.
-
-Note: Currently this is set to only seed the database if being run in debug mode, and to ignore otherwise.  This is done to hopefully prevent seeding from making it into production.  Open to suggestions on how to better do this.
+* [Seeding the Database](https://github.com/mnipper/AndroidSurvey/wiki/Seeding-the-Database)
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.

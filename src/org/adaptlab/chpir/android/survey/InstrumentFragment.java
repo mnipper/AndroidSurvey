@@ -120,7 +120,7 @@ public class InstrumentFragment extends ListFragment {
 
     private final void appInit() {
         if (REQUIRE_SECURITY_CHECKS) {
-            if (runDeviceSecurityChecks()) {
+            if (!runDeviceSecurityChecks()) {
                 return;
             }
         }
@@ -160,8 +160,8 @@ public class InstrumentFragment extends ListFragment {
                 }
              })
              .show();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

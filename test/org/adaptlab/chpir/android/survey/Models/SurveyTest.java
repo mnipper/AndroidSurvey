@@ -3,10 +3,8 @@ package org.adaptlab.chpir.android.survey.Models;
 import static org.junit.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -14,16 +12,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import cz.sigler.android.aavalidation.ModelSupportFactory;
+import cz.sigler.android.aavalidation.api.model.IModelSupport;
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class SurveyTest {
 	private Survey survey;
 	private Instrument instrument;
-	
+
 	@Before
 	public void setUp() {
 		survey = new Survey();
 		instrument = new Instrument();
+		//survey = mock(Survey.class);
+		//instrument = mock(Instrument.class);
 	}
 	
 	@Test
@@ -53,8 +56,25 @@ public class SurveyTest {
 	
 	@Test	//TODO Currently failing
 	public void shouldSetAndGetSameInstrument() throws Exception {
-		survey.setInstrument(instrument);
-		assertThat(instrument, equalTo(survey.getInstrument()));
+		/*Survey testSurvey = new Survey();
+		IModelSupport<Survey> survey = ModelSupportFactory.wrapModel(testSurvey);
+		Instrument testInstrument = new Instrument();
+		IModelSupport<Instrument> instrument = ModelSupportFactory.wrapModel(testInstrument);
+		//survey.setInstrument(instrument);
+		survey.setFieldValue("Instrument", instrument);
+		survey.save();
+		assertThat((Instrument)survey.getFieldValue("Instrument"), equalTo(testInstrument));*/
+		
+		//survey.setInstrument(instrument);
+		//Instrument inst = new Instrument();
+		//assertThat(instrument, equalTo(survey.getInstrument()));
+		//when(survey.getInstrument()).thenReturn(inst);
+		
+		Survey testSurvey = new Survey();
+		Instrument testInstrument = new Instrument();
+		testSurvey.setInstrument(testInstrument);
+		testSurvey.save();
+		assertThat(testSurvey.getInstrument(), equalTo(testInstrument));
 	}
 	
 	@Test

@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
@@ -134,13 +135,10 @@ public class InstrumentFragment extends ListFragment {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
 
-        AdminSettings.getInstance().setDeviceIdentifier("TestDevice1");
-        AdminSettings.getInstance().setSyncInterval(2);
-        AdminSettings.getInstance().save();
-
-        PollService.setPollInterval(AdminSettings.getInstance()
-                .getSyncInterval());
-
+        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
+            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
+        }
+        
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance()
                 .getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);

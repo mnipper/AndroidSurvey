@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">مسح</string>
+    <string name="action_settings">إعدادات</string>
+    <string name="start_survey">مسح البداية</string>
+    <string name="survey_title_label">اختيار الأسئلة</string>
+    <string name="next_button">التالي</string>
+    <string name="finish_button">نهاية</string>
+    <string name="other_specify">آخر</string>
+    <string name="other_specify_edittext">تحديد أخرى</string>
+    <string name="free_response_edittext">الإجابة هنا</string>
+    <string name="refresh">تحديث</string>
+    <string name="device_identifier">Device Identifier</string>
+    <string name="sync_interval">Sync Interval (minutes)</string>
+    <string name="save_button">Save</string>
+    <string name="admin_settings">مدير</string>
+    <string name="api_endpoint">Api Endpoint Url</string>
+    <string name="last_update">Last update:  </string>
+    <string name="sync_notification_text">المزامنة مع خادم</string>   
+    <string name="sync_notification_complete_text">المزامنة مع خادم كاملة</string>    
+    <string name="network_unavailable">لا الشبكة المتوفرة على الجهاز</string> 
+    <string name="api_unavailable">الملقم البعيد لا يستجيب.</string>   
+    <string name="surveys">مسوحات</string>  
+    <string name="questions">الأسئلة</string>  
+    <string name="encryption_required_title">التشفير المطلوب</string> 
+    <string name="encryption_required_text">يتطلب هذا التطبيق أن الجهاز تكون مشفرة. يرجى تشفير الجهاز للمتابعة</string>
+    <string name="okay">حسنا</string>
+    <string name="password_title">أدخل كلمة المرور</string>
+    <string name="password_message">هذا العمل يتطلب كلمة مرور. الرجاء إدخال كلمة المرور أدناه.</string>
+    <string name="cancel">إلغاء</string>
+    <string name="incorrect_password">هذه كلمة المرور غير صحيحة</string>
+</resources>

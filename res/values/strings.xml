@@ -27,4 +27,8 @@
     <string name="encryption_required_title">Encryption required</string> 
     <string name="encryption_required_text">This application requires that the device be encrypted.  Please encrypt your device to continue.</string>
     <string name="okay">Ok</string>
+    <string name="password_title">Enter password</string>
+    <string name="password_message">This action requires a password.  Please enter the password below.</string>
+    <string name="cancel">Cancel</string>
+    <string name="incorrect_password">This password is incorrect.</string>
 </resources>

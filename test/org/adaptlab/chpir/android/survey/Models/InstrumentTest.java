@@ -44,12 +44,4 @@ public class InstrumentTest {
 		//assertThat(instrument.getTypeFace(Robolectric.application), equalTo(Typeface.DEFAULT));
 	}
 
-	/*
-	 * @Test public void shouldCreateInstrumentFromJsonObject() throws Exception
-	 * { Instrument inst2 = new Instrument(); inst2.setRemoteId(REMOTE_ID);
-	 * JSONObject jsonObject = new JSONObject(); jsonObject.put("instrument_id",
-	 * REMOTE_ID); Long remoteId = jsonObject.getLong("instrument_id");
-	 * Instrument inst1 = Instrument.findByRemoteId(remoteId); assertThat(inst1,
-	 * instanceOf(Instrument.class)); //Wrong test }
-	 */
 }

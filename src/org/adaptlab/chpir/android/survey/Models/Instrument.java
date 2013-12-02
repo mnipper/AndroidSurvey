@@ -28,6 +28,8 @@ public class Instrument extends ReceiveModel {
     private String mLanguage;
     @Column(name = "Alignment")
     private String mAlignment;
+    @Column(name = "VersionNumber")
+    private int mVersionNumber;
 
     public Instrument() {
         super();
@@ -86,6 +88,14 @@ public class Instrument extends ReceiveModel {
         return getMany(Survey.class, "Instrument");
     }
     
+    private void setVersionNumber(int version) {
+        mVersionNumber = version;
+    }
+    
+    public int getVersionNumber() {
+        return mVersionNumber;
+    }
+    
     public Typeface getTypeFace(Context context) {
         if (getLanguage().equals("khmer")) {
             return Typeface.createFromAsset(context.getAssets(), "fonts/khmerOS.ttf"); 
@@ -118,6 +128,7 @@ public class Instrument extends ReceiveModel {
             instrument.setTitle(jsonObject.getString("title"));
             instrument.setLanguage(jsonObject.getString("language"));
             instrument.setAlignment(jsonObject.getString("alignment"));
+            instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.save();
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);

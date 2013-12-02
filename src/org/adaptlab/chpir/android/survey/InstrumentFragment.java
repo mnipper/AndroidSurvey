@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
@@ -10,6 +11,8 @@ import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -19,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,13 +30,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
+    private final static String ADMIN_PASSWORD_HASH =
+            "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
 
     private List<Instrument> mInstrumentList;
 
@@ -59,8 +67,7 @@ public class InstrumentFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.menu_item_admin:
-            Intent i = new Intent(getActivity(), AdminActivity.class);
-            startActivity(i);
+            displayPasswordPrompt();
         case R.id.menu_item_refresh:
             mInstrumentList = Instrument.getAll();
             InstrumentAdapter adapter = new InstrumentAdapter(mInstrumentList);
@@ -128,13 +135,10 @@ public class InstrumentFragment extends ListFragment {
         Log.i(TAG, "Initializing application...");
         DatabaseSeed.seed(getActivity());
 
-        AdminSettings.getInstance().setDeviceIdentifier("TestDevice1");
-        AdminSettings.getInstance().setSyncInterval(2);
-        AdminSettings.getInstance().save();
-
-        PollService.setPollInterval(AdminSettings.getInstance()
-                .getSyncInterval());
-
+        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
+            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
+        }
+        
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance()
                 .getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
@@ -163,5 +167,31 @@ public class InstrumentFragment extends ListFragment {
             return false;
         }
         return true;
+    }
+    
+    private void displayPasswordPrompt() {
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        new AlertDialog.Builder(getActivity())
+            .setTitle(R.string.password_title)
+            .setMessage(R.string.password_message)
+            .setView(input)
+            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
+                public void onClick(DialogInterface dialog, int button) {
+                    if (checkAdminPassword(input.getText().toString())) {
+                        Intent i = new Intent(getActivity(), AdminActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.incorrect_password, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int button) { }
+            }).show();
+    }
+    
+    private boolean checkAdminPassword(String password) {
+        String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
+        return hash.equals(ADMIN_PASSWORD_HASH);
     }
 }

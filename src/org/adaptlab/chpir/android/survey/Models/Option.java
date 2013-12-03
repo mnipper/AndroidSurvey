@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +40,14 @@ public class Option extends ReceiveModel {
     }
 
     public String getText() {
+        if (getQuestion().getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
+        for(OptionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
+                return translation.getText();
+            }
+        }
+        
+        // Fall back to default
         return mText;
     }
 
@@ -69,6 +78,21 @@ public class Option extends ReceiveModel {
     public static Option findByRemoteId(Long id) {
         return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
     }
+    
+    public List<OptionTranslation> translations() {
+        return getMany(OptionTranslation.class, "Option");
+    }
+    
+    public OptionTranslation getTranslationByLanguage(String language) {
+        for(OptionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        OptionTranslation translation = new OptionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -87,6 +111,16 @@ public class Option extends ReceiveModel {
             option.setRemoteId(remoteId);
             option.setNextQuestion(jsonObject.getString("next_question"));
             option.save();
+            
+            // Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                OptionTranslation translation = option.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setOption(option);
+                translation.setText(translationJSON.getString("text"));
+                translation.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }   

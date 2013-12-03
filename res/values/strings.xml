@@ -31,4 +31,5 @@
     <string name="password_message">This action requires a password.  Please enter the password below.</string>
     <string name="cancel">Cancel</string>
     <string name="incorrect_password">This password is incorrect.</string>
+    <string name="custom_locale">Custom ISO-639-1 Code</string>
 </resources>

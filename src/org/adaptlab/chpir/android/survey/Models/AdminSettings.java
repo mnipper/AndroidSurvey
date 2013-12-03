@@ -16,6 +16,8 @@ public class AdminSettings extends Model {
     private int mSyncInterval;
     @Column(name = "ApiUrl")
     private String mApiUrl;
+    @Column(name = "CustomLocaleCode")
+    private String mCustomLocaleCode;
     
     private static AdminSettings adminSettings;
     
@@ -86,6 +88,15 @@ public class AdminSettings extends Model {
     
     public String getApiUrl() {
         return mApiUrl;
+    }
+    
+    public void setCustomLocaleCode(String code) {
+        mCustomLocaleCode = code;
+        save();
+    }
+    
+    public String getCustomLocaleCode() {
+        return mCustomLocaleCode;
     }
 
 }

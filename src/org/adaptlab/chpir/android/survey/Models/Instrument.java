@@ -1,8 +1,10 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ import com.activeandroid.query.Select;
 @Table(name = "Instruments")
 public class Instrument extends ReceiveModel {
     private static final String TAG = "Instrument";
+    public static final String KHMER_LANGUAGE_CODE = "km";
 
     @Column(name = "Title")
     private String mTitle;
@@ -36,6 +39,14 @@ public class Instrument extends ReceiveModel {
     }
 
     public String getTitle() {
+        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(getDeviceLanguage())) {
+                return translation.getTitle();
+            }
+        }
+        
+        // Fall back to default
         return mTitle;
     }
 
@@ -60,6 +71,14 @@ public class Instrument extends ReceiveModel {
     }
     
     public String getAlignment() {
+        if (getLanguage().equals(getDeviceLanguage())) return mAlignment;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(getDeviceLanguage())) {
+                return translation.getAlignment();
+            }
+        }
+
+        // Fall back to default
         return mAlignment;
     }
     
@@ -88,6 +107,10 @@ public class Instrument extends ReceiveModel {
         return getMany(Survey.class, "Instrument");
     }
     
+    public List<InstrumentTranslation> translations() {
+        return getMany(InstrumentTranslation.class, "Instrument");
+    }
+    
     private void setVersionNumber(int version) {
         mVersionNumber = version;
     }
@@ -95,9 +118,20 @@ public class Instrument extends ReceiveModel {
     public int getVersionNumber() {
         return mVersionNumber;
     }
+
+    public InstrumentTranslation getTranslationByLanguage(String language) {
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        InstrumentTranslation translation = new InstrumentTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
     
     public Typeface getTypeFace(Context context) {
-        if (getLanguage().equals("khmer")) {
+        if (getDeviceLanguage().equals(KHMER_LANGUAGE_CODE)) {
             return Typeface.createFromAsset(context.getAssets(), "fonts/khmerOS.ttf"); 
         } else {
             return Typeface.DEFAULT;
@@ -110,6 +144,13 @@ public class Instrument extends ReceiveModel {
         } else {
             return Gravity.RIGHT;
         }
+    }
+    
+    public static String getDeviceLanguage() {
+        if (!AdminSettings.getInstance().getCustomLocaleCode().equals("")) {
+            return AdminSettings.getInstance().getCustomLocaleCode();
+        }
+        return Locale.getDefault().getLanguage();
     }
 
     @Override
@@ -130,6 +171,17 @@ public class Instrument extends ReceiveModel {
             instrument.setAlignment(jsonObject.getString("alignment"));
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.save();
+            
+            // Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                InstrumentTranslation translation = instrument.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setInstrument(instrument);
+                translation.setAlignment(translationJSON.getString("alignment"));
+                translation.setTitle(translationJSON.getString("title"));
+                translation.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  

@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +41,14 @@ public class Question extends ReceiveModel {
     }
 
     public String getText() {
+        if (getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
+        for(QuestionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
+                return translation.getText();
+            }
+        }
+        
+        // Fall back to default
         return mText;
     }
 
@@ -98,6 +107,10 @@ public class Question extends ReceiveModel {
     public static List<Question> getAll() {
         return new Select().from(Question.class).orderBy("Id ASC").execute();
     }
+    
+    public List<QuestionTranslation> translations() {
+        return getMany(QuestionTranslation.class, "Question");
+    }
 
     private static boolean validQuestionType(String questionType) {
         for (QuestionType type : QuestionType.values()) {
@@ -123,6 +136,18 @@ public class Question extends ReceiveModel {
     public static Question findByQuestionIdentifier(String identifier) {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
+    
+    
+    public QuestionTranslation getTranslationByLanguage(String language) {
+        for(QuestionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        QuestionTranslation translation = new QuestionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -142,6 +167,16 @@ public class Question extends ReceiveModel {
             question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             question.setRemoteId(remoteId);
             question.save();
+            
+            // Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setQuestion(question);
+                translation.setText(translationJSON.getString("text"));
+                translation.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         } 

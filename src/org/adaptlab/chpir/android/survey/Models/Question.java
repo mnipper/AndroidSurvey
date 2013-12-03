@@ -136,6 +136,18 @@ public class Question extends ReceiveModel {
     public static Question findByQuestionIdentifier(String identifier) {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
+    
+    
+    public QuestionTranslation getTranslationByLanguage(String language) {
+        for(QuestionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        QuestionTranslation translation = new QuestionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -160,9 +172,8 @@ public class Question extends ReceiveModel {
             JSONArray translationsArray = jsonObject.getJSONArray("translations");
             for(int i = 0; i < translationsArray.length(); i++) {
                 JSONObject translationJSON = translationsArray.getJSONObject(i);
-                QuestionTranslation translation = new QuestionTranslation();
-                translation.setQuestion(this);
-                translation.setLanguage(translationJSON.getString("language"));
+                QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setQuestion(question);
                 translation.setText(translationJSON.getString("text"));
                 translation.save();
             }

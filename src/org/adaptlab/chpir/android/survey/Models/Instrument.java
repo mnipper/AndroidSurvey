@@ -118,6 +118,17 @@ public class Instrument extends ReceiveModel {
     public int getVersionNumber() {
         return mVersionNumber;
     }
+
+    public InstrumentTranslation getTranslationByLanguage(String language) {
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        InstrumentTranslation translation = new InstrumentTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
     
     public Typeface getTypeFace(Context context) {
         if (getDeviceLanguage().equals(KHMER_LANGUAGE_CODE)) {
@@ -165,9 +176,8 @@ public class Instrument extends ReceiveModel {
             JSONArray translationsArray = jsonObject.getJSONArray("translations");
             for(int i = 0; i < translationsArray.length(); i++) {
                 JSONObject translationJSON = translationsArray.getJSONObject(i);
-                InstrumentTranslation translation = new InstrumentTranslation();
-                translation.setInstrument(this);
-                translation.setLanguage(translationJSON.getString("language"));
+                InstrumentTranslation translation = instrument.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setInstrument(instrument);
                 translation.setAlignment(translationJSON.getString("alignment"));
                 translation.setTitle(translationJSON.getString("title"));
                 translation.save();

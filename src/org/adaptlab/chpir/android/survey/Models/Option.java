@@ -82,6 +82,17 @@ public class Option extends ReceiveModel {
     public List<OptionTranslation> translations() {
         return getMany(OptionTranslation.class, "Option");
     }
+    
+    public OptionTranslation getTranslationByLanguage(String language) {
+        for(OptionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        OptionTranslation translation = new OptionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -105,9 +116,8 @@ public class Option extends ReceiveModel {
             JSONArray translationsArray = jsonObject.getJSONArray("translations");
             for(int i = 0; i < translationsArray.length(); i++) {
                 JSONObject translationJSON = translationsArray.getJSONObject(i);
-                OptionTranslation translation = new OptionTranslation();
-                translation.setOption(this);
-                translation.setLanguage(translationJSON.getString("language"));
+                OptionTranslation translation = option.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setOption(option);
                 translation.setText(translationJSON.getString("text"));
                 translation.save();
             }

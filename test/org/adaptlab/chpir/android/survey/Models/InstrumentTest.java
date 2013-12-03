@@ -6,16 +6,13 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-
-import android.graphics.Typeface;
 
 @RunWith(RobolectricTestRunner.class)
 public class InstrumentTest {
-	private Instrument instrument;
-	private static final String TITLE = "myTitle";
 	private static final Long REMOTE_ID = 12382903L;
+	private static final String TITLE = "myTitle";
+	private Instrument instrument;
 
 	@Before
 	public void setUp() {
@@ -23,15 +20,15 @@ public class InstrumentTest {
 	}
 
 	@Test
-	public void shouldReturnTitle() throws Exception {
-		instrument.setTitle(TITLE);
-		assertThat(instrument.getTitle(), equalTo(TITLE));
-	}
-
-	@Test
 	public void shouldReturnRemoteId() throws Exception {
 		instrument.setRemoteId(REMOTE_ID);
 		assertThat(instrument.getRemoteId(), equalTo(REMOTE_ID));
+	}
+
+	@Test
+	public void shouldReturnTitle() throws Exception {
+		instrument.setTitle(TITLE);
+		assertThat(instrument.getTitle(), equalTo(TITLE));
 	}
 	
 	@Test 

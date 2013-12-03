@@ -136,7 +136,10 @@ public class Instrument extends ReceiveModel {
     }
     
     public static String getDeviceLanguage() {
-        return AdminSettings.getInstance().getCustomLocaleCode();
+        if (!AdminSettings.getInstance().getCustomLocaleCode().equals("")) {
+            return AdminSettings.getInstance().getCustomLocaleCode();
+        }
+        return Locale.getDefault().getLanguage();
     }
 
     @Override

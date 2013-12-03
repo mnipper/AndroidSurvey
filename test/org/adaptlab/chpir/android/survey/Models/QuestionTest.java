@@ -93,7 +93,7 @@ public class QuestionTest {
 	public void shouldTestIfQuestionHasOptions() throws Exception {
 		assertThat(question.hasOptions(), equalTo(false));
 		option.setQuestion(question);
-		assertThat(question.hasOptions(), equalTo(true)); //TODO WHY FAILS???
+		assertThat(question.hasOptions(), equalTo(true)); //TODO FIX
 	}
 	
 	@Test
@@ -103,7 +103,7 @@ public class QuestionTest {
 		String nextQuestion = "next quiz id";
 		Whitebox.invokeMethod(option, "setNextQuestion", nextQuestion);
 		option.setQuestion(question);
-		assertThat(question.hasSkipPattern(), equalTo(true)); //TODO WHY FAILS?
+		assertThat(question.hasSkipPattern(), equalTo(true)); //TODO FIX
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class QuestionTest {
 		assertThat(Question.getAll().size(), equalTo(2));	//TODO FIX
 	}
 	
-	@Test //TODO ARRRGGGRRGGRGR!
+	@Test //TODO FIX
 	public void shouldReturnValidQuestionType() throws Exception {
 		Question quiz = mock(Question.class);
 		boolean bool1 = Whitebox.invokeMethod(quiz, "validQuestionType", "SELECT_ONE");

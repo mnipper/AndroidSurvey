@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
@@ -137,6 +138,10 @@ public class InstrumentFragment extends ListFragment {
 
         if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
             AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
+        }
+        
+        if (AdminSettings.getInstance().getCustomLocaleCode() == null) {
+            AdminSettings.getInstance().setCustomLocaleCode(Locale.getDefault().getLanguage());
         }
         
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance()

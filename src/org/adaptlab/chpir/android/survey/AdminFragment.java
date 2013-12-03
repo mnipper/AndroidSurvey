@@ -18,6 +18,7 @@ public class AdminFragment extends Fragment {
     private EditText mDeviceIdentifierEditText;
     private EditText mSyncIntervalEditText;
     private EditText mApiEndPointEditText;
+    private EditText mCustomLocaleEditText;
     private TextView mLastUpdateTextView;
     private Button mSaveButton;
 
@@ -42,6 +43,9 @@ public class AdminFragment extends Fragment {
         mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_edit_text);
         mApiEndPointEditText.setText(AdminSettings.getInstance().getApiUrl());
         
+        mCustomLocaleEditText = (EditText) v.findViewById(R.id.custom_locale_edit_text);
+        mCustomLocaleEditText.setText(AdminSettings.getInstance().getCustomLocaleCode());
+        
         mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
         mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + PollService.getLastUpdate());
 
@@ -53,6 +57,7 @@ public class AdminFragment extends Fragment {
                 AdminSettings.getInstance().setSyncInterval(Integer
                         .parseInt(mSyncIntervalEditText.getText().toString()));
                 AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
+                AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
                 PollService.restartServiceAlarm(getActivity());
                 ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());

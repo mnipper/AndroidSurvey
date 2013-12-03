@@ -20,6 +20,7 @@ import com.activeandroid.query.Select;
 @Table(name = "Instruments")
 public class Instrument extends ReceiveModel {
     private static final String TAG = "Instrument";
+    public static final String KHMER_LANGUAGE_CODE = "km";
 
     @Column(name = "Title")
     private String mTitle;
@@ -38,9 +39,9 @@ public class Instrument extends ReceiveModel {
     }
 
     public String getTitle() {
-        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mTitle;
+        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
         for(InstrumentTranslation translation : translations()) {
-            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+            if (translation.getLanguage().equals(getDeviceLanguage())) {
                 return translation.getTitle();
             }
         }
@@ -70,9 +71,9 @@ public class Instrument extends ReceiveModel {
     }
     
     public String getAlignment() {
-        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mAlignment;
+        if (getLanguage().equals(getDeviceLanguage())) return mAlignment;
         for(InstrumentTranslation translation : translations()) {
-            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+            if (translation.getLanguage().equals(getDeviceLanguage())) {
                 return translation.getAlignment();
             }
         }
@@ -119,7 +120,7 @@ public class Instrument extends ReceiveModel {
     }
     
     public Typeface getTypeFace(Context context) {
-        if (getLanguage().equals("khmer")) {
+        if (getDeviceLanguage().equals(KHMER_LANGUAGE_CODE)) {
             return Typeface.createFromAsset(context.getAssets(), "fonts/khmerOS.ttf"); 
         } else {
             return Typeface.DEFAULT;
@@ -132,6 +133,10 @@ public class Instrument extends ReceiveModel {
         } else {
             return Gravity.RIGHT;
         }
+    }
+    
+    public static String getDeviceLanguage() {
+        return AdminSettings.getInstance().getCustomLocaleCode();
     }
 
     @Override

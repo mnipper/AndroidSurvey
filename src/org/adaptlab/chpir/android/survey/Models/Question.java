@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.json.JSONArray;
@@ -42,9 +41,9 @@ public class Question extends ReceiveModel {
     }
 
     public String getText() {
-        if (getInstrument().getLanguage().equals(Locale.getDefault().getLanguage())) return mText;
+        if (getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
         for(QuestionTranslation translation : translations()) {
-            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
                 return translation.getText();
             }
         }

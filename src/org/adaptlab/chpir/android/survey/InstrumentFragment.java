@@ -139,11 +139,7 @@ public class InstrumentFragment extends ListFragment {
         if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
             AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
         }
-        
-        if (AdminSettings.getInstance().getCustomLocaleCode() == null) {
-            AdminSettings.getInstance().setCustomLocaleCode(Locale.getDefault().getLanguage());
-        }
-        
+
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance()
                 .getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);

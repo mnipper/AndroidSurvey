@@ -62,14 +62,6 @@ public class Instrument extends ReceiveModel {
     }
     
     public String getLanguage() {
-        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mLanguage;
-        for(InstrumentTranslation translation : translations()) {
-            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
-                return translation.getLanguage();
-            }
-        }
-
-        // Fall back to default
         return mLanguage;
     }
     

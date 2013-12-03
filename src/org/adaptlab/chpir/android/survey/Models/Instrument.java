@@ -1,8 +1,10 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +38,14 @@ public class Instrument extends ReceiveModel {
     }
 
     public String getTitle() {
+        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mTitle;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+                return translation.getTitle();
+            }
+        }
+        
+        // Fall back to default
         return mTitle;
     }
 
@@ -52,6 +62,14 @@ public class Instrument extends ReceiveModel {
     }
     
     public String getLanguage() {
+        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mLanguage;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+                return translation.getLanguage();
+            }
+        }
+
+        // Fall back to default
         return mLanguage;
     }
     
@@ -60,6 +78,14 @@ public class Instrument extends ReceiveModel {
     }
     
     public String getAlignment() {
+        if (getLanguage().equals(Locale.getDefault().getLanguage())) return mAlignment;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Locale.getDefault().getLanguage())) {
+                return translation.getAlignment();
+            }
+        }
+
+        // Fall back to default
         return mAlignment;
     }
     
@@ -86,6 +112,10 @@ public class Instrument extends ReceiveModel {
     
     public List<Survey> surveys() {
         return getMany(Survey.class, "Instrument");
+    }
+    
+    public List<InstrumentTranslation> translations() {
+        return getMany(InstrumentTranslation.class, "Instrument");
     }
     
     private void setVersionNumber(int version) {
@@ -130,6 +160,18 @@ public class Instrument extends ReceiveModel {
             instrument.setAlignment(jsonObject.getString("alignment"));
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.save();
+            
+            // Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                InstrumentTranslation translation = new InstrumentTranslation();
+                translation.setInstrument(this);
+                translation.setLanguage(translationJSON.getString("language"));
+                translation.setAlignment(translationJSON.getString("alignment"));
+                translation.setTitle(translationJSON.getString("title"));
+                translation.save();
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  

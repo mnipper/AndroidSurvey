@@ -78,6 +78,12 @@ public class SurveyFragment extends Fragment {
                             .commit();
                     
                     mQuestionText.setText(mQuestion.getText());
+
+                    // Change next button text to finish if last question
+                    if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
+                        mNextButton.setText(R.string.finish_button);
+                    }
+                    
                 } else {
                     // Hide survey activity when finish button pressed
                     getActivity().finish();
@@ -85,10 +91,6 @@ public class SurveyFragment extends Fragment {
                     mSurvey.save();
                     return;
                 }               
-
-                if (questionIndex + 2 == questionsInInstrument) {
-                    mNextButton.setText(R.string.finish_button);
-                }
 
             }
         });

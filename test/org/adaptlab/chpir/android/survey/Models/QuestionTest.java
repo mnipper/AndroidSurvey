@@ -21,70 +21,60 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ Instrument.class, Question.class, Option.class })
-public class QuestionTest {
+@PrepareForTest({ Instrument.class, Option.class })
+public class QuestionTest extends ActiveAndroidTestBase {
 	private static final String QUESTION_TEXT = "WHAT WHICH WHO";
 	private static final String QUESTION_TYPE_ONE = "SELECT_ONE";
 	private static final String QUESTION_ID = "9210TEST";
 	private static final Long REMOTE_ID = 910289L;
+	private static final String TABLE = "Questions";
 	
 	private Question question;
 	private Instrument instrument;
 	private Option option;
 
-	@Before
-	public void setUp() throws Exception {
+	@Override
+	public void onSetup() {
 		PowerMockito.mockStatic(Question.class);
-		question = mock(Question.class);
+		question = new Question();
 		instrument = mock(Instrument.class);
 		option = mock(Option.class);
+		when(tableInfo.getTableName()).thenReturn(TABLE);
 	}
 	
 	@Test
 	public void shouldSetAndGetQuestionText() throws Exception {
 		question.setText(QUESTION_TEXT);
-		verify(question, times(1)).setText(QUESTION_TEXT);
-		when(question.getText()).thenReturn(QUESTION_TEXT);
 		assertEquals(QUESTION_TEXT, question.getText());
 	}
 	
 	@Test
 	public void shouldSetAndGetQuestionType() throws Exception {
 		question.setQuestionType(QUESTION_TYPE_ONE);
-		verify(question, times(1)).setQuestionType(QUESTION_TYPE_ONE);
-		when(question.getQuestionType()).thenReturn(QuestionType.valueOf(QUESTION_TYPE_ONE));
 		assertEquals(QuestionType.valueOf(QUESTION_TYPE_ONE), question.getQuestionType());
 	}
 	
 	@Test
 	public void shouldSetAndGetQuestionIdentifier() throws Exception {
 		question.setQuestionIdentifier(QUESTION_ID);
-		verify(question, times(1)).setQuestionIdentifier(QUESTION_ID);
-		when(question.getQuestionIdentifier()).thenReturn(QUESTION_ID);
 		assertEquals(QUESTION_ID, question.getQuestionIdentifier());
 	}
 	
 	@Test
 	public void shouldSetAndGetIntrumentOfQuestion() throws Exception {
 		question.setInstrument(instrument);
-		verify(question, times(1)).setInstrument(instrument);
-		when(question.getInstrument()).thenReturn(instrument);
-		assertThat(question.getInstrument(), equalTo(instrument)); 
+		assertEquals(instrument, question.getInstrument()); 
 	}
 	
 	@Test
 	public void shouldSetAndGetRemoteId() throws Exception {
 		question.setRemoteId(REMOTE_ID);
-		verify(question, times(1)).setRemoteId(REMOTE_ID);
-		when(question.getRemoteId()).thenReturn(REMOTE_ID);
 		assertEquals(REMOTE_ID, question.getRemoteId());
 	}
 	
 	@Test
 	public void shouldFindQuestionByRemoteId() throws Exception {
 		question.setRemoteId(REMOTE_ID);
-		verify(question, times(1)).setRemoteId(REMOTE_ID);
-		when(Question.findByRemoteId(REMOTE_ID)).thenReturn(question);
 		assertEquals(question, Question.findByRemoteId(REMOTE_ID));
 		PowerMockito.verifyStatic();
 	}
@@ -92,9 +82,8 @@ public class QuestionTest {
 	@Test
 	public void shouldFindQuestionByQuestionIdentifier() throws Exception {
 		question.setQuestionIdentifier(QUESTION_ID);
-		verify(question, times(1)).setQuestionIdentifier(QUESTION_ID);
-		when(Question.findByQuestionIdentifier(QUESTION_ID)).thenReturn(question);
 		assertEquals(question, Question.findByQuestionIdentifier(QUESTION_ID));
+		PowerMockito.verifyStatic();
 	}
 	
 	@Test
@@ -102,7 +91,6 @@ public class QuestionTest {
 		assertThat(question.options(), instanceOf(LinkedList.class));
 		option.setQuestion(question);
 		for(Option option : question.options()) {
-			when(option.getQuestion()).thenReturn(question);
 			assertEquals(question, option.getQuestion());
 		}
 	}
@@ -111,7 +99,6 @@ public class QuestionTest {
 	public void shouldTestIfQuestionHasOptions() throws Exception {
 		assertThat(question.hasOptions(), equalTo(false));
 		option.setQuestion(question);
-		when(question.hasOptions()).thenReturn(true);	//TODO Feels like fraud
 		assertThat(question.hasOptions(), equalTo(true)); 
 	}
 	
@@ -121,7 +108,6 @@ public class QuestionTest {
 		String nextQuestion = "next quiz id";
 		Whitebox.invokeMethod(option, "setNextQuestion", nextQuestion);
 		option.setQuestion(question);
-		when(question.hasSkipPattern()).thenReturn(true);	//TODO FIX this fraud
 		assertThat(question.hasSkipPattern(), equalTo(true)); 
 	}
 	
@@ -138,7 +124,7 @@ public class QuestionTest {
 	
 	@Test //TODO FIX
 	public void shouldReturnValidQuestionType() throws Exception {
-		Question quiz = PowerMockito.spy(new Question()); //TODO Fix ActiveAndroid Errors
+		Question quiz = PowerMockito.spy(new Question()); 
 		boolean bool1 = Whitebox.invokeMethod(quiz, "validQuestionType", "SELECT_ONE");
 		assertThat(bool1, equalTo(true));
 		boolean bool2 = Whitebox.invokeMethod(quiz, "validQuestionType", "COACH K");

@@ -13,26 +13,29 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doCallRealMethod;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Response.class, Question.class, Survey.class })
-public class ResponseTest {
+public class ResponseTest extends ActiveAndroidTestBase {
 	private static final String RESPONSE_TEXT = "main";
-	private static final String OTHER_REPONSE = "other";
+	private static final String OTHER_RESPONSE = "other";
+	private static final String TABLE = "Responses";
 	
 	private Response response;
 	private Question question;
 	private Survey survey;
 	
-	@Before
-	public void setUp() throws Exception {
-		response = mock(Response.class);
+	@Override
+	public void onSetup() {
+		response = new Response();
 		question = mock(Question.class);
 		survey = mock(Survey.class);
 		PowerMockito.mockStatic(Response.class);
+		when(tableInfo.getTableName()).thenReturn(TABLE);
 	}
 	
 	@Test
@@ -40,55 +43,62 @@ public class ResponseTest {
 		assertThat(response.isSent(), equalTo(false));
 	}
 	
-	@Test	//TODO Verify how verify is used
+	@Test
 	public void shouldSetAndGetQuestion() throws Exception {
 		response.setQuestion(question);
-		when(response.getQuestion()).thenReturn(question);
-		//verify(response).getQuestion(); 	
+		assertEquals(question, response.getQuestion());
 	}
 	
-	@Test	//TODO Figure out correct use of doCallRealMethod
+	@Test
 	public void shouldSetAndGetResponseText() throws Exception {
-		//response.setResponse(RESPONSE_TEXT);
-		//when(response.getText()).thenReturn(RESPONSE_TEXT);
-		doCallRealMethod().when(response).getText();
-		doCallRealMethod().when(response).setResponse(RESPONSE_TEXT);
 		response.setResponse(RESPONSE_TEXT);
-		when(response.getText()).thenReturn(RESPONSE_TEXT);
+		assertEquals(RESPONSE_TEXT, response.getText());
 	}
 	
 	@Test
 	public void shouldSetAndGetSurvey() throws Exception {
 		response.setSurvey(survey);
-		when(response.getSurvey()).thenReturn(survey);
+		assertEquals(survey, response.getSurvey());
 	}
 	
 	@Test
 	public void shouldSetAndGetOtherReponse() throws Exception {
-		response.setOtherResponse(OTHER_REPONSE);
-		when(response.getOtherResponse()).thenReturn(OTHER_REPONSE);
+		response.setOtherResponse(OTHER_RESPONSE);
+		assertEquals(OTHER_RESPONSE, response.getOtherResponse());
 	}
 	
 	@Test
 	public void shouldSetAsSent() throws Exception {
-		when(response.isSent()).thenReturn(false);
+		assertEquals(response.isSent(), false);
 		response.setAsSent();
-		when(response.isSent()).thenReturn(true);
+		assertEquals(response.isSent(), true);
 	}
 	
-	@Test	//TODO FIX
-	public void shouldCheckIfSurveyIsReadyToSend() throws Exception {
-		when(response.readyToSend()).thenReturn(false);
-		survey.setAsComplete();
-		response.setSurvey(survey);
-		when(response.readyToSend()).thenReturn(true);
+	@Test
+	public void shouldReturnSurveyNotReadyToSend() throws Exception {
+		Survey mySurvey = mock(Survey.class);
+		when(mySurvey.readyToSend()).thenReturn(false);
+		response.setSurvey(mySurvey);
+		assertEquals(response.readyToSend(), false);
+	}
+	
+	@Test
+	public void shouldReturnSurveyReadyToSend() throws Exception {
+		Survey mySurvey = mock(Survey.class);
+		when(mySurvey.readyToSend()).thenReturn(true);
+		response.setSurvey(mySurvey);
+		assertEquals(response.readyToSend(), true);
+	}
+	
+	@Test
+	public void shouldReturnList() throws Exception {
+		assertThat(Response.getAll(), instanceOf(LinkedList.class));
 	}
 	
 	@Test
 	public void shouldGetAll() throws Exception {
-		assertThat(Response.getAll(), instanceOf(LinkedList.class));
-		Response r = mock(Response.class);
-		verify(r).save(); //TODO ActiveAndroid fails to open db
+		//when(select.from(Response.class)).thenReturn(1);
+		mock(Response.class);
 		assertThat(Response.getAll().size(), equalTo(1));
 	}
 	

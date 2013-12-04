@@ -15,50 +15,44 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Option.class, Question.class })
-public class OptionTest {
+public class OptionTest extends ActiveAndroidTestBase {
 	private static final String TEXT = "this text";
 	private static final Long REMOTE_ID = 023121L;
+	private static final String TABLE = "Option";
 	
 	private Option option;
 	private Question question;
 
-	@Before
-	public void setUp() throws Exception {
-		option = mock(Option.class);
-		//verify(option).save(); 
-		//TODO: Figure out why ActiveAndroid is not saving Table
+	@Override
+	public void onSetup() {
+		option = new Option();
+		question = mock(Question.class);
+		when(tableInfo.getTableName()).thenReturn(TABLE);
 	}
 	
 	@Test
 	public void shouldSetAndGetQuestion() throws Exception {
 		option.setQuestion(question);
-		when(option.getQuestion()).thenReturn(question);
-		verify(option, times(1)).setQuestion(question);
 		assertEquals(question, option.getQuestion());
 	}
 	
 	@Test
 	public void shouldSetAndGetRemoteId() throws Exception {
-		when(option.getRemoteId()).thenReturn(REMOTE_ID);
 		option.setRemoteId(REMOTE_ID);
-		verify(option, times(1)).setRemoteId(REMOTE_ID);
 		assertEquals(REMOTE_ID, option.getRemoteId());
 	}
 	
-	@Test
+	@Test 	//TODO Handle translations -- do mocks
 	public void shouldSetAndGetText() throws Exception {
-		when(option.getText()).thenReturn(TEXT);
 		option.setText(TEXT);
-		verify(option, times(1)).setText(TEXT);
 		assertEquals(TEXT, option.getText());
 	}
 	
-	@Test
+	@Test	//TODO Mock return new Select() blah blah
 	public void shouldFindByRemoteId() throws Exception {
 		PowerMockito.mockStatic(Option.class);
-		when(Option.findByRemoteId(REMOTE_ID)).thenReturn(option);
+		when(Option.findByRemoteId(REMOTE_ID)).thenReturn(option);	
 		option.setRemoteId(REMOTE_ID);
-		verify(option, times(1)).setRemoteId(REMOTE_ID);
 		assertEquals(option, Option.findByRemoteId(REMOTE_ID));
 		PowerMockito.verifyStatic();
 	}

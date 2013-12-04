@@ -78,6 +78,12 @@ public class SurveyFragment extends Fragment {
                             .commit();
                     
                     mQuestionText.setText(mQuestion.getText());
+
+                    // Change next button text to finish if last question
+                    if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
+                        mNextButton.setText(R.string.finish_button);
+                    }
+                    
                 } else {
                     // Hide survey activity when finish button pressed
                     getActivity().finish();
@@ -85,10 +91,6 @@ public class SurveyFragment extends Fragment {
                     mSurvey.save();
                     return;
                 }               
-
-                if (questionIndex + 2 == questionsInInstrument) {
-                    mNextButton.setText(R.string.finish_button);
-                }
 
             }
         });
@@ -111,14 +113,21 @@ public class SurveyFragment extends Fragment {
             try {
                 int responseIndex = Integer.parseInt(mSurvey.
                         getResponseByQuestion(mQuestion).getText());
-                nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
-            } catch (NumberFormatException e) {
+                
+                if (responseIndex < mQuestion.options().size()) {
+                    nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
+                } else {
+                    // Skip pattern can not yet apply to 'other' responses
+                    nextQuestion = mInstrument.questions().get(questionIndex + 1);                    
+                }
+                
+            } catch (NumberFormatException nfe) {
                 nextQuestion = mInstrument.questions().get(questionIndex + 1);
                 Log.wtf(TAG, "Received a non-numeric skip response index for " + 
                         mQuestion.getQuestionIdentifier());
             }
         } else {
-            nextQuestion = mInstrument.questions().get(questionIndex + 1); 
+            nextQuestion = mInstrument.questions().get(questionIndex + 1);
         }
         
         return nextQuestion;

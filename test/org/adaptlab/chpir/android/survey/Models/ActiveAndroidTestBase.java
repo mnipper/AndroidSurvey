@@ -38,7 +38,7 @@ public class ActiveAndroidTestBase {
 	protected static final String DUMMY = "dummy";
 	protected static final String ERROR_MESSAGE = "Error";
 	protected static final Long ID = 1234L;
-	protected static final String TABLE = "TestTable";
+	//protected static final String TABLE = "TestTable";
 	protected Context context;
 	protected SQLiteDatabase sqliteDb;
 	protected TableInfo tableInfo;

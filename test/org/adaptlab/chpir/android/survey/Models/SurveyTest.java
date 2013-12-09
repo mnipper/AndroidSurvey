@@ -11,6 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
 
+import android.util.Log;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNotNull;
@@ -20,7 +21,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {Survey.class, Instrument.class, Response.class, Question.class, AdminSettings.class} )
+@PrepareForTest( {Survey.class, Instrument.class, Response.class, Question.class, AdminSettings.class, JSONObject.class, Log.class } )
 public class SurveyTest extends ActiveAndroidTestBase {
 	private static final String RESPONSE_TEXT = "This is the response";
 	private static final Long REMOTE_ID = 12382903L;
@@ -106,6 +107,8 @@ public class SurveyTest extends ActiveAndroidTestBase {
 	
 	@Test	//TODO survey.toJSON() currently returns null
 	public void shouldTestJsonObjectCreation() throws Exception {
+		PowerMockito.mockStatic(JSONObject.class);
+		PowerMockito.mockStatic(Log.class);
 		adminSettings.setDeviceIdentifier(DEVICE_ID);
 		instrument.setRemoteId(REMOTE_ID);
 		survey.setInstrument(instrument);

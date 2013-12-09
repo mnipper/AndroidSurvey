@@ -14,8 +14,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import android.util.Log;
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ AdminSettings.class })
+@PrepareForTest({ AdminSettings.class, Log.class })
 public class AdminSettingsTest extends ActiveAndroidTestBase {
 
 	private static final String API_URL = "www.did.test:3000";
@@ -30,9 +32,7 @@ public class AdminSettingsTest extends ActiveAndroidTestBase {
 		adminSettings = new AdminSettings();	// TODO Use getInstance() instead of new
 		when(tableInfo.getTableName()).thenReturn(TABLE);
 		PowerMockito.mockStatic(AdminSettings.class);
-		//when(AdminSettings.getInstance()).thenReturn(new AdminSettings());
-		//adminSettings = AdminSettings.getInstance();
-		PowerMockito.verifyStatic();
+		PowerMockito.mockStatic(Log.class);
 	}
 
 	@Test

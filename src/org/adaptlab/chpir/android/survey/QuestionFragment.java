@@ -28,10 +28,8 @@ public abstract class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        long questionId = getArguments().getLong(
-                QuestionFragmentFactory.EXTRA_QUESTION_ID, -1);
-        long surveyId = getArguments().getLong(
-                QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);
+        long questionId = getArguments().getLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, -1);
+        long surveyId = getArguments().getLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);
 
         if (questionId != -1 && surveyId != -1) {
             mQuestion = Question.findByRemoteId(questionId);

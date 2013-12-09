@@ -4,10 +4,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.util.LinkedList;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -23,15 +24,20 @@ import org.powermock.reflect.Whitebox;
 import com.activeandroid.Model;
 import com.activeandroid.util.SQLiteUtils;
 
+import android.content.ContentValues;
+import android.util.Log;
 import android.view.Gravity;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Survey.class, Response.class,
-		Question.class, AdminSettings.class })
+		Question.class, AdminSettings.class, JSONObject.class, Log.class, Instrument.class, SQLiteUtils.class, ContentValues.class })
 public class InstrumentTest extends ActiveAndroidTestBase {
 	private static final Long REMOTE_ID = 12382903L;
 	private static final String TITLE = "This is the title";
-	private static final String TABLE = "Instrument";
+	private static final String TABLE = "Instruments";
+	private static final String LANGUAGE = "en";
+	private static final String ALIGNMENT = "left";
+	private static final int VERSION_NUMBER = 02;
 	
 	private Instrument instrument;
 	private Question question;
@@ -43,6 +49,7 @@ public class InstrumentTest extends ActiveAndroidTestBase {
 		question = mock(Question.class);
 		survey = mock(Survey.class);
 		when(tableInfo.getTableName()).thenReturn(TABLE);
+		
 	}
 
 	@Test
@@ -125,20 +132,54 @@ public class InstrumentTest extends ActiveAndroidTestBase {
 
 	@Test	//TODO Fix json Stub Exception
 	public void shouldCreateInstrumentFromJsonObject() throws Exception {
-		JSONObject json = new JSONObject();
-		try {
-			json.put("remote_id", 0121214L);
+		PowerMockito.mockStatic(JSONObject.class);
+		PowerMockito.mockStatic(Log.class);
+		//PowerMockito.mockStatic(Instrument.class);
+		//stub(Instrument.getDeviceLanguage()).toReturn(LANGUAGE);
+		JSONObject json = mock(JSONObject.class);
+		JSONArray jsonArray = mock(JSONArray.class);
+		//InstrumentTranslation translation = mock(InstrumentTranslation.class);
+		
+		when(json.getLong("id")).thenReturn(REMOTE_ID);
+		when(json.getString("language")).thenReturn(LANGUAGE);
+		when(json.getString("alignment")).thenReturn(ALIGNMENT);
+		when(json.getInt("current_version_number")).thenReturn(VERSION_NUMBER);
+		when(json.getJSONArray("translations")).thenReturn(jsonArray); //TODO ???
+		/*try {
+			json.put("id", 0121214L);
 			json.put("title", "My Title");
 			json.put("language", "English");
 			json.put("alignment", "left");
-		} catch (JSONException je) {
-		}
-		Instrument fromJson = mock(Instrument.class);
-		fromJson.createObjectFromJSON(json);
+			json.put("translation", translation);
+		} catch (JSONException je) {}*/
+		
+		//Instrument fromJson = mock(Instrument.class);
+		//Instrument fromJson = new Instrument();
+		//PowerMockito.mockStatic(Instrument.class);
+		//PowerMockito.when(Instrument.getDeviceLanguage()).thenReturn(LANGUAGE);
+		/*fromJson.createObjectFromJSON(json);
 		assertThat(fromJson.getAlignment(), equalTo("left"));
 		assertThat(fromJson.getRemoteId(), equalTo(0121214L));
 		assertThat(fromJson.getTitle(), equalTo("My Title"));
-		assertThat(fromJson.getLanguage(), equalTo("English"));
+		assertThat(fromJson.getLanguage(), equalTo("English"));*/
+		
+		when(sqliteDb.insert(anyString(), anyString(), any(ContentValues.class))).thenReturn(ID);
+		//Instrument fromJson = PowerMock.createMock(Instrument.class);
+		Instrument fromJson = mock(Instrument.class);
+		PowerMockito.mockStatic(Instrument.class);
+		when(Instrument.getDeviceLanguage()).thenReturn(LANGUAGE);
+		doCallRealMethod().when(fromJson).createObjectFromJSON(json);
+		when(fromJson.getAlignment()).thenCallRealMethod();
+		when(fromJson.getRemoteId()).thenCallRealMethod();
+		when(fromJson.getTitle()).thenCallRealMethod();
+		when(fromJson.getLanguage()).thenCallRealMethod();
+		//doNothing().when(fromJson).save();
+		
+		fromJson.createObjectFromJSON(json);
+		assertThat(fromJson.getAlignment(), equalTo(ALIGNMENT));
+		//assertThat(fromJson.getRemoteId(), equalTo(0121214L));
+		//assertThat(fromJson.getTitle(), equalTo("My Title"));
+		assertThat(fromJson.getLanguage(), equalTo(LANGUAGE));
 	}
 
 }

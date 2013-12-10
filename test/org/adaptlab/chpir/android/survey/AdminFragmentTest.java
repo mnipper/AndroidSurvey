@@ -2,13 +2,15 @@ package org.adaptlab.chpir.android.survey;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubAdminSettings;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -19,12 +21,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 @RunWith(RobolectricTestRunner.class)
+@PrepareForTest({ SubAdminSettings.class })
 public class AdminFragmentTest {
+	
 	private EditText mDeviceIdentifierEditText;
 	private EditText mSyncIntervalEditText;
 	private EditText mApiEndPointEditText;
 	private Button mSaveButton;
 	private AdminFragment fragment;
+	private SubAdminSettings adminSettings;
 	private AdminActivity activity;
 	private View view;
 	private static final String DEVICE_ID = "This is the Device ID";
@@ -33,6 +38,8 @@ public class AdminFragmentTest {
 
 	@Before
 	public void setUp() throws Exception {
+		adminSettings = mock(SubAdminSettings.class);
+		onSetUp();
 		activity = Robolectric.buildActivity(AdminActivity.class).create()
 				.start().resume().get();
 		fragment = (AdminFragment) activity.createFragment();
@@ -49,6 +56,13 @@ public class AdminFragmentTest {
 		mApiEndPointEditText.setText(API_URL);
 	}
 
+	private void onSetUp() {
+		when(adminSettings.getInstanceNonStatic()).thenReturn(adminSettings);
+		when(adminSettings.getInstanceNonStatic().getDeviceIdentifier()).thenReturn(DEVICE_ID);
+		when(adminSettings.getInstanceNonStatic().getSyncInterval()).thenReturn(Integer.parseInt(SYNC_INTERVAL));
+		when(adminSettings.getInstanceNonStatic().getApiUrl()).thenReturn(API_URL);
+	}
+
 	@Test
 	public void shouldReturnView() throws Exception {
 		View testView = fragment.onCreateView(LayoutInflater.from(activity),
@@ -60,22 +74,19 @@ public class AdminFragmentTest {
 	@Test
 	public void shouldSaveDeviceId() throws Exception {
 		mSaveButton.performClick();
-		//mSaveButton.callOnClick();
-		assertThat(DEVICE_ID, equalTo(AdminSettings.getInstance()
-				.getDeviceIdentifier()));
+		assertThat(DEVICE_ID, equalTo(adminSettings.getInstanceNonStatic().getDeviceIdentifier()));
 	}
 
 	@Test
 	public void shouldSaveSyncInterval() throws Exception {
 		mSaveButton.callOnClick();
-		assertThat(Integer.parseInt(SYNC_INTERVAL), equalTo(AdminSettings
-				.getInstance().getSyncInterval()));
+		assertThat(Integer.parseInt(SYNC_INTERVAL), equalTo(adminSettings.getInstanceNonStatic().getSyncInterval()));
 	}
 
 	@Test
 	public void shouldSaveApiEndPoint() throws Exception {
 		mSaveButton.callOnClick();
-		assertThat(API_URL, equalTo(AdminSettings.getInstance().getApiUrl()));
+		assertThat(API_URL, equalTo(adminSettings.getInstanceNonStatic().getApiUrl()));
 	}
 	
 	 //TODO Calls to AdminSettings are currently returning Null...

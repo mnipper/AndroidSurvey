@@ -33,7 +33,8 @@ public abstract class QuestionFragment extends Fragment {
 
         if (questionId != -1 && surveyId != -1) {
             mQuestion = Question.findByRemoteId(questionId);
-            mSurvey = Model.load(Survey.class, surveyId);
+            //mSurvey = Model.load(Survey.class, surveyId);
+            mSurvey = new Survey(); //TODO TEMPORARY!!!!!!!!
             mResponse = new Response();
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);

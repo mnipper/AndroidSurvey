@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -73,6 +74,8 @@ public class ActiveAndroidTestBase {
 		PowerMockito.when(Cache.getTableInfo(any(Class.class))).thenReturn(tableInfo);
 		PowerMockito.when(Cache.getContext()).thenReturn(context);
 		PowerMockito.when(ContentProvider.createUri((Class<Model>) anyObject(), anyLong())).thenReturn(null);
+		File cache = new File("/sdcard/");
+		PowerMockito.when(context.getCacheDir()).thenReturn(cache);
 		onSetup();
 	}
 

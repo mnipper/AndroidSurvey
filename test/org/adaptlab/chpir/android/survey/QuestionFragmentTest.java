@@ -1,45 +1,41 @@
 package org.adaptlab.chpir.android.survey;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
-import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubModel;
 import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubQuestion;
-import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubQuestionFragment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.activeandroid.Model;
-
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Fragment.class, Question.class, SubQuestion.class, Model.class, SubModel.class, Survey.class, Instrument.class, Response.class })
+@PrepareForTest({ Question.class, Survey.class, Instrument.class, Response.class, FreeResponseQuestionFragment.class })
 public class QuestionFragmentTest {
 	
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;
-	private SubQuestionFragment qFragment;
+	private FreeResponseQuestionFragment qFragment;
 	private SurveyActivity activity;
-	private SubQuestion question;
+	private Question question;
 	private Survey survey;
 	private Instrument instrument;
 	private Response response;
@@ -47,26 +43,33 @@ public class QuestionFragmentTest {
 	@Before
 	public void onSetup() throws Exception {
 		activity = Robolectric.buildActivity(SurveyActivity.class).create().get();
+		qFragment = spy(new FreeResponseQuestionFragment());
+		doNothing().when(qFragment).init();
+		setBundleArgs();
+		startFragment(qFragment);
 		setUpMocks();
-		qFragment = new SubQuestionFragment();
-        Bundle args = new Bundle();
+		setFragmentMemberVariables();
+	}
+	
+	private void setFragmentMemberVariables() {
+		Whitebox.setInternalState(qFragment, "mQuestion", question);
+		Whitebox.setInternalState(qFragment, "mSurvey", survey);
+		Whitebox.setInternalState(qFragment, "mResponse", response);
+		Whitebox.setInternalState(qFragment, "mInstrument", instrument);
+	}
+
+	private void setBundleArgs() {
+		Bundle args = new Bundle();
         args.putLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, REMOTE_ID);
         args.putLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, SURVEY_ID);
         qFragment.setArguments(args);
-		startFragment(qFragment);
 	}
 	
 	private void setUpMocks() {
 		question = mock(SubQuestion.class);
 		survey = mock(Survey.class);
 		instrument = mock(Instrument.class);
-		survey = mock(Survey.class);
-		instrument = mock(Instrument.class);
 		response = mock(Response.class);
-		when(question.findByRemoteIdNonStatic(REMOTE_ID)).thenReturn(question);
-		SubModel model = mock(SubModel.class);
-		when(model.loadNonStatic(Survey.class, REMOTE_ID)).thenReturn(survey);
-		when(survey.getInstrument()).thenReturn(instrument);
 	}
 	
 	private void startFragment(QuestionFragment fragment) {

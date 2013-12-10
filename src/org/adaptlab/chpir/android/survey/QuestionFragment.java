@@ -28,13 +28,16 @@ public abstract class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+    
+    public void init() {
         long questionId = getArguments().getLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, -1);
         long surveyId = getArguments().getLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);
 
         if (questionId != -1 && surveyId != -1) {
             mQuestion = Question.findByRemoteId(questionId);
-            //mSurvey = Model.load(Survey.class, surveyId);
-            mSurvey = new Survey(); //TODO TEMPORARY!!!!!!!!
+            mSurvey = Model.load(Survey.class, surveyId);
             mResponse = new Response();
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
@@ -76,8 +79,7 @@ public abstract class QuestionFragment extends Fragment {
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
-                getResponse().setOtherResponse(s.toString());
-                getResponse().save();
+                saveResponse(s.toString());
             }
             
             // Required by interface
@@ -85,5 +87,10 @@ public abstract class QuestionFragment extends Fragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
+    }
+    
+    public void saveResponse(String response) {
+    	getResponse().setOtherResponse(response);
+        getResponse().save();
     }
 }

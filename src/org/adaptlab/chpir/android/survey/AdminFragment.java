@@ -61,7 +61,6 @@ public class AdminFragment extends Fragment {
                         .parseInt(mSyncIntervalEditText.getText().toString()));
                 AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
                 AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
-                resetLocale(mCustomLocaleEditText.getText().toString());
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
                 PollService.restartServiceAlarm(getActivity());
                 ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
@@ -70,13 +69,5 @@ public class AdminFragment extends Fragment {
         });
 
         return v;
-    }
-    
-    private void resetLocale(String l) {
-        Locale locale = new Locale(l);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getActivity().getApplicationContext().getResources().updateConfiguration(config, null);
     }
 }

@@ -20,6 +20,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import org.robolectric.RobolectricTestRunner;
 
 import com.activeandroid.Model;
 import com.activeandroid.util.SQLiteUtils;
@@ -28,40 +29,110 @@ import android.content.ContentValues;
 import android.util.Log;
 import android.view.Gravity;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest({ Survey.class, Response.class,
 		Question.class, AdminSettings.class, JSONObject.class, Log.class, Instrument.class, SQLiteUtils.class, ContentValues.class })
-public class InstrumentTest extends ActiveAndroidTestBase {
+public class InstrumentTest {
 	private static final Long REMOTE_ID = 12382903L;
 	private static final String TITLE = "This is the title";
-	private static final String TABLE = "Instruments";
 	private static final String LANGUAGE = "en";
 	private static final String ALIGNMENT = "left";
 	private static final int VERSION_NUMBER = 02;
+	private static final String RIGHT = "right";
+	private static final String LEFT = "left";
 	
 	private Instrument instrument;
+	private Instrument spyInstrument;
 	private Question question;
 	private Survey survey;
+	private AdminSettings admin;
 
-	@Override
+	@Before
 	public void onSetup() {
 		instrument = new Instrument();
+		spyInstrument = spy(new Instrument());
 		question = mock(Question.class);
 		survey = mock(Survey.class);
-		when(tableInfo.getTableName()).thenReturn(TABLE);
-		
+		admin = spy(new AdminSettings());
 	}
 
 	@Test
-	public void shouldReturnRemoteId() throws Exception {
+	public void shouldSetAndReturnRemoteId() throws Exception {
 		instrument.setRemoteId(REMOTE_ID);
 		assertThat(instrument.getRemoteId(), equalTo(REMOTE_ID));
 	}
+	
+	@Test
+	public void shouldReturnString() throws Exception {
+		instrument.setTitle(TITLE);
+		assertEquals(instrument.toString(), TITLE);
+	}
+	
+	@Test
+	public void shouldSetAndReturnVersionNumber() throws Exception {
+		Whitebox.setInternalState(instrument, "mVersionNumber", VERSION_NUMBER);
+		assertEquals(VERSION_NUMBER, instrument.getVersionNumber());
+	}
+	
+	@Test
+	public void shouldSetAndGetLanguage() throws Exception {
+		Whitebox.setInternalState(instrument, "mLanguage", LANGUAGE);
+		assertEquals(LANGUAGE, instrument.getLanguage());
+	}
 
-	@Test	//TODO: Fails because of Log - returns Stub!
-	public void shouldReturnTitle() throws Exception {
-		instrument.setTitle(TITLE);	
-		assertThat(instrument.getTitle(), equalTo(TITLE));
+	@Test
+	public void shouldReturnDefaultGravityLeft() throws Exception {
+		doReturn(LEFT).when(spyInstrument).getAlignment();
+		assertEquals(Gravity.LEFT, spyInstrument.getDefaultGravity());
+	}
+	
+	@Test
+	public void shouldReturnDefaultGravityRight() throws Exception {
+		doReturn(RIGHT).when(spyInstrument).getAlignment();
+		assertEquals(Gravity.RIGHT, spyInstrument.getDefaultGravity());
+	}
+	
+	@SuppressWarnings("static-access")
+	@Test
+	public void shouldReturnTitleIfDeviceAndInstrumentLanguagesSame() throws Exception {
+		spyInstrument.setTitle(TITLE);
+		mock(AdminSettings.class);
+		doReturn(admin).when(AdminSettings.getInstance());//.getInstance();
+		//when(AdminSettings.getInstance()).thenReturn(admin);
+		doReturn("").when(admin).getCustomLocaleCode();
+		doReturn(LANGUAGE).when(spyInstrument).getLanguage();
+		doReturn(LANGUAGE).when(spyInstrument).getDeviceLanguage();
+		assertEquals(TITLE, instrument.getTitle());
+	}
+	
+	@Test
+	public void shouldReturnInstrumentTranslationTitleIfLanguageDifferent() throws Exception {
+		assertTrue(false);
+		// TODO Implement
+	}
+	
+	@Test
+	public void shouldReturnAlignmentIfDeviceAndInstrumentLanguagesSame() throws Exception {
+		// TODO Implement
+		assertTrue(false);
+	}
+	
+	@Test
+	public void shouldReturnInstrumentTranslationAlignmentIfLanguageDifferent() throws Exception {
+		assertTrue(false);
+		// TODO Implement
+	}
+	
+	@Test
+	public void shouldReturnListOfQuestions() throws Exception {
+		LinkedList<Question> list = new LinkedList<Question>();
+		list.add(question);
+		when(question.getInstrument()).thenReturn(spyInstrument);
+		doReturn(list).when(spyInstrument).questions();
+		assertThat(spyInstrument.questions(), instanceOf(LinkedList.class));
+		for (Question q : spyInstrument.questions()) {
+			assertEquals(q.getInstrument(), equalTo(spyInstrument));
+		}
 	}
 	
 	@Test 
@@ -71,26 +142,13 @@ public class InstrumentTest extends ActiveAndroidTestBase {
 	*/
 	public void shouldReturnTypeFace() throws Exception {
 		//assertThat(instrument.getTypeFace(Robolectric.application), equalTo(Typeface.DEFAULT));
+		assertTrue(false);
 	}
 	
 	@Test
 	public void shouldReturnInstrumentBasedOnRemoteId() throws Exception {
-		Instrument inst = mock(Instrument.class);
-		PowerMockito.mockStatic(Instrument.class);
-		when(SQLiteUtils.rawQuerySingle(eq(Instrument.class), anyString(), eq(new String[] {DUMMY}))).thenReturn(inst);
-		when(SQLiteUtils.rawQuerySingle(eq(Instrument.class), anyString(), eq(new String[] {}))).thenReturn(inst);
-		inst.setRemoteId(REMOTE_ID);
-		assertEquals(inst, Instrument.findByRemoteId(REMOTE_ID));
-		PowerMockito.verifyStatic();
-	}
-
-	@Test
-	public void shouldReturnListOfQuestions() throws Exception {
-		question.setInstrument(instrument);
-		assertThat(instrument.questions(), instanceOf(LinkedList.class));
-		for (Question q : instrument.questions()) {
-			assertThat(q.getInstrument(), equalTo(instrument));
-		}
+		instrument.setRemoteId(REMOTE_ID);
+		assertEquals(instrument, Instrument.findByRemoteId(REMOTE_ID));
 	}
 
 	@Test
@@ -104,30 +162,12 @@ public class InstrumentTest extends ActiveAndroidTestBase {
 	}
 
 	@Test
-	public void shouldReturnString() throws Exception {
-		instrument.setTitle(TITLE);
-		assertEquals(instrument.toString(), TITLE);
-	}
-
-	@Test
 	public void shouldReturnListOfSurveys() throws Exception {
 		survey.setInstrument(instrument);
 		assertThat(instrument.surveys(), instanceOf(LinkedList.class));
 		for (Survey s : instrument.surveys()) {
 			assertThat(s.getInstrument(), equalTo(instrument));
 		}
-	}
-
-	@Test
-	// TODO FIX
-	public void shouldSetAlignmentAndGetGravity() throws Exception {
-		Instrument privateInstrument = mock(Instrument.class);
-		Whitebox.invokeMethod(privateInstrument, "setAlignment", "left");
-		assertThat(privateInstrument.getAlignment(), equalTo("left"));
-		assertThat(privateInstrument.getDefaultGravity(), equalTo(Gravity.LEFT));
-		Whitebox.invokeMethod(privateInstrument, "setAlignment", "right");
-		assertThat(privateInstrument.getDefaultGravity(),
-				equalTo(Gravity.RIGHT));
 	}
 
 	@Test	//TODO Fix json Stub Exception
@@ -163,7 +203,6 @@ public class InstrumentTest extends ActiveAndroidTestBase {
 		assertThat(fromJson.getTitle(), equalTo("My Title"));
 		assertThat(fromJson.getLanguage(), equalTo("English"));*/
 		
-		when(sqliteDb.insert(anyString(), anyString(), any(ContentValues.class))).thenReturn(ID);
 		//Instrument fromJson = PowerMock.createMock(Instrument.class);
 		Instrument fromJson = mock(Instrument.class);
 		PowerMockito.mockStatic(Instrument.class);

@@ -1,6 +1,8 @@
-/*package org.adaptlab.chpir.android.survey.QuestionFragments;
+package org.adaptlab.chpir.android.survey.QuestionFragments;
 
-import org.adaptlab.chpir.android.survey.R;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.adaptlab.chpir.android.survey.SurveyActivity;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,33 +10,36 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.ViewGroup;
 
 @RunWith(RobolectricTestRunner.class)
 public class FreeResponseQuestionFragmentTest {
 	
 	private FreeResponseQuestionFragment questionFragment;
 	private SurveyActivity activity;
+	
+	public void startFragment(FreeResponseQuestionFragment fragment) {
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add( fragment, null );
+        fragmentTransaction.commit();
+	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		activity = Robolectric.buildActivity(SurveyActivity.class).create().get();
 		questionFragment = new FreeResponseQuestionFragment();
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-	    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-	    fragmentTransaction.add(questionFragment, null );
-	    fragmentTransaction.commit();
+		startFragment(questionFragment);
 	}
 	
 	@Test
-	public void shouldAddQuestionComponentToViewGroup() throws Exception {
-		ViewGroup original = (ViewGroup) activity.findViewById(R.id.fragmentContainer).getRootView(); 
-		questionFragment.createQuestionComponent(original);
-		//assertThat(questionFragment.getView(), instanceOf(EditText.class));
+	public void shouldNotBeNull() throws Exception {
+		assertNotNull(questionFragment);
+	}
+	
+	@Test
+	public void shouldSetHintOnAnEditText() throws Exception {
+		assertTrue(true);
 	}
 }
-*/

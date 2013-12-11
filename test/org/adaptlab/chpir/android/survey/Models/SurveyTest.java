@@ -1,5 +1,16 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -8,41 +19,32 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.api.mockito.PowerMockito;
+import org.robolectric.RobolectricTestRunner;
 
 import android.util.Log;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.not;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest( {Survey.class, Instrument.class, Response.class, Question.class, AdminSettings.class, JSONObject.class, Log.class } )
-public class SurveyTest extends ActiveAndroidTestBase {
+public class SurveyTest { 
 	private static final String RESPONSE_TEXT = "This is the response";
 	private static final Long REMOTE_ID = 12382903L;
 	private static final String DEVICE_ID = "ThisIsTheDeviceId";
-	private static final String TABLE = "Surveys";
+	private static final Integer VERSION_NUMBER = 34234;
 	
 	private Survey survey;
 	private Instrument instrument;
 	private Response response;
 	private Question question;
-	private AdminSettings adminSettings;
+	private Survey spySurvey;
+	private JSONObject json;
 	
-	@Override
+	@Before
 	public void onSetup() {
 		survey = new Survey();
 		instrument = mock(Instrument.class);
 		response = mock(Response.class);
 		question = mock(Question.class);
-		adminSettings = mock(AdminSettings.class);
-		PowerMockito.mockStatic(AdminSettings.class);
-		when(tableInfo.getTableName()).thenReturn(TABLE);
+		spySurvey = spy(new Survey());
 	}
 
 	@Test
@@ -85,39 +87,72 @@ public class SurveyTest extends ActiveAndroidTestBase {
 	}
 	
 	@Test
-	public void shouldReturnList() throws Exception {
-		assertThat(survey.responses(), instanceOf(LinkedList.class));
-	}
-	
-	@Test
-	public void shouldSetAndGetResponse() throws Exception {
-		when(response.getText()).thenReturn(RESPONSE_TEXT);
-		response.setSurvey(survey);
-		for(Response r : survey.responses()) {
+	public void shouldSetResponsesAndGetListOfResponse() throws Exception {
+		Response resp = mock(Response.class);
+		when(resp.getText()).thenReturn(RESPONSE_TEXT);
+		LinkedList<Response> list = new LinkedList<Response>();
+		list.add(resp);
+		Survey sur = spy(new Survey());
+		resp.setSurvey(sur);
+		doReturn(list).when(sur).responses();
+		for(Response r : sur.responses()) {
 			assertThat(r.getText(), equalTo(RESPONSE_TEXT));
 		}
 	}
 	
 	@Test
-	public void shouldTestGetResponseByQuestion() throws Exception {
-		response.setQuestion(question);
-		response.setSurvey(survey);
-		assertEquals(response, survey.getResponseByQuestion(question)); 
+	public void shouldNotReturnAnyResponse() throws Exception {
+		LinkedList<Response> list = new LinkedList<Response>();
+		list.add(mock(Response.class));
+		Survey survey1 = spy(new Survey());
+		doReturn(list).when(survey1).responses();
+		assertNull(survey1.getResponseByQuestion(mock(Question.class)));
 	}
 	
-	@Test	//TODO survey.toJSON() currently returns null
-	public void shouldTestJsonObjectCreation() throws Exception {
-		PowerMockito.mockStatic(JSONObject.class);
-		PowerMockito.mockStatic(Log.class);
-		adminSettings.setDeviceIdentifier(DEVICE_ID);
-		instrument.setRemoteId(REMOTE_ID);
-		survey.setInstrument(instrument);
-		
-		assertThat(survey.toJSON(), instanceOf(JSONObject.class));
-		
-		JSONObject json = survey.toJSON();
-		assertThat(json.getString("instrument_id"), equalTo(REMOTE_ID.toString()));
-		assertThat(json.getString("device_identifier"), equalTo(DEVICE_ID));
+	@Test
+	public void shouldReturnResponseBasedOnQuestion() throws Exception {
+		LinkedList<Response> list = new LinkedList<Response>();
+		list.add(response);
+		Survey survey1 = spy(new Survey());
+		doReturn(list).when(survey1).responses();
+		doReturn(question).when(response).getQuestion();
+		assertEquals(response, survey1.getResponseByQuestion(question)); 
+	}
+	/*	TODO
+	 * 1. Stub static correctly - AdminSettings
+	 * 2. JSONOBject not saving properly
+	*/
+	private void setUpJson() {
+		doReturn(instrument).when(spySurvey).getInstrument();
+		when(instrument.getRemoteId()).thenReturn(REMOTE_ID);
+		when(instrument.getVersionNumber()).thenReturn(VERSION_NUMBER);
+		AdminSettings admin = spy(new AdminSettings());
+		doReturn(admin).when(AdminSettings.class);
+		doReturn(DEVICE_ID).when(admin).getDeviceIdentifier();
+		json = spySurvey.toJSON();
+	}
+	
+	@Test
+	public void shouldHaveJsonStringInstrumentId() throws Exception {
+		setUpJson();
+		assertEquals(REMOTE_ID.toString(), json.getString("instrument_id"));
+	}
+	
+	@Test
+	public void shouldHaveJsonStringInstrumentVersionNumber() throws Exception {
+		setUpJson();
+		assertEquals(VERSION_NUMBER.toString(), json.getString("instrument_version_number"));
+	}
+	
+	@Test
+	public void shouldHaveJsonStringDeviceIdentifier() throws Exception {
+		setUpJson();
+		assertEquals(DEVICE_ID, json.getString("device_identifier"));
+	}
+	
+	@Test
+	public void shouldHaveJsonStringUuid() throws Exception {
+		setUpJson();
 		assertNotNull(json.getString("uuid"));
 	}
 }

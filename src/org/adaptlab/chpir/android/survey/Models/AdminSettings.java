@@ -30,7 +30,7 @@ public class AdminSettings extends Model {
     public static AdminSettings getInstance() {
         adminSettings = new Select().from(AdminSettings.class).orderBy("Id asc").executeSingle();
         if (adminSettings == null) {
-            Log.i(TAG, "Creating new admin settings instance");
+        	Log.i(TAG, "Creating new admin settings instance");
             adminSettings = new AdminSettings();
             adminSettings.save();
         }

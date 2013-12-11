@@ -49,7 +49,7 @@ public class SurveyFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
-        mQuestionText.setText(mQuestion.getText());
+        setQuestionText(mQuestionText);
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
 
         mNextButton = (Button) v.findViewById(R.id.next_button);
@@ -77,7 +77,7 @@ public class SurveyFragment extends Fragment {
                                             .createQuestionFragment(mQuestion, mSurvey))
                             .commit();
                     
-                    mQuestionText.setText(mQuestion.getText());
+                    setQuestionText(mQuestionText);
 
                     // Change next button text to finish if last question
                     if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
@@ -131,5 +131,14 @@ public class SurveyFragment extends Fragment {
         }
         
         return nextQuestion;
+    }
+    
+    
+    private void setQuestionText(TextView text) {
+        if (mQuestion.getFollowingUpQuestion() != null) {
+            text.setText(mQuestion.getFollowingUpText(mSurvey));
+        } else {
+            text.setText(mQuestion.getText());
+        }
     }
 }

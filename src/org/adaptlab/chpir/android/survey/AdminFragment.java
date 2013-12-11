@@ -1,9 +1,12 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.Locale;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

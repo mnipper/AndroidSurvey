@@ -57,7 +57,7 @@ public abstract class QuestionFragment extends Fragment {
         return v;
     }
 
-    protected Question getQuestion() {
+    public Question getQuestion() {	//TODO JUnit needs it to be public for it to be accessible to subclass tests
         return mQuestion;
     }
     
@@ -65,11 +65,11 @@ public abstract class QuestionFragment extends Fragment {
         return mSurvey;
     }
     
-    protected Response getResponse() {
+    public Response getResponse() {
         return mResponse;
     }
     
-    protected Instrument getInstrument() {
+    public Instrument getInstrument() { //TODO JUnit tests changes
         return mInstrument;
     }
     

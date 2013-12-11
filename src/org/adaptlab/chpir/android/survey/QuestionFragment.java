@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import com.activeandroid.Model;
 
 public abstract class QuestionFragment extends Fragment {
+    private final static String TAG = "QuestionFragment";
+    
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
 
     private Question mQuestion;

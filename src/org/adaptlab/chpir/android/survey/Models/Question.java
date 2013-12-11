@@ -17,6 +17,7 @@ import com.activeandroid.query.Select;
 public class Question extends ReceiveModel {
 
     private static final String TAG = "QuestionModel";
+    public static final String FOLLOW_UP_TRIGGER_STRING = "\\[followup\\]";
 
     public static enum QuestionType {
         SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
@@ -32,6 +33,8 @@ public class Question extends ReceiveModel {
     private String mQuestionIdentifier;
     @Column(name = "Instrument")
     private Instrument mInstrument;
+    @Column(name = "FollowingUpQuestion")
+    private Question mFollowingUpQuestion;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
@@ -85,6 +88,14 @@ public class Question extends ReceiveModel {
     public void setInstrument(Instrument instrument) {
         mInstrument = instrument;
     }
+    
+    public Question getFollowingUpQuestion() {
+        return mFollowingUpQuestion;
+    }
+    
+    public void setFollowingUpQuestion(Question question) {
+        mFollowingUpQuestion = question;
+    }
 
     public boolean hasOptions() {
         return !options().isEmpty();
@@ -92,6 +103,23 @@ public class Question extends ReceiveModel {
 
     public List<Option> options() {
         return getMany(Option.class, "Question");
+    }
+    
+    public String getOptionTextByResponse(Response response) {
+        String text = response.getText();
+        try {
+            if (Integer.parseInt(text) == options().size()) {
+                return response.getOtherResponse();
+            } else {
+                return options().get(Integer.parseInt(text)).getText();
+            }
+        } catch (NumberFormatException nfe) {
+            Log.e(TAG, text + " is not an option number.  Can only ask follow up questions for options");
+            return text;
+        } catch (IndexOutOfBoundsException iob) {
+            Log.e(TAG, text + " is an out of range option number");
+            return text;
+        }
     }
     
     public boolean hasSkipPattern() {
@@ -137,6 +165,14 @@ public class Question extends ReceiveModel {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
     
+    public String getFollowingUpText(Survey survey) {
+        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
+        return getText().replaceAll(
+                FOLLOW_UP_TRIGGER_STRING,
+                getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
+        );
+    }
+    
     
     public QuestionTranslation getTranslationByLanguage(String language) {
         for(QuestionTranslation translation : translations()) {
@@ -165,6 +201,10 @@ public class Question extends ReceiveModel {
             question.setQuestionType(jsonObject.getString("question_type"));
             question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
             question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
+            question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
+                    jsonObject.getString("following_up_question_identifier")
+                )
+            );
             question.setRemoteId(remoteId);
             question.save();
             

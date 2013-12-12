@@ -2,13 +2,13 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SelectOneWriteOtherQuestionFragment.class, Question.class, Option.class, Instrument.class, Response.class, RadioGroup.class })
+@PrepareForTest({ SelectOneWriteOtherQuestionFragment.class, Question.class,
+		Option.class, Instrument.class, Response.class, RadioGroup.class })
 public class SelectOneWriteOtherQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;
@@ -46,45 +47,48 @@ public class SelectOneWriteOtherQuestionFragmentTest {
 	private Question question;
 	private Option option;
 	private RadioGroup radioGroup;
-	
+
 	@Before
 	public void setUp() throws Exception {
-		activity = Robolectric.buildActivity(InstrumentActivity.class).create().get();
+		activity = Robolectric.buildActivity(InstrumentActivity.class).create()
+				.get();
 		qFragment = spy(new SelectOneWriteOtherQuestionFragment());
 		doNothing().when(qFragment).init();
 		setBundleArgs();
 		startFragment(qFragment);
 	}
-	
+
 	private void startFragment(SelectOneWriteOtherQuestionFragment fragment) {
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add( fragment, null );
-        fragmentTransaction.commit();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.add(fragment, null);
+		fragmentTransaction.commit();
 	}
-	
+
 	private void setBundleArgs() {
 		Bundle args = new Bundle();
-        args.putLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, REMOTE_ID);
-        args.putLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, SURVEY_ID);
-        qFragment.setArguments(args);
+		args.putLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, REMOTE_ID);
+		args.putLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, SURVEY_ID);
+		qFragment.setArguments(args);
 	}
-	
+
 	private void setQuestionComponentView() {
 		ViewGroup qComponent = new LinearLayout(Robolectric.application);
 		qFragment.beforeAddViewHook(qComponent);
 	}
-	
+
 	private void setUpMocks() {
 		instrument = mock(Instrument.class);
 		question = mock(Question.class);
 		option = mock(Option.class);
-		radioGroup = mock(RadioGroup.class); 
+		radioGroup = mock(RadioGroup.class);
 	}
-	
+
 	private void stubMockMethods() {
 		when(qFragment.getInstrument()).thenReturn(instrument);
-		when(instrument.getTypeFace(Robolectric.application)).thenReturn(Typeface.DEFAULT);
+		when(instrument.getTypeFace(Robolectric.application)).thenReturn(
+				Typeface.DEFAULT);
 		when(qFragment.getQuestion()).thenReturn(question);
 		List<Option> list = new ArrayList<Option>();
 		list.add(option);
@@ -92,12 +96,12 @@ public class SelectOneWriteOtherQuestionFragmentTest {
 		when(qFragment.getRadioGroup()).thenReturn(radioGroup);
 		when(radioGroup.getChildCount()).thenReturn(1);
 	}
-	
+
 	@Test
 	public void fragmentShouldNotBeNull() throws Exception {
 		assertNotNull(qFragment);
 	}
-	
+
 	@Test
 	public void radioGroupShouldHaveRadioButton() throws Exception {
 		setUpMocks();
@@ -105,7 +109,7 @@ public class SelectOneWriteOtherQuestionFragmentTest {
 		setQuestionComponentView();
 		assertEquals(qFragment.getRadioGroup().getChildCount(), 1);
 	}
-	
+
 	@Test
 	public void shouldCallAddOtherResponseView() throws Exception {
 		setUpMocks();
@@ -113,7 +117,7 @@ public class SelectOneWriteOtherQuestionFragmentTest {
 		setQuestionComponentView();
 		verify(qFragment, times(1)).addOtherResponseView(any(EditText.class));
 	}
-	
+
 	@Test
 	public void shouldCallAddView() throws Exception {
 		setUpMocks();
@@ -122,7 +126,7 @@ public class SelectOneWriteOtherQuestionFragmentTest {
 		qFragment.beforeAddViewHook(qComponent);
 		verify(qComponent, times(1)).addView(any(EditText.class));
 	}
-	
-	//TODO Maybe test added radioButton
+
+	// TODO Maybe test added radioButton
 
 }

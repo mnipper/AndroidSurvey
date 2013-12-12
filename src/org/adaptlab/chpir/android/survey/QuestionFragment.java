@@ -60,7 +60,7 @@ public abstract class QuestionFragment extends Fragment {
         return v;
     }
 
-    public Question getQuestion() {	//TODO JUnit needs it to be public for it to be accessible to subclass tests
+    public Question getQuestion() {	
         return mQuestion;
     }
     
@@ -72,11 +72,11 @@ public abstract class QuestionFragment extends Fragment {
         return mResponse;
     }
     
-    public Instrument getInstrument() { //TODO JUnit tests changes
+    public Instrument getInstrument() { 
         return mInstrument;
     }
     
-    protected void addOtherResponseView(EditText otherText) {
+    public void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
         otherText.setEnabled(false);
         otherText.addTextChangedListener(new TextWatcher() {

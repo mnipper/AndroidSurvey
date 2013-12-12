@@ -9,7 +9,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class SelectOneWriteOtherQuestionFragment extends
         SelectOneQuestionFragment {
-
+	
     @Override
     protected void beforeAddViewHook(ViewGroup questionComponent) {
         RadioButton radioButton = new RadioButton(getActivity());

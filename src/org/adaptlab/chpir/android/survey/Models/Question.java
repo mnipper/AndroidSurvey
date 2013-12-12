@@ -114,7 +114,7 @@ public class Question extends ReceiveModel {
                 return options().get(Integer.parseInt(text)).getText();
             }
         } catch (NumberFormatException nfe) {
-            Log.e(TAG, text + " is not an option number.  Can only ask follow up questions for options");
+            Log.e(TAG, text + " is not an option number");
             return text;
         } catch (IndexOutOfBoundsException iob) {
             Log.e(TAG, text + " is an out of range option number");
@@ -167,10 +167,14 @@ public class Question extends ReceiveModel {
     
     public String getFollowingUpText(Survey survey) {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
-        return getText().replaceAll(
-                FOLLOW_UP_TRIGGER_STRING,
-                getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
-        );
+        if (getFollowingUpQuestion().getQuestionType().equals(QuestionType.FREE_RESPONSE)) {
+            return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
+        } else {
+            return getText().replaceAll(
+                    FOLLOW_UP_TRIGGER_STRING,
+                    getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
+            );
+        }
     }
     
     

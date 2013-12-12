@@ -11,6 +11,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Syncing with a Remote Table](https://github.com/mnipper/AndroidSurvey/wiki/Syncing-with-Remote-Tables)
 * [Adding a Language](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Language)
 * [Admin Settings](https://github.com/mnipper/AndroidSurvey/wiki/Admin-Settings)
+* [Translation Models](https://github.com/mnipper/AndroidSurvey/wiki/Translation-Models)
 * [Seeding the Database](https://github.com/mnipper/AndroidSurvey/wiki/Seeding-the-Database)
 
 ## ActiveAndroid

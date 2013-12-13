@@ -82,7 +82,7 @@ public abstract class QuestionFragment extends Fragment {
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
-                saveResponse(s.toString());
+                saveOtherResponse(s.toString());
             }
             
             // Required by interface
@@ -92,7 +92,7 @@ public abstract class QuestionFragment extends Fragment {
         });
     }
     
-    public void saveResponse(String response) {
+    public void saveOtherResponse(String response) {
     	getResponse().setOtherResponse(response);
         getResponse().save();
     }

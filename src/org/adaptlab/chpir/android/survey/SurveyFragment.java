@@ -62,36 +62,7 @@ public class SurveyFragment extends Fragment {
         mNextButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                int questionIndex = mInstrument.questions().indexOf(mQuestion);
-                int questionsInInstrument = mInstrument.questions().size();
-
-                if (questionIndex < questionsInInstrument - 1) {
-                    
-                    mQuestion = getNextQuestion(questionIndex);
-                    
-                    FragmentManager fm = getChildFragmentManager();
-                    fm.beginTransaction()
-                            .replace(
-                                    R.id.question_container,
-                                    QuestionFragmentFactory
-                                            .createQuestionFragment(mQuestion, mSurvey))
-                            .commit();
-                    
-                    setQuestionText(mQuestionText);
-
-                    // Change next button text to finish if last question
-                    if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
-                        mNextButton.setText(R.string.finish_button);
-                    }
-                    
-                } else {
-                    // Hide survey activity when finish button pressed
-                    getActivity().finish();
-                    mSurvey.setAsComplete();
-                    mSurvey.save();
-                    return;
-                }               
-
+                moveToNextQuestion();
             }
         });
 
@@ -133,10 +104,47 @@ public class SurveyFragment extends Fragment {
         return nextQuestion;
     }
     
+    private void moveToNextQuestion() {
+        int questionIndex = mInstrument.questions().indexOf(mQuestion);
+        int questionsInInstrument = mInstrument.questions().size();
+
+        if (questionIndex < questionsInInstrument - 1) {
+            
+            mQuestion = getNextQuestion(questionIndex);
+            
+            FragmentManager fm = getChildFragmentManager();
+            fm.beginTransaction()
+                    .replace(
+                            R.id.question_container,
+                            QuestionFragmentFactory
+                                    .createQuestionFragment(mQuestion, mSurvey))
+                    .commit();
+            
+            setQuestionText(mQuestionText);
+
+            // Change next button text to finish if last question
+            if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
+                mNextButton.setText(R.string.finish_button);
+            }
+            
+        } else {
+            // Hide survey activity when finish button pressed
+            getActivity().finish();
+            mSurvey.setAsComplete();
+            mSurvey.save();
+            return;
+        }
+    }
+    
     
     private void setQuestionText(TextView text) {
         if (mQuestion.getFollowingUpQuestion() != null) {
-            text.setText(mQuestion.getFollowingUpText(mSurvey));
+            String followUpText = mQuestion.getFollowingUpText(mSurvey);
+            if (followUpText.equals("")) {
+                moveToNextQuestion();
+            } else {
+                text.setText(followUpText);
+            }
         } else {
             text.setText(mQuestion.getText());
         }

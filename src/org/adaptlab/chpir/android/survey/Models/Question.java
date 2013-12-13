@@ -106,7 +106,8 @@ public class Question extends ReceiveModel {
     }
     
     public String getOptionTextByResponse(Response response) {
-        String text = response.getText();
+        String text = response.getText();;
+        
         try {
             if (Integer.parseInt(text) == options().size()) {
                 return response.getOtherResponse();
@@ -166,7 +167,9 @@ public class Question extends ReceiveModel {
     }
     
     public String getFollowingUpText(Survey survey) {
-        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
+        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());        
+        if (followUpResponse == null) return "";
+        
         if (followUpWithOptionText()) {
             return getText().replaceAll(
                     FOLLOW_UP_TRIGGER_STRING,

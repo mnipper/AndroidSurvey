@@ -70,13 +70,25 @@ public class SurveyFragment extends Fragment {
         return v;
     }
 
-	protected void createQuestionFragment() {	//TODO Re-factored for testing purposes
-        // Set up the question fragment for the first question and commit it.
+    /*
+     * Place the question fragment for the corresponding mQuestion
+     * on the view in the question_container.
+     */
+	protected void createQuestionFragment() {
+        FragmentManager fm = getChildFragmentManager();       
         Fragment questionFragment = QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
-        FragmentManager fm = getChildFragmentManager();
+
         if (fm.findFragmentById(R.id.question_container) == null) {
+            // Add the first question fragment
             fm.beginTransaction()
-                    .add(R.id.question_container, questionFragment).commit();
+                .add(R.id.question_container, questionFragment)
+                .commit();
+        } else {
+            // Replace the question fragment if it already exist
+            fm.beginTransaction()
+                .replace(R.id.question_container,
+                    QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey))
+                .commit();            
         }
 	}
     
@@ -128,16 +140,8 @@ public class SurveyFragment extends Fragment {
 
         if (questionIndex < questionsInInstrument - 1) {
             
-            mQuestion = getNextQuestion(questionIndex);
-            
-            FragmentManager fm = getChildFragmentManager();
-            fm.beginTransaction()
-                    .replace(
-                            R.id.question_container,
-                            QuestionFragmentFactory
-                                    .createQuestionFragment(mQuestion, mSurvey))
-                    .commit();
-            
+            mQuestion = getNextQuestion(questionIndex);            
+            createQuestionFragment();
             setQuestionText(mQuestionText);
 
             // Change next button text to finish if last question
@@ -166,8 +170,7 @@ public class SurveyFragment extends Fragment {
      * set the text as normal.
      */
     private void setQuestionText(TextView text) {
-        if (mQuestion.getFollowingUpQuestion() != null) {
-            
+        if (mQuestion.isFollowUpQuestion()) {
             String followUpText = mQuestion.getFollowingUpText(mSurvey);
             
             if (followUpText == null) {

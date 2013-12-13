@@ -54,13 +54,24 @@ public class AdminFragment extends Fragment {
             public void onClick(View v) {
                 AdminSettings.getInstance().setDeviceIdentifier(mDeviceIdentifierEditText
                         .getText().toString());
+                
                 AdminSettings.getInstance().setSyncInterval(Integer
                         .parseInt(mSyncIntervalEditText.getText().toString()));
+                
                 AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
+                
+                // If this code is set, it will override the language selection on the device
+                // for all instrument translations.
                 AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
+                
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
+                
+                // Restart the polling immediately with new interval.
+                // This immediately hits the server again upon save.
                 PollService.restartServiceAlarm(getActivity());
+                
                 ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
+                
                 getActivity().finish();
             }
         });

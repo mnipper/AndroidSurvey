@@ -167,16 +167,21 @@ public class Question extends ReceiveModel {
     
     public String getFollowingUpText(Survey survey) {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
-        if (getFollowingUpQuestion().getQuestionType().equals(QuestionType.FREE_RESPONSE) ||
-                getFollowingUpQuestion().getQuestionType().equals(QuestionType.DATE) || 
-                getFollowingUpQuestion().getQuestionType().equals(QuestionType.TIME)) {
-            return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
-        } else {
+        if (followUpWithOptionText()) {
             return getText().replaceAll(
                     FOLLOW_UP_TRIGGER_STRING,
                     getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
             );
+        } else {
+            return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
         }
+    }
+    
+    public boolean followUpWithOptionText() {
+        return getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_MULTIPLE) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE_WRITE_OTHER) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_MULTIPLE_WRITE_OTHER);
     }
     
     

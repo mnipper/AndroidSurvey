@@ -1,9 +1,14 @@
 package org.adaptlab.chpir.android.survey;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -24,6 +29,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -33,6 +39,7 @@ public class QuestionFragmentTest {
 	
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;
+	private static final String TEXT = "ttext";
 	private FreeResponseQuestionFragment qFragment;
 	private SurveyActivity activity;
 	private Question question;
@@ -103,14 +110,18 @@ public class QuestionFragmentTest {
 	public void shouldHaveSameResponseHint() throws Exception {
 		EditText otherText = new EditText(Robolectric.application);
 		qFragment.addOtherResponseView(otherText);
-		assertEquals(otherText.getEditableText(), R.string.other_specify_edittext);
+		assertEquals(otherText.getHint().toString(), activity.getResources().getString(R.string.other_specify_edittext));
 	}
 	
 	@Test
 	public void shouldHaveTextChangeListener() throws Exception {
+		Response resp = spy(new Response());
+		when(qFragment.getResponse()).thenReturn(resp);
 		EditText otherText = new EditText(Robolectric.application);
 		qFragment.addOtherResponseView(otherText);
-		assertEquals(otherText.hasOnClickListeners(), true);
+		otherText.setText(TEXT);
+		verify(qFragment, times(1)).saveOtherResponse(TEXT);
+		assertEquals(otherText.getText(), TEXT);
 	}
 	
 	@Test
@@ -122,9 +133,14 @@ public class QuestionFragmentTest {
 	
 	@Test
 	public void shouldReturnView() throws Exception {
-		//View view = LayoutInflater.from(new SurveyActivity()).inflate(R.layout.fragment_survey, null);
-		View v = qFragment.onCreateView(LayoutInflater.from(Robolectric.application), new LinearLayout(Robolectric.application), null);
-		assertEquals(v.getId(), R.layout.fragment_question_factory);
+		assertThat(qFragment.onCreateView(LayoutInflater.from(Robolectric.application), new LinearLayout(Robolectric.application), null), instanceOf(View.class));
+	}
+	
+	@Test
+	public void shouldCallCreateQuestionComponent() throws Exception {
+		View view = qFragment.onCreateView(LayoutInflater.from(Robolectric.application), new LinearLayout(Robolectric.application), null);
+		ViewGroup qComponent = (LinearLayout) view.findViewById(R.id.question_component);
+		verify(qFragment, times(1)).createQuestionComponent(qComponent);
 	}
 	
 }

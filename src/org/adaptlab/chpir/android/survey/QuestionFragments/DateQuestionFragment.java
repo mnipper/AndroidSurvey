@@ -19,9 +19,9 @@ public class DateQuestionFragment extends QuestionFragment {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int year = c.get(Calendar.YEAR);
-        final String formattedDate = formatDate(month, day, year);
-        
-        getResponse().setResponse(formattedDate);
+
+        getResponse().setResponse(formatDate(month, day, year));
+       
         datePicker.init(year, month, day, new OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int newYear,

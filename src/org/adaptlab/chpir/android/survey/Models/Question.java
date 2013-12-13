@@ -22,7 +22,7 @@ public class Question extends ReceiveModel {
     public static enum QuestionType {
         SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
         SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
-        FRONT_PICTURE, REAR_PICTURE, DATE;
+        FRONT_PICTURE, REAR_PICTURE, DATE, RATING;
     }
 
     @Column(name = "Text")

@@ -11,7 +11,7 @@ import android.widget.EditText;
 public class FreeResponseQuestionFragment extends QuestionFragment {
 
     @Override
-    protected void createQuestionComponent(ViewGroup questionComponent) {
+	public void createQuestionComponent(ViewGroup questionComponent) {
         EditText freeText = new EditText(getActivity());
         freeText.setHint(R.string.free_response_edittext);
         freeText.addTextChangedListener(new TextWatcher() {

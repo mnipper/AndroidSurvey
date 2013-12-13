@@ -10,6 +10,7 @@ import static org.robolectric.Robolectric.shadowOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 @RunWith(RobolectricTestRunner.class)
 public class SingleFragmentActivityTest {
@@ -22,12 +23,18 @@ public class SingleFragmentActivityTest {
 	
 	@Test
 	public void shouldReturnLayoutResId() throws Exception {
-		assertNotNull(activityFragment.getLayoutResId());	//TODO Not sure if this is the right test. Should test if Id is correct...
+		assertEquals(activityFragment.getLayoutResId(), R.layout.activity_fragment);
 	}
 	
 	@Test
 	public void shouldSetTheLayoutOnCreate() throws Exception {
 		assertEquals(R.id.fragmentContainer, shadowOf(activityFragment).getContentView().getId());
+	}
+	
+	@Test
+	public void shouldHaveFragment() throws Exception {
+		FragmentManager fm = activityFragment.getSupportFragmentManager();
+        assertNotNull(fm.findFragmentById(R.id.fragmentContainer));
 	}
 	
 	static class TestSingleFragmentActivity extends SingleFragmentActivity {

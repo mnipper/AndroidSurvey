@@ -38,6 +38,16 @@ public class Instrument extends ReceiveModel {
         super();
     }
 
+    /*
+     * If the language of the instrument is the same as the language setting on the
+     * device (or through the admin settings), then return the default instrument title.
+     * 
+     * If another language is requested, iterate through instrument translations to
+     * find translated title.
+     * 
+     * If the language requested is not available as a translation, return the non-translated
+     * text for the title.
+     */
     public String getTitle() {
         if (getLanguage().equals(getDeviceLanguage())) return mTitle;
         for(InstrumentTranslation translation : translations()) {
@@ -49,27 +59,7 @@ public class Instrument extends ReceiveModel {
         // Fall back to default
         return mTitle;
     }
-
-    public void setTitle(String title) {
-        mTitle = title;
-    }
-    
-    public Long getRemoteId() {
-        return mRemoteId;
-    }
-    
-    public void setRemoteId(Long id) {
-        mRemoteId = id;
-    }
-    
-    public String getLanguage() {
-        return mLanguage;
-    }
-    
-    private void setLanguage(String language) {
-        mLanguage = language;
-    }
-    
+        
     public String getAlignment() {
         if (getLanguage().equals(getDeviceLanguage())) return mAlignment;
         for(InstrumentTranslation translation : translations()) {
@@ -82,43 +72,6 @@ public class Instrument extends ReceiveModel {
         return mAlignment;
     }
     
-    private void setAlignment(String alignment) {
-        mAlignment = alignment;
-    }
-
-    public List<Question> questions() {
-        return getMany(Question.class, "Instrument");
-    }
-
-    public static List<Instrument> getAll() {
-        return new Select().from(Instrument.class).orderBy("Id ASC").execute();
-    }
-
-    @Override
-    public String toString() {
-        return mTitle;
-    }
-    
-    public static Instrument findByRemoteId(Long id) {
-        return new Select().from(Instrument.class).where("RemoteId = ?", id).executeSingle();
-    }
-    
-    public List<Survey> surveys() {
-        return getMany(Survey.class, "Instrument");
-    }
-    
-    public List<InstrumentTranslation> translations() {
-        return getMany(InstrumentTranslation.class, "Instrument");
-    }
-    
-    private void setVersionNumber(int version) {
-        mVersionNumber = version;
-    }
-    
-    public int getVersionNumber() {
-        return mVersionNumber;
-    }
-
     public InstrumentTranslation getTranslationByLanguage(String language) {
         for(InstrumentTranslation translation : translations()) {
             if (translation.getLanguage().equals(language)) {
@@ -185,5 +138,75 @@ public class Instrument extends ReceiveModel {
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  
+    }
+    
+    /*
+     * Finders
+     */
+    public static List<Instrument> getAll() {
+        return new Select().from(Instrument.class).orderBy("Id ASC").execute();
+    }
+      
+    public static Instrument findByRemoteId(Long id) {
+        return new Select().from(Instrument.class).where("RemoteId = ?", id).executeSingle();
+    }
+    
+    /*
+     * Relationships
+     */
+    public List<Question> questions() {
+        return getMany(Question.class, "Instrument");
+    }
+    
+    public List<Survey> surveys() {
+        return getMany(Survey.class, "Instrument");
+    }
+    
+    public List<InstrumentTranslation> translations() {
+        return getMany(InstrumentTranslation.class, "Instrument");
+    }
+        
+    /*
+     * Getters/Setters
+     */
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+    
+    public Long getRemoteId() {
+        return mRemoteId;
+    }
+    
+    public void setRemoteId(Long id) {
+        mRemoteId = id;
+    }
+    
+    public String getLanguage() {
+        return mLanguage;
+    }
+
+    @Override
+    public String toString() {
+        return mTitle;
+    }
+    
+    private void setVersionNumber(int version) {
+        mVersionNumber = version;
+    }
+    
+    public int getVersionNumber() {
+        return mVersionNumber;
+    }
+    
+    /*
+     * Private
+     */   
+    private void setLanguage(String language) {
+        mLanguage = language;
+    }
+    
+    private void setAlignment(String alignment) {
+        mAlignment = alignment;
     }
 }

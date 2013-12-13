@@ -14,6 +14,16 @@ public class QuestionTranslation extends Model {
     @Column(name = "Text")
     private String mText;
     
+    /*
+     * Finders
+     */   
+    public static QuestionTranslation findByLanguage(String language) {
+        return new Select().from(QuestionTranslation.class).where("Language = ?", language).executeSingle();
+    }
+    
+    /*
+     * Getters/Setters
+     */
     public QuestionTranslation() {
         super();
     }
@@ -35,9 +45,5 @@ public class QuestionTranslation extends Model {
     }
     public void setText(String text) {
         mText = text;
-    }
-    
-    public static QuestionTranslation findByLanguage(String language) {
-        return new Select().from(QuestionTranslation.class).where("Language = ?", language).executeSingle();
     }
 }

@@ -60,12 +60,12 @@ public class SurveyFragment extends Fragment {
         }
         
         mNextButton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
                 moveToNextQuestion();
             }
         });
 
+        // Set up the question fragment for the first question and commit it.
         Fragment questionFragment = QuestionFragmentFactory
                 .createQuestionFragment(mQuestion, mSurvey);
         FragmentManager fm = getChildFragmentManager();
@@ -77,6 +77,14 @@ public class SurveyFragment extends Fragment {
         return v;
     }
     
+    /*
+     * If a question has a skip pattern, then read the response
+     * when pressing the "next" button.  If the index of the response
+     * is able to have a skip pattern, then set the next question to
+     * the question indicated by the skip pattern.  "Other" responses
+     * cannot have skip patterns, and the question is just set to the
+     * next question in the sequence.
+     */
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;
         
@@ -104,6 +112,13 @@ public class SurveyFragment extends Fragment {
         return nextQuestion;
     }
     
+    /*
+     * Switch out the next question with a fragment from the
+     * QuestionFragmentFactory.  If this is the last question
+     * then change the button text to "finish."  When "finish"
+     * is pressed, mark the survey as complete and finish the
+     * activity.
+     */
     private void moveToNextQuestion() {
         int questionIndex = mInstrument.questions().indexOf(mQuestion);
         int questionsInInstrument = mInstrument.questions().size();
@@ -136,11 +151,22 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    
+    /*
+     * If this question is a following up question, then attempt
+     * to get response to question being followed up on.  If this
+     * response was skipped, then skip this question.  It does
+     * not make sense to ask a follow up question to a question
+     * that was not answered.
+     * 
+     * If this question is not a following up question, then just
+     * set the text as normal.
+     */
     private void setQuestionText(TextView text) {
         if (mQuestion.getFollowingUpQuestion() != null) {
+            
             String followUpText = mQuestion.getFollowingUpText(mSurvey);
-            if (followUpText.equals("")) {
+            
+            if (followUpText == null) {
                 moveToNextQuestion();
             } else {
                 text.setText(followUpText);

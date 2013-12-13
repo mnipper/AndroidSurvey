@@ -22,6 +22,16 @@ public class InstrumentTranslation extends Model {
         super();
     }
     
+    /*
+     * Finders
+     */   
+    public static InstrumentTranslation findByLanguage(String language) {
+        return new Select().from(InstrumentTranslation.class).where("Language = ?", language).executeSingle();
+    }
+    
+    /*
+     * Getters/Setters
+     */
     public String getTitle() {
         return mTitle;
     }
@@ -52,9 +62,5 @@ public class InstrumentTranslation extends Model {
     
     public void setInstrument(Instrument instrument) {
         mInstrument = instrument;
-    }
-    
-    public static InstrumentTranslation findByLanguage(String language) {
-        return new Select().from(InstrumentTranslation.class).where("Language = ?", language).executeSingle();
     }
 }

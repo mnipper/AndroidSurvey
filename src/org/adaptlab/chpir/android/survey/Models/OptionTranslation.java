@@ -18,6 +18,16 @@ public class OptionTranslation extends Model {
         super();
     }
     
+    /*
+     * Finders
+     */    
+    public static OptionTranslation findByLanguage(String language) {
+        return new Select().from(OptionTranslation.class).where("Language = ?", language).executeSingle();
+    }
+    
+    /*
+     * Getters/Setters
+     */
     public Option getOption() {
         return mOption;
     }
@@ -35,9 +45,5 @@ public class OptionTranslation extends Model {
     }
     public void setText(String text) {
         mText = text;
-    }
-    
-    public static OptionTranslation findByLanguage(String language) {
-        return new Select().from(OptionTranslation.class).where("Language = ?", language).executeSingle();
     }
 }

@@ -95,16 +95,20 @@ public class SurveyFragment extends Fragment {
             }
         });
 
-        Fragment questionFragment = QuestionFragmentFactory
+        createQuestionFragment();
+
+        return v;
+    }
+
+	protected void createQuestionFragment() {	//TODO Re-factored for testing purposes
+		Fragment questionFragment = QuestionFragmentFactory
                 .createQuestionFragment(mQuestion, mSurvey);
         FragmentManager fm = getChildFragmentManager();
         if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
                     .add(R.id.question_container, questionFragment).commit();
         }
-
-        return v;
-    }
+	}
     
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;

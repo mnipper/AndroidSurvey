@@ -14,15 +14,27 @@ public class TimeQuestionFragment extends QuestionFragment {
             
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                getResponse().setResponse(hourOfDay + ":" + formatMinute(minute));
+                getResponse().setResponse(formatTime(hourOfDay, minute));
                 getResponse().save();
             }
         });
         
-        getResponse().setResponse(timePicker.getCurrentHour() + ":" + formatMinute(timePicker.getCurrentMinute()));
+        getResponse().setResponse(formatTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute()));
         getResponse().save();
         
         questionComponent.addView(timePicker);
+    }
+    
+    // Format: HH:MM AM/PM
+    private String formatTime(int hour, int minute) {
+        String period;
+        if (hour <= 12) {
+            period = "AM";
+        } else {
+            period = "PM";
+            hour = hour - 12;
+        }
+        return hour + ":" + formatMinute(minute) + " " + period;
     }
 
     // Add a 0 to minute values less than 10 to look more natural

@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import org.adaptlab.chpir.android.survey.QuestionFragment;
@@ -35,9 +36,8 @@ public class DateQuestionFragment extends QuestionFragment {
         questionComponent.addView(datePicker);
     }
     
-    
-    // Month indexing starts at 0 by default.  Add 1 to start indexing at 1 in response.
     private String formatDate(int month, int day, int year) {
-        return ((month + 1) + "-" + day + "-" + year);
+        String monthName = new DateFormatSymbols().getMonths()[month];
+        return (monthName + " " + day + ", " + year);
     }
 }

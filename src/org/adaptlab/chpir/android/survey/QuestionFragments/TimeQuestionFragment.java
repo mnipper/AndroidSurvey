@@ -27,13 +27,9 @@ public class TimeQuestionFragment extends QuestionFragment {
     
     // Format: HH:MM AM/PM
     private String formatTime(int hour, int minute) {
-        String period;
-        if (hour <= 12) {
-            period = "AM";
-        } else {
-            period = "PM";
-            hour = hour - 12;
-        }
+        String period = (hour < 12 ? "AM" : "PM");
+        hour = (hour > 13 ? hour - 12 : hour);
+        if (hour == 0) hour = 12;
         return hour + ":" + formatMinute(minute) + " " + period;
     }
 

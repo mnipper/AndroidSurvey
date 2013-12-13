@@ -155,11 +155,12 @@ public class SurveyFragment extends Fragment {
     }
     
     /*
-     * If this question is a following up question, then attempt
-     * to get response to question being followed up on.  If this
-     * response was skipped, then skip this question.  It does
-     * not make sense to ask a follow up question to a question
-     * that was not answered.
+     * If this question is a follow up question, then attempt
+     * to get the response to the question that is being followed up on.
+     * 
+     * If the question being followed up on was skipped by the user,
+     * then also skip the following up question. It does not make sense to
+     * ask a follow up question to a question that was not answered.
      * 
      * If this question is not a following up question, then just
      * set the text as normal.

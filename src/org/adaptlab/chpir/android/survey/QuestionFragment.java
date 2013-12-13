@@ -93,7 +93,7 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     public void saveOtherResponse(String response) {
-    	getResponse().setOtherResponse(response);
+        getResponse().setOtherResponse(response);
         getResponse().save();
     }
 }

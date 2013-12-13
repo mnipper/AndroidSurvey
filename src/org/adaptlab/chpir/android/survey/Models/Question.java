@@ -22,7 +22,7 @@ public class Question extends ReceiveModel {
     public static enum QuestionType {
         SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
         SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
-        FRONT_PICTURE, REAR_PICTURE;
+        FRONT_PICTURE, REAR_PICTURE, DATE, RATING, TIME;
     }
 
     @Column(name = "Text")
@@ -43,6 +43,16 @@ public class Question extends ReceiveModel {
         super();
     }
 
+    /*
+     * If the language of the instrument is the same as the language setting on the
+     * device (or through the admin settings), then return the question text.
+     * 
+     * If another language is requested, iterate through question translations to
+     * find translated text.
+     * 
+     * If the language requested is not available as a translation, return the non-translated
+     * text for the question.
+     */
     public String getText() {
         if (getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
         for(QuestionTranslation translation : translations()) {
@@ -54,7 +64,162 @@ public class Question extends ReceiveModel {
         // Fall back to default
         return mText;
     }
+      
+    public boolean hasSkipPattern() {
+        for (Option option : options()) {
+            if (option.getNextQuestion() != null && 
+                    !option.getNextQuestion().getQuestionIdentifier().equals("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+ 
+    /*
+     * Map a response represented as an index to its corresponding
+     * option text.  If this is an "other" response, return the
+     * text specified in the other response.
+     */
+    public String getOptionTextByResponse(Response response) {
+        String text = response.getText();;
+        
+        try {
+            if (Integer.parseInt(text) == options().size()) {
+                return response.getOtherResponse();
+            } else {
+                return options().get(Integer.parseInt(text)).getText();
+            }
+        } catch (NumberFormatException nfe) {
+            Log.e(TAG, text + " is not an option number");
+            return text;
+        } catch (IndexOutOfBoundsException iob) {
+            Log.e(TAG, text + " is an out of range option number");
+            return text;
+        }
+    }
+    
+    /*
+     * Return the processed string for a following up question.
+     * 
+     * Replace the follow up trigger string token with the appropriate
+     * response.  If this is a question with options, then map the option
+     * number to the option text.  If not, then return the text response.
+     * 
+     * If the question that is being followed up on was skipped by the user,
+     * then return nothing.  This question will be skipped in that case.
+     */
+    public String getFollowingUpText(Survey survey) {
+        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());        
+        if (followUpResponse == null) return null;
+        
+        if (followUpWithOptionText()) {
+            return getText().replaceAll(
+                    FOLLOW_UP_TRIGGER_STRING,
+                    getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
+            );
+        } else {
+            return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
+        }
+    }
+    
+    /*
+     * Question types which must have their responses (represented as indices)
+     * mapped to the original option text.
+     */
+    public boolean followUpWithOptionText() {
+        return getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_MULTIPLE) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE_WRITE_OTHER) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_MULTIPLE_WRITE_OTHER);
+    }
+    
+    /*
+     * Find an exisiting translation, or return a new QuestionTranslation
+     * if a translation does not yet exist.
+     */
+    public QuestionTranslation getTranslationByLanguage(String language) {
+        for(QuestionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        
+        QuestionTranslation translation = new QuestionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
 
+    @Override
+    public void createObjectFromJSON(JSONObject jsonObject) {
+        try {
+            Long remoteId = jsonObject.getLong("id");
+            
+            // If a question already exists, update it from the remote
+            Question question = Question.findByRemoteId(remoteId);
+            if (question == null) {
+                question = this;
+            }
+            
+            Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
+            question.setText(jsonObject.getString("text"));
+            question.setQuestionType(jsonObject.getString("question_type"));
+            question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
+            question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
+            question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
+                    jsonObject.getString("following_up_question_identifier")
+                )
+            );
+            question.setRemoteId(remoteId);
+            question.save();
+            
+            // Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setQuestion(question);
+                translation.setText(translationJSON.getString("text"));
+                translation.save();
+            }
+        } catch (JSONException je) {
+            Log.e(TAG, "Error parsing object json", je);
+        } 
+    }
+
+    /*
+     * Finders
+     */   
+    public static List<Question> getAll() {
+        return new Select().from(Question.class).orderBy("Id ASC").execute();
+    }
+    
+    public static Question findByRemoteId(Long id) {
+        return new Select().from(Question.class).where("RemoteId = ?", id).executeSingle();
+    }
+    
+    public static Question findByQuestionIdentifier(String identifier) {
+        return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
+    }
+    
+    /*
+     * Relationships
+     */
+    public boolean hasOptions() {
+        return !options().isEmpty();
+    }
+
+    public List<Option> options() {
+        return getMany(Option.class, "Question");
+    }
+    
+    public List<QuestionTranslation> translations() {
+        return getMany(QuestionTranslation.class, "Question");
+    }
+
+    
+    /*
+     * Getters/Setters
+     */
     public void setText(String text) {
         mText = text;
     }
@@ -96,59 +261,7 @@ public class Question extends ReceiveModel {
     public void setFollowingUpQuestion(Question question) {
         mFollowingUpQuestion = question;
     }
-
-    public boolean hasOptions() {
-        return !options().isEmpty();
-    }
-
-    public List<Option> options() {
-        return getMany(Option.class, "Question");
-    }
-    
-    public String getOptionTextByResponse(Response response) {
-        String text = response.getText();
-        try {
-            if (Integer.parseInt(text) == options().size()) {
-                return response.getOtherResponse();
-            } else {
-                return options().get(Integer.parseInt(text)).getText();
-            }
-        } catch (NumberFormatException nfe) {
-            Log.e(TAG, text + " is not an option number");
-            return text;
-        } catch (IndexOutOfBoundsException iob) {
-            Log.e(TAG, text + " is an out of range option number");
-            return text;
-        }
-    }
-    
-    public boolean hasSkipPattern() {
-        for (Option option : options()) {
-            if (option.getNextQuestion() != null && 
-                    !option.getNextQuestion().getQuestionIdentifier().equals("")) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public static List<Question> getAll() {
-        return new Select().from(Question.class).orderBy("Id ASC").execute();
-    }
-    
-    public List<QuestionTranslation> translations() {
-        return getMany(QuestionTranslation.class, "Question");
-    }
-
-    private static boolean validQuestionType(String questionType) {
-        for (QuestionType type : QuestionType.values()) {
-            if (type.name().equals(questionType)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+  
     public Long getRemoteId() {
         return mRemoteId;
     }
@@ -157,72 +270,15 @@ public class Question extends ReceiveModel {
         mRemoteId = id;
     }
     
-    public static Question findByRemoteId(Long id) {
-        return new Select().from(Question.class).where("RemoteId = ?", id).executeSingle();
-    }
-    
-    public static Question findByQuestionIdentifier(String identifier) {
-        return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
-    }
-    
-    public String getFollowingUpText(Survey survey) {
-        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
-        if (getFollowingUpQuestion().getQuestionType().equals(QuestionType.FREE_RESPONSE)) {
-            return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
-        } else {
-            return getText().replaceAll(
-                    FOLLOW_UP_TRIGGER_STRING,
-                    getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
-            );
-        }
-    }
-    
-    
-    public QuestionTranslation getTranslationByLanguage(String language) {
-        for(QuestionTranslation translation : translations()) {
-            if (translation.getLanguage().equals(language)) {
-                return translation;
+    /*
+     * Private
+     */
+    private static boolean validQuestionType(String questionType) {
+        for (QuestionType type : QuestionType.values()) {
+            if (type.name().equals(questionType)) {
+                return true;
             }
         }
-        QuestionTranslation translation = new QuestionTranslation();
-        translation.setLanguage(language);
-        return translation;
-    }
-
-    @Override
-    public void createObjectFromJSON(JSONObject jsonObject) {
-        try {
-            Long remoteId = jsonObject.getLong("id");
-            
-            // If a question already exists, update it from the remote
-            Question question = Question.findByRemoteId(remoteId);
-            if (question == null) {
-                question = this;
-            }
-            
-            Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
-            question.setText(jsonObject.getString("text"));
-            question.setQuestionType(jsonObject.getString("question_type"));
-            question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
-            question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
-            question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
-                    jsonObject.getString("following_up_question_identifier")
-                )
-            );
-            question.setRemoteId(remoteId);
-            question.save();
-            
-            // Generate translations
-            JSONArray translationsArray = jsonObject.getJSONArray("translations");
-            for(int i = 0; i < translationsArray.length(); i++) {
-                JSONObject translationJSON = translationsArray.getJSONObject(i);
-                QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
-                translation.setQuestion(question);
-                translation.setText(translationJSON.getString("text"));
-                translation.save();
-            }
-        } catch (JSONException je) {
-            Log.e(TAG, "Error parsing object json", je);
-        } 
+        return false;
     }
 }

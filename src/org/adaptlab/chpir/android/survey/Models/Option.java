@@ -30,15 +30,17 @@ public class Option extends ReceiveModel {
     public Option() {
         super();
     }
-
-    public Question getQuestion() {
-        return mQuestion;
-    }
-
-    public void setQuestion(Question question) {
-        mQuestion = question;
-    }
-
+    
+    /*
+     * If the language of the instrument is the same as the language setting on the
+     * device (or through the admin settings), then return the default option text.
+     * 
+     * If another language is requested, iterate through option translations to
+     * find translated text.
+     * 
+     * If the language requested is not available as a translation, return the non-translated
+     * text for the option.
+     */
     public String getText() {
         if (getQuestion().getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
         for(OptionTranslation translation : translations()) {
@@ -50,49 +52,24 @@ public class Option extends ReceiveModel {
         // Fall back to default
         return mText;
     }
-
-    public void setText(String text) {
-        mText = text;
-    }
     
-    public static List<Option> getAll() {
-        return new Select().from(Option.class).orderBy("Id ASC").execute();
-    }
     
-    public Long getRemoteId() {
-        return mRemoteId;
-    }
-    
-    public void setRemoteId(Long id) {
-        mRemoteId = id;
-    }
-    
-    public Question getNextQuestion() {
-        return Question.findByQuestionIdentifier(mNextQuestion);
-    }
-    
-    private void setNextQuestion(String nextQuestion) {
-        mNextQuestion = nextQuestion;
-    }
-    
-    public static Option findByRemoteId(Long id) {
-        return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
-    }
-    
-    public List<OptionTranslation> translations() {
-        return getMany(OptionTranslation.class, "Option");
-    }
-    
+    /*
+     * Find an exisiting translation, or return a new OptionTranslation
+     * if a translation does not yet exist.
+     */ 
     public OptionTranslation getTranslationByLanguage(String language) {
         for(OptionTranslation translation : translations()) {
             if (translation.getLanguage().equals(language)) {
                 return translation;
             }
         }
+        
         OptionTranslation translation = new OptionTranslation();
         translation.setLanguage(language);
         return translation;
     }
+    
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -124,5 +101,58 @@ public class Option extends ReceiveModel {
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }   
+    }    
+    
+    // Used for skip patterns
+    public Question getNextQuestion() {
+        return Question.findByQuestionIdentifier(mNextQuestion);
+    }
+    
+    // Used for skip patterns
+    private void setNextQuestion(String nextQuestion) {
+        mNextQuestion = nextQuestion;
+    }
+    
+    /*
+     * Finders
+     */
+    public static List<Option> getAll() {
+        return new Select().from(Option.class).orderBy("Id ASC").execute();
+    }
+    
+    public static Option findByRemoteId(Long id) {
+        return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
+    }
+  
+    
+    /*
+     * Relationships
+     */ 
+    public List<OptionTranslation> translations() {
+        return getMany(OptionTranslation.class, "Option");
+    }
+    
+    
+    /*
+     * Getters/Setters
+     */
+    public Question getQuestion() {
+        return mQuestion;
+    }
+
+    public void setQuestion(Question question) {
+        mQuestion = question;
+    }
+
+    public void setText(String text) {
+        mText = text;
+    }
+    
+    public Long getRemoteId() {
+        return mRemoteId;
+    }
+    
+    public void setRemoteId(Long id) {
+        mRemoteId = id;
     }
 }

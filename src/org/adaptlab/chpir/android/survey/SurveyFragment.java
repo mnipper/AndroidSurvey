@@ -60,38 +60,8 @@ public class SurveyFragment extends Fragment {
         }
         
         mNextButton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
-                int questionIndex = mInstrument.questions().indexOf(mQuestion);
-                int questionsInInstrument = mInstrument.questions().size();
-
-                if (questionIndex < questionsInInstrument - 1) {
-                    
-                    mQuestion = getNextQuestion(questionIndex);
-                    
-                    FragmentManager fm = getChildFragmentManager();
-                    fm.beginTransaction()
-                            .replace(
-                                    R.id.question_container,
-                                    QuestionFragmentFactory
-                                            .createQuestionFragment(mQuestion, mSurvey))
-                            .commit();
-                    
-                    setQuestionText(mQuestionText);
-
-                    // Change next button text to finish if last question
-                    if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
-                        mNextButton.setText(R.string.finish_button);
-                    }
-                    
-                } else {
-                    // Hide survey activity when finish button pressed
-                    getActivity().finish();
-                    mSurvey.setAsComplete();
-                    mSurvey.save();
-                    return;
-                }               
-
+                moveToNextQuestion();
             }
         });
 
@@ -101,8 +71,8 @@ public class SurveyFragment extends Fragment {
     }
 
 	protected void createQuestionFragment() {	//TODO Re-factored for testing purposes
-		Fragment questionFragment = QuestionFragmentFactory
-                .createQuestionFragment(mQuestion, mSurvey);
+        // Set up the question fragment for the first question and commit it.
+        Fragment questionFragment = QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
         FragmentManager fm = getChildFragmentManager();
         if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
@@ -110,6 +80,14 @@ public class SurveyFragment extends Fragment {
         }
 	}
     
+    /*
+     * If a question has a skip pattern, then read the response
+     * when pressing the "next" button.  If the index of the response
+     * is able to have a skip pattern, then set the next question to
+     * the question indicated by the skip pattern.  "Other" responses
+     * cannot have skip patterns, and the question is just set to the
+     * next question in the sequence.
+     */
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;
         
@@ -137,10 +115,65 @@ public class SurveyFragment extends Fragment {
         return nextQuestion;
     }
     
+    /*
+     * Switch out the next question with a fragment from the
+     * QuestionFragmentFactory.  If this is the last question
+     * then change the button text to "finish."  When "finish"
+     * is pressed, mark the survey as complete and finish the
+     * activity.
+     */
+    private void moveToNextQuestion() {
+        int questionIndex = mInstrument.questions().indexOf(mQuestion);
+        int questionsInInstrument = mInstrument.questions().size();
+
+        if (questionIndex < questionsInInstrument - 1) {
+            
+            mQuestion = getNextQuestion(questionIndex);
+            
+            FragmentManager fm = getChildFragmentManager();
+            fm.beginTransaction()
+                    .replace(
+                            R.id.question_container,
+                            QuestionFragmentFactory
+                                    .createQuestionFragment(mQuestion, mSurvey))
+                    .commit();
+            
+            setQuestionText(mQuestionText);
+
+            // Change next button text to finish if last question
+            if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
+                mNextButton.setText(R.string.finish_button);
+            }
+            
+        } else {
+            // Hide survey activity when finish button pressed
+            getActivity().finish();
+            mSurvey.setAsComplete();
+            mSurvey.save();
+            return;
+        }
+    }
     
+    /*
+     * If this question is a following up question, then attempt
+     * to get response to question being followed up on.  If this
+     * response was skipped, then skip this question.  It does
+     * not make sense to ask a follow up question to a question
+     * that was not answered.
+     * 
+     * If this question is not a following up question, then just
+     * set the text as normal.
+     */
     private void setQuestionText(TextView text) {
         if (mQuestion.getFollowingUpQuestion() != null) {
-            text.setText(mQuestion.getFollowingUpText(mSurvey));
+            
+            String followUpText = mQuestion.getFollowingUpText(mSurvey);
+            
+            if (followUpText == null) {
+                moveToNextQuestion();
+            } else {
+                text.setText(followUpText);
+            }
         } else {
             text.setText(mQuestion.getText());
         }

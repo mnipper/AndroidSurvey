@@ -30,8 +30,37 @@ public class Response extends SendModel {
 	public Response() {
 		super();
 		mSent = false;
+		mText = "";
 	}
-
+	
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("survey_uuid", getSurvey().getUUID());
+            jsonObject.put("question_id", getQuestion().getRemoteId());
+            jsonObject.put("text", getText());
+            jsonObject.put("other_response", getOtherResponse());
+            
+            json.put("response", jsonObject);
+        } catch (JSONException je) {
+            Log.e(TAG, "JSON exception", je);
+        }
+        return json;
+    }
+    
+    /*
+     * Finders
+     */
+    public static List<Response> getAll() {
+        return new Select().from(Response.class).orderBy("Id ASC").execute();
+    }
+    
+    /*
+     * Getters/Setters
+     */
 	public Question getQuestion() {
 		return mQuestion;
 	}
@@ -63,28 +92,6 @@ public class Response extends SendModel {
 	public String getOtherResponse() {
 	    return mOtherResponse;
 	}
-	
-    public static List<Response> getAll() {
-        return new Select().from(Response.class).orderBy("Id ASC").execute();
-    }
-
-    @Override
-    public JSONObject toJSON() {
-        JSONObject json = new JSONObject();
-        
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("survey_uuid", getSurvey().getUUID());
-            jsonObject.put("question_id", getQuestion().getRemoteId());
-            jsonObject.put("text", getText());
-            jsonObject.put("other_response", getOtherResponse());
-            
-            json.put("response", jsonObject);
-        } catch (JSONException je) {
-            Log.e(TAG, "JSON exception", je);
-        }
-        return json;
-    }
     
     @Override
     public boolean isSent() {
@@ -96,6 +103,9 @@ public class Response extends SendModel {
         mSent = true;
     }
     
+    /*
+     * Only send if survey is ready to send.
+     */
     @Override 
     public boolean readyToSend() {
         return getSurvey().readyToSend();

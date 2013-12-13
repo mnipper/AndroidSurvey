@@ -2,14 +2,17 @@ package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.QuestionFragments.DateQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +47,12 @@ public class QuestionFragmentFactory {
             fragment = new FrontPictureQuestionFragment();
         } else if ("REAR_PICTURE".equals(type)) {
             fragment = new RearPictureQuestionFragment();
+        } else if ("DATE".equals(type)) {
+            fragment = new DateQuestionFragment();
+        } else if ("RATING".equals(type)) {
+            fragment = new RatingQuestionFragment();
+        } else if ("TIME".equals(type)) {
+            fragment = new TimeQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

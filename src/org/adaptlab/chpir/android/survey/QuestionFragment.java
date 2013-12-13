@@ -56,7 +56,10 @@ public abstract class QuestionFragment extends Fragment {
 
         ViewGroup questionComponent = (LinearLayout) v
                 .findViewById(R.id.question_component);
+        
+        // Overridden by subclasses to place their graphical elements on the fragment.
         createQuestionComponent(questionComponent);
+        
         return v;
     }
 
@@ -76,13 +79,19 @@ public abstract class QuestionFragment extends Fragment {
         return mInstrument;
     }
     
+    /*
+     * An otherText is injected from a subclass.  This gives
+     * the majority of the control to the otherText to the subclass,
+     * but the things that all other text fields have in common
+     * can go here.
+     */
     public void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
         otherText.setEnabled(false);
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
-                saveResponse(s.toString());
+                saveOtherResponse(s.toString());
             }
             
             // Required by interface
@@ -92,8 +101,8 @@ public abstract class QuestionFragment extends Fragment {
         });
     }
     
-    public void saveResponse(String response) {
-    	getResponse().setOtherResponse(response);
+    public void saveOtherResponse(String response) {
+        getResponse().setOtherResponse(response);
         getResponse().save();
     }
 }

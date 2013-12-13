@@ -31,28 +31,7 @@ public class Survey extends SendModel {
         mComplete = false;
         mUUID = UUID.randomUUID().toString();
     }
-
-    public Instrument getInstrument() {
-        return mInstrument;
-    }
-
-    public void setInstrument(Instrument instrument) {
-        mInstrument = instrument;
-    }
-
-    public List<Response> responses() {
-        return getMany(Response.class, "Survey");
-    }
     
-    public Response getResponseByQuestion(Question question) {
-        for (Response response : responses()) {
-            if (response.getQuestion() == question) {
-                return response;
-            }
-        }
-        return null;
-    }
-
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
@@ -69,6 +48,39 @@ public class Survey extends SendModel {
             Log.e(TAG, "JSON exception", je);
         }
         return json;
+    }
+    
+    /*
+     * Finders
+     */   
+    public Response getResponseByQuestion(Question question) {
+        for (Response response : responses()) {
+            if (response.getQuestion() == question) {
+                return response;
+            }
+        }
+        return null;
+    }
+
+    
+    /*
+     * Relationships
+     */
+    public List<Response> responses() {
+        return getMany(Response.class, "Survey");
+    }
+ 
+    
+    /*
+     * Getters/Setters
+     */
+
+    public Instrument getInstrument() {
+        return mInstrument;
+    }
+
+    public void setInstrument(Instrument instrument) {
+        mInstrument = instrument;
     }
     
     public String getUUID() {

@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
@@ -15,7 +14,6 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -36,7 +34,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("NewApi")
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
@@ -129,6 +126,8 @@ public class InstrumentFragment extends ListFragment {
     private final void appInit() {
         if (REQUIRE_SECURITY_CHECKS) {
             if (!runDeviceSecurityChecks()) {
+                // Device has failed security checks
+                
                 return;
             }
         }
@@ -152,6 +151,15 @@ public class InstrumentFragment extends ListFragment {
         PollService.setServiceAlarm(getActivity(), true);
     }
 
+    /*
+     * Security checks that must pass for the application to start.
+     * 
+     * If the application fails any security checks, display
+     * AlertDialog indicating why and immediately stop execution
+     * of the application.
+     * 
+     * Current security checks: require encryption
+     */
     private final boolean runDeviceSecurityChecks() {
         DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getActivity()
                 .getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -170,6 +178,9 @@ public class InstrumentFragment extends ListFragment {
         return true;
     }
     
+    /*
+     * Only display admin area if correct password.
+     */
     private void displayPasswordPrompt() {
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -191,6 +202,9 @@ public class InstrumentFragment extends ListFragment {
             }).show();
     }
     
+    /*
+     * Hash the entered password and compare it with admin password hash
+     */
     private boolean checkAdminPassword(String password) {
         String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
         return hash.equals(ADMIN_PASSWORD_HASH);

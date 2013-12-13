@@ -22,7 +22,7 @@ public class Question extends ReceiveModel {
     public static enum QuestionType {
         SELECT_ONE, SELECT_MULTIPLE, SELECT_ONE_WRITE_OTHER,
         SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
-        FRONT_PICTURE, REAR_PICTURE;
+        FRONT_PICTURE, REAR_PICTURE, DATE;
     }
 
     @Column(name = "Text")
@@ -167,7 +167,8 @@ public class Question extends ReceiveModel {
     
     public String getFollowingUpText(Survey survey) {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
-        if (getFollowingUpQuestion().getQuestionType().equals(QuestionType.FREE_RESPONSE)) {
+        if (getFollowingUpQuestion().getQuestionType().equals(QuestionType.FREE_RESPONSE) ||
+                getFollowingUpQuestion().getQuestionType().equals(QuestionType.DATE)) {
             return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
         } else {
             return getText().replaceAll(

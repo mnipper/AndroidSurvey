@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.QuestionFragments.DateQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
@@ -44,6 +45,8 @@ public class QuestionFragmentFactory {
             fragment = new FrontPictureQuestionFragment();
         } else if ("REAR_PICTURE".equals(type)) {
             fragment = new RearPictureQuestionFragment();
+        } else if ("DATE".equals(type)) {
+            fragment = new DateQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

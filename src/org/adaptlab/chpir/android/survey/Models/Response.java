@@ -30,6 +30,7 @@ public class Response extends SendModel {
 	public Response() {
 		super();
 		mSent = false;
+		mText = "";
 	}
 
 	public Question getQuestion() {

@@ -12,6 +12,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOt
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,6 +51,8 @@ public class QuestionFragmentFactory {
             fragment = new DateQuestionFragment();
         } else if ("RATING".equals(type)) {
             fragment = new RatingQuestionFragment();
+        } else if ("TIME".equals(type)) {
+            fragment = new TimeQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

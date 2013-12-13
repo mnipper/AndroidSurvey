@@ -19,8 +19,6 @@ public class DateQuestionFragment extends QuestionFragment {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int year = c.get(Calendar.YEAR);
-
-        getResponse().setResponse(formatDate(month, day, year));
        
         datePicker.init(year, month, day, new OnDateChangedListener() {
             @Override
@@ -30,6 +28,10 @@ public class DateQuestionFragment extends QuestionFragment {
                 getResponse().save();
             }           
         });
+
+        getResponse().setResponse(formatDate(month, day, year));
+        getResponse().save();
+        
         questionComponent.addView(datePicker);
     }
     

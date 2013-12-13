@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.adaptlab.chpir.android.survey.QuestionFragmentFactory;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.SurveyActivity;
+import org.adaptlab.chpir.android.survey.Models.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,11 +23,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ FreeResponseQuestionFragment.class })
+@PrepareForTest({ FreeResponseQuestionFragment.class, Response.class })
 public class FreeResponseQuestionFragmentTest {
+	private static final String TEXT = "ALI BABA";
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;
 	private FreeResponseQuestionFragment questionFragment;
@@ -70,18 +76,20 @@ public class FreeResponseQuestionFragmentTest {
 	public void questionComponentShouldHaveHintString() throws Exception {
 		ViewGroup qComponent = new LinearLayout(Robolectric.application);
 		questionFragment.createQuestionComponent(qComponent);
-		String hint = Robolectric.application.getResources().getString(
+		String hintString = activity.getResources().getString(
 				R.string.free_response_edittext);
-		String text = questionFragment
-				.getString(R.string.free_response_edittext);
-		assertEquals(hint, text);
+		EditText text = (EditText) qComponent.getChildAt(0);
+		assertEquals(hintString, text.getHint().toString());
 	}
 
 	@Test
-	// TODO FIX
 	public void shouldHaveTextChangeListener() throws Exception {
+		Response response = spy(new Response());
+		when(questionFragment.getResponse()).thenReturn(response);
 		ViewGroup qComponent = new LinearLayout(Robolectric.application);
 		questionFragment.createQuestionComponent(qComponent);
-		assertEquals(qComponent.getChildAt(0).hasOnClickListeners(), true);
+		EditText text = (EditText) qComponent.getChildAt(0);
+		text.setText(TEXT);
+		verify(response, times(1)).setResponse(TEXT);
 	}
 }

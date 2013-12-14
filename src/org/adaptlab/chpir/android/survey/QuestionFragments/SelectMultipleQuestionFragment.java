@@ -37,7 +37,7 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
         Response mResponse = new Response();
         mResponse.setQuestion(getQuestion());
         mResponse.setSurvey(getSurvey());
-        mResponse.setResponse(id+"");
+        mResponse.setResponse(String.valueOf(id));
         mResponse.save();
     }
 }

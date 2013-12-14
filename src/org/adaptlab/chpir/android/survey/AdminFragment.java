@@ -38,7 +38,7 @@ public class AdminFragment extends Fragment {
 
         mSyncIntervalEditText = (EditText) v
                 .findViewById(R.id.sync_interval_edit_text);
-        mSyncIntervalEditText.setText(AdminSettings.getInstance().getSyncIntervalInMinutes() + "");
+        mSyncIntervalEditText.setText(String.valueOf(AdminSettings.getInstance().getSyncIntervalInMinutes()));
         
         mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_edit_text);
         mApiEndPointEditText.setText(AdminSettings.getInstance().getApiUrl());

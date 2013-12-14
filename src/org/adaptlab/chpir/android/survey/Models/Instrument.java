@@ -20,7 +20,11 @@ import com.activeandroid.query.Select;
 @Table(name = "Instruments")
 public class Instrument extends ReceiveModel {
     private static final String TAG = "Instrument";
+    
     public static final String KHMER_LANGUAGE_CODE = "km";
+    public static final String KHMER_FONT_LOCATION = "fonts/khmerOS.ttf";
+    
+    public static final String LEFT_ALIGNMENT = "left";
 
     @Column(name = "Title")
     private String mTitle;
@@ -85,14 +89,14 @@ public class Instrument extends ReceiveModel {
     
     public Typeface getTypeFace(Context context) {
         if (getDeviceLanguage().equals(KHMER_LANGUAGE_CODE)) {
-            return Typeface.createFromAsset(context.getAssets(), "fonts/khmerOS.ttf"); 
+            return Typeface.createFromAsset(context.getAssets(), KHMER_FONT_LOCATION); 
         } else {
             return Typeface.DEFAULT;
         }
     }
     
     public int getDefaultGravity() {
-        if (getAlignment().equals("left")) {
+        if (getAlignment().equals(LEFT_ALIGNMENT)) {
             return Gravity.LEFT;
         } else {
             return Gravity.RIGHT;

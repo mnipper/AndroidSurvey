@@ -37,7 +37,7 @@ public class SelectOneQuestionFragment extends QuestionFragment {
         
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                getResponse().setResponse(checkedId+"");
+                getResponse().setResponse(String.valueOf(checkedId));
                 getResponse().save();
             }
         });

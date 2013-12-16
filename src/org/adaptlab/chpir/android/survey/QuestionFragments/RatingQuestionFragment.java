@@ -16,7 +16,7 @@ public class RatingQuestionFragment extends QuestionFragment  {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating,
                     boolean fromUser) {
-                getResponse().setResponse(rating+"");
+                getResponse().setResponse(String.valueOf(rating));
                 getResponse().save();
             }
         });

@@ -201,6 +201,10 @@ public class Question extends ReceiveModel {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
     
+    public boolean isFollowUpQuestion() {
+        return (getFollowingUpQuestion() != null);
+    }
+    
     /*
      * Relationships
      */

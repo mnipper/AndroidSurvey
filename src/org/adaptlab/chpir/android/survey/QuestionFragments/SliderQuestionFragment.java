@@ -13,7 +13,7 @@ public class SliderQuestionFragment extends QuestionFragment {
         final SeekBar slider = new SeekBar(getActivity());
         slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                getResponse().setResponse(progress+"");
+                getResponse().setResponse(String.valueOf(progress));
                 getResponse().save();
             }
 

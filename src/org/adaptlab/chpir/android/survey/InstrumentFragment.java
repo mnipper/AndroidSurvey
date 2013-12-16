@@ -14,6 +14,8 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.crashlytics.android.Crashlytics;
+
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -133,6 +135,9 @@ public class InstrumentFragment extends ListFragment {
         }
         
         Log.i(TAG, "Initializing application...");
+        
+        Crashlytics.start(getActivity());
+        
         DatabaseSeed.seed(getActivity());
 
         if (AdminSettings.getInstance().getDeviceIdentifier() == null) {

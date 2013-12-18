@@ -42,9 +42,9 @@ public class Option extends ReceiveModel {
      * text for the option.
      */
     public String getText() {
-        if (getQuestion().getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mText;
+        if (getQuestion().getInstrument().getLanguage().equals(getDeviceLanguage())) return mText;
         for(OptionTranslation translation : translations()) {
-            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
+            if (translation.getLanguage().equals(getDeviceLanguage())) {
                 return translation.getText();
             }
         }
@@ -52,6 +52,10 @@ public class Option extends ReceiveModel {
         // Fall back to default
         return mText;
     }
+
+	public String getDeviceLanguage() {
+		return Instrument.getDeviceLanguage();
+	}
     
     
     /*
@@ -105,8 +109,12 @@ public class Option extends ReceiveModel {
     
     // Used for skip patterns
     public Question getNextQuestion() {
-        return Question.findByQuestionIdentifier(mNextQuestion);
+        return findByQuestionIdentifier(mNextQuestion);
     }
+
+	public Question findByQuestionIdentifier(String question) {
+		return Question.findByQuestionIdentifier(question);
+	}
     
     // Used for skip patterns
     private void setNextQuestion(String nextQuestion) {

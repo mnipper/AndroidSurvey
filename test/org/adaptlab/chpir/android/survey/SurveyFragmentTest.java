@@ -46,7 +46,7 @@ public class SurveyFragmentTest {
 	private static final String TEXT = "text";
 	private static final QuestionType QUESTION_TYPE = QuestionType
 			.valueOf("SELECT_ONE");
-	private static final String FOLLOW_UP_TEXT = "follow text";
+	private static final String FOLLOW_UP_TEXT = "text";
 	private SurveyActivity activity;
 	private SurveyFragment sFragment;
 	private Question question;

@@ -56,14 +56,16 @@ public class HttpPushrTest {
 		
 	}
 	
-	@Test
+	//TODO Write remaining Unit Tests
+	
+	/*@Test
 	public void shouldCreateListOfAllElements() throws Exception {
 		spy(new ActiveRecordCloudSync());
 		doReturn(END_POINT).when(ActiveRecordCloudSync.class);
 		doReturn(elements).when(pushr).getElements();
 		pushr.push();
 		verify(pushr, times(1)).getElements();
-	}
+	}*/
 	
 	/*@Test
 	public void shouldNotGetParamsIfNoHttpClientIsCreated() throws Exception {

@@ -40,7 +40,7 @@ public class Survey extends SendModel {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("instrument_id", getInstrument().getRemoteId());
             jsonObject.put("instrument_version_number", getInstrument().getVersionNumber());
-            jsonObject.put("device_identifier", AdminSettings.getInstance().getDeviceIdentifier());
+            jsonObject.put("device_identifier", getAdminInstanceDeviceIdentifier());
             jsonObject.put("uuid", mUUID);
             
             json.put("survey", jsonObject);
@@ -48,6 +48,10 @@ public class Survey extends SendModel {
             Log.e(TAG, "JSON exception", je);
         }
         return json;
+    }
+    
+    public String getAdminInstanceDeviceIdentifier() {
+    	return AdminSettings.getInstance().getDeviceIdentifier();
     }
     
     /*

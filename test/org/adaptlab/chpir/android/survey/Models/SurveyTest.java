@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,8 @@ public class SurveyTest {
 	private Response response;
 	private Question question;
 	private Survey spySurvey;
-	private JSONObject json;
+	private JSONObject json1;
+	private JSONObject json2;
 	
 	@Before
 	public void onSetup() {
@@ -118,41 +120,44 @@ public class SurveyTest {
 		doReturn(question).when(response).getQuestion();
 		assertEquals(response, survey1.getResponseByQuestion(question)); 
 	}
-	/*	TODO
-	 * 1. Stub static correctly - AdminSettings
-	 * 2. JSONOBject not saving properly
-	*/
-	private void setUpJson() {
+	
+	private void setUpJson() throws JSONException {
 		doReturn(instrument).when(spySurvey).getInstrument();
 		when(instrument.getRemoteId()).thenReturn(REMOTE_ID);
 		when(instrument.getVersionNumber()).thenReturn(VERSION_NUMBER);
-		AdminSettings admin = spy(new AdminSettings());
-		doReturn(admin).when(AdminSettings.class);
-		doReturn(DEVICE_ID).when(admin).getDeviceIdentifier();
-		json = spySurvey.toJSON();
+		doReturn(DEVICE_ID).when(spySurvey).getAdminInstanceDeviceIdentifier();
+		json1 = spySurvey.toJSON();
+		String js = json1.getString("survey");
+		json2 = new JSONObject(js);
+	}
+	
+	@Test
+	public void jsonShouldNotBeNull() throws Exception {
+		setUpJson();
+		assertNotNull(json2);
 	}
 	
 	@Test
 	public void shouldHaveJsonStringInstrumentId() throws Exception {
 		setUpJson();
-		assertEquals(REMOTE_ID.toString(), json.getString("instrument_id"));
+		assertEquals(REMOTE_ID.toString(), json2.getString("instrument_id"));
 	}
 	
 	@Test
 	public void shouldHaveJsonStringInstrumentVersionNumber() throws Exception {
 		setUpJson();
-		assertEquals(VERSION_NUMBER.toString(), json.getString("instrument_version_number"));
+		assertEquals(VERSION_NUMBER.toString(), json2.getString("instrument_version_number"));
 	}
 	
 	@Test
 	public void shouldHaveJsonStringDeviceIdentifier() throws Exception {
 		setUpJson();
-		assertEquals(DEVICE_ID, json.getString("device_identifier"));
+		assertEquals(DEVICE_ID, json2.getString("device_identifier"));
 	}
 	
 	@Test
 	public void shouldHaveJsonStringUuid() throws Exception {
 		setUpJson();
-		assertNotNull(json.getString("uuid"));
+		assertNotNull(json2.getString("uuid"));
 	}
 }

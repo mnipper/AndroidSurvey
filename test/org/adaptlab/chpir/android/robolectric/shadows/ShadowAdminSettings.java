@@ -1,4 +1,4 @@
-package android.robolectric.shadows;
+package org.adaptlab.chpir.android.robolectric.shadows;
 
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.robolectric.annotation.Implementation;

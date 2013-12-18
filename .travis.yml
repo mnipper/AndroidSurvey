@@ -8,3 +8,11 @@ before_install:
 - export ANDROID_HOME=~/Users/leonardngeno/dev/android-sdk-macosx
 - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 - android update sdk --filter platform-tools,android-18,extra-android-support,android-17,sysimg-17 --no-ui --force
+notifications:
+  email: false
+  irc:
+    on_success: always
+    on_failure: always
+    use_notice: true
+    channels:
+      - "card.freenode.net#dukedevelopers"

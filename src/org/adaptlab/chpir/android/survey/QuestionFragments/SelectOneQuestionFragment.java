@@ -12,6 +12,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 public class SelectOneQuestionFragment extends QuestionFragment {
     private RadioGroup radioGroup;
 
+    // This is used to add additional UI components in subclasses.
     protected void beforeAddViewHook(ViewGroup questionComponent) {
     }
 

@@ -8,7 +8,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 
-import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubInstrument;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;

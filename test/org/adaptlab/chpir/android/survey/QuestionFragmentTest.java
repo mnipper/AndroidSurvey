@@ -15,7 +15,6 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
-import org.adaptlab.chpir.android.survey.nonstaticclassimplementations.SubQuestion;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,7 +72,7 @@ public class QuestionFragmentTest {
 	}
 	
 	private void setUpMocks() {
-		question = mock(SubQuestion.class);
+		question = mock(Question.class);
 		survey = mock(Survey.class);
 		instrument = mock(Instrument.class);
 		response = mock(Response.class);

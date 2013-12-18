@@ -31,8 +31,7 @@ public class HttpPushr {
             return;
         }
 
-        List<? extends SendModel> allElements = new Select()
-                .from(mSendTableClass).orderBy("Id ASC").execute();
+        List<? extends SendModel> allElements = getElements();
 
         for (SendModel element : allElements) {
             HttpClient client = new DefaultHttpClient();
@@ -77,4 +76,8 @@ public class HttpPushr {
         }
 
     }
+
+	public List<? extends SendModel> getElements() {
+		return new Select().from(mSendTableClass).orderBy("Id ASC").execute();
+	}
 }

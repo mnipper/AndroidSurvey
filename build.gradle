@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-     compile 'com.android.support:support-v4:13.0.0'
+     compile 'com.android.support:support-v4:19.0.0'
      compile files('libs/ActiveAndroid.jar')
      compile files('libs/commons-codec-1.8.jar')
      compile files('libs/crashlytics.jar')

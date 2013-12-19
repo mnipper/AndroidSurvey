@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-sw/strings.xml -->
+    <eat-comment />
+
+    <string name="action_settings">mazingira</string>
+    <string name="admin_settings">utawala</string>
+    <string name="api_endpoint">Api Endpoint Url</string>
+    <string name="api_unavailable">Server si kujibu</string>
+    <string name="app_name">utafiti</string>
+    <string name="cancel">kufuta</string>
+    <string name="device_identifier">Device Identifier</string>
+    <string name="encryption_required_text">Maombi Hii inahitaji kwamba kifaa kuwa ya siri. Tafadhali fumbo kifaa yako kuendelea.</string>
+    <string name="encryption_required_title">Encryption required</string>
+    <string name="finish_button">kumaliza</string>
+    <string name="free_response_edittext">kujibu hapa</string>
+    <string name="incorrect_password">Password Hii ni sahihi.</string>
+    <string name="last_update">Last update:  </string>
+    <string name="network_unavailable">Hakuna mtandao inapatikana kwenye kifaa.</string>
+    <string name="next_button">ijayo</string>
+    <string name="okay">sawa</string>
+    <string name="other_specify">nyingine</string>
+    <string name="other_specify_edittext">bayana nyingine</string>
+    <string name="password_message">Kitendo hiki kinahitaji password. Tafadhali kuingia password chini.</string>
+    <string name="password_title">kuingia password</string>
+    <string name="questions">maswali</string>
+    <string name="refresh">furahisha</string>
+    <string name="save_button">Save</string>
+    <string name="start_survey">kuanza utafiti</string>
+    <string name="survey_title_label">kuchagua utafiti</string>
+    <string name="surveys">tafiti</string>
+    <string name="sync_interval">Sync Interval (minutes)</string>
+    <string name="sync_notification_complete_text">syncing ni kamili.</string>
+    <string name="sync_notification_text">syncing na server</string>
+
+</resources>

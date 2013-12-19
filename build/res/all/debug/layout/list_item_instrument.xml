@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <TextView
+        android:id="@+id/instrument_list_item_titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="10dp"
+        android:text="Instrument title"
+        android:textSize="22sp" />  
+    
+     <TextView
+        android:id="@+id/instrument_list_item_questionCountTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/instrument_list_item_titleTextView"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="10dp"
+        android:textSize="14dp"
+        android:textColor="#545454" />   
+
+</RelativeLayout>
+<!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/layout/list_item_instrument.xml -->

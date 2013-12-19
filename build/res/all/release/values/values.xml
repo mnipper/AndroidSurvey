@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/dimens.xml -->
+    <eat-comment />
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="action_settings">Settings</string>
+    <string name="admin_settings">Admin</string>
+    <string name="api_endpoint">Api Endpoint Url</string>
+    <string name="api_unavailable">Remote api is not responsive.</string>
+    <string name="app_name">Survey</string>
+    <string name="cancel">Cancel</string>
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/com_crashlytics_export_strings.xml -->
+    <eat-comment />
+
+    <string name="com.crashlytics.android.build_id">3ed787ec-b27c-48b2-8f72-fb6abced748f</string>
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/api-keys.xml -->
+    <eat-comment />
+
+    <string name="crashlytics_api_key">2ab7d52a24a99c4f3cc3a1c7d85d24c7386724c3</string>
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/strings.xml -->
+    <eat-comment />
+
+    <string name="custom_locale">Custom ISO-639-1 Code</string>
+    <string name="device_identifier">Device Identifier</string>
+    <string name="encryption_required_text">This application requires that the device be encrypted.  Please encrypt your device to continue.</string>
+    <string name="encryption_required_title">Encryption required</string>
+    <string name="finish_button">Finish</string>
+    <string name="free_response_edittext">Answer here</string>
+    <string name="hello">Hello World</string>
+    <string name="incorrect_password">This password is incorrect.</string>
+    <string name="last_update">Last update:  </string>
+    <string name="network_unavailable">No network available on the device.</string>
+    <string name="next_button">Next</string>
+    <string name="okay">Ok</string>
+    <string name="other_specify">Other</string>
+    <string name="other_specify_edittext">Specify other</string>
+    <string name="password_message">This action requires a password.  Please enter the password below.</string>
+    <string name="password_title">Enter password</string>
+    <string name="questions">questions</string>
+    <string name="refresh">Refresh</string>
+    <string name="save_button">Save</string>
+    <string name="start_survey">Start Survey</string>
+    <string name="survey_title_label">Choose instrument</string>
+    <string name="surveys">surveys</string>
+    <string name="sync_interval">Sync Interval (minutes)</string>
+    <string name="sync_notification_complete_text">Syncing with server complete.</string>
+    <string name="sync_notification_text">Syncing with server...</string>
+    <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>

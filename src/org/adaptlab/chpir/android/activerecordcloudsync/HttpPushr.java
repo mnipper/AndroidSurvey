@@ -62,7 +62,6 @@ public class HttpPushr {
                                         + element.toJSON());
                         InputStream in = response.getEntity().getContent();
                         element.setAsSent();
-                        element.save();
                     } else {
                         Log.e(TAG, "Received BAD HTTP status code " + response.getStatusLine().getStatusCode()
                                 + " for " + element.toJSON());

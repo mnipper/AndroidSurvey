@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<lint>
-    <issue id="UseValueOf">
-        <ignore path="src/org/adaptlab/chpir/android/survey/DatabaseSeed.java" />
-    </issue>
-</lint>

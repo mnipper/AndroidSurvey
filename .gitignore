@@ -32,3 +32,6 @@ res/values/api-keys.xml
 # Gradle
 local.properties
 .gradle
+
+#Lint
+lint.xml

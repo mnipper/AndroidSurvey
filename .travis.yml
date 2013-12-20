@@ -12,26 +12,33 @@ before_install:
   - tar -xzf android-sdk_r22.3-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+ 
+# manually set sdk.dir variable, according to local paths
+  - echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+# "echo yes" to accept license from android sdk manager tool
+  - echo yes | android update sdk -t tools,platform-tools,extra-android-support,
+    extra-android-m2repository,android-18 --force --no-ui
+
+# for gradle output style only needed for Travis, not for standard xterm
+  - export TERM=dumb
 
 # Gradle
   - wget http://services.gradle.org/distributions/gradle-1.9-bin.zip
   - unzip gradle-1.9-bin.zip
   - export GRADLE_HOME=$PWD/gradle-1.9
   - export PATH=$GRADLE_HOME/bin:$PATH
-
-# install android build tools
-#  - wget https://dl-ssl.google.com/android/repository/build-tools_r18.1.1-linux.zip
-#  - unzip build-tools_r18.1.1-linux.zip -d $ANDROID_HOME
-#  - mkdir -p $ANDROID_HOME/build-tools/
-#  - mv $ANDROID_HOME/android-4.4 $ANDROID_HOME/build-tools/18.1.1
   
-# Install required components.
-# Other relevant API's
-  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter android-18 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter sysimg-18 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
+# build tools cannot be installed through "android update sdk" as of now
+  - wget http://dl.google.com/android/repository/build-tools_r18.0.1-linux.zip
+  - mkdir -p $ANDROID_HOME/build-tools
+  - unzip -qq build-tools_r18.0.1-linux.zip -d $ANDROID_HOME/build-tools/
+  - mv $ANDROID_HOME/build-tools/android-4.3 $ANDROID_HOME/build-tools/18.0.1
+
+# verify files exist in right paths
+  - find $ANDROID_HOME/build-tools
+  - file $ANDROID_HOME/build-tools/18.0.1/aapt
+
 
 # irc notifications
 notifications:

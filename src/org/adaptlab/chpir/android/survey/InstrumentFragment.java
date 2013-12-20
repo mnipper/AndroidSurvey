@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
-    private final static boolean REQUIRE_SECURITY_CHECKS = false;
+    private final static boolean REQUIRE_SECURITY_CHECKS = true;
     private final static String ADMIN_PASSWORD_HASH =
             "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
 
@@ -104,6 +104,7 @@ public class InstrumentFragment extends ListFragment {
 
             TextView questionCountTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_questionCountTextView);
+            
             questionCountTextView.setText(instrument.questions().size() + " "
                     + getString(R.string.questions));
 
@@ -136,7 +137,7 @@ public class InstrumentFragment extends ListFragment {
         
         Log.i(TAG, "Initializing application...");
         
-        Crashlytics.start(getActivity());
+        //Crashlytics.start(getActivity());
         
         DatabaseSeed.seed(getActivity());
 

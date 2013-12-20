@@ -24,6 +24,7 @@
     <string name="other_specify_edittext">تحديد أخرى</string>
     <string name="password_message">هذا العمل يتطلب كلمة مرور. الرجاء إدخال كلمة المرور أدناه.</string>
     <string name="password_title">أدخل كلمة المرور</string>
+    <string name="question">سؤال</string>
     <string name="questions">الأسئلة</string>
     <string name="refresh">تحديث</string>
     <string name="save_button">Save</string>

@@ -42,6 +42,7 @@
     <string name="other_specify_edittext">Specify other</string>
     <string name="password_message">This action requires a password.  Please enter the password below.</string>
     <string name="password_title">Enter password</string>
+    <string name="question">question</string>
     <string name="questions">questions</string>
     <string name="refresh">Refresh</string>
     <string name="save_button">Save</string>

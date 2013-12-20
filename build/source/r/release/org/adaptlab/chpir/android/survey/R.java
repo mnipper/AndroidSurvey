@@ -80,15 +80,16 @@ public final class R {
         public static final int other_specify_edittext=0x7f050015;
         public static final int password_message=0x7f050016;
         public static final int password_title=0x7f050017;
-        public static final int questions=0x7f050018;
-        public static final int refresh=0x7f050019;
-        public static final int save_button=0x7f05001a;
-        public static final int start_survey=0x7f05001b;
-        public static final int survey_title_label=0x7f05001c;
-        public static final int surveys=0x7f05001d;
-        public static final int sync_interval=0x7f05001e;
-        public static final int sync_notification_complete_text=0x7f05001f;
-        public static final int sync_notification_text=0x7f050020;
+        public static final int question=0x7f050018;
+        public static final int questions=0x7f050019;
+        public static final int refresh=0x7f05001a;
+        public static final int save_button=0x7f05001b;
+        public static final int start_survey=0x7f05001c;
+        public static final int survey_title_label=0x7f05001d;
+        public static final int surveys=0x7f05001e;
+        public static final int sync_interval=0x7f05001f;
+        public static final int sync_notification_complete_text=0x7f050020;
+        public static final int sync_notification_text=0x7f050021;
     }
     public static final class style {
         /** 

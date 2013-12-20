@@ -22,7 +22,8 @@
     <string name="network_unavailable">لا الشبكة المتوفرة على الجهاز</string> 
     <string name="api_unavailable">الملقم البعيد لا يستجيب.</string>   
     <string name="surveys">مسوحات</string>  
-    <string name="questions">الأسئلة</string>  
+    <string name="questions">الأسئلة</string>
+    <string name="question">سؤال</string>
     <string name="encryption_required_title">التشفير المطلوب</string> 
     <string name="encryption_required_text">يتطلب هذا التطبيق أن الجهاز تكون مشفرة. يرجى تشفير الجهاز للمتابعة</string>
     <string name="okay">حسنا</string>

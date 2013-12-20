@@ -23,6 +23,7 @@
     <string name="api_unavailable">Server si kujibu</string>   
     <string name="surveys">tafiti</string>
     <string name="questions">maswali</string>  
+    <string name="question">swali</string>
     <string name="encryption_required_title">Encryption required</string> 
     <string name="encryption_required_text">Maombi Hii inahitaji kwamba kifaa kuwa ya siri. Tafadhali fumbo kifaa yako kuendelea.</string>
     <string name="okay">sawa</string>

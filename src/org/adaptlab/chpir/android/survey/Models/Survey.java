@@ -103,6 +103,7 @@ public class Survey extends SendModel {
     @Override
     public void setAsSent() {
         mSent = true;
+        this.save();
     }
     
     @Override

@@ -101,6 +101,8 @@ public class Response extends SendModel {
     @Override
     public void setAsSent() {
         mSent = true;
+        this.delete(); // Delete from device after successful send
+        Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     
     /*

@@ -105,8 +105,9 @@ public class InstrumentFragment extends ListFragment {
             TextView questionCountTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_questionCountTextView);
             
-            questionCountTextView.setText(instrument.questions().size() + " "
-                    + getString(R.string.questions));
+            int numQuestions = instrument.questions().size();
+            questionCountTextView.setText(numQuestions + " "
+                    + FormatUtils.pluralize(numQuestions, getString(R.string.question), getString(R.string.questions)));
 
             return convertView;
         }

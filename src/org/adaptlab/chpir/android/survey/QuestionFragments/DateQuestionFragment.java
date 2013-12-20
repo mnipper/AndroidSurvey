@@ -1,8 +1,8 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
-import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
+import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
 import android.view.ViewGroup;
@@ -25,19 +25,14 @@ public class DateQuestionFragment extends QuestionFragment {
             @Override
             public void onDateChanged(DatePicker view, int newYear,
                     int newMonth, int newDay) {
-                getResponse().setResponse(formatDate(newMonth, newDay, newYear));
+                getResponse().setResponse(FormatUtils.formatDate(newMonth, newDay, newYear));
                 getResponse().save();
             }           
         });
 
-        getResponse().setResponse(formatDate(month, day, year));
+        getResponse().setResponse(FormatUtils.formatDate(month, day, year));
         getResponse().save();
         
         questionComponent.addView(datePicker);
-    }
-    
-    private String formatDate(int month, int day, int year) {
-        String monthName = new DateFormatSymbols().getMonths()[month];
-        return (monthName + " " + day + ", " + year);
     }
 }

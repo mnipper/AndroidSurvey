@@ -39,3 +39,13 @@ before_install:
   - mkdir -p $ANDROID_HOME/build-tools/18.1.1
   - unzip -qq build-tools_r18.1.1-linux.zip -d $ANDROID_HOME/build-tools/
   - mv $ANDROID_HOME/build-tools/android-4.3 $ANDROID_HOME/build-tools/18.1.1
+
+# irc notifications
+notifications:
+  email: false
+  irc:
+    on_success: always
+    on_failure: always
+    use_notice: true
+    channels:
+      - "card.freenode.net#dukedevelopers"

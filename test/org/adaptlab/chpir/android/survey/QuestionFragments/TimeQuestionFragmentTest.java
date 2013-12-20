@@ -1,6 +1,5 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -24,23 +24,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RatingBar;
+import android.widget.TimePicker;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ RatingQuestionFragment.class, Response.class })
-public class RatingQuestionFragmentTest {
-
+@PrepareForTest({ TimeQuestionFragment.class, Response.class })
+public class TimeQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;
 	private SurveyActivity activity;
-	private RatingQuestionFragment qFragment;
+	private TimeQuestionFragment qFragment;
 	private ViewGroup qComponent;
 	private Response response;
 	
 	@Before
 	public void setUp() throws Exception {
 		activity = Robolectric.buildActivity(SurveyActivity.class).create().get();
-		qFragment = spy(new RatingQuestionFragment());
+		qFragment = spy(new TimeQuestionFragment());
 		doNothing().when(qFragment).init();
 		setBundleArgs();
 		startFragment(qFragment);
@@ -49,7 +48,7 @@ public class RatingQuestionFragmentTest {
 		doReturn(response).when(qFragment).getResponse();
 	}
 
-	private void startFragment(RatingQuestionFragment fragment) {
+	private void startFragment(TimeQuestionFragment fragment) {
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(fragment, null);
@@ -69,25 +68,31 @@ public class RatingQuestionFragmentTest {
 	}
 	
 	@Test
-	public void shouldHaveRatingBarView() throws Exception {
+	public void shouldHaveTimePickerView() throws Exception {
 		qFragment.createQuestionComponent(qComponent);
-		assertThat(qComponent.getChildAt(0), instanceOf(RatingBar.class));
+		assertThat(qComponent.getChildAt(0), instanceOf(TimePicker.class));
 	}
 	
 	@Test
-	public void shouldHaveFiveRatingStars() throws Exception {
+	public void shouldHaveTimeChangedListener() throws Exception {
+		Integer hour = 10;
 		qFragment.createQuestionComponent(qComponent);
-		RatingBar bar = (RatingBar) qComponent.getChildAt(0);
-		assertEquals(bar.getNumStars(), 5);
+		TimePicker timePicker = (TimePicker) qComponent.getChildAt(0);
+		timePicker.setCurrentHour(hour);
+		assertEquals(timePicker.getCurrentHour(), hour);
 	}
 	
 	@Test
-	public void shouldHaveOnRatingsChanged() throws Exception {
-		qFragment.createQuestionComponent(qComponent);
-		RatingBar bar = (RatingBar) qComponent.getChildAt(0);
-		float rating = 3;
-		bar.setRating(rating);
-		assertThat(((RatingBar) qComponent.getChildAt(0)).getRating(), equalTo(rating));
+	public void shouldFormatTime() throws Exception {
+		String formatted = Whitebox.invokeMethod(qFragment, "formatTime", 2, 15);
+		assertEquals(formatted, "2:15 AM");
+		String formatted2 = Whitebox.invokeMethod(qFragment, "formatTime", 16, 25);
+		assertEquals(formatted2, "4:25 PM");
 	}
 	
+	@Test
+	public void shouldFormatMinutes() throws Exception {
+		String formatted = Whitebox.invokeMethod(qFragment, "formatMinute", 5);
+		assertEquals(formatted, "05");
+	}
 }

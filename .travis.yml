@@ -27,9 +27,9 @@ before_install:
   - export TERM=dumb
 
 # Gradle
-  - wget http://services.gradle.org/distributions/gradle-1.9-bin.zip
-  - unzip gradle-1.9-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-1.9
+  - wget http://services.gradle.org/distributions/gradle-1.8-bin.zip
+  - unzip gradle-1.8-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-1.8
   - export PATH=$GRADLE_HOME/bin:$PATH
   
 # build tools cannot be installed through "android update sdk" as of now

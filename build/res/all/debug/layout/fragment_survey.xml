@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ScrollView android:id="@+id/survey_fragment_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <LinearLayout android:id="@+id/linear_layout_for_scroll_view" 
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+	            
+		    <TextView 
+		        android:id="@+id/question_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="16dp"
+		        android:layout_marginRight="16dp"
+		        android:layout_marginTop="32dp" />
+		    
+		    <FrameLayout
+		        android:id="@+id/question_container"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="16dp"
+		        android:layout_marginRight="16dp"
+		        android:layout_marginTop="16dp"
+		        android:layout_marginBottom="64dp" />
+		    
+		    <LinearLayout
+		        android:id="@+id/button_container"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:orientation="horizontal"
+		        android:gravity="bottom|right" >
+		        
+		        <Button
+		            android:id="@+id/next_button"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/next_button"
+		            android:layout_marginRight="16dp"
+		            android:layout_marginTop="26dp" />
+		        
+		    </LinearLayout>
+	    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+<!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/layout/fragment_survey.xml -->

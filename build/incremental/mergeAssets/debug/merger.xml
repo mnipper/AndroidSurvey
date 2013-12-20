@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/leonardngeno/dev/workspace/AndroidSurvey/assets" >
+            <file
+                name="fonts/khmerOS.ttf"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/assets/fonts/khmerOS.ttf" />
+        </source>
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/leonardngeno/dev/workspace/AndroidSurvey/src/debug/assets" />
+    </dataSet>
+
+</merger>

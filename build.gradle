@@ -1,0 +1,36 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.7.0'
+  }
+}
+
+apply plugin: 'android'
+
+dependencies {
+     compile 'com.android.support:support-v4:19.0.0'
+     compile files('libs/ActiveAndroid.jar')
+     compile files('libs/commons-codec-1.8.jar')
+     compile files('libs/crashlytics.jar')
+}
+
+android {
+  compileSdkVersion 18
+  buildToolsVersion '18.1.1'
+
+  sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+      java.srcDirs = ['src']
+      resources.srcDirs = ['src']
+      renderscript.srcDirs = ['src']
+      res.srcDirs = ['res']
+      assets.srcDirs = ['assets']
+    }
+    
+  }
+
+}

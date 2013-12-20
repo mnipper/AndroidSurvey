@@ -29,9 +29,5 @@ res/values/com_crashlytics_export_strings.xml
 # API Keys
 res/values/api-keys.xml
 
-# Gradle
-local.properties
-.gradle
-
 # APK Build
 libs/survey_pk

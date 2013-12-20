@@ -114,6 +114,8 @@
                 </string>
                 <string name="survey_title_label" >Choose instrument
                 </string>
+                <string name="question" >question
+                </string>
                 <string name="other_specify" >Other
                 </string>
                 <string name="password_message" >This action requires a password.  Please enter the password below.
@@ -204,6 +206,8 @@
                 </string>
                 <string name="cancel" >إلغاء
                 </string>
+                <string name="question" >سؤال
+                </string>
                 <string name="survey_title_label" >اختيار الأسئلة
                 </string>
                 <string name="admin_settings" >مدير
@@ -257,6 +261,8 @@
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-sw/strings.xml"
                 qualifiers="sw" >
                 <string name="save_button" >Save
+                </string>
+                <string name="question" >swali
                 </string>
                 <string name="encryption_required_title" >Encryption required
                 </string>

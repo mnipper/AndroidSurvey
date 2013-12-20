@@ -41,8 +41,8 @@ before_install:
   - mv $ANDROID_HOME/build-tools/android-4.3 $ANDROID_HOME/build-tools/18.1.1
 
 # verify files exist in right paths
-  - find $ANDROID_HOME/build-tools
-  - file $ANDROID_HOME/build-tools/18.1.1/aapt
+#  - find $ANDROID_HOME/build-tools
+#  - file $ANDROID_HOME/build-tools/18.1.1/aapt
 
 
 # irc notifications

@@ -35,6 +35,8 @@ before_install:
 # build tools cannot be installed through "android update sdk" as of now
   - wget http://dl.google.com/android/repository/build-tools_r18.1.1-linux.zip
   - mkdir -p $ANDROID_HOME/build-tools
+  - mkdir -p $ANDROID_HOME/build-tools/android-4.3
+  - mkdir -p $ANDROID_HOME/build-tools/18.1.1
   - unzip -qq build-tools_r18.1.1-linux.zip -d $ANDROID_HOME/build-tools/
   - mv $ANDROID_HOME/build-tools/android-4.3 $ANDROID_HOME/build-tools/18.1.1
 

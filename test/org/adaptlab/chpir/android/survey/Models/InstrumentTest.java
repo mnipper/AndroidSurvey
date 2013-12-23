@@ -2,31 +2,25 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.stubbing.OngoingStubbing;
-import org.powermock.api.easymock.PowerMock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
 
-import com.activeandroid.Model;
-import com.activeandroid.util.SQLiteUtils;
-
-import android.content.ContentValues;
 import android.util.Log;
 import android.view.Gravity;
 

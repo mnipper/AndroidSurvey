@@ -1,5 +1,9 @@
 package org.adaptlab.chpir.android.survey;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.powermock.reflect.Whitebox.invokeMethod;
 import static org.robolectric.Robolectric.shadowOf;
@@ -10,22 +14,13 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowAlertDialog;
-import org.robolectric.shadows.ShadowIntent;
 import org.robolectric.tester.android.view.TestMenuItem;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
-import android.widget.Button;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(RobolectricTestRunner.class)
 @PrepareForTest({ InstrumentFragment.class })

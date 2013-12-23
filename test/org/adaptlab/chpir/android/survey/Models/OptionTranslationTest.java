@@ -1,28 +1,27 @@
 package org.adaptlab.chpir.android.survey.Models;
 
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ Option.class})
-public class OptionTranslationTest extends ActiveAndroidTestBase {
-	private static final String TABLE = "OptionTranslations";
+@RunWith(RobolectricTestRunner.class)
+@PrepareForTest({ Option.class, OptionTranslation.class })
+public class OptionTranslationTest {
 	private static final String LANGUAGE = "Gibberish";
 	private static final String TEXT = "Aliens";
 	
 	private OptionTranslation translation;
 	private Option option;
 	
-	@Override
-	protected void onSetup() {
-		when(tableInfo.getTableName()).thenReturn(TABLE);
-		translation = new OptionTranslation();
+	@Before
+	public void onSetup() throws Exception {
+		translation = spy(new OptionTranslation());
 		option = mock(Option.class);
 	}
 	

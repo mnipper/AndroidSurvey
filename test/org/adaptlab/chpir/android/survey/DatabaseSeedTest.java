@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
 import android.util.Log;
 

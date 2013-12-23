@@ -1,20 +1,20 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.mockito.PowerMockito.when;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest({ Survey.class, Response.class,
 		Question.class, InstrumentTranslation.class })
-public class InstrumentTranslationTest extends ActiveAndroidTestBase {
+public class InstrumentTranslationTest {
 
-	private static final String TABLE = "InstrumentTranslations";
 	private static final String TITLE = "Instrument Translation Title";
 	private static final String LANGUAGE = "Gibberish";
 	private static final String ALIGNMENT = "Left";
@@ -22,10 +22,9 @@ public class InstrumentTranslationTest extends ActiveAndroidTestBase {
 	private InstrumentTranslation translation;
 	private Instrument instrument;
 	
-	@Override
-	protected void onSetup() {
-		when(tableInfo.getTableName()).thenReturn(TABLE);
-		translation = new InstrumentTranslation();
+	@Before
+	public void onSetup() throws Exception {
+		translation = spy(new InstrumentTranslation());
 		instrument = mock(Instrument.class);
 	}
 	

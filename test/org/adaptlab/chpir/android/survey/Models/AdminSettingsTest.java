@@ -4,33 +4,29 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.spy;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import android.util.Log;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest({ AdminSettings.class, Log.class })
-public class AdminSettingsTest extends ActiveAndroidTestBase {
+public class AdminSettingsTest {
 
 	private static final String API_URL = "www.did.test:3000";
 	private static final String DEVICE_ID = "device id";
 	private static final int SYNC_INTERVAL = 1;
-	private static final String TABLE = "AdminSettings";
 	private AdminSettings adminSettings;
 
 	@Before
-	@Override
 	public void onSetup() {
-		adminSettings = new AdminSettings();	// TODO Use getInstance() instead of new
-		when(tableInfo.getTableName()).thenReturn(TABLE);
+		adminSettings = spy(new AdminSettings());	// TODO Use getInstance() instead of new
 		PowerMockito.mockStatic(AdminSettings.class);
 		PowerMockito.mockStatic(Log.class);
 	}

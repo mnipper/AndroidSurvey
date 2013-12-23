@@ -11,17 +11,16 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-     compile 'com.android.support:support-v4:19.0.0'
-     compile files('libs/ActiveAndroid.jar')
-     compile files('libs/commons-codec-1.8.jar')
-     compile files('libs/crashlytics.jar')
+    compile 'com.android.support:support-v4:19.0.0'
+    compile files('libs/ActiveAndroid.jar')
+    compile files('libs/commons-codec-1.8.jar')
+    compile files('libs/crashlytics.jar')
 }
-
+  
 android {
   compileSdkVersion 18
   buildToolsVersion '18.1.1'
-
-  sourceSets {
+  sourceSets { 
     main {
       manifest.srcFile 'AndroidManifest.xml'
       java.srcDirs = ['src']
@@ -29,8 +28,57 @@ android {
       renderscript.srcDirs = ['src']
       res.srcDirs = ['res']
       assets.srcDirs = ['assets']
-    }
-    
+    }    
   }
-
+  
 }
+
+sourceSets {
+    unitTest {
+        java.srcDir file('test')
+        resources.srcDir file('test/resources')
+    }
+}
+
+configurations {
+    unitTestCompile.extendsFrom runtime
+    unitTestRuntime.extendsFrom unitTestCompile
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    unitTestCompile 'com.android.support:support-v4:19.0.0'
+    unitTestCompile files('libs/ActiveAndroid.jar')
+    unitTestCompile files('libs/commons-codec-1.8.jar')
+    unitTestCompile files('libs/crashlytics.jar')
+    
+    unitTestCompile files('test/libs/junit.jar')
+    unitTestCompile files('test/libs/org.hamcrest.core_1.3.0.v201303031735.jar')
+    unitTestCompile files('test/libs/powermock-easymock-1.5.2-full.jar')
+    unitTestCompile files('test/libs/cglib-nodep-2.2.2.jar')
+    unitTestCompile files('test/libs/dexmaker-1.0.jar')
+    unitTestCompile files('test/libs/dexmaker-mockito-1.0.jar')
+    unitTestCompile files('test/libs/easymock-3.2.jar')
+    unitTestCompile files('test/libs/javassist-3.18.0-GA.jar')
+    unitTestCompile files('test/libs/jmockit.jar')
+    unitTestCompile files('test/libs/mockito-all-1.9.5.jar')
+    unitTestCompile files('test/libs/objenesis-1.2.jar')
+    unitTestCompile files('test/libs/powermock-classloading-base-1.5.2.jar')
+    unitTestCompile files('test/libs/powermock-classloading-objenesis-1.5.2.jar')
+    unitTestCompile files('test/libs/powermock-mockito-1.5.2-full.jar')
+    unitTestCompile files('test/libs/powermock-module-junit4-rule-1.5.2.jar')
+    unitTestCompile files('test/libs/robolectric-2.2-jar-with-dependencies.jar')
+    
+}
+
+task unitTest(type:Test, dependsOn: assemble) {
+    description = "run unit tests"
+    testClassesDir = project.sourceSets.unitTest.output.classesDir
+    classpath = project.sourceSets.unitTest.runtimeClasspath
+}
+
+check.dependsOn unitTest
+

@@ -1,7 +1,9 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -10,18 +12,15 @@ import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
+
+import android.util.Log;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Sqlable;
-
-import android.util.Log;
 
 @RunWith(RobolectricTestRunner.class)
 @PrepareForTest({ ActiveRecordCloudSync.class, Log.class, HttpClient.class, Select.class, From.class, Survey.class, Sqlable.class })

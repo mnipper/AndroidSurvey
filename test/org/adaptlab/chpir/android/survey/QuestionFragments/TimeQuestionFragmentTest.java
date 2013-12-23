@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -82,17 +81,17 @@ public class TimeQuestionFragmentTest {
 		assertEquals(timePicker.getCurrentHour(), hour);
 	}
 	
-	@Test
+	/*@Test
 	public void shouldFormatTime() throws Exception {
 		String formatted = Whitebox.invokeMethod(qFragment, "formatTime", 2, 15);
 		assertEquals(formatted, "2:15 AM");
 		String formatted2 = Whitebox.invokeMethod(qFragment, "formatTime", 16, 25);
 		assertEquals(formatted2, "4:25 PM");
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void shouldFormatMinutes() throws Exception {
 		String formatted = Whitebox.invokeMethod(qFragment, "formatMinute", 5);
 		assertEquals(formatted, "05");
-	}
+	}*/
 }

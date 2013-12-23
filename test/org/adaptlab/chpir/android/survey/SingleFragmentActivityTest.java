@@ -1,14 +1,15 @@
 package org.adaptlab.chpir.android.survey;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.robolectric.Robolectric.shadowOf;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.robolectric.Robolectric.shadowOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 

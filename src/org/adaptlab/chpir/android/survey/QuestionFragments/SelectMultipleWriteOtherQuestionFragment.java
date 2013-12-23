@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.R;
+
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;

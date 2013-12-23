@@ -155,7 +155,7 @@ public class InstrumentFragment extends ListFragment {
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
 
-        PollService.setServiceAlarm(getActivity(), true);
+        PollService.setServiceAlarm(getActivity().getApplicationContext(), true);
     }
 
     /*

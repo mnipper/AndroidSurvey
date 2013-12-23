@@ -68,7 +68,7 @@ public class AdminFragment extends Fragment {
                 
                 // Restart the polling immediately with new interval.
                 // This immediately hits the server again upon save.
-                PollService.restartServiceAlarm(getActivity());
+                PollService.restartServiceAlarm(getActivity().getApplicationContext());
                 
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
                 

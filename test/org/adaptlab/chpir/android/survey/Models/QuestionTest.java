@@ -137,11 +137,9 @@ public class QuestionTest {
 	// TODO FIX
 	public void shouldReturnValidQuestionType() throws Exception {
 		Question quiz = PowerMockito.spy(new Question());
-		boolean bool1 = Whitebox.invokeMethod(quiz, "validQuestionType",
-				"SELECT_ONE");
+		boolean bool1 = Whitebox.invokeMethod(quiz, "validQuestionType","SELECT_ONE");
 		assertThat(bool1, equalTo(true));
-		boolean bool2 = Whitebox.invokeMethod(quiz, "validQuestionType",
-				"COACH K");
+		boolean bool2 = Whitebox.invokeMethod(quiz, "validQuestionType","COACH K");
 		assertThat(bool2, equalTo(false));
 	}
 

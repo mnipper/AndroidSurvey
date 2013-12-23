@@ -50,11 +50,21 @@ repositories {
 }
 
 dependencies {
+
+    compile 'com.android.support:support-v4:19.0.0'
+    compile files('libs/ActiveAndroid.jar')
+    compile files('libs/commons-codec-1.8.jar')
+    compile files('libs/crashlytics.jar')
+    
+    unitTestCompile files('src/')
+    unitTestCompile files('gen/')
+    
     unitTestCompile 'com.android.support:support-v4:19.0.0'
     unitTestCompile files('libs/ActiveAndroid.jar')
     unitTestCompile files('libs/commons-codec-1.8.jar')
     unitTestCompile files('libs/crashlytics.jar')
     
+    unitTestCompile files('test/libs/android.jar')
     unitTestCompile files('test/libs/junit.jar')
     unitTestCompile files('test/libs/org.hamcrest.core_1.3.0.v201303031735.jar')
     unitTestCompile files('test/libs/powermock-easymock-1.5.2-full.jar')

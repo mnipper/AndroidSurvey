@@ -112,6 +112,10 @@ public abstract class QuestionFragment extends Fragment {
         getResponse().save();
     }
     
+    /*
+     * Display warning to user if response does not match regular 
+     * expression in question.  Only save if valid.
+     */
     public void saveResponseWithValidation() {
         if (getResponse().saveWithValidation()) {
             mValidationTextView.setVisibility(TextView.INVISIBLE);

@@ -33,6 +33,11 @@ public class Response extends SendModel {
 		mText = "";
 	}
 	    
+	/*
+	 * Return true if this response matches the regular expression
+	 * in its question.  If the regular expression is the empty string,
+	 * declare it a match and return true.
+	 */
     public boolean isValid() {
         if (mQuestion.getRegExValidation().equals("")) {
             return true;
@@ -40,6 +45,10 @@ public class Response extends SendModel {
         return getText().matches(mQuestion.getRegExValidation());
     }
     
+    /*
+     * Only save if this response is valid.  If valid, return
+     * true.  If not, return false.
+     */
     public boolean saveWithValidation() {
         if (isValid()) {
             save();

@@ -82,5 +82,3 @@ task unitTest(type:Test, dependsOn: assemble) {
     testClassesDir = project.sourceSets.unitTest.output.classesDir
     classpath = project.sourceSets.unitTest.runtimeClasspath
 }
-
-unitTest.dependsOn assemble

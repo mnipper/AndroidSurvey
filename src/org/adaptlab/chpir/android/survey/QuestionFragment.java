@@ -26,6 +26,7 @@ public abstract class QuestionFragment extends Fragment {
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     
     private TextView mValidationTextView;
+    private Button mNextButton;
 
     private Question mQuestion;
     private Survey mSurvey;
@@ -52,6 +53,7 @@ public abstract class QuestionFragment extends Fragment {
         }
         
         mValidationTextView = (TextView) getActivity().findViewById(R.id.validation_text);
+        mNextButton = (Button) getActivity().findViewById(R.id.next_button);
     }
 
     @Override
@@ -114,13 +116,16 @@ public abstract class QuestionFragment extends Fragment {
     
     /*
      * Display warning to user if response does not match regular 
-     * expression in question.  Only save if valid.
+     * expression in question.  Disable next button if not valid.
+     * Only save if valid.
      */
     public void saveResponseWithValidation() {
         if (getResponse().saveWithValidation()) {
             mValidationTextView.setVisibility(TextView.INVISIBLE);
+            mNextButton.setEnabled(true);
         } else {
             mValidationTextView.setVisibility(TextView.VISIBLE);
+            mNextButton.setEnabled(false);
             mValidationTextView.setText(R.string.not_valid_response);
         }
     }

@@ -13,6 +13,12 @@ apply plugin: 'android'
 android {
   compileSdkVersion 18
   buildToolsVersion '18.1.1'
+  
+  defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+    }
+  
   sourceSets { 
     main {
       manifest.srcFile 'AndroidManifest.xml'
@@ -50,13 +56,13 @@ dependencies {
     compile files('libs/crashlytics.jar')
     
     unitTestCompile files('test/libs/android.jar') 
-    unitTestCompile files('libs/android-support-v4.jar')
     unitTestCompile files('libs/ActiveAndroid.jar')
+    unitTestCompile files('libs/android-support-v4.jar')
     unitTestCompile files('libs/commons-codec-1.8.jar')
     unitTestCompile files('libs/crashlytics.jar')
     
-    unitTestCompile files('src')
-    unitTestCompile files('gen')
+    unitTestCompile files('src/')
+    unitTestCompile files('gen/')
     
     unitTestCompile files('test/libs/junit.jar')
     unitTestCompile files('test/libs/org.hamcrest.core_1.3.0.v201303031735.jar')
@@ -83,4 +89,9 @@ task unitTest(type:Test, dependsOn: assemble) {
     classpath = project.sourceSets.unitTest.runtimeClasspath
 }
 
-unitTest
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.java"
+}
+
+check.dependsOn unitTest

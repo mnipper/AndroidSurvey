@@ -40,10 +40,6 @@ before_install:
   - unzip -qq build-tools_r18.1.1-linux.zip -d $ANDROID_HOME/build-tools/
   - mv $ANDROID_HOME/build-tools/android-4.3 $ANDROID_HOME/build-tools/18.1.1
 
-#Run unit tests
-script:
-  - gradle unitTest
-
 # irc notifications
 notifications:
   email: false

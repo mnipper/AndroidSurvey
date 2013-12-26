@@ -35,6 +35,8 @@ public class Question extends ReceiveModel {
     private Instrument mInstrument;
     @Column(name = "FollowingUpQuestion")
     private Question mFollowingUpQuestion;
+    @Column(name = "RegExValidation")
+    private String mRegExValidation;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
@@ -165,6 +167,7 @@ public class Question extends ReceiveModel {
             question.setQuestionType(jsonObject.getString("question_type"));
             question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
             question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
+            question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -240,6 +243,14 @@ public class Question extends ReceiveModel {
             // We should prevent syncing data unless app is up to date
             Log.wtf(TAG, "Received invalid question type: " + questionType);
         }
+    }
+    
+    public void setRegExValidation(String validation) {
+        mRegExValidation = validation;
+    }
+    
+    public String getRegExValidation() {
+        return mRegExValidation;
     }
 
     public String getQuestionIdentifier() {

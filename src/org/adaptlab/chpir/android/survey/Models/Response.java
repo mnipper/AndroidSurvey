@@ -32,7 +32,23 @@ public class Response extends SendModel {
 		mSent = false;
 		mText = "";
 	}
-	
+	    
+    public boolean isValid() {
+        if (mQuestion.getRegExValidation().equals("")) {
+            return true;
+        }
+        return getText().matches(mQuestion.getRegExValidation());
+    }
+    
+    public boolean saveWithValidation() {
+        if (isValid()) {
+            save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();

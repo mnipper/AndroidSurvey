@@ -125,23 +125,10 @@ public abstract class QuestionFragment extends Fragment {
      * Only save if valid.
      */
     public void saveResponseWithValidation() {
-        Animation animation;
-        
         if (getResponse().saveWithValidation()) {
-            animation = new AlphaAnimation(1, 0);
-            mValidationTextView.setVisibility(TextView.INVISIBLE);
+            animateValidationTextView(true);
         } else {
-            animation = new AlphaAnimation(0, 1);
-            mValidationTextView.setVisibility(TextView.VISIBLE);
-            mValidationTextView.setText(R.string.not_valid_response);
-        }
-
-        animation.setDuration(1000);
-        if (mValidationTextView.getAnimation() == null ||
-                mValidationTextView.getAnimation().hasEnded() ||
-                !mValidationTextView.getAnimation().hasStarted()) {
-            // Only animate if not currently animating
-            mValidationTextView.setAnimation(animation);
+            animateValidationTextView(false);
         }
         
         // Refresh options menu to reflect response validation status.
@@ -159,5 +146,27 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             return new Response();
         }
+    }
+    
+    private void animateValidationTextView(boolean valid) {
+        Animation animation = new AlphaAnimation(0, 0);
+        
+        if (valid) {
+            if (mValidationTextView.getVisibility() == TextView.VISIBLE)
+                animation = new AlphaAnimation(1, 0);
+            mValidationTextView.setVisibility(TextView.INVISIBLE);
+        } else {
+            animation = new AlphaAnimation(0, 1);
+            mValidationTextView.setVisibility(TextView.VISIBLE);
+            mValidationTextView.setText(R.string.not_valid_response);
+        }
+
+        animation.setDuration(1000);
+        if (mValidationTextView.getAnimation() == null ||
+                mValidationTextView.getAnimation().hasEnded() ||
+                !mValidationTextView.getAnimation().hasStarted()) {
+            // Only animate if not currently animating
+            mValidationTextView.setAnimation(animation);
+        }        
     }
 }

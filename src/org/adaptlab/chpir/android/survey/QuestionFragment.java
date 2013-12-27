@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -124,12 +125,19 @@ public abstract class QuestionFragment extends Fragment {
      * Only save if valid.
      */
     public void saveResponseWithValidation() {
+        Animation animation;
+        
         if (getResponse().saveWithValidation()) {
+            animation = new AlphaAnimation(1, 0);
             mValidationTextView.setVisibility(TextView.INVISIBLE);
         } else {
+            animation = new AlphaAnimation(0, 1);
             mValidationTextView.setVisibility(TextView.VISIBLE);
             mValidationTextView.setText(R.string.not_valid_response);
         }
+
+        animation.setDuration(1000);
+        mValidationTextView.setAnimation(animation);
         
         // Refresh options menu to reflect response validation status.
         getActivity().invalidateOptionsMenu();

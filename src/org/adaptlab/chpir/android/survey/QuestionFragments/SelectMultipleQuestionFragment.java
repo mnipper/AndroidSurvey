@@ -32,12 +32,7 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
             checkbox.setId(optionId);     
             checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (mResponseIndices.contains(optionId)) {
-                        mResponseIndices.remove((Integer) optionId);
-                    } else {
-                        mResponseIndices.add(optionId);
-                    }
-                    saveResponse();
+                    toggleResponseIndex(optionId);
                 }
             });
             mCheckBoxes.add(checkbox);
@@ -64,7 +59,16 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
         }
     }
     
-    protected void addResponseIndex(int index) {
-        mResponseIndices.add(index);
+    protected void toggleResponseIndex(int index) {
+        if (mResponseIndices.contains(index)) {
+            mResponseIndices.remove((Integer) index);
+        } else {
+            mResponseIndices.add(index);
+        }
+        saveResponse();
+    }
+    
+    protected void addCheckBox(CheckBox checkbox) {
+        mCheckBoxes.add(checkbox);
     }
 }

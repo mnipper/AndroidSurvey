@@ -95,7 +95,7 @@ public abstract class QuestionFragment extends Fragment {
      */
     public void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
-        otherText.setEnabled(false);
+        otherText.setEnabled(false);        
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
@@ -107,6 +107,10 @@ public abstract class QuestionFragment extends Fragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
+        
+        if (getResponse().getOtherResponse() != null) {
+            otherText.setText(getResponse().getOtherResponse());
+        }
     }
     
     public void saveOtherResponse(String response) {

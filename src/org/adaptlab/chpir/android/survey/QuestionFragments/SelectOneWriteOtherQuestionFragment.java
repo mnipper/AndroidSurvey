@@ -27,8 +27,7 @@ public class SelectOneWriteOtherQuestionFragment extends
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 otherText.setEnabled(checkedId == otherId);
-                getResponse().setResponse(String.valueOf(checkedId));
-                getResponse().save();
+                setResponseIndex(checkedId);
             }
         });
         getRadioGroup().addView(radioButton, otherId);

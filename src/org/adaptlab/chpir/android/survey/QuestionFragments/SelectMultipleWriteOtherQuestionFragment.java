@@ -22,12 +22,13 @@ public class SelectMultipleWriteOtherQuestionFragment extends
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 otherText.setEnabled(isChecked);
                 if (isChecked) {
-                    addResponseIndex(otherId);
+                    toggleResponseIndex(otherId);
                 }
             }
          });
         questionComponent.addView(checkbox, otherId);
-        addOtherResponseView(otherText);        
+        addOtherResponseView(otherText);
+        addCheckBox(checkbox);
         questionComponent.addView(otherText);
     }
 }

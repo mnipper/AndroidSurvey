@@ -38,8 +38,7 @@ public class SelectOneQuestionFragment extends QuestionFragment {
         
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                mResponseIndex = checkedId;
-                saveResponse();
+                setResponseIndex(checkedId);
             }
         });
         questionComponent.addView(mRadioGroup);
@@ -55,5 +54,10 @@ public class SelectOneQuestionFragment extends QuestionFragment {
     protected void deserialize(String responseText) {
         if (!responseText.equals(""))
             getRadioGroup().check(Integer.parseInt(responseText));
+    }
+    
+    protected void setResponseIndex(int index) {
+        mResponseIndex = index;
+        saveResponse();
     }
 }

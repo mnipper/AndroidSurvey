@@ -137,7 +137,12 @@ public abstract class QuestionFragment extends Fragment {
         }
 
         animation.setDuration(1000);
-        mValidationTextView.setAnimation(animation);
+        if (mValidationTextView.getAnimation() == null ||
+                mValidationTextView.getAnimation().hasEnded() ||
+                !mValidationTextView.getAnimation().hasStarted()) {
+            // Only animate if not currently animating
+            mValidationTextView.setAnimation(animation);
+        }
         
         // Refresh options menu to reflect response validation status.
         getActivity().invalidateOptionsMenu();

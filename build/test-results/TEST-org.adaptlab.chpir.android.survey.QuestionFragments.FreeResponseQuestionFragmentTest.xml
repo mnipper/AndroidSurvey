@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T01:35:01" hostname="CCFP-0193" time="0.067">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T01:50:32" hostname="CCFP-0193" time="0.084">
   <properties/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.067"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.084"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

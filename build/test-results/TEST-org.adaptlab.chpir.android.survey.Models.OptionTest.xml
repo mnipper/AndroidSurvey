@@ -1,14 +1,14 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.OptionTest" tests="8" failures="0" errors="0" timestamp="2013-12-27T01:34:58" hostname="CCFP-0193" time="0.44">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.OptionTest" tests="8" failures="0" errors="0" timestamp="2013-12-27T01:50:27" hostname="CCFP-0193" time="0.572">
   <properties/>
-  <testcase name="shouldGetTranslationByLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.07"/>
-  <testcase name="shouldCreateObjectFromJson" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.045"/>
-  <testcase name="shouldSetAndGetNextQuestion" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.068"/>
-  <testcase name="shouldFindByRemoteId" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.062"/>
-  <testcase name="shouldSetAndGetTextIfSameInstrumentLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.057"/>
-  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.053"/>
-  <testcase name="shouldGetTranslationTextIfDifferentInstrumenLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.046"/>
-  <testcase name="shouldSetAndGetRemoteId" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.038"/>
+  <testcase name="shouldGetTranslationByLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.073"/>
+  <testcase name="shouldCreateObjectFromJson" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.059"/>
+  <testcase name="shouldSetAndGetNextQuestion" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.079"/>
+  <testcase name="shouldFindByRemoteId" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.077"/>
+  <testcase name="shouldSetAndGetTextIfSameInstrumentLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.069"/>
+  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.078"/>
+  <testcase name="shouldGetTranslationTextIfDifferentInstrumenLanguage" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.065"/>
+  <testcase name="shouldSetAndGetRemoteId" classname="org.adaptlab.chpir.android.survey.Models.OptionTest" time="0.071"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

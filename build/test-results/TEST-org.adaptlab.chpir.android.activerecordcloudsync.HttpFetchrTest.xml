@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:34:47" hostname="CCFP-0193" time="0.533">
+<testsuite name="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:50:13" hostname="CCFP-0193" time="0.625">
   <properties/>
-  <testcase name="shouldGetUrlNull" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.116"/>
-  <testcase name="shouldReturnEndPointNull" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.082"/>
-  <testcase name="shouldCreateObjectFromTable" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.254"/>
-  <testcase name="shouldReturnUrlBytes" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.081"/>
+  <testcase name="shouldGetUrlNull" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.137"/>
+  <testcase name="shouldReturnEndPointNull" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.147"/>
+  <testcase name="shouldCreateObjectFromTable" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.23"/>
+  <testcase name="shouldReturnUrlBytes" classname="org.adaptlab.chpir.android.activerecordcloudsync.HttpFetchrTest" time="0.111"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

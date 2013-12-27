@@ -1,11 +1,11 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:34:53" hostname="CCFP-0193" time="1.162">
+<testsuite name="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:50:21" hostname="CCFP-0193" time="1.307">
   <properties/>
-  <testcase name="shouldHaveOptionsMenuSetToTrue" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.213"/>
-  <testcase name="shouldDisplayPasswordPromptDialog" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.493"/>
-  <testcase name="shouldHaveOptionsMenuInflated" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.151"/>
-  <testcase name="shouldDetectRefreshMenuItemSelected" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.156"/>
-  <testcase name="shouldCheckAdminPassword" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.148"/>
+  <testcase name="shouldHaveOptionsMenuSetToTrue" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.229"/>
+  <testcase name="shouldDisplayPasswordPromptDialog" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.573"/>
+  <testcase name="shouldHaveOptionsMenuInflated" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.168"/>
+  <testcase name="shouldDetectRefreshMenuItemSelected" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.164"/>
+  <testcase name="shouldCheckAdminPassword" classname="org.adaptlab.chpir.android.survey.InstrumentFragmentTest" time="0.173"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,19 +1,19 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.AdminFragmentTest" tests="13" failures="0" errors="0" timestamp="2013-12-27T01:34:48" hostname="CCFP-0193" time="4.94">
+<testsuite name="org.adaptlab.chpir.android.survey.AdminFragmentTest" tests="13" failures="0" errors="0" timestamp="2013-12-27T01:50:15" hostname="CCFP-0193" time="5.986">
   <properties/>
-  <testcase name="shouldSetSyncIntervalText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.915"/>
-  <testcase name="shouldSetCustomLocaleCodeText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.368"/>
-  <testcase name="shouldReturnView" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.553"/>
-  <testcase name="shouldHaveSyncIntervalEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.409"/>
-  <testcase name="shouldSetDeviceIdText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.379"/>
-  <testcase name="shoulHaveSaveButton" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.286"/>
-  <testcase name="shouldSetApiEndPointText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.315"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.297"/>
-  <testcase name="shouldHaveLastUpdateTextView" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.287"/>
-  <testcase name="shouldDisplayLastUpdateTime" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.291"/>
-  <testcase name="shouldHaveCustomLocaleEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.266"/>
-  <testcase name="shouldHaveDeviceIdentifierEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.283"/>
-  <testcase name="shouldHaveApiEndPointText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.29"/>
+  <testcase name="shouldSetSyncIntervalText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="1.33"/>
+  <testcase name="shouldSetCustomLocaleCodeText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.396"/>
+  <testcase name="shouldReturnView" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.606"/>
+  <testcase name="shouldHaveSyncIntervalEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.426"/>
+  <testcase name="shouldSetDeviceIdText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.5"/>
+  <testcase name="shoulHaveSaveButton" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.331"/>
+  <testcase name="shouldSetApiEndPointText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.362"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.407"/>
+  <testcase name="shouldHaveLastUpdateTextView" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.34"/>
+  <testcase name="shouldDisplayLastUpdateTime" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.348"/>
+  <testcase name="shouldHaveCustomLocaleEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.317"/>
+  <testcase name="shouldHaveDeviceIdentifierEditText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.294"/>
+  <testcase name="shouldHaveApiEndPointText" classname="org.adaptlab.chpir.android.survey.AdminFragmentTest" time="0.327"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

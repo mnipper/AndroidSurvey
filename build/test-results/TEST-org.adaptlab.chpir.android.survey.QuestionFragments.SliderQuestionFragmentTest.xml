@@ -1,11 +1,11 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:35:06" hostname="CCFP-0193" time="0.658">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:50:37" hostname="CCFP-0193" time="0.764">
   <properties/>
-  <testcase name="shouldCallCreateQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.169"/>
-  <testcase name="shouldDetectSliderProgressChange" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.12"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.096"/>
-  <testcase name="shouldCallAddViewWithSlider" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.121"/>
-  <testcase name="shouldHaveSeekBar" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.151"/>
+  <testcase name="shouldCallCreateQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.191"/>
+  <testcase name="shouldDetectSliderProgressChange" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.147"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.109"/>
+  <testcase name="shouldCallAddViewWithSlider" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.174"/>
+  <testcase name="shouldHaveSeekBar" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragmentTest" time="0.142"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

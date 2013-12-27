@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:34:57" hostname="CCFP-0193" time="0.262">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:50:26" hostname="CCFP-0193" time="0.289">
   <properties/>
-  <testcase name="shouldSetAndGetDeviceIdentifier" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.064"/>
-  <testcase name="shouldGetAdminSettingsInstance" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.057"/>
-  <testcase name="shouldSetAndGetSyncInternval" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.075"/>
-  <testcase name="shouldSetAndGetApiUrl" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.066"/>
+  <testcase name="shouldSetAndGetDeviceIdentifier" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.072"/>
+  <testcase name="shouldGetAdminSettingsInstance" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.07"/>
+  <testcase name="shouldSetAndGetSyncInternval" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.084"/>
+  <testcase name="shouldSetAndGetApiUrl" classname="org.adaptlab.chpir.android.survey.Models.AdminSettingsTest" time="0.061"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

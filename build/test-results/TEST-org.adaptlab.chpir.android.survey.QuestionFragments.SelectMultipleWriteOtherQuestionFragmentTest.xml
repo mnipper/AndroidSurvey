@@ -1,11 +1,11 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T00:53:41" hostname="CCFP-0193" time="0.74">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:50:34" hostname="CCFP-0193" time="0.967">
   <properties/>
-  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.131"/>
-  <testcase name="shouldAddTwoViewsToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.17"/>
-  <testcase name="ShouldHaveOnCheckedChangeListenerSet" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.15"/>
-  <testcase name="shouldSetCheckBoxText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.141"/>
-  <testcase name="shouldCallAddOtherResponseView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.148"/>
+  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.169"/>
+  <testcase name="shouldAddTwoViewsToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.206"/>
+  <testcase name="ShouldHaveOnCheckedChangeListenerSet" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.217"/>
+  <testcase name="shouldSetCheckBoxText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.211"/>
+  <testcase name="shouldCallAddOtherResponseView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragmentTest" time="0.163"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

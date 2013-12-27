@@ -1,11 +1,11 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T00:53:35" hostname="CCFP-0193" time="0.332">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" tests="5" failures="0" errors="0" timestamp="2013-12-27T01:50:27" hostname="CCFP-0193" time="0.38">
   <properties/>
-  <testcase name="shouldSetAndGetInstrument" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.071"/>
-  <testcase name="shouldSetAndGetAlignment" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.07"/>
-  <testcase name="shouldSetAndGetTitle" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.062"/>
-  <testcase name="shouldSetAndGetLanguage" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.065"/>
-  <testcase name="shouldReturnInstrumentTranslationBasedOnLanguage" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.063"/>
+  <testcase name="shouldSetAndGetInstrument" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.086"/>
+  <testcase name="shouldSetAndGetAlignment" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.072"/>
+  <testcase name="shouldSetAndGetTitle" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.074"/>
+  <testcase name="shouldSetAndGetLanguage" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.068"/>
+  <testcase name="shouldReturnInstrumentTranslationBasedOnLanguage" classname="org.adaptlab.chpir.android.survey.Models.InstrumentTranslationTest" time="0.08"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

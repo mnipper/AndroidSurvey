@@ -18,11 +18,12 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
         public static final int ic_menu_item_accept=0x7f020001;
         public static final int ic_menu_item_next_item=0x7f020002;
-        public static final int ic_menu_item_refresh=0x7f020003;
-        public static final int ic_menu_item_secure=0x7f020004;
+        public static final int ic_menu_item_previous_item=0x7f020003;
+        public static final int ic_menu_item_refresh=0x7f020004;
+        public static final int ic_menu_item_secure=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f080017;
+        public static final int action_settings=0x7f080018;
         public static final int api_endpoint_edit_text=0x7f080006;
         public static final int api_endpoint_label=0x7f080005;
         public static final int custom_locale_edit_text=0x7f080008;
@@ -35,8 +36,9 @@ public final class R {
         public static final int last_update_label=0x7f080009;
         public static final int linear_layout_for_scroll_view=0x7f08000d;
         public static final int menu_item_admin=0x7f080013;
-        public static final int menu_item_finish=0x7f080016;
-        public static final int menu_item_next=0x7f080015;
+        public static final int menu_item_finish=0x7f080017;
+        public static final int menu_item_next=0x7f080016;
+        public static final int menu_item_previous=0x7f080015;
         public static final int menu_item_refresh=0x7f080014;
         public static final int question_component=0x7f08000b;
         public static final int question_container=0x7f08000f;
@@ -85,16 +87,17 @@ public final class R {
         public static final int other_specify_edittext=0x7f050016;
         public static final int password_message=0x7f050017;
         public static final int password_title=0x7f050018;
-        public static final int question=0x7f050019;
-        public static final int questions=0x7f05001a;
-        public static final int refresh=0x7f05001b;
-        public static final int save_button=0x7f05001c;
-        public static final int start_survey=0x7f05001d;
-        public static final int survey_title_label=0x7f05001e;
-        public static final int surveys=0x7f05001f;
-        public static final int sync_interval=0x7f050020;
-        public static final int sync_notification_complete_text=0x7f050021;
-        public static final int sync_notification_text=0x7f050022;
+        public static final int previous_button=0x7f050019;
+        public static final int question=0x7f05001a;
+        public static final int questions=0x7f05001b;
+        public static final int refresh=0x7f05001c;
+        public static final int save_button=0x7f05001d;
+        public static final int start_survey=0x7f05001e;
+        public static final int survey_title_label=0x7f05001f;
+        public static final int surveys=0x7f050020;
+        public static final int sync_interval=0x7f050021;
+        public static final int sync_notification_complete_text=0x7f050022;
+        public static final int sync_notification_text=0x7f050023;
     }
     public static final class style {
         /** 

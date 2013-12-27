@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ public abstract class QuestionFragment extends Fragment {
     private final static String TAG = "QuestionFragment";
     
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
+    protected abstract String serialize();
+    protected abstract void deserialize(String responseText);
     
     private TextView mValidationTextView;
 
@@ -61,9 +64,10 @@ public abstract class QuestionFragment extends Fragment {
 
         ViewGroup questionComponent = (LinearLayout) v
                 .findViewById(R.id.question_component);
-        
+
         // Overridden by subclasses to place their graphical elements on the fragment.
         createQuestionComponent(questionComponent);
+        deserialize(mResponse.getText());
         
         return v;
     }
@@ -92,7 +96,7 @@ public abstract class QuestionFragment extends Fragment {
      */
     public void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
-        otherText.setEnabled(false);
+        otherText.setEnabled(false);        
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
@@ -104,6 +108,10 @@ public abstract class QuestionFragment extends Fragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
+        
+        if (getResponse().getOtherResponse() != null) {
+            otherText.setText(getResponse().getOtherResponse());
+        }
     }
     
     public void saveOtherResponse(String response) {
@@ -118,14 +126,18 @@ public abstract class QuestionFragment extends Fragment {
      */
     public void saveResponseWithValidation() {
         if (getResponse().saveWithValidation()) {
-            mValidationTextView.setVisibility(TextView.INVISIBLE);
+            animateValidationTextView(true);
         } else {
-            mValidationTextView.setVisibility(TextView.VISIBLE);
-            mValidationTextView.setText(R.string.not_valid_response);
+            animateValidationTextView(false);
         }
         
         // Refresh options menu to reflect response validation status.
         getActivity().invalidateOptionsMenu();
+    }
+    
+    protected void saveResponse() {
+        getResponse().setResponse(serialize());
+        saveResponseWithValidation();
     }
     
     private Response loadOrCreateResponse() {
@@ -134,5 +146,27 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             return new Response();
         }
+    }
+    
+    private void animateValidationTextView(boolean valid) {
+        Animation animation = new AlphaAnimation(0, 0);
+        
+        if (valid) {
+            if (mValidationTextView.getVisibility() == TextView.VISIBLE)
+                animation = new AlphaAnimation(1, 0);
+            mValidationTextView.setVisibility(TextView.INVISIBLE);
+        } else {
+            animation = new AlphaAnimation(0, 1);
+            mValidationTextView.setVisibility(TextView.VISIBLE);
+            mValidationTextView.setText(R.string.not_valid_response);
+        }
+
+        animation.setDuration(1000);
+        if (mValidationTextView.getAnimation() == null ||
+                mValidationTextView.getAnimation().hasEnded() ||
+                !mValidationTextView.getAnimation().hasStarted()) {
+            // Only animate if not currently animating
+            mValidationTextView.setAnimation(animation);
+        }        
     }
 }

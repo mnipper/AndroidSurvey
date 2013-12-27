@@ -7,22 +7,38 @@ import android.view.ViewGroup;
 import android.widget.TimePicker;
 
 public class TimeQuestionFragment extends QuestionFragment {
+    private int mHour;
+    private int mMinute;
+    private TimePicker mTimePicker;
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        TimePicker timePicker = new TimePicker(getActivity());
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+        mTimePicker = new TimePicker(getActivity());
+        mHour = mTimePicker.getCurrentHour();
+        mMinute = mTimePicker.getCurrentMinute();
+        mTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                getResponse().setResponse(FormatUtils.formatTime(hourOfDay, minute));
-                getResponse().save();
+                mHour = hourOfDay;
+                mMinute = minute;
+                saveResponse();
             }
         });
-        
-        getResponse().setResponse(FormatUtils.formatTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute()));
-        getResponse().save();
-        
-        questionComponent.addView(timePicker);
+        questionComponent.addView(mTimePicker);
+    }
+
+    @Override
+    protected String serialize() {
+        return FormatUtils.formatTime(mHour, mMinute);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        int[] timeComponents = FormatUtils.unformatTime(responseText);
+        if(timeComponents != null) {
+            mTimePicker.setCurrentHour(timeComponents[0]);
+            mTimePicker.setCurrentMinute(timeComponents[1]);
+        }
     }
 }

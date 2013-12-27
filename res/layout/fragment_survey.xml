@@ -20,7 +20,9 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="16dp"
 		        android:layout_marginRight="16dp"
-		        android:layout_marginTop="32dp" />
+		        android:layout_marginTop="10dp"
+		        android:textStyle="bold"
+		        android:textSize="18sp" />
 		    
 		    <FrameLayout
 		        android:id="@+id/question_container"
@@ -41,7 +43,23 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="#FF0000"
                 android:gravity="center_horizontal" />
-
+                    
+            <LinearLayout android:id="@+id/linear_layout_for_question_index" 
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+                <!-- this expands to fill the empty space in scrollview if needed -->      
+            </LinearLayout>
+                       
+            <TextView 
+                android:id="@+id/question_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal|bottom" />
 	    </LinearLayout>
     </ScrollView>
+    
 </LinearLayout>

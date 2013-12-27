@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 public class FreeResponseQuestionFragment extends QuestionFragment {
+    private String mText = "";
+    private EditText mFreeText;
 
     @Override
 	public void createQuestionComponent(ViewGroup questionComponent) {
-        EditText freeText = new EditText(getActivity());
-        freeText.setHint(R.string.free_response_edittext);
-        freeText.setText(getResponse().getText());
-        freeText.addTextChangedListener(new TextWatcher() {
+        mFreeText = new EditText(getActivity());
+        mFreeText.setHint(R.string.free_response_edittext);
+        mFreeText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
-                getResponse().setResponse(s.toString());
-                saveResponseWithValidation();
+                mText = s.toString();
+                saveResponse();
             }
             
             // Required by interface
@@ -28,6 +29,16 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
-        questionComponent.addView(freeText);
+        questionComponent.addView(mFreeText);
+    }
+
+    @Override
+    protected String serialize() {
+        return mText;
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        mFreeText.setText(responseText);
     }
 }

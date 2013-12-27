@@ -1,18 +1,15 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.SurveyFragmentTest" tests="12" failures="0" errors="0" timestamp="2013-12-27T00:40:54" hostname="CCFP-0193" time="1.415">
+<testsuite name="org.adaptlab.chpir.android.survey.SurveyFragmentTest" tests="9" failures="0" errors="0" timestamp="2013-12-27T00:53:33" hostname="CCFP-0193" time="0.966">
   <properties/>
-  <testcase name="shouldHideSurveyActivityWhenFinishButtonPressedWhenOneQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.155"/>
-  <testcase name="shouldGetNextQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.106"/>
-  <testcase name="shouldGetNextQuestionSkipPatternOther" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.114"/>
-  <testcase name="shouldGetNextQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.099"/>
-  <testcase name="innerIfStateOnClick" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.083"/>
-  <testcase name="shouldReturnViewOnCreateView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.118"/>
-  <testcase name="buttonShouldHaveFinishWhenOneQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.115"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.112"/>
+  <testcase name="shouldGetNextQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.132"/>
+  <testcase name="shouldGetNextQuestionSkipPatternOther" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.081"/>
+  <testcase name="shouldGetNextQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.103"/>
+  <testcase name="innerIfStateOnClick" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.118"/>
+  <testcase name="shouldReturnViewOnCreateView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.131"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.089"/>
   <testcase name="shouldSetQuestionTextFollowUpQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.113"/>
-  <testcase name="shouldSetQuestionText" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.139"/>
-  <testcase name="shouldHaveNextButtonView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.116"/>
-  <testcase name="shouldHaveRightQuestionTextView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.143"/>
+  <testcase name="shouldSetQuestionText" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.097"/>
+  <testcase name="shouldHaveRightQuestionTextView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.101"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

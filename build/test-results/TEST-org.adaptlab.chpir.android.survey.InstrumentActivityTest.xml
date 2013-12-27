@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.InstrumentActivityTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T00:40:51" hostname="CCFP-0193" time="0.202">
+<testsuite name="org.adaptlab.chpir.android.survey.InstrumentActivityTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T00:53:30" hostname="CCFP-0193" time="0.149">
   <properties/>
-  <testcase name="shouldInstrumentFragmentType" classname="org.adaptlab.chpir.android.survey.InstrumentActivityTest" time="0.202"/>
+  <testcase name="shouldInstrumentFragmentType" classname="org.adaptlab.chpir.android.survey.InstrumentActivityTest" time="0.149"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

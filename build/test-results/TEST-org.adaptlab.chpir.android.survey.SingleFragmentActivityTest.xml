@@ -1,9 +1,9 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" tests="3" failures="0" errors="0" timestamp="2013-12-27T00:40:54" hostname="CCFP-0193" time="0.274">
+<testsuite name="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" tests="3" failures="0" errors="0" timestamp="2013-12-27T00:53:32" hostname="CCFP-0193" time="0.332">
   <properties/>
-  <testcase name="shouldHaveFragment" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.094"/>
-  <testcase name="shouldSetTheLayoutOnCreate" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.098"/>
-  <testcase name="shouldReturnLayoutResId" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.082"/>
+  <testcase name="shouldHaveFragment" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.131"/>
+  <testcase name="shouldSetTheLayoutOnCreate" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.106"/>
+  <testcase name="shouldReturnLayoutResId" classname="org.adaptlab.chpir.android.survey.SingleFragmentActivityTest" time="0.095"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,16 +1,16 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.ResponseTest" tests="10" failures="0" errors="0" timestamp="2013-12-27T00:40:59" hostname="CCFP-0193" time="0.5">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.ResponseTest" tests="10" failures="0" errors="0" timestamp="2013-12-27T00:53:37" hostname="CCFP-0193" time="0.507">
   <properties/>
-  <testcase name="shouldGetAll" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.055"/>
-  <testcase name="shouldInitiallyNotBeSent" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.053"/>
-  <testcase name="shouldSetAndGetResponseText" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.047"/>
-  <testcase name="shouldCreateJsonObject" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.053"/>
-  <testcase name="shouldSetAndGetOtherReponse" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.046"/>
-  <testcase name="shouldReturnList" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.05"/>
-  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.044"/>
-  <testcase name="shouldSetAndGetSurvey" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.056"/>
-  <testcase name="shouldReturnSurveyReadyToSend" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.051"/>
-  <testcase name="shouldReturnSurveyNotReadyToSend" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.043"/>
+  <testcase name="shouldGetAll" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.053"/>
+  <testcase name="shouldInitiallyNotBeSent" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.046"/>
+  <testcase name="shouldSetAndGetResponseText" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.058"/>
+  <testcase name="shouldCreateJsonObject" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.057"/>
+  <testcase name="shouldSetAndGetOtherReponse" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.041"/>
+  <testcase name="shouldReturnList" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.049"/>
+  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.05"/>
+  <testcase name="shouldSetAndGetSurvey" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.051"/>
+  <testcase name="shouldReturnSurveyReadyToSend" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.058"/>
+  <testcase name="shouldReturnSurveyNotReadyToSend" classname="org.adaptlab.chpir.android.survey.Models.ResponseTest" time="0.044"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

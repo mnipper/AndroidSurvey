@@ -4,7 +4,7 @@
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-v14/styles.xml -->
     <eat-comment />
 
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 14 theme customizations can go here. -->
     </style>
 

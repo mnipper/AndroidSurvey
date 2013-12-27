@@ -12,14 +12,14 @@ public class FormatUtils {
     }
        
     public static String formatDate(int month, int day, int year) {
-        return (month + " " + day + ", " + year);
+        return ((month + 1) + "-" + day + "-" + year);
     }
     
     public static GregorianCalendar unformatDate(String date) {
         if (date.equals("")) return null;
-        String[] dateComponents = date.split(" ");
-        int month = Integer.parseInt(dateComponents[0]);
-        int day = Integer.parseInt(dateComponents[1].replace(",", ""));
+        String[] dateComponents = date.split("-");
+        int month = Integer.parseInt(dateComponents[0]) - 1;
+        int day = Integer.parseInt(dateComponents[1]);
         int year = Integer.parseInt(dateComponents[2]);
         return new GregorianCalendar(year, month, day);        
     }

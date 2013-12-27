@@ -22,8 +22,8 @@ public class DateQuestionFragment extends QuestionFragment {
         mDatePicker = new DatePicker(getActivity());
         mDatePicker.setCalendarViewShown(false);
         Calendar c = Calendar.getInstance();
-       
-        mDatePicker.init(mYear, mMonth, mDay, new OnDateChangedListener() {
+        mDatePicker.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
+                new OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int newYear,
                     int newMonth, int newDay) {

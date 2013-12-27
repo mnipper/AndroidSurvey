@@ -24,7 +24,6 @@ public class SurveyFragment extends Fragment {
     private Question mQuestion;
     private Instrument mInstrument;
     private Survey mSurvey;
-    private boolean mLastQuestion;
 
     private TextView mQuestionText;
     QuestionFragment mQuestionFragment;
@@ -46,7 +45,6 @@ public class SurveyFragment extends Fragment {
         mSurvey.save();
         
         mQuestion = mInstrument.questions().get(0);
-        mLastQuestion = false;
     }
     
     @Override
@@ -58,6 +56,9 @@ public class SurveyFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+        case R.id.menu_item_previous:
+            moveToPreviousQuestion();
+            return true;
         case R.id.menu_item_next:
             moveToNextQuestion();
             return true;
@@ -72,15 +73,14 @@ public class SurveyFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        
-        // Only validate if a response has been started
-        boolean responseIsValid = true;
-        if (mQuestionFragment.getResponse() != null) {
-            responseIsValid = mQuestionFragment.getResponse().isValid();
-        }
-        
-        menu.findItem(R.id.menu_item_next).setVisible(!mLastQuestion).setEnabled(responseIsValid);
-        menu.findItem(R.id.menu_item_finish).setVisible(mLastQuestion).setEnabled(responseIsValid);
+        menu.findItem(R.id.menu_item_previous)
+            .setVisible(!isFirstQuestion());
+        menu.findItem(R.id.menu_item_next)
+            .setVisible(!isLastQuestion())
+            .setEnabled(hasValidResponse());
+        menu.findItem(R.id.menu_item_finish)
+            .setVisible(isLastQuestion())
+            .setEnabled(hasValidResponse());
     }
 
     @Override
@@ -91,14 +91,8 @@ public class SurveyFragment extends Fragment {
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         setQuestionText(mQuestionText);
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
-        
-        // Only one question in this instrument
-        if (mInstrument.questions().size() == 1) {
-            mLastQuestion = true;
-            getActivity().invalidateOptionsMenu();
-        }
-
         createQuestionFragment();
+        getActivity().invalidateOptionsMenu();
 
         return v;
     }
@@ -170,19 +164,28 @@ public class SurveyFragment extends Fragment {
         int questionIndex = mInstrument.questions().indexOf(mQuestion);
         int questionsInInstrument = mInstrument.questions().size();
 
-        if (questionIndex < questionsInInstrument - 1) {
-            
+        if (questionIndex < questionsInInstrument - 1) {           
             mQuestion = getNextQuestion(questionIndex);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
-
-            // Change next button text to finish if last question
-            if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
-                mLastQuestion = true;
-                getActivity().invalidateOptionsMenu();
-            }
-            
         }
+        
+        getActivity().invalidateOptionsMenu();
+    }
+    
+    /*
+     * Move to previous question.  Does not take into account skip
+     * patterns.
+     */
+    private void moveToPreviousQuestion() {
+        int questionIndex = mInstrument.questions().indexOf(mQuestion);
+        if (questionIndex > 0) {           
+            mQuestion = mInstrument.questions().get(questionIndex - 1);            
+            createQuestionFragment();
+            setQuestionText(mQuestionText);
+        }
+        
+        getActivity().invalidateOptionsMenu();
     }
     
     private void finishSurvey() {
@@ -213,6 +216,22 @@ public class SurveyFragment extends Fragment {
             }
         } else {
             text.setText(mQuestion.getText());
+        }
+    }
+    
+    private boolean isFirstQuestion() {
+        return mInstrument.questions().indexOf(mQuestion) == 0;
+    }
+    
+    private boolean isLastQuestion() {
+        return mInstrument.questions().size() == (mInstrument.questions().indexOf(mQuestion) + 1);
+    }
+
+    private boolean hasValidResponse() {
+        if (mQuestionFragment.getResponse() != null) {
+            return mQuestionFragment.getResponse().isValid();
+        } else {
+            return true;
         }
     }
 }

@@ -44,7 +44,7 @@ public abstract class QuestionFragment extends Fragment {
         if (questionId != -1 && surveyId != -1) {
             mQuestion = Question.findByRemoteId(questionId);
             mSurvey = Model.load(Survey.class, surveyId);
-            mResponse = new Response();
+            mResponse = loadOrCreateResponse();
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
@@ -123,6 +123,16 @@ public abstract class QuestionFragment extends Fragment {
             mValidationTextView.setVisibility(TextView.VISIBLE);
             mValidationTextView.setText(R.string.not_valid_response);
         }
+        
+        // Refresh options menu to reflect response validation status.
         getActivity().invalidateOptionsMenu();
+    }
+    
+    private Response loadOrCreateResponse() {
+        if (mSurvey.getResponseByQuestion(getQuestion()) != null) {
+            return mSurvey.getResponseByQuestion(getQuestion());
+        } else {
+            return new Response();
+        }
     }
 }

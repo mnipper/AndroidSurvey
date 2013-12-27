@@ -26,6 +26,7 @@ public class SurveyFragment extends Fragment {
     private Survey mSurvey;
 
     private TextView mQuestionText;
+    private TextView mQuestionIndex;
     QuestionFragment mQuestionFragment;
 
     @Override
@@ -89,6 +90,10 @@ public class SurveyFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
+        mQuestionIndex = (TextView) v.findViewById(R.id.question_index);
+        
+        updateQuestionCountLabel();
+        
         setQuestionText(mQuestionText);
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
         createQuestionFragment();
@@ -170,6 +175,7 @@ public class SurveyFragment extends Fragment {
             setQuestionText(mQuestionText);
         }
         
+        updateQuestionCountLabel();
         getActivity().invalidateOptionsMenu();
     }
     
@@ -185,6 +191,7 @@ public class SurveyFragment extends Fragment {
             setQuestionText(mQuestionText);
         }
         
+        updateQuestionCountLabel();
         getActivity().invalidateOptionsMenu();
     }
     
@@ -233,5 +240,12 @@ public class SurveyFragment extends Fragment {
         } else {
             return true;
         }
+    }
+    
+    private void updateQuestionCountLabel() {
+        mQuestionIndex.setText((mInstrument.questions().indexOf(mQuestion) + 1)
+                + " " + getString(R.string.of) + " "
+                + mInstrument.questions().size()
+        );
     }
 }

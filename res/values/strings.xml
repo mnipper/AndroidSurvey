@@ -6,6 +6,7 @@
     <string name="start_survey">Start Survey</string>
     <string name="survey_title_label">Choose instrument</string>
     <string name="next_button">Next</string>
+    <string name="previous_button">Previous</string>
     <string name="finish_button">Finish</string>
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>

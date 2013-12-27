@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class FreeResponseQuestionFragment extends QuestionFragment {
 
@@ -16,6 +15,7 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
 	public void createQuestionComponent(ViewGroup questionComponent) {
         EditText freeText = new EditText(getActivity());
         freeText.setHint(R.string.free_response_edittext);
+        freeText.setText(getResponse().getText());
         freeText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 

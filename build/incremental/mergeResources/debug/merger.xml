@@ -108,25 +108,25 @@
                 qualifiers="" >
                 <string name="action_settings" >Settings
                 </string>
-                <string name="start_survey" >Start Survey
+                <string name="encryption_required_title" >Encryption required
                 </string>
                 <string name="survey_title_label" >Choose instrument
                 </string>
-                <string name="encryption_required_title" >Encryption required
+                <string name="start_survey" >Start Survey
                 </string>
-                <string name="question" >question
+                <string name="password_message" >This action requires a password.  Please enter the password below.
                 </string>
                 <string name="other_specify" >Other
                 </string>
-                <string name="password_message" >This action requires a password.  Please enter the password below.
+                <string name="question" >question
                 </string>
                 <string name="custom_locale" >Custom ISO-639-1 Code
                 </string>
                 <string name="api_unavailable" >Remote api is not responsive.
                 </string>
-                <string name="not_valid_response" >This is not a valid response for this question.
-                </string>
                 <string name="hello" >Hello World
+                </string>
+                <string name="not_valid_response" >This is not a valid response for this question.
                 </string>
                 <string name="cancel" >Cancel
                 </string>
@@ -150,25 +150,27 @@
                 </string>
                 <string name="sync_notification_text" >Syncing with server...
                 </string>
+                <string name="previous_button" >Previous
+                </string>
                 <string name="admin_settings" >Admin
                 </string>
                 <string name="last_update" >Last update:  
                 </string>
-                <string name="network_unavailable" >No network available on the device.
-                </string>
                 <string name="save_button" >Save
+                </string>
+                <string name="network_unavailable" >No network available on the device.
                 </string>
                 <string name="other_specify_edittext" >Specify other
                 </string>
-                <string name="device_identifier" >Device Identifier
-                </string>
                 <string name="okay" >Ok
+                </string>
+                <string name="device_identifier" >Device Identifier
                 </string>
                 <string name="app_name" >Survey
                 </string>
-                <string name="finish_button" >Finish
-                </string>
                 <string name="refresh" >Refresh
+                </string>
+                <string name="finish_button" >Finish
                 </string>
                 <string name="encryption_required_text" >This application requires that the device be encrypted.  Please encrypt your device to continue.
                 </string>
@@ -204,23 +206,23 @@
                 </string>
                 <string name="sync_interval" >Sync Interval (minutes)
                 </string>
-                <string name="sync_notification_complete_text" >المزامنة مع خادم كاملة
-                </string>
                 <string name="cancel" >إلغاء
                 </string>
-                <string name="question" >سؤال
+                <string name="sync_notification_complete_text" >المزامنة مع خادم كاملة
                 </string>
                 <string name="survey_title_label" >اختيار الأسئلة
                 </string>
-                <string name="admin_settings" >مدير
+                <string name="question" >سؤال
                 </string>
                 <string name="save_button" >Save
                 </string>
+                <string name="admin_settings" >مدير
+                </string>
                 <string name="password_title" >أدخل كلمة المرور
                 </string>
-                <string name="other_specify_edittext" >تحديد أخرى
-                </string>
                 <string name="device_identifier" >Device Identifier
+                </string>
+                <string name="other_specify_edittext" >تحديد أخرى
                 </string>
                 <string name="last_update" >Last update:  
                 </string>
@@ -276,11 +278,11 @@
                 </string>
                 <string name="incorrect_password" >Password Hii ni sahihi.
                 </string>
-                <string name="questions" >maswali
+                <string name="device_identifier" >Device Identifier
                 </string>
                 <string name="network_unavailable" >Hakuna mtandao inapatikana kwenye kifaa.
                 </string>
-                <string name="device_identifier" >Device Identifier
+                <string name="questions" >maswali
                 </string>
                 <string name="api_endpoint" >Api Endpoint Url
                 </string>
@@ -308,9 +310,9 @@
                 </string>
                 <string name="password_message" >Kitendo hiki kinahitaji password. Tafadhali kuingia password chini.
                 </string>
-                <string name="admin_settings" >utawala
-                </string>
                 <string name="action_settings" >mazingira
+                </string>
+                <string name="admin_settings" >utawala
                 </string>
                 <string name="last_update" >Last update:  
                 </string>
@@ -385,6 +387,21 @@
                 name="ic_menu_item_next_item"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_next_item.png"
                 qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_previous_item.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_previous_item.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_previous_item.png"
+                qualifiers="hdpi"
                 type="drawable" />
         </source>
         <source path="/Users/leonardngeno/dev/workspace/AndroidSurvey/build/res/rs/debug" />

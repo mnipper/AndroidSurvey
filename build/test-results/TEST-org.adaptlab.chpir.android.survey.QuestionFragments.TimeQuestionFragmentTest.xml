@@ -1,9 +1,9 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" tests="3" failures="0" errors="0" timestamp="2013-12-27T01:30:29" hostname="CCFP-0193" time="0.521">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" tests="3" failures="0" errors="0" timestamp="2013-12-27T01:35:06" hostname="CCFP-0193" time="0.526">
   <properties/>
-  <testcase name="shouldHaveTimePickerView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.239"/>
-  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.073"/>
-  <testcase name="shouldHaveTimeChangedListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.209"/>
+  <testcase name="shouldHaveTimePickerView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.262"/>
+  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.069"/>
+  <testcase name="shouldHaveTimeChangedListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragmentTest" time="0.195"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

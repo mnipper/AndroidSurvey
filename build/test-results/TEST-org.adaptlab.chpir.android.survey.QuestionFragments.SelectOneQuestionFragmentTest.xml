@@ -1,15 +1,15 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" tests="9" failures="0" errors="0" timestamp="2013-12-27T01:30:27" hostname="CCFP-0193" time="1.052">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" tests="9" failures="0" errors="0" timestamp="2013-12-27T01:35:04" hostname="CCFP-0193" time="1.083">
   <properties/>
-  <testcase name="shouldSetTypeFaceOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.16"/>
-  <testcase name="shouldSetTextOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.115"/>
-  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.115"/>
-  <testcase name="radioGroupShouldHaveOnCheckedChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.124"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.098"/>
-  <testcase name="shouldSetIdOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.11"/>
-  <testcase name="shouldReturnRadioGroup" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.105"/>
-  <testcase name="shouldSetLayoutParamsInRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.112"/>
-  <testcase name="shouldAddRadioGroupViewToComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.113"/>
+  <testcase name="shouldSetTypeFaceOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.153"/>
+  <testcase name="shouldSetTextOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.121"/>
+  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.112"/>
+  <testcase name="radioGroupShouldHaveOnCheckedChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.123"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.093"/>
+  <testcase name="shouldSetIdOnRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.133"/>
+  <testcase name="shouldReturnRadioGroup" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.094"/>
+  <testcase name="shouldSetLayoutParamsInRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.119"/>
+  <testcase name="shouldAddRadioGroupViewToComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragmentTest" time="0.133"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

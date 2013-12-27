@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:30:24" hostname="CCFP-0193" time="0.515">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:35:01" hostname="CCFP-0193" time="0.561">
   <properties/>
-  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.116"/>
-  <testcase name="shouldHaveOnRatingsChanged" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.148"/>
-  <testcase name="shouldHaveRatingBarView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.119"/>
-  <testcase name="shouldHaveFiveRatingStars" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.132"/>
+  <testcase name="shouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.093"/>
+  <testcase name="shouldHaveOnRatingsChanged" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.168"/>
+  <testcase name="shouldHaveRatingBarView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.131"/>
+  <testcase name="shouldHaveFiveRatingStars" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragmentTest" time="0.168"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

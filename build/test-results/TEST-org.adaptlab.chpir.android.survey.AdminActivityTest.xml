@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.AdminActivityTest" tests="1" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="CCFP-0193" time="1.388107811245E9">
+<testsuite name="org.adaptlab.chpir.android.survey.AdminActivityTest" tests="1" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="CCFP-0193" time="1.388108088558E9">
   <properties/>
-  <testcase name="shouldCreateAdminFragmentType" classname="org.adaptlab.chpir.android.survey.AdminActivityTest" time="0.922"/>
+  <testcase name="shouldCreateAdminFragmentType" classname="org.adaptlab.chpir.android.survey.AdminActivityTest" time="0.887"/>
   <system-out><![CDATA[DEBUG: Loading resources for org.adaptlab.chpir.android.survey from ./res...
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

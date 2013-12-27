@@ -1,14 +1,14 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" tests="8" failures="0" errors="0" timestamp="2013-12-27T01:30:25" hostname="CCFP-0193" time="1.365">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" tests="8" failures="0" errors="0" timestamp="2013-12-27T01:35:02" hostname="CCFP-0193" time="1.339">
   <properties/>
-  <testcase name="shouldSetOptionId" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.156"/>
-  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.139"/>
-  <testcase name="shouldSetOptionText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.145"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.101"/>
-  <testcase name="ShouldHaveOnCheckedChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.13"/>
-  <testcase name="shouldCallSaveMultiResponse" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.127"/>
-  <testcase name="shouldAddViewToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.408"/>
-  <testcase name="shouldSetTypeFace" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.158"/>
+  <testcase name="shouldSetOptionId" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.157"/>
+  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.124"/>
+  <testcase name="shouldSetOptionText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.122"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.095"/>
+  <testcase name="ShouldHaveOnCheckedChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.154"/>
+  <testcase name="shouldCallSaveMultiResponse" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.121"/>
+  <testcase name="shouldAddViewToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.402"/>
+  <testcase name="shouldSetTypeFace" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.162"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

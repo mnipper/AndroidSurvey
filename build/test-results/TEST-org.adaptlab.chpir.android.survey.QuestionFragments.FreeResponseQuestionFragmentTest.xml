@@ -1,9 +1,7 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" tests="3" failures="0" errors="0" timestamp="2013-12-27T01:30:24" hostname="CCFP-0193" time="0.255">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T01:35:01" hostname="CCFP-0193" time="0.067">
   <properties/>
-  <testcase name="questionComponentShouldHaveHintString" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.097"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.063"/>
-  <testcase name="questionComponentShoudHaveOneChildView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.095"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragmentTest" time="0.067"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

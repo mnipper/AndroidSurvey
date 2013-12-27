@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:30:28" hostname="CCFP-0193" time="0.698">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" tests="4" failures="0" errors="0" timestamp="2013-12-27T01:35:05" hostname="CCFP-0193" time="0.654">
   <properties/>
-  <testcase name="shouldCallAddView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.276"/>
-  <testcase name="radioGroupShouldHaveRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.167"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.101"/>
-  <testcase name="shouldCallAddOtherResponseView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.154"/>
+  <testcase name="shouldCallAddView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.301"/>
+  <testcase name="radioGroupShouldHaveRadioButton" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.136"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.087"/>
+  <testcase name="shouldCallAddOtherResponseView" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragmentTest" time="0.128"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

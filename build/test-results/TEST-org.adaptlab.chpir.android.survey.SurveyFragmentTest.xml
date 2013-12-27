@@ -1,15 +1,15 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.SurveyFragmentTest" tests="9" failures="0" errors="0" timestamp="2013-12-27T01:30:18" hostname="CCFP-0193" time="1.05">
+<testsuite name="org.adaptlab.chpir.android.survey.SurveyFragmentTest" tests="9" failures="0" errors="0" timestamp="2013-12-27T01:34:56" hostname="CCFP-0193" time="0.976">
   <properties/>
-  <testcase name="shouldGetNextQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.124"/>
-  <testcase name="shouldGetNextQuestionSkipPatternOther" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.08"/>
-  <testcase name="shouldGetNextQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.098"/>
-  <testcase name="innerIfStateOnClick" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.112"/>
-  <testcase name="shouldReturnViewOnCreateView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.119"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.13"/>
-  <testcase name="shouldSetQuestionTextFollowUpQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.166"/>
-  <testcase name="shouldSetQuestionText" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.118"/>
-  <testcase name="shouldHaveRightQuestionTextView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.102"/>
+  <testcase name="shouldGetNextQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.109"/>
+  <testcase name="shouldGetNextQuestionSkipPatternOther" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.077"/>
+  <testcase name="shouldGetNextQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.093"/>
+  <testcase name="innerIfStateOnClick" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.109"/>
+  <testcase name="shouldReturnViewOnCreateView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.147"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.101"/>
+  <testcase name="shouldSetQuestionTextFollowUpQuestion" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.1"/>
+  <testcase name="shouldSetQuestionText" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.13"/>
+  <testcase name="shouldHaveRightQuestionTextView" classname="org.adaptlab.chpir.android.survey.SurveyFragmentTest" time="0.107"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

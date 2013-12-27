@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.DatabaseSeedTest" tests="1" failures="1" errors="0" timestamp="2013-12-26T19:08:07" hostname="CCFP-0193" time="0.0">
+<testsuite name="org.adaptlab.chpir.android.survey.DatabaseSeedTest" tests="1" failures="1" errors="0" timestamp="2013-12-26T23:19:20" hostname="CCFP-0193" time="0.0">
   <properties/>
   <testcase name="initializationError" classname="org.adaptlab.chpir.android.survey.DatabaseSeedTest" time="0.0">
     <failure message="java.lang.RuntimeException: Stub!" type="java.lang.RuntimeException">java.lang.RuntimeException: Stub!

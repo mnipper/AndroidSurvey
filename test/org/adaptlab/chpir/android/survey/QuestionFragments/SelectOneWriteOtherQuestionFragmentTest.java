@@ -18,11 +18,9 @@ import org.adaptlab.chpir.android.survey.QuestionFragmentFactory;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
-import org.adaptlab.chpir.android.survey.Models.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -36,8 +34,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SelectOneWriteOtherQuestionFragment.class, Question.class,
-		Option.class, Instrument.class, Response.class, RadioGroup.class })
 public class SelectOneWriteOtherQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;

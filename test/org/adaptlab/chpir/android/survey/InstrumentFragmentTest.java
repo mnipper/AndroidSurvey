@@ -5,13 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
-import static org.powermock.reflect.Whitebox.invokeMethod;
 import static org.robolectric.Robolectric.shadowOf;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowAlertDialog;
@@ -23,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ InstrumentFragment.class })
 public class InstrumentFragmentTest {
 	private static final String PASSWORD = "password";
 	private InstrumentFragment iFragment;
@@ -70,6 +68,7 @@ public class InstrumentFragmentTest {
 	@Test 
 	public void shouldDetectRefreshMenuItemSelected() throws Exception {
 		MenuItem item = new TestMenuItem() {
+			@Override
 			public int getItemId() {
 			    return R.id.menu_item_refresh;
 			  }
@@ -91,13 +90,13 @@ public class InstrumentFragmentTest {
 	
 	@Test
 	public void shouldCheckAdminPassword() throws Exception {
-		boolean passwordCorrect = invokeMethod(iFragment, "checkAdminPassword", PASSWORD);
+		boolean passwordCorrect = Whitebox.invokeMethod(iFragment, "checkAdminPassword", PASSWORD);
 		assertTrue(passwordCorrect);
 	}
 	
 	@Test
 	public void shouldDisplayPasswordPromptDialog() throws Exception {
-		invokeMethod(iFragment, "displayPasswordPrompt");
+		Whitebox.invokeMethod(iFragment, "displayPasswordPrompt");
 		AlertDialog alert = ShadowAlertDialog.getLatestAlertDialog();
 		ShadowAlertDialog sAlert = shadowOf(alert);
 		assertThat(sAlert.getTitle().toString(), equalTo(activity.getString(R.string.password_title)));

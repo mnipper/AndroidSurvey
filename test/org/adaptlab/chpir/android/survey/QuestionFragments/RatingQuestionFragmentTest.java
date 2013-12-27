@@ -15,7 +15,6 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -27,7 +26,6 @@ import android.widget.FrameLayout;
 import android.widget.RatingBar;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ RatingQuestionFragment.class, Response.class })
 public class RatingQuestionFragmentTest {
 
 	private static final long REMOTE_ID = 10L;

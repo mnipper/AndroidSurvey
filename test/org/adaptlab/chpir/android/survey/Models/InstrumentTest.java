@@ -12,20 +12,15 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
 
-import android.util.Log;
 import android.view.Gravity;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Survey.class, Response.class, Question.class, AdminSettings.class, JSONObject.class, Log.class, Instrument.class, InstrumentTranslation.class })
 public class InstrumentTest {
 	private static final Long REMOTE_ID = 12382903L;
 	private static final String TITLE = "This is the title";
@@ -119,7 +114,7 @@ public class InstrumentTest {
 	
 	@Test
 	public void shouldReturnListOfAllInstruments() throws Exception {
-		PowerMockito.mockStatic(Instrument.class);
+		//PowerMockito.mockStatic(Instrument.class);
 		assertThat(Instrument.getAll(), instanceOf(ArrayList.class));
 	}
 	

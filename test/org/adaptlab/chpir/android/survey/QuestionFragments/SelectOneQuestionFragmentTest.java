@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -37,11 +36,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.LayoutParams;
 
-import com.activeandroid.Model;
-
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SelectOneQuestionFragment.class, Question.class,
-		Option.class, Instrument.class, Response.class, Model.class })
 public class SelectOneQuestionFragmentTest {
 
 	private static final long REMOTE_ID = 10L;

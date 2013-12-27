@@ -17,25 +17,26 @@ android {
   defaultConfig {
         minSdkVersion 8
         targetSdkVersion 18
-    }
+  }
   
   sourceSets { 
     main {
-      manifest.srcFile 'AndroidManifest.xml'
+      manifest.srcFile 'RobolectricManifest.xml'
       java.srcDirs = ['src']
       resources.srcDirs = ['src']
       renderscript.srcDirs = ['src']
       res.srcDirs = ['res']
       assets.srcDirs = ['assets']
-    }    
+    }
+    instrumentTest.setRoot('test')   
   }
   
 }
 
 sourceSets {
     unitTest {
-        java.srcDir file('test')
-        resources.srcDir file('test/resources')
+      java.srcDir file('test')
+      resources.srcDir file('test/resources')
     }
 }
 
@@ -54,8 +55,7 @@ dependencies {
     compile files('libs/ActiveAndroid.jar')
     compile files('libs/commons-codec-1.8.jar')
     compile files('libs/crashlytics.jar')
-    
-    unitTestCompile files('test/libs/android.jar') 
+     
     unitTestCompile files('libs/ActiveAndroid.jar')
     unitTestCompile files('libs/android-support-v4.jar')
     unitTestCompile files('libs/commons-codec-1.8.jar')
@@ -63,24 +63,14 @@ dependencies {
     
     unitTestCompile files('src/')
     unitTestCompile files('gen/')
+    unitTestCompile files('build/')
     
+    unitTestCompile files('test/libs/android.jar')
     unitTestCompile files('test/libs/junit.jar')
     unitTestCompile files('test/libs/org.hamcrest.core_1.3.0.v201303031735.jar')
-    unitTestCompile files('test/libs/powermock-easymock-1.5.2-full.jar')
-    unitTestCompile files('test/libs/cglib-nodep-2.2.2.jar')
-    unitTestCompile files('test/libs/dexmaker-1.0.jar')
-    unitTestCompile files('test/libs/dexmaker-mockito-1.0.jar')
-    unitTestCompile files('test/libs/easymock-3.2.jar')
-    unitTestCompile files('test/libs/javassist-3.18.0-GA.jar')
-    unitTestCompile files('test/libs/jmockit.jar')
     unitTestCompile files('test/libs/mockito-all-1.9.5.jar')
-    unitTestCompile files('test/libs/objenesis-1.2.jar')
-    unitTestCompile files('test/libs/powermock-classloading-base-1.5.2.jar')
-    unitTestCompile files('test/libs/powermock-classloading-objenesis-1.5.2.jar')
-    unitTestCompile files('test/libs/powermock-mockito-1.5.2-full.jar')
-    unitTestCompile files('test/libs/powermock-module-junit4-rule-1.5.2.jar')
+    unitTestCompile files('test/libs/powermock-reflect-1.4.7.jar')
     unitTestCompile files('test/libs/robolectric-2.2-jar-with-dependencies.jar')
-    
 }
 
 task unitTest(type:Test, dependsOn: assemble) {
@@ -91,7 +81,13 @@ task unitTest(type:Test, dependsOn: assemble) {
 
 tasks.withType(Test) {
     scanForTestClasses = false
-    include "**/*Test.java"
+    include "**/*Test.class"
+}
+
+unitTest {
+    afterTest { desc, result ->
+        println "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
 }
 
 check.dependsOn unitTest

@@ -9,14 +9,9 @@ import static org.mockito.Mockito.spy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 
-import android.util.Log;
-
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ AdminSettings.class, Log.class })
 public class AdminSettingsTest {
 
 	private static final String API_URL = "www.did.test:3000";
@@ -27,8 +22,8 @@ public class AdminSettingsTest {
 	@Before
 	public void onSetup() {
 		adminSettings = spy(new AdminSettings());	// TODO Use getInstance() instead of new
-		PowerMockito.mockStatic(AdminSettings.class);
-		PowerMockito.mockStatic(Log.class);
+//		PowerMockito.mockStatic(AdminSettings.class);
+//		PowerMockito.mockStatic(Log.class);
 	}
 
 	@Test

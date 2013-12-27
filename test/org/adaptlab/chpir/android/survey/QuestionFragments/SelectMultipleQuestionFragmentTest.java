@@ -22,7 +22,6 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -35,8 +34,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SelectMultipleQuestionFragment.class, Question.class,
-		Option.class, Instrument.class })
 public class SelectMultipleQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;

@@ -19,13 +19,9 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 
-import android.util.Log;
-
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest( {Survey.class, Instrument.class, Response.class, Question.class, AdminSettings.class, JSONObject.class, Log.class } )
 public class SurveyTest { 
 	private static final String RESPONSE_TEXT = "This is the response";
 	private static final Long REMOTE_ID = 12382903L;

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.reflect.Whitebox.invokeMethod;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,8 +24,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.util.reflection.Whitebox;
-import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -40,8 +38,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SurveyFragment.class, Question.class, Instrument.class,
-		Survey.class, Option.class, Response.class })
 public class SurveyFragmentTest {
 	private static final String TEXT = "text";
 	private static final QuestionType QUESTION_TYPE = QuestionType
@@ -169,7 +165,7 @@ public class SurveyFragmentTest {
 	public void shouldSetQuestionText() throws Exception {
 		View v = sFragment.onCreateView(inflater, parent, null);
 		TextView questionText = (TextView) v.findViewById(R.id.question_text);
-		invokeMethod(sFragment, "setQuestionText", questionText);
+		Whitebox.invokeMethod(sFragment, "setQuestionText", questionText);
 		assertEquals(TEXT, questionText.getText().toString());
 	}
 
@@ -179,7 +175,7 @@ public class SurveyFragmentTest {
 		TextView questionText = (TextView) v.findViewById(R.id.question_text);
 		when(question.getFollowingUpQuestion()).thenReturn(followupQuestion);
 		when(question.getFollowingUpText(survey)).thenReturn(FOLLOW_UP_TEXT);
-		invokeMethod(sFragment, "setQuestionText", questionText);
+		Whitebox.invokeMethod(sFragment, "setQuestionText", questionText);
 		assertEquals(FOLLOW_UP_TEXT, questionText.getText().toString());
 	}
 
@@ -187,7 +183,7 @@ public class SurveyFragmentTest {
 	public void shouldGetNextQuestion() throws Exception {
 		questionList.add(question);
 		questionList.add(followupQuestion);
-		Question quest = invokeMethod(sFragment, "getNextQuestion", 0);
+		Question quest = Whitebox.invokeMethod(sFragment, "getNextQuestion", 0);
 		assertEquals(quest, followupQuestion);
 	}
 
@@ -195,7 +191,7 @@ public class SurveyFragmentTest {
 	public void shouldGetNextQuestionHasSkipPattern() throws Exception {
 		optionList.add(option);
 		setMockStateForSkipPattern("0");
-		Question quest = invokeMethod(sFragment, "getNextQuestion", 0);
+		Question quest = Whitebox.invokeMethod(sFragment, "getNextQuestion", 0);
 		assertEquals(quest, followupQuestion);
 	}
 
@@ -205,7 +201,7 @@ public class SurveyFragmentTest {
 		questionList.add(question);
 		questionList.add(followupQuestion);
 		setMockStateForSkipPattern("1");
-		Question quest = invokeMethod(sFragment, "getNextQuestion", 0);
+		Question quest = Whitebox.invokeMethod(sFragment, "getNextQuestion", 0);
 		assertEquals(quest, followupQuestion);
 	}
 

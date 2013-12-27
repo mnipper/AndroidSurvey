@@ -28,7 +28,7 @@
         <activity android:name=".AdminActivity" />
         <service android:name="org.adaptlab.chpir.android.activerecordcloudsync.PollService" />
       	<meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <!-- <meta-data android:name="AA_DB_VERSION" android:value="1" /> -->
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <!--<meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>-->
     </application>

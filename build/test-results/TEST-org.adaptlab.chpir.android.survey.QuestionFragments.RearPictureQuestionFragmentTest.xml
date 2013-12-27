@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragmentTest" tests="1" failures="1" errors="0" timestamp="2013-12-26T19:08:10" hostname="CCFP-0193" time="0.0">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragmentTest" tests="1" failures="1" errors="0" timestamp="2013-12-27T00:26:46" hostname="CCFP-0193" time="0.0">
   <properties/>
   <testcase name="initializationError" classname="org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragmentTest" time="0.0">
     <failure message="java.lang.Exception: No runnable methods" type="java.lang.Exception">java.lang.Exception: No runnable methods
@@ -17,7 +17,7 @@
 	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
 	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
 	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor169.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.lang.reflect.Method.invoke(Method.java:606)
 	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
@@ -26,7 +26,7 @@
 	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
 	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
 	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor168.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.lang.reflect.Method.invoke(Method.java:606)
 	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)

@@ -17,7 +17,6 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -30,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SliderQuestionFragment.class, Response.class })
 public class SliderQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;

@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -33,7 +32,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Question.class, Survey.class, Instrument.class, Response.class, FreeResponseQuestionFragment.class })
 public class QuestionFragmentTest {
 	
 	private static final long REMOTE_ID = 10L;

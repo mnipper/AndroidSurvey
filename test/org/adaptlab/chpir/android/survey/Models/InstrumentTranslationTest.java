@@ -7,12 +7,9 @@ import static org.mockito.Mockito.spy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Survey.class, Response.class,
-		Question.class, InstrumentTranslation.class })
 public class InstrumentTranslationTest {
 
 	private static final String TITLE = "Instrument Translation Title";

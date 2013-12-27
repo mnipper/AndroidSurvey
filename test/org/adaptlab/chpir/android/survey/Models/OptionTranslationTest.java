@@ -7,11 +7,9 @@ import static org.mockito.Mockito.spy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Option.class, OptionTranslation.class })
 public class OptionTranslationTest {
 	private static final String LANGUAGE = "Gibberish";
 	private static final String TEXT = "Aliens";

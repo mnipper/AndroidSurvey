@@ -110,15 +110,15 @@
                 </string>
                 <string name="encryption_required_title" >Encryption required
                 </string>
-                <string name="start_survey" >Start Survey
-                </string>
                 <string name="survey_title_label" >Choose instrument
                 </string>
-                <string name="question" >question
+                <string name="start_survey" >Start Survey
+                </string>
+                <string name="password_message" >This action requires a password.  Please enter the password below.
                 </string>
                 <string name="other_specify" >Other
                 </string>
-                <string name="password_message" >This action requires a password.  Please enter the password below.
+                <string name="question" >question
                 </string>
                 <string name="custom_locale" >Custom ISO-639-1 Code
                 </string>
@@ -130,9 +130,9 @@
                 </string>
                 <string name="password_title" >Enter password
                 </string>
-                <string name="questions" >questions
-                </string>
                 <string name="api_endpoint" >Api Endpoint Url
+                </string>
+                <string name="questions" >questions
                 </string>
                 <string name="incorrect_password" >This password is incorrect.
                 </string>
@@ -158,15 +158,15 @@
                 </string>
                 <string name="other_specify_edittext" >Specify other
                 </string>
-                <string name="device_identifier" >Device Identifier
-                </string>
                 <string name="okay" >Ok
+                </string>
+                <string name="device_identifier" >Device Identifier
                 </string>
                 <string name="app_name" >Survey
                 </string>
-                <string name="finish_button" >Finish
-                </string>
                 <string name="refresh" >Refresh
+                </string>
+                <string name="finish_button" >Finish
                 </string>
                 <string name="encryption_required_text" >This application requires that the device be encrypted.  Please encrypt your device to continue.
                 </string>
@@ -202,23 +202,23 @@
                 </string>
                 <string name="sync_interval" >Sync Interval (minutes)
                 </string>
-                <string name="sync_notification_complete_text" >المزامنة مع خادم كاملة
-                </string>
                 <string name="cancel" >إلغاء
                 </string>
-                <string name="question" >سؤال
+                <string name="sync_notification_complete_text" >المزامنة مع خادم كاملة
                 </string>
                 <string name="survey_title_label" >اختيار الأسئلة
                 </string>
-                <string name="admin_settings" >مدير
+                <string name="question" >سؤال
                 </string>
                 <string name="save_button" >Save
                 </string>
+                <string name="admin_settings" >مدير
+                </string>
                 <string name="password_title" >أدخل كلمة المرور
                 </string>
-                <string name="other_specify_edittext" >تحديد أخرى
-                </string>
                 <string name="device_identifier" >Device Identifier
+                </string>
+                <string name="other_specify_edittext" >تحديد أخرى
                 </string>
                 <string name="last_update" >Last update:  
                 </string>
@@ -274,17 +274,17 @@
                 </string>
                 <string name="incorrect_password" >Password Hii ni sahihi.
                 </string>
-                <string name="questions" >maswali
+                <string name="device_identifier" >Device Identifier
                 </string>
                 <string name="network_unavailable" >Hakuna mtandao inapatikana kwenye kifaa.
                 </string>
-                <string name="device_identifier" >Device Identifier
+                <string name="questions" >maswali
                 </string>
                 <string name="api_endpoint" >Api Endpoint Url
                 </string>
-                <string name="other_specify_edittext" >bayana nyingine
-                </string>
                 <string name="password_title" >kuingia password
+                </string>
+                <string name="other_specify_edittext" >bayana nyingine
                 </string>
                 <string name="sync_interval" >Sync Interval (minutes)
                 </string>
@@ -294,9 +294,9 @@
                 </string>
                 <string name="cancel" >kufuta
                 </string>
-                <string name="next_button" >ijayo
-                </string>
                 <string name="encryption_required_text" >Maombi Hii inahitaji kwamba kifaa kuwa ya siri. Tafadhali fumbo kifaa yako kuendelea.
+                </string>
+                <string name="next_button" >ijayo
                 </string>
                 <string name="api_unavailable" >Server si kujibu
                 </string>

@@ -40,11 +40,6 @@ sourceSets {
     }
 }
 
-configurations {
-    unitTestCompile.extendsFrom runtime
-    unitTestRuntime.extendsFrom unitTestCompile
-}
-
 repositories {
     mavenCentral()
 }
@@ -63,7 +58,6 @@ dependencies {
     
     unitTestCompile files('src/')
     unitTestCompile files('gen/')
-    unitTestCompile files('build/')
     
     unitTestCompile files('test/libs/android.jar')
     unitTestCompile files('test/libs/junit.jar')

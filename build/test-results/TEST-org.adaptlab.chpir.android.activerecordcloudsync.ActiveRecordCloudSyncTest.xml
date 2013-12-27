@@ -1,12 +1,12 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" tests="6" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="CCFP-0193" time="1.38810560319E9">
+<testsuite name="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" tests="6" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="CCFP-0193" time="1.388107809719E9">
   <properties/>
-  <testcase name="shouldCheckIfPointsAreSetCorrectly" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="5.72"/>
-  <testcase name="shouldIncrementSizeOfSendTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.149"/>
-  <testcase name="shouldIncrementSizeOfReceiveTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.121"/>
-  <testcase name="shouldReturnApiAvailability" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.131"/>
-  <testcase name="shouldSyncReceiveTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.124"/>
-  <testcase name="shouldSyncSendTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.116"/>
+  <testcase name="shouldCheckIfPointsAreSetCorrectly" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="4.824"/>
+  <testcase name="shouldIncrementSizeOfSendTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.125"/>
+  <testcase name="shouldIncrementSizeOfReceiveTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.107"/>
+  <testcase name="shouldReturnApiAvailability" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.11"/>
+  <testcase name="shouldSyncReceiveTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.093"/>
+  <testcase name="shouldSyncSendTables" classname="org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSyncTest" time="0.101"/>
   <system-out><![CDATA[DEBUG: Loading resources for android from jar:/Users/leonardngeno/.m2/repository/org/robolectric/android-res/4.1.2_r1_rc/android-res-4.1.2_r1_rc-real.jar!/res...
 ]]></system-out>
   <system-err><![CDATA[WARNING: no system properties value for ro.build.date.utc

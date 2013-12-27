@@ -1,7 +1,7 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.SurveyActivityTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T00:53:33" hostname="CCFP-0193" time="0.107">
+<testsuite name="org.adaptlab.chpir.android.survey.SurveyActivityTest" tests="1" failures="0" errors="0" timestamp="2013-12-27T01:30:18" hostname="CCFP-0193" time="0.088">
   <properties/>
-  <testcase name="shouldCreateSurveyFragementType" classname="org.adaptlab.chpir.android.survey.SurveyActivityTest" time="0.107"/>
+  <testcase name="shouldCreateSurveyFragementType" classname="org.adaptlab.chpir.android.survey.SurveyActivityTest" time="0.088"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

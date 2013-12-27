@@ -11,37 +11,60 @@ buildscript {
 apply plugin: 'android'
   
 android {
+  
   compileSdkVersion 18
   buildToolsVersion '18.1.1'
   
   defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 18
+    minSdkVersion 14
+    targetSdkVersion 18
   }
   
-  sourceSets { 
+  sourceSets {
     main {
-      manifest.srcFile 'RobolectricManifest.xml'
+      manifest.srcFile 'AndroidManifest.xml'
       java.srcDirs = ['src']
       resources.srcDirs = ['src']
+      aidl.srcDirs = ['src']
       renderscript.srcDirs = ['src']
       res.srcDirs = ['res']
       assets.srcDirs = ['assets']
     }
-    instrumentTest.setRoot('test')   
-  }
+    instrumentTest.setRoot('test')
+  } 
+  
+    android.applicationVariants.all { variant ->
+        variant.processManifest.doLast {
+            copy {
+                from("${buildDir}/manifests") {
+                        include "${variant.dirName}/AndroidManifest.xml"
+                    }
+                into("${buildDir}/manifests/${variant.name}")
+
+                filter {
+                    String line -> line.replaceAll('<meta-data android:name="AA_DB_VERSION" android:value="1"/>', '<!-- -->')
+                }
+            }
+        }
+        variant.processResources.manifestFile = file("${buildDir}/manifests/${variant.name}/${variant.dirName}/AndroidManifest.xml")
+    }
   
 }
 
 sourceSets {
-    unitTest {
-      java.srcDir file('test')
-      resources.srcDir file('test/resources')
-    }
+  unitTest {
+    java.srcDir file('test')
+    resources.srcDir file('test/resources')
+  } 
+}
+
+configurations {
+  unitTestCompile.extendsFrom runtime
+  unitTestRuntime.extendsFrom unitTestCompile
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {

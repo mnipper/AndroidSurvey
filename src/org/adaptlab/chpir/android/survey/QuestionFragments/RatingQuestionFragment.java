@@ -7,19 +7,34 @@ import android.widget.RatingBar;
 
 public class RatingQuestionFragment extends QuestionFragment  {
     private final static int NUM_STARS = 5;
+    private float mRating;
+    private RatingBar mRatingBar;
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        RatingBar ratingBar = new RatingBar(getActivity());
-        ratingBar.setNumStars(NUM_STARS);
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {       
+        mRatingBar = new RatingBar(getActivity());
+        mRatingBar.setNumStars(NUM_STARS);
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {       
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating,
                     boolean fromUser) {
-                getResponse().setResponse(String.valueOf(rating));
-                getResponse().save();
+                mRating = rating;
+                saveResponse();
             }
         });
-        questionComponent.addView(ratingBar);
+        questionComponent.addView(mRatingBar);
+    }
+
+    @Override
+    protected String serialize() {
+        return String.valueOf(mRating);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        if (!responseText.equals("")) {
+            mRating = Float.parseFloat(responseText);
+            mRatingBar.setRating(mRating);
+        }
     }
 }

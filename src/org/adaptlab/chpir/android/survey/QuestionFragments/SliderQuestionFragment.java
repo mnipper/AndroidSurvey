@@ -7,21 +7,33 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class SliderQuestionFragment extends QuestionFragment {
+    private int mProgress;
+    private SeekBar mSlider;
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        final SeekBar slider = new SeekBar(getActivity());
-        slider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        mSlider = new SeekBar(getActivity());
+        mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                getResponse().setResponse(String.valueOf(progress));
-                getResponse().save();
+                mProgress = progress;
+                saveResponse();
             }
 
             // Required by interface
             public void onStartTrackingTouch(SeekBar seekBar) { }
             public void onStopTrackingTouch(SeekBar seekBar) { }     
         });
-        questionComponent.addView(slider);
+        questionComponent.addView(mSlider);
     }
 
+    @Override
+    protected String serialize() {
+        return String.valueOf(mProgress);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        if (!responseText.equals(""))
+            mSlider.setProgress(Integer.parseInt(responseText));
+    }
 }

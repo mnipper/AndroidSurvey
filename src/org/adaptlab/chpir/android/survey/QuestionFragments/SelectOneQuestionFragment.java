@@ -10,19 +10,20 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class SelectOneQuestionFragment extends QuestionFragment {
-    private RadioGroup radioGroup;
+    private RadioGroup mRadioGroup;
+    private int mResponseIndex;
 
     // This is used to add additional UI components in subclasses.
     protected void beforeAddViewHook(ViewGroup questionComponent) {
     }
 
     protected RadioGroup getRadioGroup() {
-        return radioGroup;
+        return mRadioGroup;
     }
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        radioGroup = new RadioGroup(getActivity());
+        mRadioGroup = new RadioGroup(getActivity());
         for (Option option : getQuestion().options()) {
             int optionId = getQuestion().options().indexOf(option);
             RadioButton radioButton = new RadioButton(getActivity());
@@ -32,17 +33,27 @@ public class SelectOneQuestionFragment extends QuestionFragment {
             radioButton.setLayoutParams(new RadioGroup.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-            radioGroup.addView(radioButton, optionId);
+            mRadioGroup.addView(radioButton, optionId);
         }
-
         
         getRadioGroup().setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                getResponse().setResponse(String.valueOf(checkedId));
-                getResponse().save();
+                mResponseIndex = checkedId;
+                saveResponse();
             }
         });
-        questionComponent.addView(radioGroup);
+        questionComponent.addView(mRadioGroup);
         beforeAddViewHook(questionComponent);
+    }
+
+    @Override
+    protected String serialize() {
+        return String.valueOf(mResponseIndex);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        if (!responseText.equals(""))
+            getRadioGroup().check(Integer.parseInt(responseText));
     }
 }

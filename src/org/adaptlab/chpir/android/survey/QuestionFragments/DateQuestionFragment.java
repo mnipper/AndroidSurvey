@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
@@ -10,29 +11,44 @@ import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 
 public class DateQuestionFragment extends QuestionFragment {
+    private int mDay;
+    private int mMonth;
+    private int mYear;
+    
+    private DatePicker mDatePicker;
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        final DatePicker datePicker = new DatePicker(getActivity());
-        datePicker.setCalendarViewShown(false);
+        mDatePicker = new DatePicker(getActivity());
+        mDatePicker.setCalendarViewShown(false);
         Calendar c = Calendar.getInstance();
-
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int year = c.get(Calendar.YEAR);
        
-        datePicker.init(year, month, day, new OnDateChangedListener() {
+        mDatePicker.init(mYear, mMonth, mDay, new OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int newYear,
                     int newMonth, int newDay) {
-                getResponse().setResponse(FormatUtils.formatDate(newMonth, newDay, newYear));
-                getResponse().save();
+                mDay = newDay;
+                mMonth = newMonth;
+                mYear = newYear;
+                saveResponse();
             }           
         });
+        questionComponent.addView(mDatePicker);
+    }
 
-        getResponse().setResponse(FormatUtils.formatDate(month, day, year));
-        getResponse().save();
-        
-        questionComponent.addView(datePicker);
+    @Override
+    protected String serialize() {
+        return FormatUtils.formatDate(mMonth, mDay, mYear);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+        GregorianCalendar dateComponents = FormatUtils.unformatDate(responseText);
+        if(dateComponents != null) {
+            mDay = dateComponents.get(GregorianCalendar.DAY_OF_MONTH);
+            mMonth = dateComponents.get(GregorianCalendar.MONTH);
+            mYear = dateComponents.get(GregorianCalendar.YEAR);
+            mDatePicker.updateDate(mYear, mMonth, mDay);
+        }
     }
 }

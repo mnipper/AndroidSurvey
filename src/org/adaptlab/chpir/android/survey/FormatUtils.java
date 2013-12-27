@@ -1,6 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.text.DateFormatSymbols;
+import java.util.GregorianCalendar;
 
 public class FormatUtils {
     public static String pluralize(int number, String singular, String plural) {
@@ -12,16 +12,29 @@ public class FormatUtils {
     }
        
     public static String formatDate(int month, int day, int year) {
-        String monthName = new DateFormatSymbols().getMonths()[month];
-        return (monthName + " " + day + ", " + year);
+        return (month + " " + day + ", " + year);
+    }
+    
+    public static GregorianCalendar unformatDate(String date) {
+        if (date.equals("")) return null;
+        String[] dateComponents = date.split(" ");
+        int month = Integer.parseInt(dateComponents[0]);
+        int day = Integer.parseInt(dateComponents[1].replace(",", ""));
+        int year = Integer.parseInt(dateComponents[2]);
+        return new GregorianCalendar(year, month, day);        
     }
        
-    // Format: HH:MM AM/PM
+    // Format: HH:MM, 24 hour format
     public static String formatTime(int hour, int minute) {
-        String period = (hour < 12 ? "AM" : "PM");
-        hour = (hour > 13 ? hour - 12 : hour);
-        if (hour == 0) hour = 12;
-        return hour + ":" + formatMinute(minute) + " " + period;
+        return hour + ":" + formatMinute(minute);
+    }
+        
+    public static int[] unformatTime(String time) {
+        if (time.equals("")) return null;
+        String[] timeComponents = time.split(":");
+        int hour = Integer.parseInt(timeComponents[0]);
+        int minute = Integer.parseInt(timeComponents[1]);
+        return new int[]{hour, minute};
     }
 
     // Add a 0 to minute values less than 10 to look more natural

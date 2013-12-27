@@ -15,4 +15,13 @@ public class RearPictureQuestionFragment extends QuestionFragment {
         questionComponent.addView(temp);
     }
 
+    @Override
+    protected String serialize() {
+        return null;
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+  
+    }
 }

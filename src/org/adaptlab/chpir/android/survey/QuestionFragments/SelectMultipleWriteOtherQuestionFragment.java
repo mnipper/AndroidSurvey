@@ -22,15 +22,12 @@ public class SelectMultipleWriteOtherQuestionFragment extends
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 otherText.setEnabled(isChecked);
                 if (isChecked) {
-                    saveMultiResponse(otherId);
+                    addResponseIndex(otherId);
                 }
             }
          });
         questionComponent.addView(checkbox, otherId);
-
-        addOtherResponseView(otherText);
-        
-        questionComponent
-                .addView(otherText);
+        addOtherResponseView(otherText);        
+        questionComponent.addView(otherText);
     }
 }

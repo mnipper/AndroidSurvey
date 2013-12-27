@@ -23,6 +23,8 @@ public abstract class QuestionFragment extends Fragment {
     private final static String TAG = "QuestionFragment";
     
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
+    protected abstract String serialize();
+    protected abstract void deserialize(String responseText);
     
     private TextView mValidationTextView;
 
@@ -61,9 +63,10 @@ public abstract class QuestionFragment extends Fragment {
 
         ViewGroup questionComponent = (LinearLayout) v
                 .findViewById(R.id.question_component);
-        
+
         // Overridden by subclasses to place their graphical elements on the fragment.
         createQuestionComponent(questionComponent);
+        deserialize(mResponse.getText());
         
         return v;
     }
@@ -126,6 +129,11 @@ public abstract class QuestionFragment extends Fragment {
         
         // Refresh options menu to reflect response validation status.
         getActivity().invalidateOptionsMenu();
+    }
+    
+    protected void saveResponse() {
+        getResponse().setResponse(serialize());
+        saveResponseWithValidation();
     }
     
     private Response loadOrCreateResponse() {

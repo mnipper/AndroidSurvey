@@ -32,7 +32,32 @@ public class Response extends SendModel {
 		mSent = false;
 		mText = "";
 	}
-	
+	    
+	/*
+	 * Return true if this response matches the regular expression
+	 * in its question.  If the regular expression is the empty string,
+	 * declare it a match and return true.
+	 */
+    public boolean isValid() {
+        if (mQuestion.getRegExValidation().equals("")) {
+            return true;
+        }
+        return getText().matches(mQuestion.getRegExValidation());
+    }
+    
+    /*
+     * Only save if this response is valid.  If valid, return
+     * true.  If not, return false.
+     */
+    public boolean saveWithValidation() {
+        if (isValid()) {
+            save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();

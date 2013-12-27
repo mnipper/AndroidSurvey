@@ -13,6 +13,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Admin Settings](https://github.com/mnipper/AndroidSurvey/wiki/Admin-Settings)
 * [Translation Models](https://github.com/mnipper/AndroidSurvey/wiki/Translation-Models)
 * [Following Up Questions](https://github.com/mnipper/AndroidSurvey/wiki/Following-Up-Questions)
+* [Response Validations](https://github.com/mnipper/AndroidSurvey/wiki/Response-Validations)
 * [Seeding the Database](https://github.com/mnipper/AndroidSurvey/wiki/Seeding-the-Database)
 
 ## ActiveAndroid

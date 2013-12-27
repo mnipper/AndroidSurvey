@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.activeandroid.Model;
 
@@ -22,6 +23,8 @@ public abstract class QuestionFragment extends Fragment {
     private final static String TAG = "QuestionFragment";
     
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
+    
+    private TextView mValidationTextView;
 
     private Question mQuestion;
     private Survey mSurvey;
@@ -46,6 +49,8 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
         }
+        
+        mValidationTextView = (TextView) getActivity().findViewById(R.id.validation_text);
     }
 
     @Override
@@ -104,5 +109,20 @@ public abstract class QuestionFragment extends Fragment {
     public void saveOtherResponse(String response) {
         getResponse().setOtherResponse(response);
         getResponse().save();
+    }
+    
+    /*
+     * Display warning to user if response does not match regular 
+     * expression in question.  Disable next button if not valid.
+     * Only save if valid.
+     */
+    public void saveResponseWithValidation() {
+        if (getResponse().saveWithValidation()) {
+            mValidationTextView.setVisibility(TextView.INVISIBLE);
+        } else {
+            mValidationTextView.setVisibility(TextView.VISIBLE);
+            mValidationTextView.setText(R.string.not_valid_response);
+        }
+        getActivity().invalidateOptionsMenu();
     }
 }

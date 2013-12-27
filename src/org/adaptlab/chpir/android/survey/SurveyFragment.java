@@ -9,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class SurveyFragment extends Fragment {
@@ -22,13 +24,16 @@ public class SurveyFragment extends Fragment {
     private Question mQuestion;
     private Instrument mInstrument;
     private Survey mSurvey;
+    private boolean mLastQuestion;
 
     private TextView mQuestionText;
-    private Button mNextButton;
+    QuestionFragment mQuestionFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        
         Long instrumentId = getActivity().getIntent()
                 .getLongExtra(EXTRA_INSTRUMENT_ID, -1);
         if (instrumentId == -1) {
@@ -41,6 +46,41 @@ public class SurveyFragment extends Fragment {
         mSurvey.save();
         
         mQuestion = mInstrument.questions().get(0);
+        mLastQuestion = false;
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_survey, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.menu_item_next:
+            moveToNextQuestion();
+            return true;
+        case R.id.menu_item_finish:
+            finishSurvey();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        
+        // Only validate if a response has been started
+        boolean responseIsValid = true;
+        if (mQuestionFragment.getResponse() != null) {
+            responseIsValid = mQuestionFragment.getResponse().isValid();
+        }
+        
+        menu.findItem(R.id.menu_item_next).setVisible(!mLastQuestion).setEnabled(responseIsValid);
+        menu.findItem(R.id.menu_item_finish).setVisible(mLastQuestion).setEnabled(responseIsValid);
     }
 
     @Override
@@ -51,19 +91,12 @@ public class SurveyFragment extends Fragment {
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         setQuestionText(mQuestionText);
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
-
-        mNextButton = (Button) v.findViewById(R.id.next_button);
         
         // Only one question in this instrument
         if (mInstrument.questions().size() == 1) {
-            mNextButton.setText(R.string.finish_button);
+            mLastQuestion = true;
+            getActivity().invalidateOptionsMenu();
         }
-        
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                moveToNextQuestion();
-            }
-        });
 
         createQuestionFragment();
 
@@ -76,18 +109,17 @@ public class SurveyFragment extends Fragment {
      */
 	protected void createQuestionFragment() {
         FragmentManager fm = getChildFragmentManager();       
-        Fragment questionFragment = QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
+        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
 
         if (fm.findFragmentById(R.id.question_container) == null) {
             // Add the first question fragment
             fm.beginTransaction()
-                .add(R.id.question_container, questionFragment)
+                .add(R.id.question_container, mQuestionFragment)
                 .commit();
         } else {
             // Replace the question fragment if it already exist
             fm.beginTransaction()
-                .replace(R.id.question_container,
-                    QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey))
+                .replace(R.id.question_container, mQuestionFragment)
                 .commit();            
         }
 	}
@@ -146,16 +178,17 @@ public class SurveyFragment extends Fragment {
 
             // Change next button text to finish if last question
             if (mInstrument.questions().indexOf(mQuestion) + 1 == questionsInInstrument) {
-                mNextButton.setText(R.string.finish_button);
+                mLastQuestion = true;
+                getActivity().invalidateOptionsMenu();
             }
             
-        } else {
-            // Hide survey activity when finish button pressed
-            getActivity().finish();
-            mSurvey.setAsComplete();
-            mSurvey.save();
-            return;
         }
+    }
+    
+    private void finishSurvey() {
+        getActivity().finish();
+        mSurvey.setAsComplete();
+        mSurvey.save();
     }
     
     /*

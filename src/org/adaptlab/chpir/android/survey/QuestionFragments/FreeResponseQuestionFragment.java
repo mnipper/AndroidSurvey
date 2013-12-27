@@ -5,8 +5,10 @@ import org.adaptlab.chpir.android.survey.R;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class FreeResponseQuestionFragment extends QuestionFragment {
 
@@ -18,7 +20,7 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 
                 getResponse().setResponse(s.toString());
-                getResponse().save();
+                saveResponseWithValidation();
             }
             
             // Required by interface

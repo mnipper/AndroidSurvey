@@ -33,4 +33,5 @@
     <string name="cancel">Cancel</string>
     <string name="incorrect_password">This password is incorrect.</string>
     <string name="custom_locale">Custom ISO-639-1 Code</string>
+    <string name="not_valid_response">This is not a valid response for this question.</string>
 </resources>

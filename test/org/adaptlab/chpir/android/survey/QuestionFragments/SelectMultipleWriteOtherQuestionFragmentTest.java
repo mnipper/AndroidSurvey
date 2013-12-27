@@ -23,7 +23,6 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
@@ -37,8 +36,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ SelectMultipleWriteOtherQuestionFragment.class,
-		Question.class, ViewGroup.class, Option.class, Instrument.class })
 public class SelectMultipleWriteOtherQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;

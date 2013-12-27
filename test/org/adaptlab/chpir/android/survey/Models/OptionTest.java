@@ -11,14 +11,10 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
 
-import android.util.Log;
-
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Option.class, Question.class, Instrument.class, Log.class, AdminSettings.class })
 public class OptionTest {
 	private static final String TEXT = "this text";
 	private static final Long REMOTE_ID = 023121L;

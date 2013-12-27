@@ -8,11 +8,9 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -26,9 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//@Config(shadows = ShadowAdminSettings.class)
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ AdminSettings.class, AdminFragment.class })
 public class AdminFragmentTest {
 	
 	private static final String API_URL = "http://localhost:3000";

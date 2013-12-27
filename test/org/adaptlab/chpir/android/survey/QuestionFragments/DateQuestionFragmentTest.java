@@ -15,7 +15,6 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -29,7 +28,6 @@ import android.widget.FrameLayout;
 
 @Config(shadows = {ShadowDatePicker.class} )
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ DateQuestionFragment.class, Response.class })
 public class DateQuestionFragmentTest {
 	private static final long REMOTE_ID = 10L;
 	private static final long SURVEY_ID = 10L;

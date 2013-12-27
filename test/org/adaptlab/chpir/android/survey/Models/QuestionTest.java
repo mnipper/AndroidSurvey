@@ -16,13 +16,10 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Question.class, Instrument.class, Option.class })
 public class QuestionTest {
 	private static final String QUESTION_TEXT = "WHAT WHICH WHO";
 	private static final String QUESTION_TYPE_ONE = "SELECT_ONE";
@@ -136,7 +133,7 @@ public class QuestionTest {
 	@Test
 	// TODO FIX
 	public void shouldReturnValidQuestionType() throws Exception {
-		Question quiz = PowerMockito.spy(new Question());
+		Question quiz = spy(new Question());
 		boolean bool1 = Whitebox.invokeMethod(quiz, "validQuestionType","SELECT_ONE");
 		assertThat(bool1, equalTo(true));
 		boolean bool2 = Whitebox.invokeMethod(quiz, "validQuestionType","COACH K");

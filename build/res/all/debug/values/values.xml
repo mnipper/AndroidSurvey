@@ -37,6 +37,7 @@
     <string name="last_update">Last update:  </string>
     <string name="network_unavailable">No network available on the device.</string>
     <string name="next_button">Next</string>
+    <string name="not_valid_response">This is not a valid response for this question.</string>
     <string name="okay">Ok</string>
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>

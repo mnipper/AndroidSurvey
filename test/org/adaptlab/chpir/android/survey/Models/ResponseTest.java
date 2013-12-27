@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest({ Response.class, Question.class, Survey.class })
 public class ResponseTest {
 	private static final String RESPONSE_TEXT = "main";
 	private static final String OTHER_RESPONSE = "other";
@@ -32,7 +29,7 @@ public class ResponseTest {
 		response = spy(new Response());
 		question = mock(Question.class);
 		survey = mock(Survey.class);
-		PowerMockito.mockStatic(Response.class);
+	//	PowerMockito.mockStatic(Response.class);
 	}
 	
 	@Test

@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class SurveyFragment extends Fragment {
@@ -27,6 +28,7 @@ public class SurveyFragment extends Fragment {
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
+    private ProgressBar mProgressBar;
     QuestionFragment mQuestionFragment;
 
     @Override
@@ -91,6 +93,7 @@ public class SurveyFragment extends Fragment {
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         mQuestionIndex = (TextView) v.findViewById(R.id.question_index);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
         
         updateQuestionCountLabel();
         
@@ -243,9 +246,10 @@ public class SurveyFragment extends Fragment {
     }
     
     private void updateQuestionCountLabel() {
-        mQuestionIndex.setText((mInstrument.questions().indexOf(mQuestion) + 1)
-                + " " + getString(R.string.of) + " "
-                + mInstrument.questions().size()
-        );
+        int questionNumber = mInstrument.questions().indexOf(mQuestion) + 1;
+        int numberQuestions = mInstrument.questions().size();
+        
+        mQuestionIndex.setText(questionNumber + " " + getString(R.string.of) + " " + numberQuestions);        
+        mProgressBar.setProgress((int) (100 * (questionNumber) / (float) numberQuestions));
     }
 }

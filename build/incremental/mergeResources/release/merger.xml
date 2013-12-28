@@ -9,6 +9,21 @@
                 qualifiers="hdpi"
                 type="drawable" />
             <file
+                name="ic_menu_item_accept"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_accept.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_next_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_next_item.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_previous_item.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
                 name="ic_menu_item_refresh"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_refresh.png"
                 qualifiers="hdpi"
@@ -24,6 +39,21 @@
                 qualifiers="mdpi"
                 type="drawable" />
             <file
+                name="ic_menu_item_accept"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_accept.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_next_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_next_item.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_previous_item.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
                 name="ic_menu_item_refresh"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_refresh.png"
                 qualifiers="mdpi"
@@ -36,6 +66,21 @@
             <file
                 name="ic_launcher"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_accept"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_accept.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_next_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_next_item.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_previous_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_previous_item.png"
                 qualifiers="xhdpi"
                 type="drawable" />
             <file
@@ -79,6 +124,11 @@
                 qualifiers=""
                 type="menu" />
             <file
+                name="fragment_survey"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/menu/fragment_survey.xml"
+                qualifiers=""
+                type="menu" />
+            <file
                 name="survey"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/menu/survey.xml"
                 qualifiers=""
@@ -116,17 +166,17 @@
                 </string>
                 <string name="password_message" >This action requires a password.  Please enter the password below.
                 </string>
-                <string name="other_specify" >Other
-                </string>
                 <string name="question" >question
+                </string>
+                <string name="other_specify" >Other
                 </string>
                 <string name="custom_locale" >Custom ISO-639-1 Code
                 </string>
                 <string name="api_unavailable" >Remote api is not responsive.
                 </string>
-                <string name="hello" >Hello World
-                </string>
                 <string name="not_valid_response" >This is not a valid response for this question.
+                </string>
+                <string name="hello" >Hello World
                 </string>
                 <string name="cancel" >Cancel
                 </string>
@@ -353,56 +403,6 @@
                     <!-- API 14 theme customizations can go here. -->
                 </style>
             </file>
-            <file
-                name="ic_menu_item_accept"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_accept.png"
-                qualifiers="hdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_accept"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_accept.png"
-                qualifiers="xhdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_next_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_next_item.png"
-                qualifiers="hdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_next_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_next_item.png"
-                qualifiers="xhdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_accept"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_accept.png"
-                qualifiers="mdpi"
-                type="drawable" />
-            <file
-                name="fragment_survey"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/menu/fragment_survey.xml"
-                qualifiers=""
-                type="menu" />
-            <file
-                name="ic_menu_item_next_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_next_item.png"
-                qualifiers="mdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_previous_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_previous_item.png"
-                qualifiers="mdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_previous_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_previous_item.png"
-                qualifiers="xhdpi"
-                type="drawable" />
-            <file
-                name="ic_menu_item_previous_item"
-                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_previous_item.png"
-                qualifiers="hdpi"
-                type="drawable" />
         </source>
         <source path="/Users/leonardngeno/dev/workspace/AndroidSurvey/build/res/rs/release" />
     </dataSet>

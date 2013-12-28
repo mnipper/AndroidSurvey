@@ -4,6 +4,7 @@ import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -102,6 +103,8 @@ public class SurveyFragment extends Fragment {
         createQuestionFragment();
         getActivity().invalidateOptionsMenu();
 
+        getActivity().getActionBar().setTitle(mInstrument.getTitle());
+        
         return v;
     }
 

@@ -22,19 +22,19 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">4</div>
+<div class="counter">3</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">4</div>
+<div class="counter">0</div>
 <p>failures</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.039s</div>
+<div class="counter">0.370s</div>
 <p>duration</p>
 </div>
 </td>
@@ -43,8 +43,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox failures" id="successRate">
-<div class="percent">0%</div>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
 <p>successful</p>
 </div>
 </td>
@@ -54,223 +54,10 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Failed tests</a>
-</li>
-<li>
-<a href="#tab1">Tests</a>
-</li>
-<li>
-<a href="#tab2">Standard error</a>
+<a href="#tab0">Tests</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
-<h2>Failed tests</h2>
-<div class="test">
-<a name="shouldHaveFiveRatingStars"></a>
-<h3 class="failures">shouldHaveFiveRatingStars</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:224)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	... 33 more
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="shouldHaveOnRatingsChanged"></a>
-<h3 class="failures">shouldHaveOnRatingsChanged</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:224)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	... 33 more
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="shouldHaveRatingBarView"></a>
-<h3 class="failures">shouldHaveRatingBarView</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:224)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	... 33 more
-</pre>
-</span>
-</div>
-<div class="test">
-<a name="shouldNotBeNull"></a>
-<h3 class="failures">shouldNotBeNull</h3>
-<span class="code">
-<pre>java.lang.RuntimeException: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:224)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	... 33 more
-</pre>
-</span>
-</div>
-</div>
-<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -281,201 +68,26 @@ Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java
 </tr>
 </thead>
 <tr>
-<td class="failures">shouldHaveFiveRatingStars</td>
-<td>0.006s</td>
-<td class="failures">failed</td>
+<td class="success">shouldHaveFiveRatingStars</td>
+<td>0.124s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">shouldHaveOnRatingsChanged</td>
-<td>0.012s</td>
-<td class="failures">failed</td>
+<td class="success">shouldHaveRatingBarView</td>
+<td>0.144s</td>
+<td class="success">passed</td>
 </tr>
 <tr>
-<td class="failures">shouldHaveRatingBarView</td>
-<td>0.009s</td>
-<td class="failures">failed</td>
-</tr>
-<tr>
-<td class="failures">shouldNotBeNull</td>
-<td>0.012s</td>
-<td class="failures">failed</td>
+<td class="success">shouldNotBeNull</td>
+<td>0.102s</td>
+<td class="success">passed</td>
 </tr>
 </table>
-</div>
-<div id="tab2" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-	at com.activeandroid.Configuration$Builder.getMetaDataDatabaseVersionOrDefault(Unknown Source)
-	at com.activeandroid.Configuration$Builder.create(Unknown Source)
-	at com.activeandroid.ActiveAndroid.initialize(Unknown Source)
-	at com.activeandroid.app.Application.onCreate(Unknown Source)
-	at org.robolectric.internal.ParallelUniverse.setUpApplicationState(ParallelUniverse.java:146)
-	at org.robolectric.RobolectricTestRunner.setUpApplicationState(RobolectricTestRunner.java:404)
-	at org.robolectric.RobolectricTestRunner$2.evaluate(RobolectricTestRunner.java:220)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
-	at org.robolectric.RobolectricTestRunner$1.evaluate(RobolectricTestRunner.java:175)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:80)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:47)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:49)
-	at sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:103)
-	at sun.reflect.GeneratedMethodAccessor44.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:606)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:355)
-	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:66)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
-	at java.lang.Thread.run(Thread.java:744)
-</pre>
-</span>
 </div>
 </div>
 <div id="footer">
 <p>Generated by 
-<a href="http://www.gradle.org">Gradle 1.8</a> at Dec 27, 2013 3:50:39 PM</p>
+<a href="http://www.gradle.org">Gradle 1.8</a> at Dec 30, 2013 5:15:18 PM</p>
 </div>
 </div>
 </body>

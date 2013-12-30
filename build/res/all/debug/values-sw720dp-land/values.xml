@@ -2,8 +2,6 @@
 <resources>
 
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-sw720dp-land/dimens.xml -->
-    <eat-comment />
-
     <dimen name="activity_horizontal_margin">128dp</dimen>
 
 </resources>

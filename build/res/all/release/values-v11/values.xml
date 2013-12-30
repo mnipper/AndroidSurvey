@@ -2,8 +2,6 @@
 <resources>
 
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-v11/styles.xml -->
-    <eat-comment />
-
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 11 theme customizations can go here. -->
     </style>

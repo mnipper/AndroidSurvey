@@ -1,19 +1,19 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.QuestionTest" tests="13" failures="0" errors="0" timestamp="2013-12-30T21:10:16" hostname="CCFP-0193" time="0.553">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.QuestionTest" tests="13" failures="0" errors="0" timestamp="2013-12-30T22:15:11" hostname="CCFP-0193" time="0.743">
   <properties/>
-  <testcase name="shouldSetAndGetIntrumentOfQuestion" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.057"/>
-  <testcase name="shouldFindQuestionByRemoteId" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.042"/>
-  <testcase name="shouldCreateObjectFromJson" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.052"/>
-  <testcase name="shouldTestIfQuestionHasOptions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.05"/>
-  <testcase name="shouldGetAllQuestions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.039"/>
-  <testcase name="shouldReturnValidQuestionType" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.049"/>
-  <testcase name="shouldFindQuestionByQuestionIdentifier" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.035"/>
-  <testcase name="shouldReturnListOfOptions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.043"/>
-  <testcase name="shouldTestIfQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.034"/>
-  <testcase name="shouldSetAndGetQuestionText" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.045"/>
-  <testcase name="shouldSetAndGetQuestionType" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.033"/>
-  <testcase name="shouldSetAndGetRemoteId" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.036"/>
-  <testcase name="shouldSetAndGetQuestionIdentifier" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.035"/>
+  <testcase name="shouldSetAndGetIntrumentOfQuestion" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.072"/>
+  <testcase name="shouldFindQuestionByRemoteId" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.049"/>
+  <testcase name="shouldCreateObjectFromJson" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.059"/>
+  <testcase name="shouldTestIfQuestionHasOptions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.06"/>
+  <testcase name="shouldGetAllQuestions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.055"/>
+  <testcase name="shouldReturnValidQuestionType" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.052"/>
+  <testcase name="shouldFindQuestionByQuestionIdentifier" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.055"/>
+  <testcase name="shouldReturnListOfOptions" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.06"/>
+  <testcase name="shouldTestIfQuestionHasSkipPattern" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.059"/>
+  <testcase name="shouldSetAndGetQuestionText" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.048"/>
+  <testcase name="shouldSetAndGetQuestionType" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.062"/>
+  <testcase name="shouldSetAndGetRemoteId" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.059"/>
+  <testcase name="shouldSetAndGetQuestionIdentifier" classname="org.adaptlab.chpir.android.survey.Models.QuestionTest" time="0.05"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

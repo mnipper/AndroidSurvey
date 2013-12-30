@@ -39,6 +39,16 @@
                 qualifiers="hdpi"
                 type="drawable" />
             <file
+                name="ricepaper"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ricepaper.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ricepaper_repeating"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ricepaper_repeating.xml"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
                 name="ic_launcher"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_launcher.png"
                 qualifiers="mdpi"
@@ -262,6 +272,12 @@
                     parent="AppBaseTheme" >
 
                     <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+                    <item name="android:displayOptions">
+showHome|homeAsUp|showTitle
+                    </item>
+                    <item name="android:icon">
+@android:color/transparent
+                    </item>
                 </style>
             </file>
             <file

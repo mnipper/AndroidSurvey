@@ -25,9 +25,11 @@ public final class R {
         public static final int ic_menu_item_refresh=0x7f020004;
         public static final int ic_menu_item_secure=0x7f020005;
         public static final int ic_menu_item_skip_item=0x7f020006;
+        public static final int ricepaper=0x7f020007;
+        public static final int ricepaper_repeating=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f08001a;
+        public static final int action_settings=0x7f08001b;
         public static final int api_endpoint_edit_text=0x7f080006;
         public static final int api_endpoint_label=0x7f080005;
         public static final int custom_locale_edit_text=0x7f080008;
@@ -35,16 +37,17 @@ public final class R {
         public static final int device_identifier_edit_text=0x7f080002;
         public static final int device_identifier_label=0x7f080001;
         public static final int fragmentContainer=0x7f080000;
-        public static final int instrument_list_item_questionCountTextView=0x7f080014;
-        public static final int instrument_list_item_titleTextView=0x7f080013;
+        public static final int instrument_list_item_questionCountTextView=0x7f080015;
+        public static final int instrument_list_item_titleTextView=0x7f080014;
         public static final int last_update_label=0x7f080009;
         public static final int linear_layout_for_question_index=0x7f080011;
         public static final int linear_layout_for_scroll_view=0x7f08000d;
-        public static final int menu_item_admin=0x7f080015;
-        public static final int menu_item_finish=0x7f080019;
-        public static final int menu_item_next=0x7f080018;
-        public static final int menu_item_previous=0x7f080017;
-        public static final int menu_item_refresh=0x7f080016;
+        public static final int menu_item_admin=0x7f080016;
+        public static final int menu_item_finish=0x7f08001a;
+        public static final int menu_item_next=0x7f080019;
+        public static final int menu_item_previous=0x7f080018;
+        public static final int menu_item_refresh=0x7f080017;
+        public static final int progress_bar=0x7f080013;
         public static final int question_component=0x7f08000b;
         public static final int question_container=0x7f08000f;
         public static final int question_index=0x7f080012;
@@ -129,8 +132,6 @@ public final class R {
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f060000;
-        /**  All customizations that are NOT specific to a particular API-level can go here. 
-         */
         public static final int AppTheme=0x7f060001;
     }
 }

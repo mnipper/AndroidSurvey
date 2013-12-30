@@ -1,13 +1,13 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragmentTest" tests="7" failures="0" errors="0" timestamp="2013-12-30T21:10:12" hostname="CCFP-0193" time="0.839">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragmentTest" tests="7" failures="0" errors="0" timestamp="2013-12-30T22:15:07" hostname="CCFP-0193" time="0.798">
   <properties/>
-  <testcase name="shouldReturnInstrument" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.153"/>
-  <testcase name="shouldHaveSameResponseHint" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.11"/>
-  <testcase name="shouldGetSurvey" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.094"/>
-  <testcase name="shouldNotBeEnabled" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.126"/>
-  <testcase name="shouldHaveTextChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.159"/>
-  <testcase name="shouldGetQuestion" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.098"/>
-  <testcase name="shouldReturnResponse" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.099"/>
+  <testcase name="shouldReturnInstrument" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.176"/>
+  <testcase name="shouldHaveSameResponseHint" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.112"/>
+  <testcase name="shouldGetSurvey" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.09"/>
+  <testcase name="shouldNotBeEnabled" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.101"/>
+  <testcase name="shouldHaveTextChangeListener" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.13"/>
+  <testcase name="shouldGetQuestion" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.084"/>
+  <testcase name="shouldReturnResponse" classname="org.adaptlab.chpir.android.survey.QuestionFragmentTest" time="0.105"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,12 +1,12 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" tests="6" failures="0" errors="0" timestamp="2013-12-30T21:10:18" hostname="CCFP-0193" time="1.117">
+<testsuite name="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" tests="6" failures="0" errors="0" timestamp="2013-12-30T22:15:14" hostname="CCFP-0193" time="1.133">
   <properties/>
-  <testcase name="shouldSetOptionId" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.149"/>
-  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.127"/>
-  <testcase name="shouldSetOptionText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.114"/>
-  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.091"/>
-  <testcase name="shouldAddViewToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.464"/>
-  <testcase name="shouldSetTypeFace" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.172"/>
+  <testcase name="shouldSetOptionId" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.226"/>
+  <testcase name="shouldCallBeforeAddViewHook" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.119"/>
+  <testcase name="shouldSetOptionText" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.115"/>
+  <testcase name="fragmentShouldNotBeNull" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.107"/>
+  <testcase name="shouldAddViewToQuestionComponent" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.405"/>
+  <testcase name="shouldSetTypeFace" classname="org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragmentTest" time="0.161"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

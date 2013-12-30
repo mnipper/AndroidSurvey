@@ -1,10 +1,10 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" tests="4" failures="0" errors="0" timestamp="2013-12-30T21:10:16" hostname="CCFP-0193" time="0.171">
+<testsuite name="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" tests="4" failures="0" errors="0" timestamp="2013-12-30T22:15:12" hostname="CCFP-0193" time="0.23">
   <properties/>
-  <testcase name="shouldSetAndGetText" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.042"/>
-  <testcase name="shouldSetAndGetLanguage" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.043"/>
-  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.043"/>
-  <testcase name="shouldFindQuestionTranslationBasedOnLanguage" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.043"/>
+  <testcase name="shouldSetAndGetText" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.075"/>
+  <testcase name="shouldSetAndGetLanguage" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.047"/>
+  <testcase name="shouldSetAndGetQuestion" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.054"/>
+  <testcase name="shouldFindQuestionTranslationBasedOnLanguage" classname="org.adaptlab.chpir.android.survey.Models.QuestionTranslationTest" time="0.053"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

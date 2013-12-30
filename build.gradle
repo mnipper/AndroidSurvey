@@ -91,6 +91,16 @@ task unitTest(type:Test, dependsOn: assemble) {
     classpath = project.sourceSets.unitTest.runtimeClasspath
 }
 
+unitTest.doLast {
+    copy {
+        from 'manifest/Manifest.xml'
+        into '../AndroidSurvey'
+        rename { String fileName ->
+            fileName.replace('Manifest', 'AndroidManifest')
+        }
+    }
+}
+
 tasks.withType(Test) {
     scanForTestClasses = false
     include "**/*Test.class"
@@ -102,22 +112,13 @@ unitTest {
     }
 }
 
-task copyReleaseTask(type: Copy) {
+task beforeBuild(type: Copy) {
     from 'RobolectricManifest.xml'
-    into 'build/manifests/release'
+    into '../AndroidSurvey'
     rename { String fileName ->
         fileName.replace('Robolectric', 'Android')
     }
 }
 
-task copyDebugTask(type: Copy) {
-    from 'RobolectricManifest.xml'
-    into 'build/manifests/debug'
-    rename { String fileName ->
-        fileName.replace('Robolectric', 'Android')
-    }
-}
-
-assemble.dependsOn copyReleaseTask
-assemble.dependsOn copyDebugTask
+preBuild.dependsOn beforeBuild
 check.dependsOn unitTest

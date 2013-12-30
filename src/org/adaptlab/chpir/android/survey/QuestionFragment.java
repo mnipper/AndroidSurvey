@@ -44,12 +44,6 @@ public abstract class QuestionFragment extends Fragment {
         init();
     }
     
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    
     public void init() {
         long questionId = getArguments().getLong(QuestionFragmentFactory.EXTRA_QUESTION_ID, -1);
         long surveyId = getArguments().getLong(QuestionFragmentFactory.EXTRA_SURVEY_ID, -1);

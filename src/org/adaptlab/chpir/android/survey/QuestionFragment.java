@@ -6,10 +6,13 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -37,7 +40,14 @@ public abstract class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         init();
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        super.onCreateOptionsMenu(menu, inflater);
     }
     
     public void init() {
@@ -52,8 +62,6 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
         }
-        
-        mValidationTextView = (TextView) getActivity().findViewById(R.id.validation_text);
     }
 
     @Override
@@ -62,8 +70,8 @@ public abstract class QuestionFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_question_factory, parent,
                 false);
 
-        ViewGroup questionComponent = (LinearLayout) v
-                .findViewById(R.id.question_component);
+        ViewGroup questionComponent = (LinearLayout) v.findViewById(R.id.question_component);        
+        mValidationTextView = (TextView) v.findViewById(R.id.validation_text);
 
         // Overridden by subclasses to place their graphical elements on the fragment.
         createQuestionComponent(questionComponent);
@@ -130,9 +138,9 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             animateValidationTextView(false);
         }
-        
+                
         // Refresh options menu to reflect response validation status.
-        getActivity().invalidateOptionsMenu();
+        ActivityCompat.invalidateOptionsMenu(getActivity());
     }
     
     protected void saveResponse() {
@@ -148,7 +156,7 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
-    private void animateValidationTextView(boolean valid) {
+    private void animateValidationTextView(boolean valid) {        
         Animation animation = new AlphaAnimation(0, 0);
         
         if (valid) {
@@ -167,6 +175,6 @@ public abstract class QuestionFragment extends Fragment {
                 !mValidationTextView.getAnimation().hasStarted()) {
             // Only animate if not currently animating
             mValidationTextView.setAnimation(animation);
-        }        
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -56,7 +57,7 @@ public class SurveyFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_survey, menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -78,7 +79,7 @@ public class SurveyFragment extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.menu_item_previous)
-            .setVisible(!isFirstQuestion());
+            .setEnabled(!isFirstQuestion());
         menu.findItem(R.id.menu_item_next)
             .setVisible(!isLastQuestion())
             .setEnabled(hasValidResponse());
@@ -90,6 +91,7 @@ public class SurveyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
             Bundle savedInstanceState) {
+        setRetainInstance(true);
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
@@ -101,8 +103,8 @@ public class SurveyFragment extends Fragment {
         setQuestionText(mQuestionText);
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
         createQuestionFragment();
-        getActivity().invalidateOptionsMenu();
-
+        
+        ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
         
         return v;
@@ -171,7 +173,7 @@ public class SurveyFragment extends Fragment {
      * is pressed, mark the survey as complete and finish the
      * activity.
      */
-    private void moveToNextQuestion() {
+    public void moveToNextQuestion() {
         int questionIndex = mInstrument.questions().indexOf(mQuestion);
         int questionsInInstrument = mInstrument.questions().size();
 
@@ -182,14 +184,13 @@ public class SurveyFragment extends Fragment {
         }
         
         updateQuestionCountLabel();
-        getActivity().invalidateOptionsMenu();
     }
     
     /*
      * Move to previous question.  Does not take into account skip
      * patterns.
      */
-    private void moveToPreviousQuestion() {
+    public void moveToPreviousQuestion() {
         int questionIndex = mInstrument.questions().indexOf(mQuestion);
         if (questionIndex > 0) {           
             mQuestion = mInstrument.questions().get(questionIndex - 1);            
@@ -198,10 +199,9 @@ public class SurveyFragment extends Fragment {
         }
         
         updateQuestionCountLabel();
-        getActivity().invalidateOptionsMenu();
     }
     
-    private void finishSurvey() {
+    public void finishSurvey() {
         getActivity().finish();
         mSurvey.setAsComplete();
         mSurvey.save();
@@ -232,15 +232,15 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    private boolean isFirstQuestion() {
+    public boolean isFirstQuestion() {
         return mInstrument.questions().indexOf(mQuestion) == 0;
     }
     
-    private boolean isLastQuestion() {
+    public boolean isLastQuestion() {
         return mInstrument.questions().size() == (mInstrument.questions().indexOf(mQuestion) + 1);
     }
 
-    private boolean hasValidResponse() {
+    public boolean hasValidResponse() {
         if (mQuestionFragment.getResponse() != null) {
             return mQuestionFragment.getResponse().isValid();
         } else {
@@ -254,5 +254,7 @@ public class SurveyFragment extends Fragment {
         
         mQuestionIndex.setText(questionNumber + " " + getString(R.string.of) + " " + numberQuestions);        
         mProgressBar.setProgress((int) (100 * (questionNumber) / (float) numberQuestions));
+        
+        ActivityCompat.invalidateOptionsMenu(getActivity());
     }
 }

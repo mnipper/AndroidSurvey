@@ -2,13 +2,9 @@
 <resources>
 
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/dimens.xml -->
-    <eat-comment />
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/strings.xml -->
-    <eat-comment />
-
     <string name="action_settings">Settings</string>
     <string name="admin_settings">Admin</string>
     <string name="api_endpoint">Api Endpoint Url</string>
@@ -16,16 +12,10 @@
     <string name="app_name">Survey</string>
     <string name="cancel">Cancel</string>
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/com_crashlytics_export_strings.xml -->
-    <eat-comment />
-
     <string name="com.crashlytics.android.build_id">f6d86f72-7b94-4fa3-9452-fc7440d5ff92</string>
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/api-keys.xml -->
-    <eat-comment />
-
     <string name="crashlytics_api_key">2ab7d52a24a99c4f3cc3a1c7d85d24c7386724c3</string>
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/strings.xml -->
-    <eat-comment />
-
     <string name="custom_locale">Custom ISO-639-1 Code</string>
     <string name="device_identifier">Device Identifier</string>
     <string name="encryption_required_text">This application requires that the device be encrypted.  Please encrypt your device to continue.</string>
@@ -38,6 +28,7 @@
     <string name="network_unavailable">No network available on the device.</string>
     <string name="next_button">Next</string>
     <string name="not_valid_response">This is not a valid response for this question.</string>
+    <string name="of">of</string>
     <string name="okay">Ok</string>
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>
@@ -55,8 +46,6 @@
     <string name="sync_notification_complete_text">Syncing with server complete.</string>
     <string name="sync_notification_text">Syncing with server...</string>
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values/styles.xml -->
-    <eat-comment />
-
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in

@@ -4,7 +4,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.6.+'
+    classpath 'com.android.tools.build:gradle:0.6.1'
   }
 }
 
@@ -30,24 +30,14 @@ android {
       res.srcDirs = ['res']
       assets.srcDirs = ['assets']
     }
+    
+    unitTest {
+      java.srcDir file('test')
+      resources.srcDir file('test/resources')
+    }
+    
     instrumentTest.setRoot('test')
   } 
-  
-    android.applicationVariants.all { variant ->
-        variant.processManifest.doLast {
-            copy {
-                from("${buildDir}/manifests") {
-                        include "${variant.dirName}/AndroidManifest.xml"
-                    }
-                into("${buildDir}/manifests/${variant.name}")
-
-                filter {
-                    String line -> line.replaceAll('<meta-data android:name="AA_DB_VERSION" android:value="1"/>', '<!-- -->')
-                }
-            }
-        }
-        variant.processResources.manifestFile = file("${buildDir}/manifests/${variant.name}/${variant.dirName}/AndroidManifest.xml")
-    }
   
 }
 
@@ -112,4 +102,22 @@ unitTest {
     }
 }
 
+task copyReleaseTask(type: Copy) {
+    from 'RobolectricManifest.xml'
+    into 'build/manifests/release'
+    rename { String fileName ->
+        fileName.replace('Robolectric', 'Android')
+    }
+}
+
+task copyDebugTask(type: Copy) {
+    from 'RobolectricManifest.xml'
+    into 'build/manifests/debug'
+    rename { String fileName ->
+        fileName.replace('Robolectric', 'Android')
+    }
+}
+
+assemble.dependsOn copyReleaseTask
+assemble.dependsOn copyDebugTask
 check.dependsOn unitTest

@@ -34,6 +34,11 @@
                 qualifiers="hdpi"
                 type="drawable" />
             <file
+                name="ic_menu_item_skip_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-hdpi/ic_menu_item_skip_item.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
                 name="ic_launcher"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_launcher.png"
                 qualifiers="mdpi"
@@ -64,6 +69,11 @@
                 qualifiers="mdpi"
                 type="drawable" />
             <file
+                name="ic_menu_item_skip_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-mdpi/ic_menu_item_skip_item.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
                 name="ic_launcher"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_launcher.png"
                 qualifiers="xhdpi"
@@ -91,6 +101,11 @@
             <file
                 name="ic_menu_item_secure"
                 path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_secure.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_menu_item_skip_item"
+                path="/Users/leonardngeno/dev/workspace/AndroidSurvey/res/drawable-xhdpi/ic_menu_item_skip_item.png"
                 qualifiers="xhdpi"
                 type="drawable" />
             <file
@@ -189,6 +204,8 @@
                 <string name="incorrect_password" >This password is incorrect.
                 </string>
                 <string name="sync_notification_complete_text" >Syncing with server complete.
+                </string>
+                <string name="of" >of
                 </string>
                 <string name="sync_interval" >Sync Interval (minutes)
                 </string>

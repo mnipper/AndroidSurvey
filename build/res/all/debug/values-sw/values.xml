@@ -2,8 +2,6 @@
 <resources>
 
     <!-- From: file:/Users/leonardngeno/dev/workspace/AndroidSurvey/res/values-sw/strings.xml -->
-    <eat-comment />
-
     <string name="action_settings">mazingira</string>
     <string name="admin_settings">utawala</string>
     <string name="api_endpoint">Api Endpoint Url</string>

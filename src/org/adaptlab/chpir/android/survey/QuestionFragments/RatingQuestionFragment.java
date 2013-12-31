@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 public class RatingQuestionFragment extends QuestionFragment  {
@@ -14,6 +15,9 @@ public class RatingQuestionFragment extends QuestionFragment  {
     protected void createQuestionComponent(ViewGroup questionComponent) {
         mRatingBar = new RatingBar(getActivity());
         mRatingBar.setNumStars(NUM_STARS);
+        mRatingBar.setLayoutParams(new ViewGroup.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {       
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating,

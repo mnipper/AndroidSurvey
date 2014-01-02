@@ -212,7 +212,7 @@ public class SurveyFragment extends Fragment {
      */
     public void moveToPreviousQuestion() {
         if (mQuestionNumber > 0) {           
-            mQuestion = mInstrument.questions().get(mQuestionNumber--);            
+            mQuestion = mInstrument.questions().get(--mQuestionNumber);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
         }

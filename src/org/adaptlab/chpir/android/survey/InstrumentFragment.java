@@ -16,6 +16,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -211,6 +212,17 @@ public class InstrumentFragment extends ListFragment {
     }
     
     private class LoadInstrumentTask extends AsyncTask<Void, Integer, List<Instrument>> {
+        ProgressDialog mProgressDialog;
+        
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = ProgressDialog.show(
+                    getActivity(),
+                    getString(R.string.instrument_loading_progress_header),
+                    getString(R.string.instrument_loading_progress_message)
+            ); 
+        }
+        
         @Override
         protected List<Instrument> doInBackground(Void... params) {
             return Instrument.loadedInstruments();
@@ -218,8 +230,8 @@ public class InstrumentFragment extends ListFragment {
         
         @Override
         protected void onPostExecute(List<Instrument> instrumentList) {
-            setListAdapter(new InstrumentAdapter(instrumentList));       
-            Log.d(TAG, "Instrument list is: " + instrumentList);
+            mProgressDialog.dismiss();
+            setListAdapter(new InstrumentAdapter(instrumentList));
         }
     }
 }

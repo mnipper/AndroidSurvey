@@ -114,10 +114,11 @@ public class Instrument extends ReceiveModel {
     }
     
     public boolean loaded() {
+        if (questions().size() != getQuestionCount()) return false;
         for (Question question : questions()) {
             if (!question.loaded()) return false;
         }
-        return questions().size() == getQuestionCount();
+        return true;
     }
 
     @Override
@@ -182,7 +183,7 @@ public class Instrument extends ReceiveModel {
     }
     
     public static List<Instrument> loadedInstruments() {
-        ArrayList<Instrument> instrumentList = new ArrayList<Instrument>();
+        List<Instrument> instrumentList = new ArrayList<Instrument>();
         for (Instrument instrument : Instrument.getAll()) {
             if (instrument.loaded()) instrumentList.add(instrument);
         }
@@ -222,6 +223,10 @@ public class Instrument extends ReceiveModel {
         return mVersionNumber;
     }
     
+    public int getQuestionCount() {
+        return mQuestionCount;
+    }
+    
     /*
      * Private
      */   
@@ -235,9 +240,5 @@ public class Instrument extends ReceiveModel {
     
     private void setQuestionCount(int num) {
         mQuestionCount = num;
-    }
-    
-    private int getQuestionCount() {
-        return mQuestionCount;
     }
 }

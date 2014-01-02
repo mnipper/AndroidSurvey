@@ -36,4 +36,6 @@
     <string name="custom_locale">Custom ISO-639-1 Code</string>
     <string name="not_valid_response">This is not a valid response for this question.</string>
     <string name="of">of</string>
+    <string name="instrument_loading_progress_header">Loading</string>
+    <string name="instrument_loading_progress_message">Please wait one moment.</string>
 </resources>

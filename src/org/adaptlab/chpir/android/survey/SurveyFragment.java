@@ -207,12 +207,20 @@ public class SurveyFragment extends Fragment {
     }
     
     /*
-     * Move to previous question.  Does not take into account skip
-     * patterns.
+     * Move to previous question.  Takes into account if
+     * this question is following up another question.  If
+     * this question is not a follow up question, just move
+     * to the previous question in the sequence.
      */
     public void moveToPreviousQuestion() {
-        if (mQuestionNumber > 0) {           
-            mQuestion = mInstrument.questions().get(--mQuestionNumber);            
+        if (mQuestion.isFollowUpQuestion()) {
+            mQuestionNumber = mInstrument.questions().indexOf(mQuestion.getFollowingUpQuestion());
+        } else {
+            mQuestionNumber--;
+        }
+        
+        if (mQuestionNumber >= 0) {           
+            mQuestion = mInstrument.questions().get(mQuestionNumber);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
         }

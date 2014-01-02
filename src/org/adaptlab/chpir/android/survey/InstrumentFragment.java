@@ -42,14 +42,16 @@ public class InstrumentFragment extends ListFragment {
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
     private final static String ADMIN_PASSWORD_HASH =
             "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
+    
+    private List<Instrument> mInstrumentList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(new ArrayList<Instrument>()));
+        mInstrumentList = Instrument.getAll();
+        setListAdapter(new InstrumentAdapter(mInstrumentList));
         appInit();
-        setInstrumentListAdapter();
     }
 
     @Override
@@ -64,7 +66,8 @@ public class InstrumentFragment extends ListFragment {
         case R.id.menu_item_admin:
             displayPasswordPrompt();
         case R.id.menu_item_refresh:
-            setInstrumentListAdapter();
+            mInstrumentList = Instrument.getAll();
+            setListAdapter(new InstrumentAdapter(mInstrumentList));
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -112,11 +115,8 @@ public class InstrumentFragment extends ListFragment {
         if (instrument == null || instrument.questions().size() == 0) {
             return;
         }
-
-        long instrumentId = instrument.getRemoteId();
-        Intent i = new Intent(getActivity(), SurveyActivity.class);
-        i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-        startActivity(i);
+        
+        new LoadInstrumentTask().execute(instrument);
     }
 
     private final void appInit() {
@@ -207,11 +207,11 @@ public class InstrumentFragment extends ListFragment {
         return hash.equals(ADMIN_PASSWORD_HASH);
     }
     
-    private void setInstrumentListAdapter() {
-        new LoadInstrumentTask().execute();
-    }
-    
-    private class LoadInstrumentTask extends AsyncTask<Void, Integer, List<Instrument>> {
+    /*
+     * Check that the instrument has been fully loaded from the server before allowing
+     * user to begin survey.
+     */
+    private class LoadInstrumentTask extends AsyncTask<Instrument, Void, Long> {
         ProgressDialog mProgressDialog;
         
         @Override
@@ -223,15 +223,30 @@ public class InstrumentFragment extends ListFragment {
             ); 
         }
         
+        /*
+         * If instrument is loaded, return the instrument id.
+         * If not, return -1.
+         */
         @Override
-        protected List<Instrument> doInBackground(Void... params) {
-            return Instrument.loadedInstruments();
+        protected Long doInBackground(Instrument... params) {
+            Instrument instrument = params[0];
+            if (instrument.loaded()) {
+                return instrument.getRemoteId();
+            } else {
+                return Long.valueOf(-1);
+            }
         }
         
         @Override
-        protected void onPostExecute(List<Instrument> instrumentList) {
+        protected void onPostExecute(Long instrumentId) {
             mProgressDialog.dismiss();
-            setListAdapter(new InstrumentAdapter(instrumentList));
+            if (instrumentId == Long.valueOf(-1)) {
+                Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
+            } else {
+                Intent i = new Intent(getActivity(), SurveyActivity.class);
+                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                startActivity(i);                
+            }
         }
     }
 }

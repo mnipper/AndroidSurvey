@@ -112,7 +112,7 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
-        if (instrument == null || instrument.questions().size() == 0) {
+        if (instrument == null) {
             return;
         }
         

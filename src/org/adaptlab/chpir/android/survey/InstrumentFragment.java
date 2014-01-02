@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,13 +15,12 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.crashlytics.android.Crashlytics;
-
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
@@ -42,19 +42,13 @@ public class InstrumentFragment extends ListFragment {
     private final static String ADMIN_PASSWORD_HASH =
             "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
 
-    private List<Instrument> mInstrumentList;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        setListAdapter(new InstrumentAdapter(new ArrayList<Instrument>()));
         appInit();
-        mInstrumentList = Instrument.getAll();
-
-        InstrumentAdapter adapter = new InstrumentAdapter(mInstrumentList);
-        setListAdapter(adapter);
-        Log.d(TAG, "Instrument list is: " + mInstrumentList);
+        setInstrumentListAdapter();
     }
 
     @Override
@@ -69,9 +63,7 @@ public class InstrumentFragment extends ListFragment {
         case R.id.menu_item_admin:
             displayPasswordPrompt();
         case R.id.menu_item_refresh:
-            mInstrumentList = Instrument.getAll();
-            InstrumentAdapter adapter = new InstrumentAdapter(mInstrumentList);
-            setListAdapter(adapter);
+            setInstrumentListAdapter();
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -115,8 +107,7 @@ public class InstrumentFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Instrument instrument = ((InstrumentAdapter) getListAdapter())
-                .getItem(position);
+        Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
         if (instrument == null || instrument.questions().size() == 0) {
             return;
         }
@@ -146,12 +137,10 @@ public class InstrumentFragment extends ListFragment {
             AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
         }
 
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance()
-                .getApiUrl());
+        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
-
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
 
@@ -215,5 +204,22 @@ public class InstrumentFragment extends ListFragment {
     private boolean checkAdminPassword(String password) {
         String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
         return hash.equals(ADMIN_PASSWORD_HASH);
+    }
+    
+    private void setInstrumentListAdapter() {
+        new LoadInstrumentTask().execute();
+    }
+    
+    private class LoadInstrumentTask extends AsyncTask<Void, Integer, List<Instrument>> {
+        @Override
+        protected List<Instrument> doInBackground(Void... params) {
+            return Instrument.loadedInstruments();
+        }
+        
+        @Override
+        protected void onPostExecute(List<Instrument> instrumentList) {
+            setListAdapter(new InstrumentAdapter(instrumentList));       
+            Log.d(TAG, "Instrument list is: " + instrumentList);
+        }
     }
 }

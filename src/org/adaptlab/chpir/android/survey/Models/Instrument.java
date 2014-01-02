@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +38,8 @@ public class Instrument extends ReceiveModel {
     private String mAlignment;
     @Column(name = "VersionNumber")
     private int mVersionNumber;
+    @Column(name = "QuestionCount")
+    private int mQuestionCount;
 
     public Instrument() {
         super();
@@ -109,6 +112,14 @@ public class Instrument extends ReceiveModel {
         }
         return Locale.getDefault().getLanguage();
     }
+    
+    public boolean loaded() {
+        if (questions().size() != getQuestionCount()) return false;
+        for (Question question : questions()) {
+            if (!question.loaded()) return false;
+        }
+        return true;
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -127,6 +138,7 @@ public class Instrument extends ReceiveModel {
             instrument.setLanguage(jsonObject.getString("language"));
             instrument.setAlignment(jsonObject.getString("alignment"));
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
+            instrument.setQuestionCount(jsonObject.getInt("question_count"));
             instrument.save();
             
             // Generate translations
@@ -169,6 +181,14 @@ public class Instrument extends ReceiveModel {
     public List<InstrumentTranslation> translations() {
         return getMany(InstrumentTranslation.class, "Instrument");
     }
+    
+    public static List<Instrument> loadedInstruments() {
+        List<Instrument> instrumentList = new ArrayList<Instrument>();
+        for (Instrument instrument : Instrument.getAll()) {
+            if (instrument.loaded()) instrumentList.add(instrument);
+        }
+        return instrumentList;
+    }
         
     /*
      * Getters/Setters
@@ -203,6 +223,10 @@ public class Instrument extends ReceiveModel {
         return mVersionNumber;
     }
     
+    public int getQuestionCount() {
+        return mQuestionCount;
+    }
+    
     /*
      * Private
      */   
@@ -212,5 +236,9 @@ public class Instrument extends ReceiveModel {
     
     private void setAlignment(String alignment) {
         mAlignment = alignment;
+    }
+    
+    private void setQuestionCount(int num) {
+        mQuestionCount = num;
     }
 }

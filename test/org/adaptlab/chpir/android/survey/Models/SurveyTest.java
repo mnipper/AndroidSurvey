@@ -98,25 +98,6 @@ public class SurveyTest {
 		}
 	}
 	
-	@Test
-	public void shouldNotReturnAnyResponse() throws Exception {
-		LinkedList<Response> list = new LinkedList<Response>();
-		list.add(mock(Response.class));
-		Survey survey1 = spy(new Survey());
-		doReturn(list).when(survey1).responses();
-		assertNull(survey1.getResponseByQuestion(mock(Question.class)));
-	}
-	
-	@Test
-	public void shouldReturnResponseBasedOnQuestion() throws Exception {
-		LinkedList<Response> list = new LinkedList<Response>();
-		list.add(response);
-		Survey survey1 = spy(new Survey());
-		doReturn(list).when(survey1).responses();
-		doReturn(question).when(response).getQuestion();
-		assertEquals(response, survey1.getResponseByQuestion(question)); 
-	}
-	
 	private void setUpJson() throws JSONException {
 		doReturn(instrument).when(spySurvey).getInstrument();
 		when(instrument.getRemoteId()).thenReturn(REMOTE_ID);

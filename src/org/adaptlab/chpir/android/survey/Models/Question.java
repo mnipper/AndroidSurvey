@@ -37,6 +37,8 @@ public class Question extends ReceiveModel {
     private Question mFollowingUpQuestion;
     @Column(name = "RegExValidation")
     private String mRegExValidation;
+    @Column(name = "OptionCount")
+    private int mOptionCount;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
@@ -150,6 +152,10 @@ public class Question extends ReceiveModel {
         translation.setLanguage(language);
         return translation;
     }
+    
+    public boolean loaded() {
+        return getOptionCount() == options().size();
+    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -168,6 +174,7 @@ public class Question extends ReceiveModel {
             question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
             question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
+            question.setOptionCount(jsonObject.getInt("option_count"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -246,7 +253,8 @@ public class Question extends ReceiveModel {
     }
     
     public void setRegExValidation(String validation) {
-        mRegExValidation = validation;
+        if (!validation.equals("") && !validation.equals("null"))
+            mRegExValidation = validation;
     }
     
     public String getRegExValidation() {
@@ -295,5 +303,13 @@ public class Question extends ReceiveModel {
             }
         }
         return false;
+    }
+    
+    private void setOptionCount(int num) {
+        mOptionCount = num;
+    }
+    
+    private int getOptionCount() {
+        return mOptionCount;
     }
 }

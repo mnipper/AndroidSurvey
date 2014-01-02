@@ -253,7 +253,8 @@ public class Question extends ReceiveModel {
     }
     
     public void setRegExValidation(String validation) {
-        mRegExValidation = validation;
+        if (!validation.equals("") && !validation.equals("null"))
+            mRegExValidation = validation;
     }
     
     public String getRegExValidation() {

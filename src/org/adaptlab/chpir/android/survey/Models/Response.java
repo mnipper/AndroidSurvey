@@ -39,7 +39,7 @@ public class Response extends SendModel {
 	 * declare it a match and return true.
 	 */
     public boolean isValid() {
-        if (mQuestion.getRegExValidation().equals("")) {
+        if (mQuestion.getRegExValidation() == null) {
             return true;
         }
         return getText().matches(mQuestion.getRegExValidation());

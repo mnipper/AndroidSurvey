@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "Surveys")
 public class Survey extends SendModel {
@@ -58,12 +59,7 @@ public class Survey extends SendModel {
      * Finders
      */   
     public Response getResponseByQuestion(Question question) {
-        for (Response response : responses()) {
-            if (response.getQuestion() == question) {
-                return response;
-            }
-        }
-        return null;
+        return new Select().from(Response.class).where("Question = ?", question.getId()).executeSingle();
     }
 
     

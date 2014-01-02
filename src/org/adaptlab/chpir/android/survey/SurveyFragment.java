@@ -31,6 +31,7 @@ public class SurveyFragment extends Fragment {
     private Question mQuestion;
     private Instrument mInstrument;
     private Survey mSurvey;
+    private int mQuestionNumber;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -56,7 +57,8 @@ public class SurveyFragment extends Fragment {
             mSurvey.setInstrument(mInstrument);
             mSurvey.save();
             
-            mQuestion = mInstrument.questions().get(0);            
+            mQuestion = mInstrument.questions().get(0);
+            mQuestionNumber = 0;
         }
     }
     
@@ -164,18 +166,22 @@ public class SurveyFragment extends Fragment {
                 
                 if (responseIndex < mQuestion.options().size()) {
                     nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
+                    mQuestionNumber = mInstrument.questions().indexOf(nextQuestion);
                 } else {
                     // Skip pattern can not yet apply to 'other' responses
-                    nextQuestion = mInstrument.questions().get(questionIndex + 1);                    
+                    mQuestionNumber = questionIndex + 1;
+                    nextQuestion = mInstrument.questions().get(mQuestionNumber);
                 }
                 
             } catch (NumberFormatException nfe) {
-                nextQuestion = mInstrument.questions().get(questionIndex + 1);
+                mQuestionNumber = questionIndex + 1;
+                nextQuestion = mInstrument.questions().get(mQuestionNumber);
                 Log.wtf(TAG, "Received a non-numeric skip response index for " + 
                         mQuestion.getQuestionIdentifier());
             }
         } else {
-            nextQuestion = mInstrument.questions().get(questionIndex + 1);
+            mQuestionNumber = questionIndex + 1;
+            nextQuestion = mInstrument.questions().get(mQuestionNumber);
         }
         
         return nextQuestion;
@@ -189,11 +195,10 @@ public class SurveyFragment extends Fragment {
      * activity.
      */
     public void moveToNextQuestion() {
-        int questionIndex = mInstrument.questions().indexOf(mQuestion);
         int questionsInInstrument = mInstrument.questions().size();
 
-        if (questionIndex < questionsInInstrument - 1) {           
-            mQuestion = getNextQuestion(questionIndex);            
+        if (mQuestionNumber < questionsInInstrument - 1) {           
+            mQuestion = getNextQuestion(mQuestionNumber);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
         }
@@ -206,9 +211,8 @@ public class SurveyFragment extends Fragment {
      * patterns.
      */
     public void moveToPreviousQuestion() {
-        int questionIndex = mInstrument.questions().indexOf(mQuestion);
-        if (questionIndex > 0) {           
-            mQuestion = mInstrument.questions().get(questionIndex - 1);            
+        if (mQuestionNumber > 0) {           
+            mQuestion = mInstrument.questions().get(mQuestionNumber--);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
         }
@@ -248,11 +252,11 @@ public class SurveyFragment extends Fragment {
     }
     
     public boolean isFirstQuestion() {
-        return mInstrument.questions().indexOf(mQuestion) == 0;
+        return mQuestionNumber == 0;
     }
     
     public boolean isLastQuestion() {
-        return mInstrument.questions().size() == (mInstrument.questions().indexOf(mQuestion) + 1);
+        return mInstrument.questions().size() == mQuestionNumber + 1;
     }
 
     public boolean hasValidResponse() {
@@ -264,11 +268,10 @@ public class SurveyFragment extends Fragment {
     }
     
     private void updateQuestionCountLabel() {
-        int questionNumber = mInstrument.questions().indexOf(mQuestion) + 1;
         int numberQuestions = mInstrument.questions().size();
         
-        mQuestionIndex.setText(questionNumber + " " + getString(R.string.of) + " " + numberQuestions);        
-        mProgressBar.setProgress((int) (100 * (questionNumber) / (float) numberQuestions));
+        mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        
+        mProgressBar.setProgress((int) (100 * (mQuestionNumber) / (float) numberQuestions));
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
     }

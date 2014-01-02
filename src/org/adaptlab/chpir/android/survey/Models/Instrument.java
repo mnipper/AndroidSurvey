@@ -40,8 +40,6 @@ public class Instrument extends ReceiveModel {
     private int mVersionNumber;
     @Column(name = "QuestionCount")
     private int mQuestionCount;
-    @Column(name = "Loaded")
-    private boolean mLoaded;
 
     public Instrument() {
         super();

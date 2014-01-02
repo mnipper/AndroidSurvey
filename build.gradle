@@ -71,11 +71,8 @@ dependencies {
     
     unitTestCompile files('src/')
     unitTestCompile files('gen/')
-    
-    //BEGIN HACK
     unitTestCompile files('build/source/buildConfig/release/')
     unitTestCompile files('build/source/r/release/')
-    //END HACK
     
     unitTestCompile files('test/libs/android.jar')
     unitTestCompile files('test/libs/junit.jar')

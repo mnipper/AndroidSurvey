@@ -25,6 +25,8 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.instrument_id";
     public final static String EXTRA_QUESTION_ID = 
             "org.adaptlab.chpir.android.survey.question_id";
+    public final static String EXTRA_QUESTION_NUMBER = 
+            "org.adaptlab.chpir.android.survey.question_number";
     public final static String EXTRA_SURVEY_ID = 
             "org.adaptlab.chpir.android.survey.survey_id";
     
@@ -47,6 +49,7 @@ public class SurveyFragment extends Fragment {
             mInstrument = Instrument.findByRemoteId(savedInstanceState.getLong(EXTRA_INSTRUMENT_ID));
             mQuestion = Question.findByRemoteId(savedInstanceState.getLong(EXTRA_QUESTION_ID));
             mSurvey = Survey.load(Survey.class, savedInstanceState.getLong(EXTRA_SURVEY_ID));
+            mQuestionNumber = savedInstanceState.getInt(EXTRA_QUESTION_NUMBER);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
             if (instrumentId == -1) return;
@@ -68,6 +71,7 @@ public class SurveyFragment extends Fragment {
         outState.putLong(EXTRA_INSTRUMENT_ID, mInstrument.getRemoteId());
         outState.putLong(EXTRA_QUESTION_ID, mQuestion.getRemoteId());
         outState.putLong(EXTRA_SURVEY_ID, mSurvey.getId());
+        outState.putInt(EXTRA_QUESTION_NUMBER, mQuestionNumber);
     }
     
     @Override

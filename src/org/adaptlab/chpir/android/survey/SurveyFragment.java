@@ -170,7 +170,7 @@ public class SurveyFragment extends Fragment {
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;
         
-        if (mQuestion.hasSkipPattern()) {
+        if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
             try {
                 int responseIndex = Integer.parseInt(mSurvey.
                         getResponseByQuestion(mQuestion).getText());

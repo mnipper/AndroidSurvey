@@ -255,7 +255,7 @@ public class SurveyFragment extends Fragment {
      */
     private void setQuestionText(TextView text) {
         if (mQuestion.isFollowUpQuestion()) {
-            String followUpText = mQuestion.getFollowingUpText(mSurvey);
+            String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
             
             if (followUpText == null) {
                 moveToNextQuestion();

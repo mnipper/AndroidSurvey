@@ -3,10 +3,12 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -84,11 +86,13 @@ public class Question extends ReceiveModel {
      * option text.  If this is an "other" response, return the
      * text specified in the other response.
      */
-    public String getOptionTextByResponse(Response response) {
-        String text = response.getText();;
+    public String getOptionTextByResponse(Response response, Context context) {
+        String text = response.getText();
         
         try {
-            if (Integer.parseInt(text) == options().size()) {
+            if (hasMultipleResponses()) {
+                return FormatUtils.unformatMultipleResponses(options(), text, context);
+            } else if (Integer.parseInt(text) == options().size()) {
                 return response.getOtherResponse();
             } else {
                 return options().get(Integer.parseInt(text)).getText();
@@ -112,14 +116,14 @@ public class Question extends ReceiveModel {
      * If the question that is being followed up on was skipped by the user,
      * then return nothing.  This question will be skipped in that case.
      */
-    public String getFollowingUpText(Survey survey) {
+    public String getFollowingUpText(Survey survey, Context context) {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());        
         if (followUpResponse == null) return null;
         
         if (followUpWithOptionText()) {
             return getText().replaceAll(
                     FOLLOW_UP_TRIGGER_STRING,
-                    getFollowingUpQuestion().getOptionTextByResponse(followUpResponse)               
+                    getFollowingUpQuestion().getOptionTextByResponse(followUpResponse, context)               
             );
         } else {
             return getText().replaceAll(FOLLOW_UP_TRIGGER_STRING, followUpResponse.getText());
@@ -135,6 +139,14 @@ public class Question extends ReceiveModel {
                 getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE) ||
                 getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_ONE_WRITE_OTHER) ||
                 getFollowingUpQuestion().getQuestionType().equals(QuestionType.SELECT_MULTIPLE_WRITE_OTHER);
+    }
+    
+    /*
+     * Return true if this response can be an array of multiple options.
+     */
+    public boolean hasMultipleResponses() {
+        return getQuestionType().equals(QuestionType.SELECT_MULTIPLE) ||
+                getQuestionType().equals(QuestionType.SELECT_MULTIPLE_WRITE_OTHER);
     }
     
     /*
@@ -253,12 +265,14 @@ public class Question extends ReceiveModel {
     }
     
     public void setRegExValidation(String validation) {
-        if (!validation.equals("") && !validation.equals("null"))
-            mRegExValidation = validation;
+        mRegExValidation = validation;
     }
     
     public String getRegExValidation() {
-        return mRegExValidation;
+        if (mRegExValidation.equals("") || mRegExValidation.equals("null"))
+            return null;
+        else
+            return mRegExValidation;
     }
 
     public String getQuestionIdentifier() {

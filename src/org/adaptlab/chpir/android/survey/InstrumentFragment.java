@@ -1,6 +1,5 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
 import android.util.Log;
@@ -62,8 +62,10 @@ public class InstrumentFragment extends ListFragment {
         switch (item.getItemId()) {
         case R.id.menu_item_admin:
             displayPasswordPrompt();
+            return true;
         case R.id.menu_item_refresh:
-            setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+            refreshInstrumentList();
+            return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -201,6 +203,22 @@ public class InstrumentFragment extends ListFragment {
     private boolean checkAdminPassword(String password) {
         String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
         return hash.equals(ADMIN_PASSWORD_HASH);
+    }
+    
+    /*
+     * Reset the instrument list adapter.
+     * Force a loading animation to give the user a hint that something actually happened.
+     */
+    private void refreshInstrumentList() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
+        setListAdapter(null);
+        Handler handler = new Handler(); 
+        handler.postDelayed(new Runnable() { 
+             public void run() { 
+                 setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                 getActivity().setProgressBarIndeterminateVisibility(false);
+             } 
+        }, 500); 
     }
     
     /*

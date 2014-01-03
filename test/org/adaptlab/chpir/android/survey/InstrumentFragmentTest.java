@@ -74,6 +74,7 @@ public class InstrumentFragmentTest {
 			  }
 		};
 		iFragment.onOptionsItemSelected(item);
+		sleep(2);
 		assertNotNull(iFragment.getListAdapter());
 	}
 	

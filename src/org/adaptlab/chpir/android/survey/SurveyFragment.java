@@ -287,7 +287,7 @@ public class SurveyFragment extends Fragment {
         int numberQuestions = mInstrument.questions().size();
         
         mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        
-        mProgressBar.setProgress((int) (100 * (mQuestionNumber) / (float) numberQuestions));
+        mProgressBar.setProgress((int) (100 * (mQuestionNumber + 1) / (float) numberQuestions));
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
     }

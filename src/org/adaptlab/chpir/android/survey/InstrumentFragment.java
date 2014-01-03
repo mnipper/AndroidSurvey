@@ -42,15 +42,12 @@ public class InstrumentFragment extends ListFragment {
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
     private final static String ADMIN_PASSWORD_HASH =
             "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
-    
-    private List<Instrument> mInstrumentList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mInstrumentList = Instrument.getAll();
-        setListAdapter(new InstrumentAdapter(mInstrumentList));
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
         appInit();
     }
 
@@ -66,8 +63,7 @@ public class InstrumentFragment extends ListFragment {
         case R.id.menu_item_admin:
             displayPasswordPrompt();
         case R.id.menu_item_refresh:
-            mInstrumentList = Instrument.getAll();
-            setListAdapter(new InstrumentAdapter(mInstrumentList));
+            setListAdapter(new InstrumentAdapter(Instrument.getAll()));
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -245,7 +241,7 @@ public class InstrumentFragment extends ListFragment {
             } else {
                 Intent i = new Intent(getActivity(), SurveyActivity.class);
                 i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-                startActivity(i);                
+                startActivity(i);
             }
         }
     }

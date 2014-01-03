@@ -1,6 +1,11 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.GregorianCalendar;
+import java.util.List;
+
+import org.adaptlab.chpir.android.survey.Models.Option;
+
+import android.content.Context;
 
 public class FormatUtils {
     public static String pluralize(int number, String singular, String plural) {
@@ -44,5 +49,16 @@ public class FormatUtils {
         } else {
             return String.valueOf(minute);
         }
+    }
+    
+    public static String unformatMultipleResponses(List<Option> options, String responseText, Context context) {
+        String[] responses = responseText.split(",");
+        String multipleText = "";
+        for (int i = 0; i < responses.length; i++) {
+            multipleText += options.get(Integer.parseInt(responses[i])).getText();
+            if (i < responses.length - 2) multipleText += ", ";
+            else if (i == responses.length - 2) multipleText += " " + context.getString(R.string.and) + " ";
+        }
+        return multipleText;
     }
 }

@@ -1,10 +1,11 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.ArrayList;
+
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -29,8 +30,11 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.question_number";
     public final static String EXTRA_SURVEY_ID = 
             "org.adaptlab.chpir.android.survey.survey_id";
+    public final static String EXTRA_PREVIOUS_QUESTION_IDS = 
+            "org.adaptlab.chpir.android.survey.previous_questions";
     
     private Question mQuestion;
+    private ArrayList<Integer> mPreviousQuestions;
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
@@ -50,6 +54,7 @@ public class SurveyFragment extends Fragment {
             mQuestion = Question.findByRemoteId(savedInstanceState.getLong(EXTRA_QUESTION_ID));
             mSurvey = Survey.load(Survey.class, savedInstanceState.getLong(EXTRA_SURVEY_ID));
             mQuestionNumber = savedInstanceState.getInt(EXTRA_QUESTION_NUMBER);
+            mPreviousQuestions = savedInstanceState.getIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
             if (instrumentId == -1) return;
@@ -62,6 +67,7 @@ public class SurveyFragment extends Fragment {
             
             mQuestion = mInstrument.questions().get(0);
             mQuestionNumber = 0;
+            mPreviousQuestions = new ArrayList<Integer>();
         }
     }
     
@@ -72,6 +78,7 @@ public class SurveyFragment extends Fragment {
         outState.putLong(EXTRA_QUESTION_ID, mQuestion.getRemoteId());
         outState.putLong(EXTRA_SURVEY_ID, mSurvey.getId());
         outState.putInt(EXTRA_QUESTION_NUMBER, mQuestionNumber);
+        outState.putIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS, mPreviousQuestions);
     }
     
     @Override
@@ -201,7 +208,8 @@ public class SurveyFragment extends Fragment {
     public void moveToNextQuestion() {
         int questionsInInstrument = mInstrument.questions().size();
 
-        if (mQuestionNumber < questionsInInstrument - 1) {           
+        if (mQuestionNumber < questionsInInstrument - 1) {    
+            mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
             createQuestionFragment();
             setQuestionText(mQuestionText);
@@ -217,14 +225,10 @@ public class SurveyFragment extends Fragment {
      * to the previous question in the sequence.
      */
     public void moveToPreviousQuestion() {
-        if (mQuestion.isFollowUpQuestion()) {
-            mQuestionNumber = mInstrument.questions().indexOf(mQuestion.getFollowingUpQuestion());
-        } else {
-            mQuestionNumber--;
-        }
-        
-        if (mQuestionNumber >= 0) {           
-            mQuestion = mInstrument.questions().get(mQuestionNumber);            
+        if (mQuestionNumber >= 0) {       
+            mQuestionNumber = mPreviousQuestions.get(mPreviousQuestions.size() - 1);
+            mQuestion = mInstrument.questions().get(mQuestionNumber);   
+            mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             createQuestionFragment();
             setQuestionText(mQuestionText);
         }
@@ -251,7 +255,7 @@ public class SurveyFragment extends Fragment {
      */
     private void setQuestionText(TextView text) {
         if (mQuestion.isFollowUpQuestion()) {
-            String followUpText = mQuestion.getFollowingUpText(mSurvey);
+            String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
             
             if (followUpText == null) {
                 moveToNextQuestion();
@@ -283,7 +287,7 @@ public class SurveyFragment extends Fragment {
         int numberQuestions = mInstrument.questions().size();
         
         mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        
-        mProgressBar.setProgress((int) (100 * (mQuestionNumber) / (float) numberQuestions));
+        mProgressBar.setProgress((int) (100 * (mQuestionNumber + 1) / (float) numberQuestions));
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
     }

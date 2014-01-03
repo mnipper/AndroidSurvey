@@ -59,7 +59,10 @@ public class Survey extends SendModel {
      * Finders
      */   
     public Response getResponseByQuestion(Question question) {
-        return new Select().from(Response.class).where("Question = ?", question.getId()).executeSingle();
+        return new Select().from(Response.class).where(
+                "Question = ? AND Survey = ?",
+                question.getId(),
+                getId()).executeSingle();
     }
 
     

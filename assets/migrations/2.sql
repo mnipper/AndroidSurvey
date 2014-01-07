@@ -1,0 +1,1 @@
+ALTER TABLE Questions ADD COLUMN InstrumentVersion INTEGER;

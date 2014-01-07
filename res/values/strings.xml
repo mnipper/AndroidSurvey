@@ -38,7 +38,7 @@
     <string name="of">of</string>
     <string name="instrument_loading_progress_header">Loading</string>
     <string name="instrument_loading_progress_message">Please wait one moment.</string>
-    <string name="instrument_not_loaded">This instrument has not been loaded from the server yet.</string>
+    <string name="instrument_not_loaded">There was an issue loading this instrument.  Please re-sync the device and try again.</string>
     <string name="and">and</string>
     <string name="comma">,</string>
     <string name="space">" "</string>

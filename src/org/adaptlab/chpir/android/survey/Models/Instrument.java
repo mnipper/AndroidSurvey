@@ -171,7 +171,10 @@ public class Instrument extends ReceiveModel {
      * Relationships
      */
     public List<Question> questions() {
-        return getMany(Question.class, "Instrument");
+        return new Select().from(Question.class)
+                .where("Instrument = ?", getId())
+                .orderBy("NumberInInstrument ASC")
+                .execute();
     }
     
     public List<Survey> surveys() {

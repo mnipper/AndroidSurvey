@@ -43,6 +43,8 @@ public class Question extends ReceiveModel {
     private int mOptionCount;
     @Column(name = "InstrumentVersion")
     private int mInstrumentVersion;
+    @Column(name = "NumberInInstrument")
+    private int mNumberInInstrument;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
@@ -172,7 +174,7 @@ public class Question extends ReceiveModel {
      * numbers of the question components match the expected instrument version
      * number.
      */
-    public boolean loaded() {    
+    public boolean loaded() {         
         return getOptionCount() == options().size() &&
                 getInstrumentVersion() == getInstrument().getVersionNumber();
     }
@@ -196,6 +198,7 @@ public class Question extends ReceiveModel {
             question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
             question.setOptionCount(jsonObject.getInt("option_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
+            question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -316,8 +319,12 @@ public class Question extends ReceiveModel {
         mRemoteId = id;
     }
     
-    private int getInstrumentVersion() {
+    public int getInstrumentVersion() {
         return mInstrumentVersion;
+    }
+    
+    public int getNumberInInstrument() {
+        return mNumberInInstrument;
     }
     
     /*
@@ -342,5 +349,9 @@ public class Question extends ReceiveModel {
     
     private void setInstrumentVersion(int version) {
         mInstrumentVersion = version;
+    }
+    
+    private void setNumberInInstrument(int number) {
+        mNumberInInstrument = number;
     }
 }

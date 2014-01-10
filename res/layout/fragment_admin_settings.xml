@@ -5,84 +5,96 @@
     android:orientation="vertical"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp" >
-
-    <TextView
-        android:id="@+id/device_identifier_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/device_identifier" />
-
-    <EditText
-        android:id="@+id/device_identifier_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <TextView
-        android:id="@+id/sync_interval_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sync_interval"
-        android:layout_marginTop="18dp" />
-
-    <EditText
-        android:id="@+id/sync_interval_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" />
     
-    <TextView
-        android:id="@+id/api_endpoint_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/api_endpoint"
-        android:layout_marginTop="18dp" />
-
-    <EditText
-        android:id="@+id/api_endpoint_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" />
-        
-    <TextView
-        android:id="@+id/custom_locale_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/custom_locale"
-        android:layout_marginTop="18dp" />
-        
-    <EditText
-        android:id="@+id/custom_locale_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" />
-    
-    <TextView
-        android:id="@+id/last_update_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/last_update"
-        android:layout_marginTop="32dp"
-        android:textStyle="bold" />
-
-    <LinearLayout
+    <ScrollView android:id="@+id/survey_fragment_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="bottom|center_horizontal" >
+        android:fillViewport="true">
         
-	    <Button
-	        android:id="@+id/save_admin_settings_button"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/save_button"
-	        android:layout_marginTop="18dp"
-	        android:width="200dp"
-	        android:layout_gravity="bottom" />
-	    
-    </LinearLayout>
+        <LinearLayout android:id="@+id/linear_layout_for_scroll_view" 
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+	
+		    <TextView
+		        android:id="@+id/device_identifier_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/device_identifier" />
+		
+		    <EditText
+		        android:id="@+id/device_identifier_edit_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" >
+		
+		        <requestFocus />
+		    </EditText>
+		
+		    <TextView
+		        android:id="@+id/sync_interval_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/sync_interval"
+		        android:layout_marginTop="18dp" />
+		
+		    <EditText
+		        android:id="@+id/sync_interval_edit_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:inputType="number" />
+		    
+		    <TextView
+		        android:id="@+id/api_endpoint_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/api_endpoint"
+		        android:layout_marginTop="18dp" />
+		
+		    <EditText
+		        android:id="@+id/api_endpoint_edit_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" />
+		        
+		    <TextView
+		        android:id="@+id/custom_locale_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/custom_locale"
+		        android:layout_marginTop="18dp" />
+		        
+		    <EditText
+		        android:id="@+id/custom_locale_edit_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" />
+		    
+		    <TextView
+		        android:id="@+id/last_update_label"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/last_update"
+		        android:layout_marginTop="32dp"
+		        android:textStyle="bold" />
+		
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:orientation="horizontal"
+		        android:gravity="bottom|center_horizontal" >
+		        
+			    <Button
+			        android:id="@+id/save_admin_settings_button"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/save_button"
+			        android:layout_marginTop="18dp"
+			        android:width="200dp"
+			        android:layout_gravity="bottom" />
+			    
+		    </LinearLayout>
+		</LinearLayout>
+    </ScrollView>
 </LinearLayout>

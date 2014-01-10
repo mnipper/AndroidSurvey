@@ -170,7 +170,7 @@ public class SurveyFragment extends Fragment {
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;
         
-        if (mQuestion.hasSkipPattern()) {
+        if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
             try {
                 int responseIndex = Integer.parseInt(mSurvey.
                         getResponseByQuestion(mQuestion).getText());
@@ -200,10 +200,8 @@ public class SurveyFragment extends Fragment {
     
     /*
      * Switch out the next question with a fragment from the
-     * QuestionFragmentFactory.  If this is the last question
-     * then change the button text to "finish."  When "finish"
-     * is pressed, mark the survey as complete and finish the
-     * activity.
+     * QuestionFragmentFactory.  Increment the question to
+     * the next question.
      */
     public void moveToNextQuestion() {
         int questionsInInstrument = mInstrument.questions().size();
@@ -212,7 +210,8 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
             createQuestionFragment();
-            setQuestionText(mQuestionText);
+            if (!setQuestionText(mQuestionText))
+                moveToNextQuestion();
         }
         
         updateQuestionCountLabel();
@@ -225,17 +224,21 @@ public class SurveyFragment extends Fragment {
      * to the previous question in the sequence.
      */
     public void moveToPreviousQuestion() {
-        if (mQuestionNumber >= 0) {       
-            mQuestionNumber = mPreviousQuestions.get(mPreviousQuestions.size() - 1);
-            mQuestion = mInstrument.questions().get(mQuestionNumber);   
-            mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
+        if (mQuestionNumber >= 0) {
+            mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
+            mQuestion = mInstrument.questions().get(mQuestionNumber);
             createQuestionFragment();
-            setQuestionText(mQuestionText);
+            if (!setQuestionText(mQuestionText))
+                moveToPreviousQuestion();
         }
         
         updateQuestionCountLabel();
     }
-    
+
+    /*
+    * Destroy this activity, and save the survey and mark it as
+    * complete.
+    */
     public void finishSurvey() {
         getActivity().finish();
         mSurvey.setAsComplete();
@@ -247,24 +250,26 @@ public class SurveyFragment extends Fragment {
      * to get the response to the question that is being followed up on.
      * 
      * If the question being followed up on was skipped by the user,
-     * then also skip the following up question. It does not make sense to
-     * ask a follow up question to a question that was not answered.
+     * then return false. This gives the calling function an opportunity
+     * to handle this accordingly.  Likely this will involve skipping
+     * the question that is a follow up question.
      * 
      * If this question is not a following up question, then just
      * set the text as normal.
      */
-    private void setQuestionText(TextView text) {
+    private boolean setQuestionText(TextView text) {
         if (mQuestion.isFollowUpQuestion()) {
             String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
             
             if (followUpText == null) {
-                moveToNextQuestion();
+                return false;
             } else {
                 text.setText(followUpText);
             }
         } else {
             text.setText(mQuestion.getText());
         }
+        return true;
     }
     
     public boolean isFirstQuestion() {

@@ -56,8 +56,9 @@ public class FormatUtils {
         String multipleText = "";
         for (int i = 0; i < responses.length; i++) {
             multipleText += options.get(Integer.parseInt(responses[i])).getText();
-            if (i < responses.length - 2) multipleText += ", ";
-            else if (i == responses.length - 2) multipleText += " " + context.getString(R.string.and) + " ";
+            if (i < responses.length - 2) multipleText += context.getString(R.string.comma) + context.getString(R.string.space);
+            else if (i == responses.length - 2) multipleText += context.getString(R.string.space)
+                    + context.getString(R.string.and) + context.getString(R.string.space);
         }
         return multipleText;
     }

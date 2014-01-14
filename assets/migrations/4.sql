@@ -1,0 +1,1 @@
+ALTER TABLE Responses ADD COLUMN SpecialResponse STRING;

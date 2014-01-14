@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 public class SurveyFragment extends Fragment {
     private static final String TAG = "SurveyFragment";
+    private static final String SKIPPED = "skipped";
     public final static String EXTRA_INSTRUMENT_ID = 
             "org.adaptlab.chpir.android.survey.instrument_id";
     public final static String EXTRA_QUESTION_ID = 
@@ -96,6 +97,14 @@ public class SurveyFragment extends Fragment {
         case R.id.menu_item_next:
             moveToNextQuestion();
             return true;
+        case R.id.menu_item_skip:
+        	saveResponseAsSkipped();
+        	if (isLastQuestion()) {
+        		finishSurvey();
+        	} else {
+        		moveToNextQuestion();
+        	}
+        	return true;
         case R.id.menu_item_finish:
             finishSurvey();
             return true;
@@ -104,7 +113,11 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    @Override
+    private void saveResponseAsSkipped() {
+    	mQuestionFragment.saveSpecialResponse(SKIPPED);
+	}
+
+	@Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.menu_item_previous)
@@ -112,6 +125,8 @@ public class SurveyFragment extends Fragment {
         menu.findItem(R.id.menu_item_next)
             .setVisible(!isLastQuestion())
             .setEnabled(hasValidResponse());
+        menu.findItem(R.id.menu_item_skip)
+        	.setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());

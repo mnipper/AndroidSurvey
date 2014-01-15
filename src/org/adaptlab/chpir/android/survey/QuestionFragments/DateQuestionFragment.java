@@ -51,4 +51,9 @@ public class DateQuestionFragment extends QuestionFragment {
             mDatePicker.updateDate(mYear, mMonth, mDay);
         }
     }
+
+	@Override
+	protected void questionIsSkipped() {
+    	saveSpecialResponse(SKIPPED);		
+	}
 }

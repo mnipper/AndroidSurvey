@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 public class SurveyFragment extends Fragment {
     private static final String TAG = "SurveyFragment";
-    private static final String SKIPPED = "skipped";
     public final static String EXTRA_INSTRUMENT_ID = 
             "org.adaptlab.chpir.android.survey.instrument_id";
     public final static String EXTRA_QUESTION_ID = 
@@ -114,7 +113,7 @@ public class SurveyFragment extends Fragment {
     }
     
     private void saveResponseAsSkipped() {
-    	mQuestionFragment.saveSpecialResponse(SKIPPED);
+    	mQuestionFragment.questionIsSkipped();
 	}
 
 	@Override

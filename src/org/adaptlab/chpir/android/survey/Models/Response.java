@@ -123,8 +123,6 @@ public class Response extends SendModel {
 	
 	public void setSpecialResponse(String specialResponse) {
 		mSpecialResponse = specialResponse;
-		Log.i("Spec Resp Set", mSpecialResponse);
-		Log.i("Spec Resp Set To", getSpecialResponse());
 	}
 	
 	public String getSpecialResponse() {

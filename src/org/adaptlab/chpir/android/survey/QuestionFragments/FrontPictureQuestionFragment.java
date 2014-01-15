@@ -24,5 +24,10 @@ public class FrontPictureQuestionFragment extends QuestionFragment {
     protected void deserialize(String responseText) {
 
     }
+    
+    @Override
+	protected void questionIsSkipped() {
+    	saveSpecialResponse(SKIPPED);		
+	}
 
 }

@@ -26,10 +26,12 @@ import com.activeandroid.Model;
 
 public abstract class QuestionFragment extends Fragment {
     private final static String TAG = "QuestionFragment";
+    public static final String SKIPPED = "skipped";
     
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
+    protected abstract void questionIsSkipped();
     
     private TextView mValidationTextView;
 
@@ -145,6 +147,7 @@ public abstract class QuestionFragment extends Fragment {
     
     public void saveSpecialResponse(String response) {
     	getResponse().setSpecialResponse(response); 
+    	getResponse().save();
     }
     
     private Response loadOrCreateResponse() {

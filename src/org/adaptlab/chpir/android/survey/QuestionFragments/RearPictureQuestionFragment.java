@@ -24,4 +24,9 @@ public class RearPictureQuestionFragment extends QuestionFragment {
     protected void deserialize(String responseText) {
   
     }
+    
+    @Override
+	protected void questionIsSkipped() {
+    	saveSpecialResponse(SKIPPED);		
+	}
 }

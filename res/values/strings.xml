@@ -8,6 +8,7 @@
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
     <string name="finish_button">Finish</string>
+    <string name="skip_button">Skip</string>
     <string name="other_specify">Other</string>
     <string name="other_specify_edittext">Specify other</string>
     <string name="free_response_edittext">Answer here</string>

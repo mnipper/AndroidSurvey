@@ -24,6 +24,8 @@ public class Response extends SendModel {
 	private Survey mSurvey;
 	@Column(name = "Other_Response")
 	private String mOtherResponse;
+	@Column(name = "SpecialResponse")
+	private String mSpecialResponse;
 	@Column(name = "SentToRemote")
 	private boolean mSent;
 	
@@ -68,6 +70,7 @@ public class Response extends SendModel {
             jsonObject.put("question_id", getQuestion().getRemoteId());
             jsonObject.put("text", getText());
             jsonObject.put("other_response", getOtherResponse());
+            jsonObject.put("special_response", getSpecialResponse());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {
@@ -116,6 +119,14 @@ public class Response extends SendModel {
 	
 	public String getOtherResponse() {
 	    return mOtherResponse;
+	}
+	
+	public void setSpecialResponse(String specialResponse) {
+		mSpecialResponse = specialResponse;
+	}
+	
+	public String getSpecialResponse() {
+		return mSpecialResponse;
 	}
     
     @Override

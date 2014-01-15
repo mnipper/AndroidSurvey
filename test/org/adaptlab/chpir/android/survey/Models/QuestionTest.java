@@ -21,7 +21,6 @@ import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
 public class QuestionTest {
-	private static final String QUESTION_TEXT = "WHAT WHICH WHO";
 	private static final String QUESTION_TYPE_ONE = "SELECT_ONE";
 	private static final String QUESTION_ID = "9210TEST";
 	private static final Long REMOTE_ID = 910289L;
@@ -143,6 +142,12 @@ public class QuestionTest {
 	@Test
 	public void shouldCreateObjectFromJson() throws Exception {
 		// TODO Implement
+	}
+	
+	@Test
+	public void shouldSetAndGetRegExpValidation() throws Exception {
+		question.setRegExValidation("validate");
+		assertEquals("validate", question.getRegExValidation());
 	}
 
 }

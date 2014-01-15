@@ -96,6 +96,14 @@ public class SurveyFragment extends Fragment {
         case R.id.menu_item_next:
             moveToNextQuestion();
             return true;
+        case R.id.menu_item_skip:
+        	saveResponseAsSkipped();
+        	if (isLastQuestion()) {
+        		finishSurvey();
+        	} else {
+        		moveToNextQuestion();
+        	}
+        	return true;
         case R.id.menu_item_finish:
             finishSurvey();
             return true;
@@ -104,7 +112,11 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    @Override
+    private void saveResponseAsSkipped() {
+    	mQuestionFragment.questionIsSkipped();
+	}
+
+	@Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.menu_item_previous)
@@ -112,6 +124,8 @@ public class SurveyFragment extends Fragment {
         menu.findItem(R.id.menu_item_next)
             .setVisible(!isLastQuestion())
             .setEnabled(hasValidResponse());
+        menu.findItem(R.id.menu_item_skip)
+        	.setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());

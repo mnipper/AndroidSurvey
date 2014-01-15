@@ -41,4 +41,9 @@ public class TimeQuestionFragment extends QuestionFragment {
             mTimePicker.setCurrentMinute(timeComponents[1]);
         }
     }
+    
+    @Override
+	protected void questionIsSkipped() {
+    	saveSpecialResponse(SKIPPED);		
+	}
 }

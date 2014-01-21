@@ -1,1 +1,2 @@
+ALTER TABLE AdminSettings ADD COLUMN ProjectId INTEGER;
 ALTER TABLE Responses ADD COLUMN SpecialResponse STRING;

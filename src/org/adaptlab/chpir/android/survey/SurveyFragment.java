@@ -32,7 +32,7 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.survey_id";
     public final static String EXTRA_PREVIOUS_QUESTION_IDS = 
             "org.adaptlab.chpir.android.survey.previous_questions";
-    
+   
     private Question mQuestion;
     private ArrayList<Integer> mPreviousQuestions;
     private Instrument mInstrument;
@@ -70,8 +70,8 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions = new ArrayList<Integer>();
         }
     }
-    
-    @Override
+
+	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(EXTRA_INSTRUMENT_ID, mInstrument.getRemoteId());
@@ -97,7 +97,7 @@ public class SurveyFragment extends Fragment {
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
-        	saveResponseAsSkipped();
+        	tagQuestionAsSkipped();
         	if (isLastQuestion()) {
         		finishSurvey();
         	} else {
@@ -112,7 +112,7 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    private void saveResponseAsSkipped() {
+    private void tagQuestionAsSkipped() {
     	mQuestionFragment.questionIsSkipped();
 	}
 
@@ -226,6 +226,8 @@ public class SurveyFragment extends Fragment {
             createQuestionFragment();
             if (!setQuestionText(mQuestionText))
                 moveToNextQuestion();
+        } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
+        	finishSurvey();
         }
         
         updateQuestionCountLabel();

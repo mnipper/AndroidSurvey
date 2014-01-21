@@ -10,10 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -25,9 +22,7 @@ import android.widget.TextView;
 import com.activeandroid.Model;
 
 public abstract class QuestionFragment extends Fragment {
-    private final static String TAG = "QuestionFragment";
-    public static final String SKIPPED = "skipped";
-    
+
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
@@ -150,7 +145,7 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);
+    	saveSpecialResponse(Response.SKIPPED);
     }
     
     private Response loadOrCreateResponse() {

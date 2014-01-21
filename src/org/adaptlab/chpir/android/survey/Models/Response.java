@@ -15,6 +15,7 @@ import com.activeandroid.query.Select;
 @Table(name = "Responses")
 public class Response extends SendModel {
     private static final String TAG = "Response";
+    public static final String SKIPPED = "SKIP";
 	
 	@Column(name = "Question")
 	private Question mQuestion;
@@ -33,6 +34,7 @@ public class Response extends SendModel {
 		super();
 		mSent = false;
 		mText = "";
+		mSpecialResponse = "";
 	}
 	    
 	/*

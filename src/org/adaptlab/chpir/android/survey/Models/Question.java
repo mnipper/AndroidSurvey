@@ -121,8 +121,8 @@ public class Question extends ReceiveModel {
      * then return nothing.  This question will be skipped in that case.
      */
     public String getFollowingUpText(Survey survey, Context context) {
-        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());        
-        if (followUpResponse == null) return null;
+        Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
+        if (followUpResponse == null || followUpResponse.getSpecialResponse().equals(Response.SKIPPED)) return null;
         
         if (followUpWithOptionText()) {
             return getText().replaceAll(

@@ -52,8 +52,4 @@ public class DateQuestionFragment extends QuestionFragment {
         }
     }
 
-	@Override
-	protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);		
-	}
 }

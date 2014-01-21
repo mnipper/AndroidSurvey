@@ -31,7 +31,6 @@ public abstract class QuestionFragment extends Fragment {
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
-    protected abstract void questionIsSkipped();
     
     private TextView mValidationTextView;
 
@@ -148,6 +147,10 @@ public abstract class QuestionFragment extends Fragment {
     public void saveSpecialResponse(String response) {
     	getResponse().setSpecialResponse(response); 
     	getResponse().save();
+    }
+    
+    protected void questionIsSkipped() {
+    	saveSpecialResponse(SKIPPED);
     }
     
     private Response loadOrCreateResponse() {

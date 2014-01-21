@@ -36,9 +36,5 @@ public class SliderQuestionFragment extends QuestionFragment {
         if (!responseText.equals(""))
             mSlider.setProgress(Integer.parseInt(responseText));
     }
-    
-    @Override
-	protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);		
-	}
+   
 }

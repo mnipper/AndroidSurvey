@@ -42,8 +42,4 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
         mFreeText.setText(responseText);
     }
     
-    @Override
-	protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);		
-	}
 }

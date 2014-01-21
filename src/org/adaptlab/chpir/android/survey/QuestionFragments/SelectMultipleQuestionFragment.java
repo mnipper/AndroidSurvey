@@ -76,8 +76,4 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
         mCheckBoxes.add(checkbox);
     }
     
-    @Override
-	protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);		
-	}
 }

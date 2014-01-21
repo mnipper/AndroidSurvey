@@ -41,9 +41,5 @@ public class RatingQuestionFragment extends QuestionFragment  {
             mRatingBar.setRating(mRating);
         }
     }
-    
-    @Override
-	protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);		
-	}
+  
 }

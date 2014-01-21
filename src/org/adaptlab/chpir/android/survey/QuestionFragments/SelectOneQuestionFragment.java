@@ -61,9 +61,5 @@ public class SelectOneQuestionFragment extends QuestionFragment {
         mResponseIndex = index;
         saveResponse();
     }
-    
-    @Override
-    protected void questionIsSkipped() {
-    	saveSpecialResponse(SKIPPED);
-    }
+  
 }

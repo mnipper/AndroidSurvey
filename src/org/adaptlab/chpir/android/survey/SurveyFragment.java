@@ -189,7 +189,7 @@ public class SurveyFragment extends Fragment {
                 int responseIndex = Integer.parseInt(mSurvey.
                         getResponseByQuestion(mQuestion).getText());
                 
-                if (responseIndex < mQuestion.options().size()) {
+                if (responseIndex < mQuestion.options().size() && mQuestion.options().get(responseIndex).getNextQuestion() != null) {
                     nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
                     mQuestionNumber = mInstrument.questions().indexOf(nextQuestion);
                 } else {

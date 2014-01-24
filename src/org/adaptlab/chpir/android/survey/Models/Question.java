@@ -174,7 +174,7 @@ public class Question extends ReceiveModel {
      * numbers of the question components match the expected instrument version
      * number.
      */
-    public boolean loaded() {         
+    public boolean loaded() { 
         return getOptionCount() == options().size() &&
                 getInstrumentVersion() == getInstrument().getVersionNumber();
     }
@@ -247,7 +247,10 @@ public class Question extends ReceiveModel {
     }
 
     public List<Option> options() {
-        return getMany(Option.class, "Question");
+        return new Select().from(Option.class)
+                .where("Question = ?", getId())
+                .orderBy("NumberInQuestion ASC")
+                .execute();
     }
     
     public List<QuestionTranslation> translations() {

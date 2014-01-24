@@ -1,0 +1,1 @@
+ALTER TABLE Options ADD COLUMN NumberInQuestion INTEGER;

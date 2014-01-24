@@ -26,6 +26,8 @@ public class Option extends ReceiveModel {
     private Long mRemoteId;
     @Column(name = "NextQuestion")
     private String mNextQuestion;
+    @Column(name = "NumberInQuestion")
+    private int mNumberInQuestion;
 
     public Option() {
         super();
@@ -91,6 +93,7 @@ public class Option extends ReceiveModel {
             option.setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
             option.setRemoteId(remoteId);
             option.setNextQuestion(jsonObject.getString("next_question"));
+            option.setNumberInQuestion(jsonObject.getInt("number_in_question"));
             option.save();
             
             // Generate translations
@@ -162,5 +165,13 @@ public class Option extends ReceiveModel {
     
     public void setRemoteId(Long id) {
         mRemoteId = id;
+    }
+    
+    public int getNumberInQuestion() {
+        return mNumberInQuestion;
+    }
+    
+    private void setNumberInQuestion(int number) {
+        mNumberInQuestion = number;
     }
 }

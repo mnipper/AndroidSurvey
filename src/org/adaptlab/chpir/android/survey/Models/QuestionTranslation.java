@@ -59,6 +59,9 @@ public class QuestionTranslation extends Model {
     }
     
     public void setRegExValidationMessage(String message) {
-        mRegExValidationMessage = message;
+        if (message.equals("null") || message.equals(""))
+            mRegExValidationMessage = null;
+         else
+             mRegExValidationMessage = message;
     }
 }

@@ -229,7 +229,7 @@ public class Question extends ReceiveModel {
                 QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
                 translation.setQuestion(question);
                 translation.setText(translationJSON.getString("text"));
-                translation.setRegExValidationMessage(jsonObject.getString("reg_ex_validation_message"));
+                translation.setRegExValidationMessage(translationJSON.getString("reg_ex_validation_message"));
                 translation.save();
             }
         } catch (JSONException je) {
@@ -376,6 +376,9 @@ public class Question extends ReceiveModel {
     }
     
     private void setRegExValidationMessage(String message) {
-        mRegExValidationMessage = message;
+        if (message.equals("null") || message.equals(""))
+           mRegExValidationMessage = null;
+        else
+            mRegExValidationMessage = message;
     }
 }

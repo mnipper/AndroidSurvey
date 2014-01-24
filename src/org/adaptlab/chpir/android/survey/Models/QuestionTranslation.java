@@ -13,6 +13,8 @@ public class QuestionTranslation extends Model {
     private String mLanguage;
     @Column(name = "Text")
     private String mText;
+    @Column(name = "RegExValidationMessage")
+    private String mRegExValidationMessage;
     
     /*
      * Finders
@@ -31,19 +33,32 @@ public class QuestionTranslation extends Model {
     public Question getQuestion() {
         return mQuestion;
     }
+    
     public void setQuestion(Question question) {
         mQuestion = question;
     }
+    
     public String getLanguage() {
         return mLanguage;
     }
+    
     public void setLanguage(String language) {
         mLanguage = language;
     }
+    
     public String getText() {
         return mText;
     }
+    
     public void setText(String text) {
         mText = text;
+    }
+    
+    public String getRegExValidationMessage() {
+        return mRegExValidationMessage;
+    }
+    
+    public void setRegExValidationMessage(String message) {
+        mRegExValidationMessage = message;
     }
 }

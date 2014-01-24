@@ -39,6 +39,8 @@ public class Question extends ReceiveModel {
     private Question mFollowingUpQuestion;
     @Column(name = "RegExValidation")
     private String mRegExValidation;
+    @Column(name = "RegExValidationMessage")
+    private String mRegExValidationMessage;
     @Column(name = "OptionCount")
     private int mOptionCount;
     @Column(name = "InstrumentVersion")
@@ -73,6 +75,19 @@ public class Question extends ReceiveModel {
         
         // Fall back to default
         return mText;
+    }
+    
+    
+    public String getRegExValidationMessage() {
+        if (getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mRegExValidationMessage;
+        for(QuestionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
+                return translation.getRegExValidationMessage();
+            }
+        }
+        
+        // Fall back to default
+        return mRegExValidationMessage;
     }
       
     public boolean hasSkipPattern() {
@@ -196,6 +211,7 @@ public class Question extends ReceiveModel {
             question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            
             question.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
+            question.setRegExValidationMessage(jsonObject.getString("reg_ex_validation_message"));
             question.setOptionCount(jsonObject.getInt("option_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
@@ -213,6 +229,7 @@ public class Question extends ReceiveModel {
                 QuestionTranslation translation = question.getTranslationByLanguage(translationJSON.getString("language"));
                 translation.setQuestion(question);
                 translation.setText(translationJSON.getString("text"));
+                translation.setRegExValidationMessage(jsonObject.getString("reg_ex_validation_message"));
                 translation.save();
             }
         } catch (JSONException je) {
@@ -356,5 +373,9 @@ public class Question extends ReceiveModel {
     
     private void setNumberInInstrument(int number) {
         mNumberInInstrument = number;
+    }
+    
+    private void setRegExValidationMessage(String message) {
+        mRegExValidationMessage = message;
     }
 }

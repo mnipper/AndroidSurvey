@@ -166,7 +166,10 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             animation = new AlphaAnimation(0, 1);
             mValidationTextView.setVisibility(TextView.VISIBLE);
-            mValidationTextView.setText(R.string.not_valid_response);
+            if (mQuestion.getRegExValidationMessage() != null)
+                mValidationTextView.setText(mQuestion.getRegExValidationMessage());
+            else
+                mValidationTextView.setText(R.string.not_valid_response);
         }
 
         animation.setDuration(1000);

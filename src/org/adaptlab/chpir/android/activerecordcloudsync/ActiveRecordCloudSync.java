@@ -71,8 +71,9 @@ public class ActiveRecordCloudSync {
         }
         return getEndPoint();
     }
-    
+
     private static boolean ping(String url, int timeout) {
+        if (url == null) return true;
         url = url.replaceFirst("https", "http");
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();

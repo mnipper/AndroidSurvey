@@ -34,6 +34,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.SurveyLaunchReceiver">
+            <intent-filter>
+                <action android:name="org.adaptlab.chpir.android.survey.start_survey" />
+            </intent-filter>
+        </receiver>
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="6" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 

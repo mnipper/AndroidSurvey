@@ -20,6 +20,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,14 +41,16 @@ import android.widget.Toast;
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
-    private final String ADMIN_PASSWORD_HASH = getString(R.string.admin_password_hash);
-    private final String ACCESS_TOKEN = getString(R.string.backend_api_key);
+    private String ADMIN_PASSWORD_HASH;
+    private String ACCESS_TOKEN;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+        ADMIN_PASSWORD_HASH = getActivity().getResources().getString(R.string.admin_password_hash);
+        ACCESS_TOKEN = getActivity().getResources().getString(R.string.backend_api_key);       
         appInit();
     }
 

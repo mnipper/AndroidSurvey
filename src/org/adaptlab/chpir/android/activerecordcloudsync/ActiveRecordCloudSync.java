@@ -15,8 +15,8 @@ public class ActiveRecordCloudSync {
     private static Map<String, Class<? extends SendModel>> mSendTables =
             new LinkedHashMap<String, Class<? extends SendModel>>();
     
-    // The remote API endpoint url.
-    private static String mEndPoint;
+    private static String mEndPoint;        // The remote API endpoint url
+    private static String mAccessToken;     // API Access Key
     
     /**
      * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
@@ -65,6 +65,18 @@ public class ActiveRecordCloudSync {
         return ping(getPingAddress(), 10000);
     }
     
+    public static void setAccessToken(String token) {
+        mAccessToken = token;
+    }
+    
+    public static String getAccessToken() {
+        return mAccessToken;
+    }
+    
+    public static String accessTokenUrlParam() {
+        return "?access_token=" + getAccessToken();
+    }
+    
     private static String getPingAddress() {
         if (!getReceiveTables().keySet().isEmpty()) {
             return getEndPoint() + getReceiveTables().keySet().iterator().next();
@@ -75,6 +87,7 @@ public class ActiveRecordCloudSync {
     private static boolean ping(String url, int timeout) {
         if (url == null) return true;
         url = url.replaceFirst("https", "http");
+        url = url + accessTokenUrlParam();
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(timeout);

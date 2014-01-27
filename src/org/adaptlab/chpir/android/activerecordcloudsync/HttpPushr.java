@@ -11,7 +11,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+
 import com.activeandroid.query.Select;
+
 import android.util.Log;
 
 public class HttpPushr {
@@ -44,7 +46,7 @@ public class HttpPushr {
                 try {
                     HttpPost post = new HttpPost(
                             ActiveRecordCloudSync.getEndPoint()
-                                    + mRemoteTableName);
+                                    + mRemoteTableName + ActiveRecordCloudSync.accessTokenUrlParam());
                     StringEntity se = new StringEntity(element.toJSON()
                             .toString());
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,

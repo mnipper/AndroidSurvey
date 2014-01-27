@@ -20,6 +20,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Unit Tests](https://github.com/mnipper/AndroidSurvey/wiki/Unit-Tests)
 * [Continuous Integration](https://github.com/mnipper/AndroidSurvey/wiki/Continuous-Integration)
 * [Launching a Survey from Another Application](https://github.com/mnipper/AndroidSurvey/wiki/Launching-a-Survey-from-another-Application)
+* [API Keys and Admin Password](https://github.com/mnipper/AndroidSurvey/wiki/API-Keys-and-Admin-Password)
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.

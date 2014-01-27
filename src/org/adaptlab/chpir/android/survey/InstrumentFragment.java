@@ -40,8 +40,8 @@ import android.widget.Toast;
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
-    private final static String ADMIN_PASSWORD_HASH =
-            "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // SHA-256 of admin password
+    private final String ADMIN_PASSWORD_HASH = getString(R.string.admin_password_hash);
+    private final String ACCESS_TOKEN = getString(R.string.backend_api_key);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,6 +136,7 @@ public class InstrumentFragment extends ListFragment {
             AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
         }
 
+        ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);

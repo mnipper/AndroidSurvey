@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -280,12 +282,16 @@ public class SurveyFragment extends Fragment {
             if (followUpText == null) {
                 return false;
             } else {
-                text.setText(followUpText);
+                text.setText(styleTextWithHtml(followUpText));
             }
         } else {
-            text.setText(mQuestion.getText());
+            text.setText(styleTextWithHtml(mQuestion.getText()));
         }
         return true;
+    }
+    
+    private Spanned styleTextWithHtml(String text) {
+    	return Html.fromHtml(text);
     }
     
     public boolean isFirstQuestion() {

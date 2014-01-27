@@ -17,6 +17,9 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Following Up Questions](https://github.com/mnipper/AndroidSurvey/wiki/Following-Up-Questions)
 * [Response Validations](https://github.com/mnipper/AndroidSurvey/wiki/Response-Validations)
 * [Seeding the Database](https://github.com/mnipper/AndroidSurvey/wiki/Seeding-the-Database)
+* [Unit Tests](https://github.com/mnipper/AndroidSurvey/wiki/Unit-Tests)
+* [Continuous Integration](https://github.com/mnipper/AndroidSurvey/wiki/Continuous-Integration)
+* [Launching a Survey from Another Application](https://github.com/mnipper/AndroidSurvey/wiki/Launching-a-Survey-from-another-Application)
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.

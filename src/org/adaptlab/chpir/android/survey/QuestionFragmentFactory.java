@@ -7,6 +7,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.DecimalNumberQuestion
 import org.adaptlab.chpir.android.survey.QuestionFragments.EmailAddressQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
@@ -65,6 +66,8 @@ public class QuestionFragmentFactory {
             fragment = new EmailAddressQuestionFragment();
         } else if ("DECIMAL_NUMBER".equals(type)) {
             fragment = new DecimalNumberQuestionFragment();
+        } else if ("INSTRUCTIONS".equals(type)) {
+            fragment = new InstructionsQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

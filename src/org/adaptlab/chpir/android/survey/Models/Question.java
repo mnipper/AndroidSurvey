@@ -26,7 +26,7 @@ public class Question extends ReceiveModel {
         SELECT_MULTIPLE_WRITE_OTHER, FREE_RESPONSE, SLIDER,
         FRONT_PICTURE, REAR_PICTURE, DATE, RATING, TIME,
         LIST_OF_TEXT_BOXES, INTEGER, EMAIL_ADDRESS,
-        DECIMAL_NUMBER;
+        DECIMAL_NUMBER, INSTRUCTIONS;
     }
 
     @Column(name = "Text")

@@ -29,6 +29,7 @@ res/values/com_crashlytics_export_strings.xml
 
 # API Keys
 res/values/api-keys.xml
+res/values/keys.xml
 
 # APK Build
 libs/survey_pk

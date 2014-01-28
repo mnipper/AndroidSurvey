@@ -14,12 +14,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class PollService extends IntentService {
     private static final String TAG = "PollService";
     private static int DEFAULT_POLL_INTERVAL = 1000 * 120;
+    public static final String PREF_IS_ALARM_ON = "isAlarmOn";
     private static int sPollInterval;
     private static Date lastUpdate;
 
@@ -67,6 +69,11 @@ public class PollService extends IntentService {
             alarmManager.cancel(pi);
             pi.cancel();
         }
+        
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .edit()
+            .putBoolean(PollService.PREF_IS_ALARM_ON, isOn)
+            .commit();
     }
 
     public static boolean isServiceAlarmOn(Context context) {

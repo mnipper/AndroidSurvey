@@ -152,11 +152,11 @@ public class SurveyFragment extends Fragment {
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
-        
+                
         return v;
     }
 
-    /*
+	/*
      * Place the question fragment for the corresponding mQuestion
      * on the view in the question_container.
      */
@@ -312,7 +312,7 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    private void updateQuestionCountLabel() {
+    private void updateQuestionCountLabel() {    	
         int numberQuestions = mInstrument.questions().size();
         
         mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        

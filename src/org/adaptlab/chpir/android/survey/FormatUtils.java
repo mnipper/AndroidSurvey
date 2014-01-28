@@ -20,12 +20,25 @@ public class FormatUtils {
         return ((month + 1) + "-" + day + "-" + year);
     }
     
+    public static String formatDate(int month, int year) {
+        return ((month + 1) + "-" + year);
+    }
+    
     public static GregorianCalendar unformatDate(String date) {
         if (date.equals("")) return null;
         String[] dateComponents = date.split("-");
-        int month = Integer.parseInt(dateComponents[0]) - 1;
-        int day = Integer.parseInt(dateComponents[1]);
-        int year = Integer.parseInt(dateComponents[2]);
+        int month, day, year;
+        if (dateComponents.length == 3) {
+            // Full date
+            month = Integer.parseInt(dateComponents[0]) - 1;
+            day = Integer.parseInt(dateComponents[1]);
+            year = Integer.parseInt(dateComponents[2]);
+        } else {
+            // Just year and month
+            month = Integer.parseInt(dateComponents[0]) - 1;
+            year = Integer.parseInt(dateComponents[1]); 
+            day = 1; // not used           
+        }
         return new GregorianCalendar(year, month, day);        
     }
        

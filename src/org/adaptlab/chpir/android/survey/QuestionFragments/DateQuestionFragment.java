@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;

@@ -2,7 +2,7 @@
 <resources
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
-    <string name="crashlytics_api_key"></string>
-    <string name="backend_api_key"></string>
-    <string name="admin_password_hash"></string>
+    <string name="crashlytics_api_key">DUMMY_CRASHLYTICS_KEY</string>
+    <string name="backend_api_key">DUMMY_BACKEND_KEY</string>
+    <string name="admin_password_hash">5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</string>
 </resources>

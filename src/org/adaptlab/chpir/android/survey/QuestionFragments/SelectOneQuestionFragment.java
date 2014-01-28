@@ -3,7 +3,6 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.Models.Option;
 
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.activeandroid.Model;
 
 public abstract class QuestionFragment extends Fragment {
-
+    protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);

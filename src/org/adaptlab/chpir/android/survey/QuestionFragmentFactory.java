@@ -5,6 +5,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.QuestionFragments.DateQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
@@ -53,6 +54,8 @@ public class QuestionFragmentFactory {
             fragment = new RatingQuestionFragment();
         } else if ("TIME".equals(type)) {
             fragment = new TimeQuestionFragment();
+        } else if ("LIST_OF_TEXT_BOXES".equals(type)) {
+            fragment = new ListOfTextBoxesQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

@@ -1,13 +1,10 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.Models.Option;
-import org.adaptlab.chpir.android.survey.Models.Response;
 
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -46,7 +43,7 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
         String serialized = "";
         for (int i = 0; i < mResponseIndices.size(); i++) {
             serialized += mResponseIndices.get(i);
-            if (i <  mResponseIndices.size() - 1) serialized += ",";
+            if (i <  mResponseIndices.size() - 1) serialized += LIST_DELIMITER;
         }
         return serialized;
     }
@@ -54,7 +51,7 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
     @Override
     protected void deserialize(String responseText) {
         if (responseText.equals("")) return;    
-        String[] listOfIndices = responseText.split(",");
+        String[] listOfIndices = responseText.split(LIST_DELIMITER);
         for (String index : listOfIndices) {
             if (!index.equals("")) {
                 Integer indexInteger = Integer.parseInt(index);

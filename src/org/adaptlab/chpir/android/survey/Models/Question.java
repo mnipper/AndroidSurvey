@@ -39,6 +39,8 @@ public class Question extends ReceiveModel {
     private Instrument mInstrument;
     @Column(name = "FollowingUpQuestion")
     private Question mFollowingUpQuestion;
+    @Column(name = "FollowUpPosition")
+    private int mFollowUpPosition;
     @Column(name = "RegExValidation")
     private String mRegExValidation;
     @Column(name = "RegExValidationMessage")
@@ -217,6 +219,7 @@ public class Question extends ReceiveModel {
             question.setOptionCount(jsonObject.getInt("option_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
+            question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -349,6 +352,10 @@ public class Question extends ReceiveModel {
         return mNumberInInstrument;
     }
     
+    public int getFollowUpPosition() {
+        return mFollowUpPosition;
+    }
+    
     /*
      * Private
      */
@@ -382,5 +389,9 @@ public class Question extends ReceiveModel {
            mRegExValidationMessage = null;
         else
             mRegExValidationMessage = message;
+    }
+    
+    private void setFollowUpPosition(int position) {
+        mFollowUpPosition = position;
     }
 }

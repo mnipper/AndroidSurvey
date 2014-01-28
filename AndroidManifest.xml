@@ -40,7 +40,7 @@
             </intent-filter>
         </receiver>
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="8" />    
+        <meta-data android:name="AA_DB_VERSION" android:value="9" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>
     </application>

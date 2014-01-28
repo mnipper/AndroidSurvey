@@ -3,6 +3,8 @@ package org.adaptlab.chpir.android.survey;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.QuestionFragments.DateQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.DecimalNumberQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.EmailAddressQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
@@ -59,6 +61,10 @@ public class QuestionFragmentFactory {
             fragment = new ListOfTextBoxesQuestionFragment();
         } else if ("INTEGER".equals(type)) {
             fragment = new IntegerQuestionFragment();
+        } else if ("EMAIL_ADDRESS".equals(type)) {
+            fragment = new EmailAddressQuestionFragment();
+        } else if ("DECIMAL_NUMBER".equals(type)) {
+            fragment = new DecimalNumberQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

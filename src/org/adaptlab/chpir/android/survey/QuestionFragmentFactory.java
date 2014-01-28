@@ -10,6 +10,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionF
 import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.MonthAndYearQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
@@ -18,6 +19,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFrag
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.YearQuestionFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,40 +36,42 @@ public class QuestionFragmentFactory {
         String type = question.getQuestionType().toString();
         Fragment fragment = null;
 
-        // TODO: Write automated test to ensure every QuestionType in
-        // Question.QuestionType is covered in factory
-        if ("SELECT_ONE".equals(type)) {
+        if (Question.QuestionType.SELECT_ONE.toString().equals(type)) {
             fragment = new SelectOneQuestionFragment();
-        } else if ("SELECT_MULTIPLE".equals(type)) {
+        } else if (Question.QuestionType.SELECT_MULTIPLE.toString().equals(type)) {
             fragment = new SelectMultipleQuestionFragment();
-        } else if ("SELECT_ONE_WRITE_OTHER".equals(type)) {
+        } else if (Question.QuestionType.SELECT_ONE_WRITE_OTHER.toString().equals(type)) {
             fragment = new SelectOneWriteOtherQuestionFragment();
-        } else if ("SELECT_MULTIPLE_WRITE_OTHER".equals(type)) {
+        } else if (Question.QuestionType.SELECT_MULTIPLE_WRITE_OTHER.toString().equals(type)) {
             fragment = new SelectMultipleWriteOtherQuestionFragment();
-        } else if ("FREE_RESPONSE".equals(type)) {
+        } else if (Question.QuestionType.FREE_RESPONSE.toString().equals(type)) {
             fragment = new FreeResponseQuestionFragment();
-        } else if ("SLIDER".equals(type)) {
+        } else if (Question.QuestionType.SLIDER.toString().equals(type)) {
             fragment = new SliderQuestionFragment();
-        } else if ("FRONT_PICTURE".equals(type)) {
+        } else if (Question.QuestionType.FRONT_PICTURE.toString().equals(type)) {
             fragment = new FrontPictureQuestionFragment();
-        } else if ("REAR_PICTURE".equals(type)) {
+        } else if (Question.QuestionType.REAR_PICTURE.toString().equals(type)) {
             fragment = new RearPictureQuestionFragment();
-        } else if ("DATE".equals(type)) {
+        } else if (Question.QuestionType.DATE.toString().equals(type)) {
             fragment = new DateQuestionFragment();
-        } else if ("RATING".equals(type)) {
+        } else if (Question.QuestionType.RATING.toString().equals(type)) {
             fragment = new RatingQuestionFragment();
-        } else if ("TIME".equals(type)) {
+        } else if (Question.QuestionType.TIME.toString().equals(type)) {
             fragment = new TimeQuestionFragment();
-        } else if ("LIST_OF_TEXT_BOXES".equals(type)) {
+        } else if (Question.QuestionType.LIST_OF_TEXT_BOXES.toString().equals(type)) {
             fragment = new ListOfTextBoxesQuestionFragment();
-        } else if ("INTEGER".equals(type)) {
+        } else if (Question.QuestionType.INTEGER.toString().equals(type)) {
             fragment = new IntegerQuestionFragment();
-        } else if ("EMAIL_ADDRESS".equals(type)) {
+        } else if (Question.QuestionType.EMAIL_ADDRESS.toString().equals(type)) {
             fragment = new EmailAddressQuestionFragment();
-        } else if ("DECIMAL_NUMBER".equals(type)) {
+        } else if (Question.QuestionType.DECIMAL_NUMBER.toString().equals(type)) {
             fragment = new DecimalNumberQuestionFragment();
-        } else if ("INSTRUCTIONS".equals(type)) {
+        } else if (Question.QuestionType.INSTRUCTIONS.toString().equals(type)) {
             fragment = new InstructionsQuestionFragment();
+        } else if (Question.QuestionType.MONTH_AND_YEAR.toString().equals(type)) {
+            fragment = new MonthAndYearQuestionFragment();
+        } else if (Question.QuestionType.YEAR.toString().equals(type)) {
+            fragment = new YearQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

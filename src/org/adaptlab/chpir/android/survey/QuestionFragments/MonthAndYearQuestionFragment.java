@@ -10,7 +10,7 @@ public class MonthAndYearQuestionFragment extends DateQuestionFragment {
     private static final String TAG = "MonthAndYearQuestionFragment";
     
     @Override
-    protected void beforeAddViewHook(DatePicker datePicker) {        
+    protected void beforeAddViewHook(DatePicker datePicker) {
         String dateSpinnerName = "";
         
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {

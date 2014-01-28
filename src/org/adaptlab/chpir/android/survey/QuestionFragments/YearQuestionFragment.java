@@ -9,8 +9,12 @@ import android.widget.DatePicker;
 public class YearQuestionFragment extends DateQuestionFragment {
     private static final String TAG = "YearQuestionFragment";
     
+    private DatePicker mDatePicker;
+    
     @Override
-    protected void beforeAddViewHook(DatePicker datePicker) {        
+    protected void beforeAddViewHook(DatePicker datePicker) {     
+        mDatePicker = datePicker;
+        
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             // Honeycomb +
             findAndHideField(datePicker, "mDaySpinner");
@@ -31,5 +35,16 @@ public class YearQuestionFragment extends DateQuestionFragment {
         } catch (Exception e) {
             Log.e(TAG, "Error removing day or month field: " + e);
         }
+    }
+    
+    @Override
+    protected String serialize() {
+        return String.valueOf(mYear);
+    }
+
+    @Override
+    protected void deserialize(String responseText) {
+      if (responseText.equals("")) return;
+      mDatePicker.updateDate(Integer.parseInt(responseText), 1, 1);
     }
 }

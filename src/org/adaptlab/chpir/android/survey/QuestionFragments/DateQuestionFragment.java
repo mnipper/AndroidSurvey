@@ -6,14 +6,15 @@ import java.util.GregorianCalendar;
 import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
 
 public class DateQuestionFragment extends QuestionFragment {
-    private int mDay;
-    private int mMonth;
-    private int mYear;
+    protected int mDay;
+    protected int mMonth;
+    protected int mYear;
     
     private DatePicker mDatePicker;
     
@@ -56,5 +57,4 @@ public class DateQuestionFragment extends QuestionFragment {
             mDatePicker.updateDate(mYear, mMonth, mDay);
         }
     }
-
 }

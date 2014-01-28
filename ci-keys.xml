@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
+    <string name="crashlytics_api_key"></string>
+    <string name="backend_api_key"></string>
+    <string name="admin_password_hash"></string>
+</resources>

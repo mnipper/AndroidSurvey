@@ -1,6 +1,10 @@
 AndroidSurvey
 =============
+**Master**
 ![Build status](https://travis-ci.org/mnipper/AndroidSurvey.png?branch=master)
+
+**Develop**
+![Build status](https://travis-ci.org/mnipper/AndroidSurvey.png?branch=develop)
 
 A survey application for Android with a [rails backend](https://github.com/mnipper/rails_survey).  The Android app syncs instruments and survey results automatically when internet is detected on the Android device.  This application is being designed for conducting research-oriented surveys.  This application is being developed at Duke University in a joint effort between adaptlab and CHPIR.
 

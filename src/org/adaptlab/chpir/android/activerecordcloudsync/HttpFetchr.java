@@ -34,7 +34,7 @@ public class HttpFetchr {
         
         try {
             String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName
-                    + ActiveRecordCloudSync.accessTokenUrlParam();
+                    + ActiveRecordCloudSync.getParams();
             Log.i(TAG, "Attempting to access " + url);
             String jsonString = getUrl(url);
             Log.i(TAG, "Got JSON String: " + jsonString);

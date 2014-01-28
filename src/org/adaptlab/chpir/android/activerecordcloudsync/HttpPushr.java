@@ -46,7 +46,7 @@ public class HttpPushr {
                 try {
                     HttpPost post = new HttpPost(
                             ActiveRecordCloudSync.getEndPoint()
-                                    + mRemoteTableName + ActiveRecordCloudSync.accessTokenUrlParam());
+                                    + mRemoteTableName + ActiveRecordCloudSync.getParams());
                     StringEntity se = new StringEntity(element.toJSON()
                             .toString());
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,

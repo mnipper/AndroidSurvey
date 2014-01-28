@@ -20,7 +20,8 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -140,6 +141,7 @@ public class InstrumentFragment extends ListFragment {
         }
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
+        ActiveRecordCloudSync.setVersionCode(getVersionCode());
         ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
@@ -223,6 +225,19 @@ public class InstrumentFragment extends ListFragment {
                  getActivity().setProgressBarIndeterminateVisibility(false);
              } 
         }, 500); 
+    }
+    
+    /*
+     * Get the version code from the AndroidManifest
+     */
+    private int getVersionCode() {
+        try {
+            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (NameNotFoundException nnfe) {
+            Log.e(TAG, "Error finding version code: " + nnfe);
+        }
+        return -1;
     }
     
     /*

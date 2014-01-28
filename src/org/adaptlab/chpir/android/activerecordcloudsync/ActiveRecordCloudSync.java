@@ -17,6 +17,7 @@ public class ActiveRecordCloudSync {
     
     private static String mEndPoint;        // The remote API endpoint url
     private static String mAccessToken;     // API Access Key
+    private static int mVersionCode;        // App version code from Manifest
     
     /**
      * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
@@ -62,7 +63,18 @@ public class ActiveRecordCloudSync {
     }
     
     public static boolean isApiAvailable() {
-        return ping(getPingAddress(), 10000);
+        if (getPingAddress() == null) return true;
+        int responseCode = ping(getPingAddress(), 10000);
+        return (200 <= responseCode && responseCode < 500);
+    }
+
+    /*
+     * Check to see if this version of the application meets the
+     * minimum standard to interact with API.
+     */
+    public static boolean isVersionAcceptable() {
+        int responseCode = ping(getPingAddress(), 10000);
+        return responseCode != 426;  // Http Status Code 426 = upgrade required     
     }
     
     public static void setAccessToken(String token) {
@@ -73,8 +85,24 @@ public class ActiveRecordCloudSync {
         return mAccessToken;
     }
     
-    public static String accessTokenUrlParam() {
-        return "?access_token=" + getAccessToken();
+    public static void setVersionCode(int code) {
+        mVersionCode = code;
+    }
+    
+    /*
+     * Version code from AndroidManifest
+     */
+    public static int getVersionCode() {
+        return mVersionCode;
+    }
+    
+    /*
+     * Append to all api calls.
+     * Ensure that the access token is valid and the version code is up to date
+     * before allowing an update.
+     */
+    public static String getParams() {
+        return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode();
     }
     
     private static String getPingAddress() {
@@ -84,10 +112,9 @@ public class ActiveRecordCloudSync {
         return getEndPoint();
     }
 
-    private static boolean ping(String url, int timeout) {
-        if (url == null) return true;
+    private static int ping(String url, int timeout) {
         url = url.replaceFirst("https", "http");
-        url = url + accessTokenUrlParam();
+        url = url + getParams();
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(timeout);
@@ -95,9 +122,9 @@ public class ActiveRecordCloudSync {
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
             Log.i(TAG, "Received response code " + responseCode + " for api endpoint");
-            return (200 <= responseCode && responseCode <= 399);
+            return responseCode;
         } catch (IOException exception) {
-            return false;
+            return -1;
         }
     }
 }

@@ -45,6 +45,10 @@ public class PollService extends IntentService {
             Log.i(TAG,
                     "Api endpoint is not available, short circuiting PollService...");
             showNotification(android.R.drawable.ic_dialog_alert, R.string.api_unavailable);
+        } else if (!ActiveRecordCloudSync.isVersionAcceptable()) {
+            Log.i(TAG,
+                    "Android version code is not acceptable, short circuting PollService...");
+            showNotification(android.R.drawable.ic_dialog_alert, R.string.unacceptable_version_code);
         } else {
             lastUpdate = new Date();
             showNotification(android.R.drawable.stat_sys_download, R.string.sync_notification_text);

@@ -25,6 +25,7 @@
     <string name="sync_notification_complete_text">Syncing with server complete.</string>    
     <string name="network_unavailable">No network available on the device.</string> 
     <string name="api_unavailable">Remote api is not responsive.</string>   
+    <string name="unacceptable_version_code">You must upgrade your application before continuing.</string>   
     <string name="surveys">surveys</string>  
     <string name="hello">Hello World</string>
     <string name="questions">questions</string> 

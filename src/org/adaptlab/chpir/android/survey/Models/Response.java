@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.Date;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
@@ -29,6 +30,10 @@ public class Response extends SendModel {
 	private String mSpecialResponse;
 	@Column(name = "SentToRemote")
 	private boolean mSent;
+	@Column(name = "TimeStarted")
+	private Date mTimeStarted;
+	@Column(name = "TimeEnded")
+	private Date mTimeEnded;
 	
 	public Response() {
 		super();
@@ -73,6 +78,8 @@ public class Response extends SendModel {
             jsonObject.put("text", getText());
             jsonObject.put("other_response", getOtherResponse());
             jsonObject.put("special_response", getSpecialResponse());
+            jsonObject.put("time_started", getTimeStarted());
+            jsonObject.put("time_ended", getTimeEnded());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {
@@ -129,6 +136,22 @@ public class Response extends SendModel {
 	
 	public String getSpecialResponse() {
 		return mSpecialResponse;
+	}
+	
+	public void setTimeStarted(Date time) {
+		mTimeStarted = time;
+	}
+	
+	public Date getTimeStarted() {
+		return mTimeStarted;
+	}
+	
+	public void setTimeEnded(Date time) {
+		mTimeEnded = time;
+	}
+	
+	public Date getTimeEnded() {
+		return mTimeEnded;
 	}
     
     @Override

@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.Date;
+
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
@@ -53,8 +55,10 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
         }
+        
+        saveTimeStarted();
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
             Bundle savedInstanceState) {
@@ -136,12 +140,22 @@ public abstract class QuestionFragment extends Fragment {
     
     protected void saveResponse() {
         getResponse().setResponse(serialize());
+        saveTimeEnded();
         saveResponseWithValidation();
     }
     
     public void saveSpecialResponse(String response) {
     	getResponse().setSpecialResponse(response); 
+    	saveTimeEnded();
     	getResponse().save();
+    }
+    
+    private void saveTimeStarted() {
+    	getResponse().setTimeStarted(new Date());
+    }
+    
+    private void saveTimeEnded() {
+    	getResponse().setTimeEnded(new Date());
     }
     
     protected void questionIsSkipped() {

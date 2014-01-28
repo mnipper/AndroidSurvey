@@ -11,6 +11,10 @@ import android.widget.EditText;
 public class FreeResponseQuestionFragment extends QuestionFragment {
     private String mText = "";
     private EditText mFreeText;
+    
+    // This is used to restrict allowed input in subclasses.
+    protected void beforeAddViewHook(EditText editText) {
+    }
 
     @Override
 	public void createQuestionComponent(ViewGroup questionComponent) {
@@ -28,6 +32,7 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
+        beforeAddViewHook(mFreeText);
         questionComponent.addView(mFreeText);
     }
 

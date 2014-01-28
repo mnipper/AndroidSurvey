@@ -117,5 +117,11 @@ task beforeBuild(type: Copy) {
     }
 }
 
+task moveDummyKeys(type: Copy) {
+    from 'ci-keys.xml'
+    into '../AndroidSurvey/res/values'
+}
+
 preBuild.dependsOn beforeBuild
+preBuild.dependsOn moveDummyKeys
 check.dependsOn unitTest

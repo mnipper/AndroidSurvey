@@ -39,6 +39,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
@@ -132,7 +134,7 @@ public class InstrumentFragment extends ListFragment {
         
         Log.i(TAG, "Initializing application...");
         
-        //Crashlytics.start(getActivity());
+        Crashlytics.start(getActivity());
         
         DatabaseSeed.seed(getActivity());
 

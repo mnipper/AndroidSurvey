@@ -16,6 +16,10 @@ public class DateQuestionFragment extends QuestionFragment {
     private int mYear;
     
     private DatePicker mDatePicker;
+    
+    // This is used to hide various date fields in subclasses.
+    protected void beforeAddViewHook(DatePicker datePicker) {
+    }
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
@@ -34,6 +38,7 @@ public class DateQuestionFragment extends QuestionFragment {
             }           
         });
         questionComponent.addView(mDatePicker);
+        beforeAddViewHook(mDatePicker);
     }
 
     @Override

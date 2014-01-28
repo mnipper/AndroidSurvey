@@ -28,6 +28,8 @@ public class Option extends ReceiveModel {
     private String mNextQuestion;
     @Column(name = "NumberInQuestion")
     private int mNumberInQuestion;
+    @Column(name = "InstrumentVersion")
+    private int mInstrumentVersion;
 
     public Option() {
         super();
@@ -94,6 +96,7 @@ public class Option extends ReceiveModel {
             option.setRemoteId(remoteId);
             option.setNextQuestion(jsonObject.getString("next_question"));
             option.setNumberInQuestion(jsonObject.getInt("number_in_question"));
+            option.setInstrumentVersion(jsonObject.getInt("instrument_version"));
             option.save();
             
             // Generate translations
@@ -171,7 +174,15 @@ public class Option extends ReceiveModel {
         return mNumberInQuestion;
     }
     
+    public int getInstrumentVersion() {
+        return mInstrumentVersion;
+    }
+    
     private void setNumberInQuestion(int number) {
         mNumberInQuestion = number;
+    }
+    
+    private void setInstrumentVersion(int version) {
+        mInstrumentVersion = version;
     }
 }

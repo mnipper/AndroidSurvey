@@ -267,7 +267,7 @@ public class Question extends ReceiveModel {
 
     public List<Option> options() {
         return new Select().from(Option.class)
-                .where("Question = ?", getId())
+                .where("Question = ? AND InstrumentVersion = ?", getId(), getInstrumentVersion())
                 .orderBy("NumberInQuestion ASC")
                 .execute();
     }

@@ -101,12 +101,7 @@ public class SurveyFragment extends Fragment {
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
-        	tagQuestionAsSkipped();
-        	if (isLastQuestion()) {
-        		finishSurvey();
-        	} else {
-        		moveToNextQuestion();
-        	}
+        	skipQuestion();
         	return true;
         case R.id.menu_item_finish:
             finishSurvey();
@@ -116,8 +111,14 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    private void tagQuestionAsSkipped() {
-    	mQuestionFragment.questionIsSkipped();
+    private void skipQuestion() {
+        mQuestionFragment.questionIsSkipped();
+        
+        if (isLastQuestion()) {
+            finishSurvey();
+        } else {
+            moveToNextQuestion();
+        }
 	}
 
 	@Override

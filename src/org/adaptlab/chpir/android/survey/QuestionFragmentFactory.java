@@ -11,6 +11,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionF
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.MonthAndYearQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.PhoneNumberQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
@@ -72,6 +73,8 @@ public class QuestionFragmentFactory {
             fragment = new MonthAndYearQuestionFragment();
         } else if (Question.QuestionType.YEAR.toString().equals(type)) {
             fragment = new YearQuestionFragment();
+        } else if (Question.QuestionType.PHONE_NUMBER.toString().equals(type)) {
+            fragment = new PhoneNumberQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

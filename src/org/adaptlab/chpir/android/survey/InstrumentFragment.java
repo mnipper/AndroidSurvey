@@ -70,7 +70,7 @@ public class InstrumentFragment extends ListFragment {
             displayPasswordPrompt();
             return true;
         case R.id.menu_item_refresh:
-            refreshInstrumentList();
+            new RefreshInstrumentsTask().execute();
             return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -214,22 +214,6 @@ public class InstrumentFragment extends ListFragment {
     }
     
     /*
-     * Reset the instrument list adapter.
-     * Force a loading animation to give the user a hint that something actually happened.
-     */
-    private void refreshInstrumentList() {
-        getActivity().setProgressBarIndeterminateVisibility(true);
-        setListAdapter(null);
-        Handler handler = new Handler(); 
-        handler.postDelayed(new Runnable() { 
-             public void run() { 
-                 setListAdapter(new InstrumentAdapter(Instrument.getAll()));
-                 getActivity().setProgressBarIndeterminateVisibility(false);
-             } 
-        }, 500); 
-    }
-    
-    /*
      * Get the version code from the AndroidManifest
      */
     private int getVersionCode() {
@@ -240,6 +224,30 @@ public class InstrumentFragment extends ListFragment {
             Log.e(TAG, "Error finding version code: " + nnfe);
         }
         return -1;
+    }
+    
+    /*
+     * Refresh the receive tables from the server
+     */
+    private class RefreshInstrumentsTask extends AsyncTask<Void, Void, Void> {
+        
+        @Override
+        protected void onPreExecute() {
+            getActivity().setProgressBarIndeterminateVisibility(true);
+            setListAdapter(null);            
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ActiveRecordCloudSync.syncReceiveTables();
+            return null;
+        }
+        
+        @Override
+        protected void onPostExecute(Void param) {
+            setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+            getActivity().setProgressBarIndeterminateVisibility(false);            
+        }        
     }
     
     /*

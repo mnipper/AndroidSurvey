@@ -110,16 +110,6 @@ public class SurveyFragment extends Fragment {
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    private void skipQuestion() {
-        mQuestionFragment.questionIsSkipped();
-        
-        if (isLastQuestion()) {
-            finishSurvey();
-        } else {
-            moveToNextQuestion();
-        }
-	}
 
 	@Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -313,6 +303,16 @@ public class SurveyFragment extends Fragment {
         }
     }
     
+    private void skipQuestion() {
+        mQuestionFragment.questionIsSkipped();
+        
+        if (isLastQuestion()) {
+            finishSurvey();
+        } else {
+            moveToNextQuestion();
+        }
+    }
+            
     private void updateQuestionCountLabel() {    	
         int numberQuestions = mInstrument.questions().size();
         

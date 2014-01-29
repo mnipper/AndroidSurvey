@@ -19,6 +19,7 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
     @Override
 	public void createQuestionComponent(ViewGroup questionComponent) {
         mFreeText = new EditText(getActivity());
+        beforeAddViewHook(mFreeText);
         mFreeText.setHint(R.string.free_response_edittext);
         mFreeText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
@@ -32,7 +33,6 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
                     int count, int after) { }
             public void afterTextChanged(Editable s) { }
         });
-        beforeAddViewHook(mFreeText);
         questionComponent.addView(mFreeText);
     }
 

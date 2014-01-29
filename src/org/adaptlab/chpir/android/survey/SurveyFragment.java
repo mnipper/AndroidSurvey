@@ -2,9 +2,11 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -248,12 +250,15 @@ public class SurveyFragment extends Fragment {
 
     /*
     * Destroy this activity, and save the survey and mark it as
-    * complete.
+    * complete.  Send to server is network is available.
     */
     public void finishSurvey() {
         getActivity().finish();
         mSurvey.setAsComplete();
         mSurvey.save();
+        if (PollService.isNetworkAvailable(getActivity())) {
+            new SendResponsesTask().execute();
+        }
     }
     
     /*

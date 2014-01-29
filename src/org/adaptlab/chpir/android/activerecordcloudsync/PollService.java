@@ -29,15 +29,16 @@ public class PollService extends IntentService {
         super(TAG);
         sPollInterval = DEFAULT_POLL_INTERVAL;
     }
+    
+    @SuppressWarnings("deprecation")
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getBackgroundDataSetting() && cm.getActiveNetworkInfo() != null;
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        @SuppressWarnings("deprecation")
-        boolean isNetworkAvailable = cm.getBackgroundDataSetting()
-                && cm.getActiveNetworkInfo() != null;
-
-        if (!isNetworkAvailable) {
+        if (!isNetworkAvailable(getApplicationContext())) {
             Log.i(TAG,
                     "Network is not available, short circuiting PollService...");
             showNotification(android.R.drawable.ic_dialog_alert, R.string.network_unavailable);

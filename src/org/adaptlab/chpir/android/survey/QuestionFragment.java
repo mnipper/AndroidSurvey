@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.activeandroid.Model;
 
 public abstract class QuestionFragment extends Fragment {
+    private static final String TAG = "QuestionFragment";
     protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
@@ -133,9 +135,13 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             animateValidationTextView(false);
         }
-                
+
         // Refresh options menu to reflect response validation status.
-        ActivityCompat.invalidateOptionsMenu(getActivity());
+        try {
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        } catch (NullPointerException npe) {
+            Log.e(TAG, "Options menu is null");
+        }
     }
     
     protected void saveResponse() {

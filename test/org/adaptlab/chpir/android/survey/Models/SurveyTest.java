@@ -137,10 +137,4 @@ public class SurveyTest {
 		setUpJson();
 		assertNotNull(json2.getString("uuid"));
 	}
-	
-   @Test
-    public void shouldHaveJsonStringInstrumentTitle() throws Exception {
-        setUpJson();
-        assertEquals(DEVICE_ID, json2.getString("instrument_title"));
-    }
 }

@@ -56,6 +56,8 @@ public class HttpFetchr {
             Log.e(TAG, "Failed to instantiate receive table", ie);
         } catch (IllegalAccessException iae) {
             Log.e(TAG, "Failed to access receive table", iae);
+        } catch (NullPointerException npe) {
+            Log.e(TAG, "Url is null", npe);
         }
     }
     

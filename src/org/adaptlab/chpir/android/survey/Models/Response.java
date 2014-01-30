@@ -80,6 +80,7 @@ public class Response extends SendModel {
             jsonObject.put("special_response", getSpecialResponse());
             jsonObject.put("time_started", getTimeStarted());
             jsonObject.put("time_ended", getTimeEnded());
+            jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {

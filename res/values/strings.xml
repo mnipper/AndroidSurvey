@@ -47,14 +47,6 @@
     <string name="and">and</string>
     <string name="comma">,</string>
     <string name="space">" "</string>
-    <!-- location services strings -->
-    <string name="latitude_longitude">%1$.8f, %2$.8f</string>
-    <string name="connected">Client connected</string>
-    <string name="location_requested">Periodic updates requested</string>
-    <string name="disconnected">Client disconnected</string>
-    <string name="location_updates_stopped">Periodic updates stopped</string>
-    <string name="location_updated">Location updated</string>
-    <string name="play_services_available">Google Play services is available</string>
     <string name="gps_enabled">GPS Enabled</string>
     <string name="gps_disabled">GPS Disabled</string>
 </resources>

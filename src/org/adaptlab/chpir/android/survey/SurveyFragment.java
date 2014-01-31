@@ -3,12 +3,13 @@ package org.adaptlab.chpir.android.survey;
 import java.util.ArrayList;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
-import org.adaptlab.chpir.android.survey.Location.LocationService;
+import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,7 @@ public class SurveyFragment extends Fragment {
     private TextView mQuestionIndex;
     private ProgressBar mProgressBar;
     QuestionFragment mQuestionFragment;
+    private LocationServiceManager mLocationServiceManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,8 +78,25 @@ public class SurveyFragment extends Fragment {
             mQuestionNumber = 0;
             mPreviousQuestions = new ArrayList<Integer>();
         }
-        
-        getUserLocation();
+        startLocationServices();
+    }
+    
+    private void startLocationServices() {
+    	mLocationServiceManager = LocationServiceManager.get(getActivity());
+        mLocationServiceManager.startLocationUpdates();
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().registerReceiver(mLocationServiceManager.mLocationReceiver, 
+                new IntentFilter(LocationServiceManager.ACTION_LOCATION));
+    }
+    
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(mLocationServiceManager.mLocationReceiver);
+        super.onStop();
     }
 
 	@Override
@@ -256,12 +275,18 @@ public class SurveyFragment extends Fragment {
     * complete.  Send to server is network is available.
     */
     public void finishSurvey() {
+    	setSurveyLocation();
         getActivity().finish();
         mSurvey.setAsComplete();
         mSurvey.save();
         if (PollService.isNetworkAvailable(getActivity())) {
             new SendResponsesTask().execute();
         }
+    }
+    
+    private void setSurveyLocation() {
+    	mSurvey.setLatitude(mLocationServiceManager.getLatitude());
+    	mSurvey.setLongitude(mLocationServiceManager.getLongitude());
     }
     
     /*
@@ -330,10 +355,4 @@ public class SurveyFragment extends Fragment {
         ActivityCompat.invalidateOptionsMenu(getActivity());
     }
     
-    private void getUserLocation() {
-    	LocationService location = new LocationService((SurveyActivity) this.getActivity());
-    	location.start();
-    	String loc = location.getLocation();
-    	Log.i("LOCATION", loc);
-    }
 }

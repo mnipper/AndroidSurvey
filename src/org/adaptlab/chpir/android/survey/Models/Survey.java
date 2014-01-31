@@ -25,6 +25,10 @@ public class Survey extends SendModel {
     private boolean mSent;
     @Column(name = "Complete")
     private boolean mComplete;
+    @Column(name = "Latitude")
+    private String mLatitude;
+    @Column(name= "Longitude")
+    private String mLongitude;
 
     public Survey() {
         super();
@@ -44,6 +48,8 @@ public class Survey extends SendModel {
             jsonObject.put("device_uuid", getAdminInstanceDeviceIdentifier());
             jsonObject.put("uuid", mUUID);
             jsonObject.put("instrument_title", getInstrument().getTitle());
+            jsonObject.put("latitude", mLatitude);
+            jsonObject.put("longitude", mLongitude);
             
             json.put("survey", jsonObject);
         } catch (JSONException je) {
@@ -109,5 +115,21 @@ public class Survey extends SendModel {
     @Override
     public boolean readyToSend() {
         return mComplete;
+    }
+    
+    public void setLatitude(String latitude) {
+    	mLatitude = latitude;
+    }
+    
+    public String getLatitude() {
+    	return mLatitude;
+    }
+    
+    public void setLongitude(String longitude) {
+    	mLongitude = longitude;
+    }
+    
+    public String getLongitude() {
+    	return mLongitude;
     }
 }

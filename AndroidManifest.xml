@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:required="true" android:name="android.hardware.location.gps"/>
 
     <application
         android:allowBackup="true"
@@ -48,10 +49,16 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".LocationReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="org.adaptlab.chpir.android.survey.Location.ACTION_LOCATION"/>
+            </intent-filter>
+        </receiver>
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="9" />    
+        <meta-data android:name="AA_DB_VERSION" android:value="10" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>
+        <!-- <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" /> -->
     </application>
 
 </manifest>

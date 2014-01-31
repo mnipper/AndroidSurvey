@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import java.util.ArrayList;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
+import org.adaptlab.chpir.android.survey.Location.LocationService;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
@@ -75,6 +76,8 @@ public class SurveyFragment extends Fragment {
             mQuestionNumber = 0;
             mPreviousQuestions = new ArrayList<Integer>();
         }
+        
+        getUserLocation();
     }
 
 	@Override
@@ -325,5 +328,12 @@ public class SurveyFragment extends Fragment {
         mProgressBar.setProgress((int) (100 * (mQuestionNumber + 1) / (float) numberQuestions));
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
+    }
+    
+    private void getUserLocation() {
+    	LocationService location = new LocationService((SurveyActivity) this.getActivity());
+    	location.start();
+    	String loc = location.getLocation();
+    	Log.i("LOCATION", loc);
     }
 }

@@ -20,6 +20,7 @@ public class AdminFragment extends Fragment {
     private EditText mApiEndPointEditText;
     private EditText mCustomLocaleEditText;
     private TextView mLastUpdateTextView;
+    private TextView mBackendApiKeyTextView;
     private Button mSaveButton;
 
     @Override
@@ -48,7 +49,10 @@ public class AdminFragment extends Fragment {
         
         mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
         mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + getLastUpdateTime());
-
+        
+        mBackendApiKeyTextView = (TextView) v.findViewById(R.id.backend_api_key_label);
+        mBackendApiKeyTextView.setText(getString(R.string.api_key_label) + getString(R.string.backend_api_key));
+        
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

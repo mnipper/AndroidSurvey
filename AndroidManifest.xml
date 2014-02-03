@@ -54,6 +54,7 @@
                 <action android:name="org.adaptlab.chpir.android.survey.Location.ACTION_LOCATION"/>
             </intent-filter>
         </receiver>
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.NotificationReceiver" />
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="10" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 

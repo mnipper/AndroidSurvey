@@ -66,6 +66,7 @@ public class SurveyFragment extends Fragment {
             if (instrumentId == -1) return;
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
+            if (mInstrument == null) return;
             
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);

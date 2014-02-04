@@ -15,9 +15,11 @@ public class SurveyLaunchReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Long instrumentId = intent.getLongExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, -1);
         Log.i(TAG, "Received broadcast to launch survey for instrument with remote id " + instrumentId);
-        Intent i = new Intent(context, SurveyActivity.class);
-        i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+        if (instrumentId > -1) {
+            Intent i = new Intent(context, SurveyActivity.class);
+            i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }
     }
 }

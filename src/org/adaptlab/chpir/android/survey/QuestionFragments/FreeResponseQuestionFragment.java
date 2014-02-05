@@ -6,7 +6,6 @@ import org.adaptlab.chpir.android.survey.R;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
 

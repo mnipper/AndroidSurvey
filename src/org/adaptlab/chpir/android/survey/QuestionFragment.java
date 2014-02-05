@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -101,7 +102,8 @@ public abstract class QuestionFragment extends Fragment {
      */
     public void addOtherResponseView(EditText otherText) {
         otherText.setHint(R.string.other_specify_edittext);
-        otherText.setEnabled(false);        
+        otherText.setEnabled(false);  
+        otherText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         otherText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
                     int count) { 

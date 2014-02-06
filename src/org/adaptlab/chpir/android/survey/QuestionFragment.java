@@ -139,10 +139,8 @@ public abstract class QuestionFragment extends Fragment {
         }
 
         // Refresh options menu to reflect response validation status.
-        try {
+        if (isAdded()) {
             ActivityCompat.invalidateOptionsMenu(getActivity());
-        } catch (NullPointerException npe) {
-            Log.e(TAG, "Options menu is null");
         }
     }
     

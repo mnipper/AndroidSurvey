@@ -27,7 +27,7 @@ public class Question extends ReceiveModel {
         FRONT_PICTURE, REAR_PICTURE, DATE, RATING, TIME,
         LIST_OF_TEXT_BOXES, INTEGER, EMAIL_ADDRESS,
         DECIMAL_NUMBER, INSTRUCTIONS, MONTH_AND_YEAR, YEAR,
-        PHONE_NUMBER;
+        PHONE_NUMBER, ADDRESS;
     }
 
     @Column(name = "Text")

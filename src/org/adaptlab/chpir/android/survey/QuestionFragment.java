@@ -159,7 +159,10 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     private void saveTimeStarted() {
-    	getResponse().setTimeStarted(new Date());
+    	if (getResponse().getTimeStarted() == null) {
+    		getResponse().setTimeStarted(new Date());
+    		getResponse().save();
+    	}
     }
     
     private void saveTimeEnded() {

@@ -6,6 +6,6 @@ import android.widget.EditText;
 public class EmailAddressQuestionFragment extends FreeResponseQuestionFragment {
     
     protected void beforeAddViewHook(EditText editText) {
-        editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
     }
 }

@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey;
 
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.QuestionFragments.AddressQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.DateQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.DecimalNumberQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.EmailAddressQuestionFragment;
@@ -75,6 +76,8 @@ public class QuestionFragmentFactory {
             fragment = new YearQuestionFragment();
         } else if (Question.QuestionType.PHONE_NUMBER.toString().equals(type)) {
             fragment = new PhoneNumberQuestionFragment();
+        } else if (Question.QuestionType.ADDRESS.toString().equals(type)) {
+            fragment = new AddressQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

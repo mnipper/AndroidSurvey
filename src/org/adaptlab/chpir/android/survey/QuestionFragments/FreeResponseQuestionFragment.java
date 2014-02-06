@@ -4,6 +4,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,11 +20,12 @@ public class FreeResponseQuestionFragment extends QuestionFragment {
     @Override
 	public void createQuestionComponent(ViewGroup questionComponent) {
         mFreeText = new EditText(getActivity());
+        mFreeText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         beforeAddViewHook(mFreeText);
         mFreeText.setHint(R.string.free_response_edittext);
         mFreeText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before,
-                    int count) { 
+                    int count) {
                 mText = s.toString();
                 saveResponse();
             }

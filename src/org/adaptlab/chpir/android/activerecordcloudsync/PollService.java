@@ -103,15 +103,12 @@ public class PollService extends IntentService {
 
     private void showNotification(int iconId, int textId) {
         Resources r = getResources();
-        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this,
-                InstrumentActivity.class), 0);
 
         Notification notification = new NotificationCompat.Builder(this)
             .setTicker(r.getString(R.string.app_name))
             .setSmallIcon(iconId)
             .setContentTitle(r.getString(R.string.app_name))
             .setContentText(r.getString(textId))
-            .setContentIntent(pi)
             .setAutoCancel(true)
             .build();
         

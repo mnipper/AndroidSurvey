@@ -244,8 +244,10 @@ public class InstrumentFragment extends ListFragment {
         
         @Override
         protected void onPostExecute(Void param) {
-            setListAdapter(new InstrumentAdapter(Instrument.getAll()));
-            getActivity().setProgressBarIndeterminateVisibility(false);            
+            if (isAdded()) {
+                setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                getActivity().setProgressBarIndeterminateVisibility(false);    
+            }
         }        
     }
     

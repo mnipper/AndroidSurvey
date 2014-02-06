@@ -139,10 +139,8 @@ public abstract class QuestionFragment extends Fragment {
         }
 
         // Refresh options menu to reflect response validation status.
-        try {
+        if (isAdded()) {
             ActivityCompat.invalidateOptionsMenu(getActivity());
-        } catch (NullPointerException npe) {
-            Log.e(TAG, "Options menu is null");
         }
     }
     
@@ -159,7 +157,10 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     private void saveTimeStarted() {
-    	getResponse().setTimeStarted(new Date());
+    	if (getResponse().getTimeStarted() == null) {
+    		getResponse().setTimeStarted(new Date());
+    		getResponse().save();
+    	}
     }
     
     private void saveTimeEnded() {

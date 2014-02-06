@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 
@@ -26,6 +27,11 @@ public class AddressQuestionFragmentTest extends QuestionFragmentBaseTest {
 		doNothing().when(mFragment).init();
 		setBundleArgs(mFragment);
 		startFragment(mActivity, mFragment);
+	}
+	
+	@Test
+	public void shouldNotBeNull() throws Exception {
+		assertNotNull(mFragment);
 	}
 
 	@Test

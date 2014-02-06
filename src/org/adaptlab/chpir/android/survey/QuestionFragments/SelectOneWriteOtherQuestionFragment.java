@@ -28,6 +28,9 @@ public class SelectOneWriteOtherQuestionFragment extends
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 otherText.setEnabled(checkedId == otherId);
                 setResponseIndex(checkedId);
+                if (checkedId != otherId) {
+                    otherText.getText().clear();
+                }
             }
         });
         getRadioGroup().addView(radioButton, otherId);

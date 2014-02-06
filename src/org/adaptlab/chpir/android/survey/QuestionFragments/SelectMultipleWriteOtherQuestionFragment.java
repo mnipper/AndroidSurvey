@@ -21,8 +21,9 @@ public class SelectMultipleWriteOtherQuestionFragment extends
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 otherText.setEnabled(isChecked);
-                if (isChecked) {
-                    toggleResponseIndex(otherId);
+                toggleResponseIndex(otherId);
+                if (!isChecked) {
+                    otherText.getText().clear();
                 }
             }
          });

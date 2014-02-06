@@ -142,7 +142,11 @@ public class Question extends ReceiveModel {
      */
     public String getFollowingUpText(Survey survey, Context context) {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
-        if (followUpResponse == null || followUpResponse.getSpecialResponse().equals(Response.SKIPPED)) return null;
+        if (followUpResponse == null ||
+                followUpResponse.getText().equals("") ||
+                followUpResponse.getSpecialResponse().equals(Response.SKIPPED)) {
+            return null;
+        }
         
         if (followUpWithOptionText()) {
             return getText().replaceAll(

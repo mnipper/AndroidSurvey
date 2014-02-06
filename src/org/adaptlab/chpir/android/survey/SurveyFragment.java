@@ -10,6 +10,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.content.IntentFilter;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -176,7 +178,7 @@ public class SurveyFragment extends Fragment {
      * Place the question fragment for the corresponding mQuestion
      * on the view in the question_container.
      */
-	protected void createQuestionFragment() {
+	protected void createQuestionFragment() {        
         FragmentManager fm = getChildFragmentManager();       
         mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
 
@@ -186,10 +188,25 @@ public class SurveyFragment extends Fragment {
                 .add(R.id.question_container, mQuestionFragment)
                 .commit();
         } else {
-            // Replace the question fragment if it already exist
+            // Replace the question fragment if it already exist            
             fm.beginTransaction()
                 .replace(R.id.question_container, mQuestionFragment)
                 .commit();            
+        }
+        
+        removeTextFocus();
+	}
+	
+	/*
+	 * This will remove the focus of the input as the survey is
+	 * traversed.  If this is not called, then it will be possible
+	 * for someone to change the answer to a question that they are
+	 * not currently viewing.
+	 */
+	private void removeTextFocus() {
+        if (getActivity().getCurrentFocus() != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE); 
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
 	}
     

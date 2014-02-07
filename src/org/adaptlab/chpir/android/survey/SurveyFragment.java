@@ -103,6 +103,7 @@ public class SurveyFragment extends Fragment {
             moveToPreviousQuestion();
             return true;
         case R.id.menu_item_next:
+        	mQuestionFragment.unDoSkip();
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:

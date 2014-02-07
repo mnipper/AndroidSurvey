@@ -171,6 +171,10 @@ public abstract class QuestionFragment extends Fragment {
     	saveSpecialResponse(Response.SKIPPED);
     }
     
+    protected void unDoSkip() {
+    	saveSpecialResponse("");
+    }
+    
     private Response loadOrCreateResponse() {
         if (mSurvey.getResponseByQuestion(getQuestion()) != null) {
             return mSurvey.getResponseByQuestion(getQuestion());

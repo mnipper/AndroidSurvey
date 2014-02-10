@@ -71,6 +71,10 @@ public class Survey extends SendModel {
                 question.getId(),
                 getId()).executeSingle();
     }
+    
+    public static List<Survey> getAll() {
+        return new Select().from(Survey.class).orderBy("Id ASC").execute();
+    }
 
     
     /*

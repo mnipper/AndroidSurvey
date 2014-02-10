@@ -14,6 +14,8 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.admin.DevicePolicyManager;
@@ -32,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -45,6 +48,8 @@ public class InstrumentFragment extends ListFragment {
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
     private String ADMIN_PASSWORD_HASH;
     private String ACCESS_TOKEN;
+    
+    public static boolean SHOW_SURVEY_LIST = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,8 @@ public class InstrumentFragment extends ListFragment {
         setHasOptionsMenu(true);
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));
         ADMIN_PASSWORD_HASH = getActivity().getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = getActivity().getResources().getString(R.string.backend_api_key);       
+        ACCESS_TOKEN = getActivity().getResources().getString(R.string.backend_api_key);  
+        createTabs();
         appInit();
     }
 
@@ -80,6 +86,30 @@ public class InstrumentFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         ((InstrumentAdapter) getListAdapter()).notifyDataSetChanged();
+    }
+    
+    public void createTabs() {
+        if (SHOW_SURVEY_LIST) {
+            final ActionBar actionBar = getActivity().getActionBar();     
+            ActionBar.TabListener tabListener = new ActionBar.TabListener() {    
+                @Override
+                public void onTabSelected(Tab tab,
+                        android.app.FragmentTransaction ft) {
+                    if (tab.getText().equals(getActivity().getResources().getString(R.string.surveys))) {
+                        // SET SURVEY ADAPTER
+                    } else {
+                        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                    }
+                }
+    
+                // Required by interface
+                public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) { }
+                public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) { }
+            };
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.instruments)).setTabListener(tabListener));
+            actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.surveys)).setTabListener(tabListener));
+        }
     }
 
     private class InstrumentAdapter extends ArrayAdapter<Instrument> {

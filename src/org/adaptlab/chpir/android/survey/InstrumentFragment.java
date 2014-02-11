@@ -1,30 +1,18 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
-import org.adaptlab.chpir.android.survey.Models.Option;
-import org.adaptlab.chpir.android.survey.Models.Question;
-import org.adaptlab.chpir.android.survey.Models.Response;
-import org.adaptlab.chpir.android.survey.Models.Survey;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,22 +24,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
-    private String ADMIN_PASSWORD_HASH;
-    private String ACCESS_TOKEN;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
-        ADMIN_PASSWORD_HASH = getActivity().getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = getActivity().getResources().getString(R.string.backend_api_key);       
-        appInit();
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));  
+        if (REQUIRE_SECURITY_CHECKS) {
+            if (!AppUtil.runDeviceSecurityChecks(getActivity())) {
+                // Device has failed security checks                
+                return;
+            }
+        }
+        
+        AppUtil.appInit(getActivity());
     }
 
     @Override
@@ -119,65 +109,7 @@ public class InstrumentFragment extends ListFragment {
         
         new LoadInstrumentTask().execute(instrument);
     }
-
-    private final void appInit() {
-        if (REQUIRE_SECURITY_CHECKS) {
-            if (!runDeviceSecurityChecks()) {
-                // Device has failed security checks
-                
-                return;
-            }
-        }
-        
-        Log.i(TAG, "Initializing application...");
-        
-        Crashlytics.start(getActivity());
-        
-        DatabaseSeed.seed(getActivity());
-
-        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
-            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
-        }
-
-        ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
-        ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(getActivity()));
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
-        ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
-        ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
-        ActiveRecordCloudSync.addReceiveTable("options", Option.class);
-        ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
-        ActiveRecordCloudSync.addSendTable("responses", Response.class);
-
-        PollService.setServiceAlarm(getActivity().getApplicationContext(), true);
-    }
-
-    /*
-     * Security checks that must pass for the application to start.
-     * 
-     * If the application fails any security checks, display
-     * AlertDialog indicating why and immediately stop execution
-     * of the application.
-     * 
-     * Current security checks: require encryption
-     */
-    private final boolean runDeviceSecurityChecks() {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getActivity()
-                .getSystemService(Context.DEVICE_POLICY_SERVICE);
-        if (devicePolicyManager.getStorageEncryptionStatus() != DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE) {
-            new AlertDialog.Builder(getActivity())
-            .setTitle(R.string.encryption_required_title)
-            .setMessage(R.string.encryption_required_text)
-            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
-                    getActivity().finish();
-                }
-             })
-             .show();
-            return false;
-        }
-        return true;
-    }
-    
+   
     /*
      * Only display admin area if correct password.
      */
@@ -190,7 +122,7 @@ public class InstrumentFragment extends ListFragment {
             .setView(input)
             .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
                 public void onClick(DialogInterface dialog, int button) {
-                    if (checkAdminPassword(input.getText().toString())) {
+                    if (AppUtil.checkAdminPassword(input.getText().toString())) {
                         Intent i = new Intent(getActivity(), AdminActivity.class);
                         startActivity(i);
                     } else {
@@ -200,14 +132,6 @@ public class InstrumentFragment extends ListFragment {
             }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int button) { }
             }).show();
-    }
-    
-    /*
-     * Hash the entered password and compare it with admin password hash
-     */
-    private boolean checkAdminPassword(String password) {
-        String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
-        return hash.equals(ADMIN_PASSWORD_HASH);
     }
     
     /*

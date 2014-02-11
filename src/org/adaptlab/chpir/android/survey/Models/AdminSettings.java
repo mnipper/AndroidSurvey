@@ -18,6 +18,10 @@ public class AdminSettings extends Model {
     private String mApiUrl;
     @Column(name = "CustomLocaleCode")
     private String mCustomLocaleCode;
+    @Column(name = "ShowSurveys")
+    private boolean mShowSurveys;
+    @Column(name = "SurveyIdentifierQuestionId")
+    private Long mSurveyIdentifierQuestionId;
     
     private static AdminSettings adminSettings;
     
@@ -45,6 +49,7 @@ public class AdminSettings extends Model {
      */
     public AdminSettings() {
         super();
+        mShowSurveys = false;
     }
     
     public void setDeviceIdentifier(String id) {
@@ -98,5 +103,26 @@ public class AdminSettings extends Model {
     public String getCustomLocaleCode() {
         return mCustomLocaleCode;
     }
-
+    
+    public void setShowSurveys(boolean showSurveys) {
+        mShowSurveys = showSurveys;
+        save();
+    }
+    
+    public boolean getShowSurveys() {
+        return mShowSurveys;
+    }
+    
+    /*
+     * If set, this response to this question will be the label
+     * for the survey in the survey list.
+     */
+    public void setSurveyIdentifierQuestionId(Long questionId) {
+        mSurveyIdentifierQuestionId = questionId;
+        save();
+    }
+    
+    public Long getSurveyIdentifierQuestionId() {
+        return mSurveyIdentifierQuestionId;
+    }
 }

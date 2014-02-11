@@ -71,6 +71,27 @@
 		        android:layout_height="wrap_content"
 		        android:ems="10" />
 		    
+		              
+            <CheckBox android:id="@+id/show_surveys_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_surveys"
+                android:layout_marginTop="30dp" />
+            
+            <TextView
+                android:id="@+id/survey_identifier_question_id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/survey_identifier_question_id"
+                android:layout_marginTop="12dp" />
+        
+            <EditText
+                android:id="@+id/survey_identifier_question_id_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+		    
 		    <TextView
 		        android:id="@+id/last_update_label"
 		        android:layout_width="wrap_content"
@@ -86,6 +107,8 @@
                 android:text="@string/api_key_label"
                 android:layout_marginTop="5dp"
                 android:textStyle="bold" />
+            
+
 		
 		    <LinearLayout
 		        android:layout_width="match_parent"

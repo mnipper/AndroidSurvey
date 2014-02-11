@@ -164,6 +164,10 @@ public class Response extends SendModel {
     public void setAsSent() {
         mSent = true;
         this.delete(); // Delete from device after successful send
+        if (mSurvey.responses().size() == 0) {
+            mSurvey.delete();
+        }
+        
         Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     

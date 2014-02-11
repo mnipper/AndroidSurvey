@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,8 +49,6 @@ public class InstrumentFragment extends ListFragment {
     private final static boolean REQUIRE_SECURITY_CHECKS = false;
     private String ADMIN_PASSWORD_HASH;
     private String ACCESS_TOKEN;
-    
-    public static boolean SHOW_SURVEY_LIST = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,18 +84,20 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((InstrumentAdapter) getListAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+        createTabs();
     }
     
     public void createTabs() {
-        if (SHOW_SURVEY_LIST) {
+        if (AdminSettings.getInstance().getShowSurveys()) {
             final ActionBar actionBar = getActivity().getActionBar();     
             ActionBar.TabListener tabListener = new ActionBar.TabListener() {    
                 @Override
                 public void onTabSelected(Tab tab,
                         android.app.FragmentTransaction ft) {
                     if (tab.getText().equals(getActivity().getResources().getString(R.string.surveys))) {
-                        // SET SURVEY ADAPTER
+                        if (!Survey.getAll().isEmpty())
+                            setListAdapter(new SurveyAdapter(Survey.getAll()));
                     } else {
                         setListAdapter(new InstrumentAdapter(Instrument.getAll()));
                     }
@@ -107,6 +108,7 @@ public class InstrumentFragment extends ListFragment {
                 public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) { }
             };
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.removeAllTabs();
             actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.instruments)).setTabListener(tabListener));
             actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.surveys)).setTabListener(tabListener));
         }
@@ -141,15 +143,47 @@ public class InstrumentFragment extends ListFragment {
             return convertView;
         }
     }
+    
+    private class SurveyAdapter extends ArrayAdapter<Survey> {
+        public SurveyAdapter(List<Survey> surveys) {
+            super(getActivity(), 0, surveys);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater().inflate(
+                        R.layout.list_item_instrument, null);
+            }
+
+            Survey survey = getItem(position);
+
+            TextView titleTextView = (TextView) convertView
+                    .findViewById(R.id.instrument_list_item_titleTextView);
+            titleTextView.setText(survey.getUUID());
+            titleTextView.setTypeface(survey.getInstrument().getTypeFace(getActivity().getApplicationContext()));
+
+            TextView questionCountTextView = (TextView) convertView
+                    .findViewById(R.id.instrument_list_item_questionCountTextView);
+            
+            questionCountTextView.setText(survey.getInstrument().getTitle());
+
+            return convertView;
+        }
+    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
-        if (instrument == null) {
-            return;
+        if (l.getAdapter() instanceof InstrumentAdapter) {
+            Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
+            if (instrument == null) {
+                return;
+            }
+            
+            new LoadInstrumentTask().execute(instrument);
+        } else if (l.getAdapter() instanceof SurveyAdapter) {
+            
         }
-        
-        new LoadInstrumentTask().execute(instrument);
     }
 
     private final void appInit() {

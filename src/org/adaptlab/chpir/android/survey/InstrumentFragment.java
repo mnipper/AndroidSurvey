@@ -27,14 +27,13 @@ import android.widget.Toast;
 
 public class InstrumentFragment extends ListFragment {
     private final static String TAG = "InstrumentFragment";
-    private final static boolean REQUIRE_SECURITY_CHECKS = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));  
-        if (REQUIRE_SECURITY_CHECKS) {
+        if (AppUtil.REQUIRE_SECURITY_CHECKS) {
             if (!AppUtil.runDeviceSecurityChecks(getActivity())) {
                 // Device has failed security checks                
                 return;

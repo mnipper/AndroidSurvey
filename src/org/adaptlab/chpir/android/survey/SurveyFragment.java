@@ -293,15 +293,14 @@ public class SurveyFragment extends Fragment {
 
     /*
     * Destroy this activity, and save the survey and mark it as
-    * complete.  Send to server is network is available.
+    * complete.  Send to server if network is available.
     */
     public void finishSurvey() {
-    	setSurveyLocation();
         getActivity().finish();
+        setSurveyLocation();
         mSurvey.setAsComplete();
         mSurvey.save();
-        SendResponsesTask sendResponsesTask = new SendResponsesTask(getActivity());
-        sendResponsesTask.execute();
+        new SendResponsesTask(getActivity()).execute();
     }
        
     public boolean isFirstQuestion() {

@@ -9,7 +9,6 @@ import android.content.Intent;
 public class NetworkStateChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        SendResponsesTask sendResponsesTask = new SendResponsesTask(context);
-        sendResponsesTask.execute();
+        new SendResponsesTask(context).execute();
     }
 }

@@ -160,13 +160,13 @@ public class InstrumentFragment extends ListFragment {
 
             TextView titleTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_titleTextView);
-            titleTextView.setText(survey.getUUID());
+            titleTextView.setText(survey.responses().get(0).getText());
             titleTextView.setTypeface(survey.getInstrument().getTypeFace(getActivity().getApplicationContext()));
 
             TextView questionCountTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_questionCountTextView);
             
-            questionCountTextView.setText(survey.getInstrument().getTitle());
+            questionCountTextView.setText(survey.responses().size() + " " + getString(R.string.of) + " " + survey.getInstrument().questions().size());
 
             return convertView;
         }

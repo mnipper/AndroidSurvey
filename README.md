@@ -15,6 +15,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Requiring Encryption](https://github.com/mnipper/AndroidSurvey/wiki/Requiring-Encryption)
 * [Adding a Question Type](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Question-Type)
 * [Syncing with a Remote Table](https://github.com/mnipper/AndroidSurvey/wiki/Syncing-with-Remote-Tables)
+* [Checking for Network Errors](https://github.com/mnipper/AndroidSurvey/wiki/Checking-For-Network-Errors)
 * [Adding a Language](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Language)
 * [Admin Settings](https://github.com/mnipper/AndroidSurvey/wiki/Admin-Settings)
 * [Translation Models](https://github.com/mnipper/AndroidSurvey/wiki/Translation-Models)

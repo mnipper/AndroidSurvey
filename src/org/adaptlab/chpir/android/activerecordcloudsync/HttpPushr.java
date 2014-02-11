@@ -12,9 +12,9 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 
-import com.activeandroid.query.Select;
-
 import android.util.Log;
+
+import com.activeandroid.query.Select;
 
 public class HttpPushr {
     private static final String TAG = "HttpPushr";

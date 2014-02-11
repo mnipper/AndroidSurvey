@@ -2,7 +2,6 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -297,9 +296,8 @@ public class SurveyFragment extends Fragment {
         getActivity().finish();
         mSurvey.setAsComplete();
         mSurvey.save();
-        if (PollService.isNetworkAvailable(getActivity())) {
-            new SendResponsesTask().execute();
-        }
+        SendResponsesTask sendResponsesTask = new SendResponsesTask(getActivity());
+        sendResponsesTask.execute();
     }
     
     private void setSurveyLocation() {

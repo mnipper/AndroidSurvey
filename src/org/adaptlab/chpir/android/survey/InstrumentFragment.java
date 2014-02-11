@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 
 import android.app.AlertDialog;
@@ -146,7 +147,8 @@ public class InstrumentFragment extends ListFragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            ActiveRecordCloudSync.syncReceiveTables();
+            if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity()))
+                ActiveRecordCloudSync.syncReceiveTables(getActivity());
             return null;
         }
         

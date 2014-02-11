@@ -42,10 +42,14 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.previous_questions";
    
     private Question mQuestion;
-    private ArrayList<Integer> mPreviousQuestions;
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
+    
+    // mPreviousQuestions is a Stack, however Android does not allow you
+    // to save a Stack to the savedInstanceState, so it is represented as
+    // an Integer array.
+    private ArrayList<Integer> mPreviousQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;

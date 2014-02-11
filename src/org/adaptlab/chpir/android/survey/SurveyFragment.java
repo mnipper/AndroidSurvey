@@ -303,6 +303,22 @@ public class SurveyFragment extends Fragment {
         SendResponsesTask sendResponsesTask = new SendResponsesTask(getActivity());
         sendResponsesTask.execute();
     }
+       
+    public boolean isFirstQuestion() {
+        return mQuestionNumber == 0;
+    }
+    
+    public boolean isLastQuestion() {
+        return mInstrument.questions().size() == mQuestionNumber + 1;
+    }
+
+    public boolean hasValidResponse() {
+        if (mQuestionFragment.getResponse() != null) {
+            return mQuestionFragment.getResponse().isValid();
+        } else {
+            return true;
+        }
+    }
     
     private void setSurveyLocation() {
     	mSurvey.setLatitude(mLocationServiceManager.getLatitude());
@@ -338,22 +354,6 @@ public class SurveyFragment extends Fragment {
     
     private Spanned styleTextWithHtml(String text) {
     	return Html.fromHtml(text);
-    }
-    
-    public boolean isFirstQuestion() {
-        return mQuestionNumber == 0;
-    }
-    
-    public boolean isLastQuestion() {
-        return mInstrument.questions().size() == mQuestionNumber + 1;
-    }
-
-    public boolean hasValidResponse() {
-        if (mQuestionFragment.getResponse() != null) {
-            return mQuestionFragment.getResponse().isValid();
-        } else {
-            return true;
-        }
     }
     
     private void skipQuestion() {

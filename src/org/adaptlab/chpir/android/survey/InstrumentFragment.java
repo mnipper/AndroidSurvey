@@ -146,7 +146,7 @@ public class InstrumentFragment extends ListFragment {
 
             TextView titleTextView = (TextView) convertView
                     .findViewById(R.id.survey_list_item_titleTextView);
-            titleTextView.setText(survey.identifier());
+            titleTextView.setText(survey.identifier(getActivity()));
             titleTextView.setTypeface(survey.getInstrument().getTypeFace(getActivity().getApplicationContext()));
 
             TextView progressTextView = (TextView) convertView.findViewById(R.id.survey_list_item_progressTextView);            

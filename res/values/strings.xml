@@ -52,4 +52,5 @@
     <string name="instruments">Instruments</string>
     <string name="show_surveys">Show Surveys</string>
     <string name="version_code">Version Code: </string>
+    <string name="unidentified_survey">Unidentified Survey </string>
 </resources>

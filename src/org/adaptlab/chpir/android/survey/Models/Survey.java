@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -70,17 +72,19 @@ public class Survey extends SendModel {
     
     /*
      * The identifier to display to the user to identify a Survey.
-     * Return the UUID if no response for identifier questions.
+     * Return Unidentified Survey string if no response for identifier questions.
      */
-    public String identifier() {
+    public String identifier(Context context) {
         String identifier = "";
         for (Response response : responses()) {
             if (response.getQuestion().identifiesSurvey()) {
                 identifier += response.getText() + " ";
             }
         }
-        if (identifier.trim().isEmpty()) return getUUID();
-        else return identifier;
+        if (identifier.trim().isEmpty())
+            return context.getString(R.string.unidentified_survey) + " " + getId();
+        else
+            return identifier;
     }
     
     /*

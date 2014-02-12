@@ -40,6 +40,7 @@ public class Survey extends SendModel {
         mSent = false;
         mComplete = false;
         mUUID = UUID.randomUUID().toString();
+        mLastUpdated = new Date();
     }
     
     @Override
@@ -93,7 +94,7 @@ public class Survey extends SendModel {
     }
     
     public static List<Survey> getAll() {
-        return new Select().from(Survey.class).orderBy("Id ASC").execute();
+        return new Select().from(Survey.class).orderBy("LastUpdated DESC").execute();
     }
 
     

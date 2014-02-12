@@ -2,21 +2,12 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.util.Date;
 
-import org.adaptlab.chpir.android.survey.InstrumentActivity;
-import org.adaptlab.chpir.android.survey.R;
-
 import android.app.AlarmManager;
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 public class PollService extends IntentService {
     private static final String TAG = "PollService";
@@ -30,32 +21,13 @@ public class PollService extends IntentService {
         sPollInterval = DEFAULT_POLL_INTERVAL;
     }
     
-    @SuppressWarnings("deprecation")
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getBackgroundDataSetting() && cm.getActiveNetworkInfo() != null;
-    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (!isNetworkAvailable(getApplicationContext())) {
-            Log.i(TAG,
-                    "Network is not available, short circuiting PollService...");
-            showNotification(android.R.drawable.ic_dialog_alert, R.string.network_unavailable);
-        } else if (!ActiveRecordCloudSync.isApiAvailable()) {
-            Log.i(TAG,
-                    "Api endpoint is not available, short circuiting PollService...");
-            showNotification(android.R.drawable.ic_dialog_alert, R.string.api_unavailable);
-        } else if (!ActiveRecordCloudSync.isVersionAcceptable()) {
-            Log.i(TAG,
-                    "Android version code is not acceptable, short circuting PollService...");
-            showNotification(android.R.drawable.ic_dialog_alert, R.string.unacceptable_version_code);
-        } else {
+        if (NetworkNotificationUtils.checkForNetworkErrors(getApplicationContext())) {
             lastUpdate = new Date();
-            showNotification(android.R.drawable.stat_sys_download, R.string.sync_notification_text);
-            ActiveRecordCloudSync.syncReceiveTables();
-            ActiveRecordCloudSync.syncSendTables();
-            showNotification(android.R.drawable.stat_sys_download_done, R.string.sync_notification_complete_text);
+            ActiveRecordCloudSync.syncReceiveTables(getApplicationContext());
+            ActiveRecordCloudSync.syncSendTables(getApplicationContext());
         }
     }
 
@@ -99,22 +71,5 @@ public class PollService extends IntentService {
 
     public static Date getLastUpdate() {
         return lastUpdate;
-    }
-
-    private void showNotification(int iconId, int textId) {
-        Resources r = getResources();
-
-        Notification notification = new NotificationCompat.Builder(this)
-            .setTicker(r.getString(R.string.app_name))
-            .setSmallIcon(iconId)
-            .setContentTitle(r.getString(R.string.app_name))
-            .setContentText(r.getString(textId))
-            .setAutoCancel(true)
-            .build();
-        
-        NotificationManager notificationManager = (NotificationManager)
-                getSystemService(NOTIFICATION_SERVICE);
-        
-        notificationManager.notify(0, notification);
     }
 }

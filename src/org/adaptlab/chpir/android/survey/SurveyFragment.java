@@ -2,7 +2,6 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -43,10 +42,14 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.previous_questions";
    
     private Question mQuestion;
-    private ArrayList<Integer> mPreviousQuestions;
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
+    
+    // mPreviousQuestions is a Stack, however Android does not allow you
+    // to save a Stack to the savedInstanceState, so it is represented as
+    // an Integer array.
+    private ArrayList<Integer> mPreviousQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -290,15 +293,29 @@ public class SurveyFragment extends Fragment {
 
     /*
     * Destroy this activity, and save the survey and mark it as
-    * complete.  Send to server is network is available.
+    * complete.  Send to server if network is available.
     */
     public void finishSurvey() {
-    	setSurveyLocation();
         getActivity().finish();
+        setSurveyLocation();
         mSurvey.setAsComplete();
         mSurvey.save();
-        if (PollService.isNetworkAvailable(getActivity())) {
-            new SendResponsesTask().execute();
+        new SendResponsesTask(getActivity()).execute();
+    }
+       
+    public boolean isFirstQuestion() {
+        return mQuestionNumber == 0;
+    }
+    
+    public boolean isLastQuestion() {
+        return mInstrument.questions().size() == mQuestionNumber + 1;
+    }
+
+    public boolean hasValidResponse() {
+        if (mQuestionFragment.getResponse() != null) {
+            return mQuestionFragment.getResponse().isValid();
+        } else {
+            return true;
         }
     }
     
@@ -336,22 +353,6 @@ public class SurveyFragment extends Fragment {
     
     private Spanned styleTextWithHtml(String text) {
     	return Html.fromHtml(text);
-    }
-    
-    public boolean isFirstQuestion() {
-        return mQuestionNumber == 0;
-    }
-    
-    public boolean isLastQuestion() {
-        return mInstrument.questions().size() == mQuestionNumber + 1;
-    }
-
-    public boolean hasValidResponse() {
-        if (mQuestionFragment.getResponse() != null) {
-            return mQuestionFragment.getResponse().isValid();
-        } else {
-            return true;
-        }
     }
     
     private void skipQuestion() {

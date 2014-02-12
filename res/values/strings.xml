@@ -52,4 +52,5 @@
     <string name="instruments">Instruments</string>
     <string name="survey_identifier_question_id">Survey Identifier Question Id</string>
     <string name="show_surveys">Show Surveys</string>
+    <string name="version_code">Version Code: </string>
 </resources>

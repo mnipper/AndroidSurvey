@@ -24,6 +24,7 @@ public class AdminFragment extends Fragment {
     private TextView mBackendApiKeyTextView;
     private TextView mSurveyIdentifierQuestionIdEditText;
     private CheckBox mShowSurveysCheckBox;
+    private TextView mVersionCodeTextView;
     private Button mSaveButton;
 
     @Override
@@ -62,6 +63,9 @@ public class AdminFragment extends Fragment {
         
         mBackendApiKeyTextView = (TextView) v.findViewById(R.id.backend_api_key_label);
         mBackendApiKeyTextView.setText(getString(R.string.api_key_label) + getString(R.string.backend_api_key));
+        
+        mVersionCodeTextView = (TextView) v.findViewById(R.id.version_code_label);
+        mVersionCodeTextView.setText(getString(R.string.version_code) + AppUtil.getVersionCode(getActivity()));
         
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {

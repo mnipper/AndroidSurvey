@@ -46,7 +46,7 @@ public class AppUtil {
     public static final void appInit(Context context) {
         if (AppUtil.REQUIRE_SECURITY_CHECKS) {
             if (!AppUtil.runDeviceSecurityChecks(context)) {
-                // Device has failed security checks                
+                // Device has failed security checks
                 return;
             }
         }
@@ -93,8 +93,13 @@ public class AppUtil {
             new AlertDialog.Builder(context)
             .setTitle(R.string.encryption_required_title)
             .setMessage(R.string.encryption_required_text)
+            .setCancelable(false)
             .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { }
+                public void onClick(DialogInterface dialog, int which) {
+                    // Kill app on OK
+                    int pid = android.os.Process.myPid(); 
+                    android.os.Process.killProcess(pid);
+                }
              })
              .show();
             return false;

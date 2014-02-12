@@ -56,7 +56,8 @@ public class AppUtil {
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
         ACCESS_TOKEN = context.getResources().getString(R.string.backend_api_key);  
         
-        Crashlytics.start(context);
+        if (!BuildConfig.DEBUG)
+            Crashlytics.start(context);
         
         DatabaseSeed.seed(context);
 

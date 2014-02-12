@@ -63,6 +63,21 @@ public class Survey extends SendModel {
     }
     
     /*
+     * The identifier to display to the user to identify a Survey.
+     * Return the UUID if no response for identifier questions.
+     */
+    public String identifier() {
+        String identifier = "";
+        for (Response response : responses()) {
+            if (response.getQuestion().identifiesSurvey()) {
+                identifier += response.getText() + " ";
+            }
+        }
+        if (identifier.trim().isEmpty()) return getUUID();
+        else return identifier;
+    }
+    
+    /*
      * Finders
      */   
     public Response getResponseByQuestion(Question question) {

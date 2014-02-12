@@ -52,6 +52,8 @@ public class Question extends ReceiveModel {
     private int mInstrumentVersion;
     @Column(name = "NumberInInstrument")
     private int mNumberInInstrument;
+    @Column(name = "IdentifiesSurvey")
+    private boolean mIdentifiesSurvey;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
@@ -225,6 +227,7 @@ public class Question extends ReceiveModel {
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
+            question.setIdentifiesSurvey(jsonObject.getBoolean("identifies_survey"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -361,6 +364,10 @@ public class Question extends ReceiveModel {
         return mFollowUpPosition;
     }
     
+    public boolean identifiesSurvey() {
+        return mIdentifiesSurvey;
+    }
+    
     /*
      * Private
      */
@@ -398,5 +405,9 @@ public class Question extends ReceiveModel {
     
     private void setFollowUpPosition(int position) {
         mFollowUpPosition = position;
+    }
+    
+    private void setIdentifiesSurvey(boolean identifiesSurvey) {
+        mIdentifiesSurvey = identifiesSurvey;
     }
 }

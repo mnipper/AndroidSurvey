@@ -8,6 +8,8 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
+import com.activeandroid.Model;
+
 import android.content.IntentFilter;
 import android.content.Context;
 import android.os.Bundle;
@@ -76,9 +78,14 @@ public class SurveyFragment extends Fragment {
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
             
-            mSurvey = new Survey();
-            mSurvey.setInstrument(mInstrument);
-            mSurvey.save();
+            Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
+            if (surveyId == -1) {
+                mSurvey = new Survey();
+                mSurvey.setInstrument(mInstrument);
+                mSurvey.save();
+            } else {
+                mSurvey = Model.load(Survey.class, surveyId);
+            }
             
             mQuestion = mInstrument.questions().get(0);
             mQuestionNumber = 0;

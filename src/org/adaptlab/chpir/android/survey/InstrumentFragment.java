@@ -39,7 +39,7 @@ public class InstrumentFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(Instrument.getAll()));          
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));       
         AppUtil.appInit(getActivity());
     }
 
@@ -78,7 +78,9 @@ public class InstrumentFragment extends ListFragment {
                 public void onTabSelected(Tab tab,
                         android.app.FragmentTransaction ft) {
                     if (tab.getText().equals(getActivity().getResources().getString(R.string.surveys))) {
-                        if (!Survey.getAll().isEmpty())
+                        if (Survey.getAll().isEmpty())
+                            setListAdapter(null);
+                        else
                             setListAdapter(new SurveyAdapter(Survey.getAll()));
                     } else {
                         setListAdapter(new InstrumentAdapter(Instrument.getAll()));
@@ -89,8 +91,9 @@ public class InstrumentFragment extends ListFragment {
                 public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) { }
                 public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) { }
             };
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            
             actionBar.removeAllTabs();
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
             actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.instruments)).setTabListener(tabListener));
             actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.surveys)).setTabListener(tabListener));
         }
@@ -158,13 +161,12 @@ public class InstrumentFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (l.getAdapter() instanceof InstrumentAdapter) {
             Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
-            if (instrument == null) {
-                return;
-            }
-            
+            if (instrument == null) return;            
             new LoadInstrumentTask().execute(instrument);
         } else if (l.getAdapter() instanceof SurveyAdapter) {
-            
+            Survey survey = ((SurveyAdapter) getListAdapter()).getItem(position);
+            if (survey == null) return;
+            new LoadSurveyTask().execute(survey);            
         }
     }
    
@@ -257,6 +259,46 @@ public class InstrumentFragment extends ListFragment {
             } else {
                 Intent i = new Intent(getActivity(), SurveyActivity.class);
                 i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                startActivity(i);
+            }
+        }
+    }
+    
+    private class LoadSurveyTask extends AsyncTask<Survey, Void, Survey> {
+        ProgressDialog mProgressDialog;
+        
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = ProgressDialog.show(
+                    getActivity(),
+                    getString(R.string.instrument_loading_progress_header),
+                    getString(R.string.instrument_loading_progress_message)
+            ); 
+        }
+        
+        /*
+         * If instrument is loaded, return the instrument id.
+         * If not, return -1.
+         */
+        @Override
+        protected Survey doInBackground(Survey... params) {
+            Instrument instrument = params[0].getInstrument();
+            if (instrument.loaded()) {
+                return params[0];
+            } else {
+                return null;
+            }
+        }
+        
+        @Override
+        protected void onPostExecute(Survey survey) {
+            mProgressDialog.dismiss();
+            if (survey == null) {
+                Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
+            } else {
+                Intent i = new Intent(getActivity(), SurveyActivity.class);
+                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, survey.getInstrument().getRemoteId());
+                i.putExtra(SurveyFragment.EXTRA_SURVEY_ID, survey.getId());
                 startActivity(i);
             }
         }

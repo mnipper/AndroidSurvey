@@ -22,7 +22,6 @@ public class AdminFragment extends Fragment {
     private EditText mCustomLocaleEditText;
     private TextView mLastUpdateTextView;
     private TextView mBackendApiKeyTextView;
-    private TextView mSurveyIdentifierQuestionIdEditText;
     private CheckBox mShowSurveysCheckBox;
     private TextView mVersionCodeTextView;
     private Button mSaveButton;
@@ -50,10 +49,6 @@ public class AdminFragment extends Fragment {
         
         mCustomLocaleEditText = (EditText) v.findViewById(R.id.custom_locale_edit_text);
         mCustomLocaleEditText.setText(getAdminSettingsInstanceCustomLocaleCode());
-        
-        mSurveyIdentifierQuestionIdEditText = (EditText) v.findViewById(R.id.survey_identifier_question_id_edit_text);
-        if (AdminSettings.getInstance().getSurveyIdentifierQuestionId() != null)
-            mSurveyIdentifierQuestionIdEditText.setText(AdminSettings.getInstance().getSurveyIdentifierQuestionId().toString());
         
         mShowSurveysCheckBox = (CheckBox) v.findViewById(R.id.show_surveys_checkbox);
         mShowSurveysCheckBox.setChecked(AdminSettings.getInstance().getShowSurveys());
@@ -91,11 +86,6 @@ public class AdminFragment extends Fragment {
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());
-                if (!mSurveyIdentifierQuestionIdEditText.getText().toString().equals("")) {
-                    AdminSettings.getInstance().setSurveyIdentifierQuestionId(
-                            Long.parseLong(mSurveyIdentifierQuestionIdEditText.getText().toString())
-                    );
-                }
                 
                 getActivity().finish();
             }

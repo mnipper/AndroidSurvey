@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,10 @@ public class Survey extends SendModel {
     private String mLatitude;
     @Column(name= "Longitude")
     private String mLongitude;
+    @Column(name = "LastUpdated")
+    private Date mLastUpdated;
+    @Column(name = "LastQuestion")
+    private Question mLastQuestion;
 
     public Survey() {
         super();
@@ -150,5 +155,21 @@ public class Survey extends SendModel {
     
     public String getLongitude() {
     	return mLongitude;
+    }
+    
+    public Date getLastUpdated() {
+        return mLastUpdated;
+    }
+    
+    public void setLastUpdated(Date lastUpdate) {
+        mLastUpdated = lastUpdate;
+    }
+    
+    public Question getLastQuestion() {
+        return mLastQuestion;
+    }
+    
+    public void setLastQuestion(Question question) {
+        mLastQuestion = question;
     }
 }

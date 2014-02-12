@@ -78,20 +78,36 @@ public class SurveyFragment extends Fragment {
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
             
-            Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
-            if (surveyId == -1) {
-                mSurvey = new Survey();
-                mSurvey.setInstrument(mInstrument);
-                mSurvey.save();
-            } else {
-                mSurvey = Model.load(Survey.class, surveyId);
-            }
-            
-            mQuestion = mInstrument.questions().get(0);
-            mQuestionNumber = 0;
-            mPreviousQuestions = new ArrayList<Integer>();
+            loadOrCreateSurvey();
+            loadOrCreateQuestion();
+          
         }
         startLocationServices();
+    }
+    
+    public void loadOrCreateSurvey() {
+        Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
+        if (surveyId == -1) {
+            mSurvey = new Survey();
+            mSurvey.setInstrument(mInstrument);
+            mSurvey.save();
+        } else {
+            mSurvey = Model.load(Survey.class, surveyId);
+        }
+    }
+    
+    public void loadOrCreateQuestion() {
+        mPreviousQuestions = new ArrayList<Integer>();  
+        Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
+        if (questionId == -1) {
+            mQuestion = mInstrument.questions().get(0);
+            mQuestionNumber = 0;              
+        } else {
+            mQuestion = Model.load(Question.class, questionId);
+            mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
+            for (int i = 0; i < mQuestionNumber; i++)
+                mPreviousQuestions.add(i);
+        }  
     }
     
     private void startLocationServices() {
@@ -204,6 +220,8 @@ public class SurveyFragment extends Fragment {
                 .commit();            
         }
         
+        mSurvey.setLastQuestion(mQuestion);
+        mSurvey.save();
         removeTextFocus();
 	}
 	

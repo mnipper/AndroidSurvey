@@ -61,6 +61,8 @@ public class Response extends SendModel {
     public boolean saveWithValidation() {
         if (isValid()) {
             save();
+            mSurvey.setLastUpdated(new Date());
+            mSurvey.save();
             return true;
         } else {
             return false;

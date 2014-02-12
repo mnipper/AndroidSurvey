@@ -20,8 +20,6 @@ public class AdminSettings extends Model {
     private String mCustomLocaleCode;
     @Column(name = "ShowSurveys")
     private boolean mShowSurveys;
-    @Column(name = "SurveyIdentifierQuestionId")
-    private Long mSurveyIdentifierQuestionId;
     
     private static AdminSettings adminSettings;
     
@@ -111,18 +109,5 @@ public class AdminSettings extends Model {
     
     public boolean getShowSurveys() {
         return mShowSurveys;
-    }
-    
-    /*
-     * If set, this response to this question will be the label
-     * for the survey in the survey list.
-     */
-    public void setSurveyIdentifierQuestionId(Long questionId) {
-        mSurveyIdentifierQuestionId = questionId;
-        save();
-    }
-    
-    public Long getSurveyIdentifierQuestionId() {
-        return mSurveyIdentifierQuestionId;
     }
 }

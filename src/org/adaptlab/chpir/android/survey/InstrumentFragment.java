@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
@@ -18,12 +19,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -138,21 +139,26 @@ public class InstrumentFragment extends ListFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(
-                        R.layout.list_item_instrument, null);
+                        R.layout.list_item_survey, null);
             }
 
             Survey survey = getItem(position);
 
             TextView titleTextView = (TextView) convertView
-                    .findViewById(R.id.instrument_list_item_titleTextView);
+                    .findViewById(R.id.survey_list_item_titleTextView);
             titleTextView.setText(survey.identifier());
             titleTextView.setTypeface(survey.getInstrument().getTypeFace(getActivity().getApplicationContext()));
 
-            TextView questionCountTextView = (TextView) convertView
-                    .findViewById(R.id.instrument_list_item_questionCountTextView);
-            
-            questionCountTextView.setText(survey.responses().size() + " " + getString(R.string.of) + " " + survey.getInstrument().questions().size());
+            TextView progressTextView = (TextView) convertView.findViewById(R.id.survey_list_item_progressTextView);            
+            progressTextView.setText(survey.responses().size() + " " + getString(R.string.of) + " " + survey.getInstrument().questions().size());
 
+            TextView instrumentTitleTextView = (TextView) convertView.findViewById(R.id.survey_list_item_instrumentTextView);
+            instrumentTitleTextView.setText(survey.getInstrument().getTitle());
+            
+            TextView lastUpdatedTextView = (TextView) convertView.findViewById(R.id.survey_list_item_lastUpdatedTextView);
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm yyyy-MM-dd");
+            lastUpdatedTextView.setText(df.format(survey.getLastUpdated()));
+            
             return convertView;
         }
     }
@@ -277,14 +283,15 @@ public class InstrumentFragment extends ListFragment {
         }
         
         /*
-         * If instrument is loaded, return the instrument id.
-         * If not, return -1.
+         * If instrument is loaded, return the survey.
+         * If not, return null.
          */
         @Override
         protected Survey doInBackground(Survey... params) {
-            Instrument instrument = params[0].getInstrument();
+            Survey survey = params[0];
+            Instrument instrument = survey.getInstrument();
             if (instrument.loaded()) {
-                return params[0];
+                return survey;
             } else {
                 return null;
             }
@@ -299,6 +306,7 @@ public class InstrumentFragment extends ListFragment {
                 Intent i = new Intent(getActivity(), SurveyActivity.class);
                 i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, survey.getInstrument().getRemoteId());
                 i.putExtra(SurveyFragment.EXTRA_SURVEY_ID, survey.getId());
+                i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, survey.getLastQuestion().getId());
                 startActivity(i);
             }
         }

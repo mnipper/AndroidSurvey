@@ -39,14 +39,7 @@ public class InstrumentFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(Instrument.getAll()));  
-        if (AppUtil.REQUIRE_SECURITY_CHECKS) {
-            if (!AppUtil.runDeviceSecurityChecks(getActivity())) {
-                // Device has failed security checks                
-                return;
-            }
-        }
-        
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));          
         AppUtil.appInit(getActivity());
     }
 

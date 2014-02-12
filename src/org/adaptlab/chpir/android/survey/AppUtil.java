@@ -44,6 +44,12 @@ public class AppUtil {
     }
     
     public static final void appInit(Context context) {
+        if (AppUtil.REQUIRE_SECURITY_CHECKS) {
+            if (!AppUtil.runDeviceSecurityChecks(context)) {
+                // Device has failed security checks                
+                return;
+            }
+        }
         
         Log.i(TAG, "Initializing application...");
         

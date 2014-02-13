@@ -12,6 +12,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,9 +86,7 @@ public class InstrumentTest {
 
 	@Test 
 	public void shouldReturnTitleIfDeviceAndInstrumentLanguagesSame() throws Exception {
-		/*spyInstrument.setTitle(TITLE);
-		assertEquals(TITLE, instrument.getTitle());*/
-		//TODO Fix static methods mocking
+		//TODO Implement
 	}
 	
 	@Test
@@ -114,13 +115,12 @@ public class InstrumentTest {
 	
 	@Test
 	public void shouldReturnListOfAllInstruments() throws Exception {
-		//PowerMockito.mockStatic(Instrument.class);
 		assertThat(Instrument.getAll(), instanceOf(ArrayList.class));
 	}
 	
 	@Test	
 	public void shouldReturnInstrumentBasedOnRemoteId() throws Exception {
-		//TODO FIX STATIC MOCKING
+		//TODO Implement
 	}
 	
 	@Test
@@ -148,55 +148,9 @@ public class InstrumentTest {
 		//TODO Implement
 	}
 
-	/*@Test	//TODO Fix json Stub Exception
+	@Test	
 	public void shouldCreateInstrumentFromJsonObject() throws Exception {
-		PowerMockito.mockStatic(JSONObject.class);
-		PowerMockito.mockStatic(Log.class);
-		//PowerMockito.mockStatic(Instrument.class);
-		//stub(Instrument.getDeviceLanguage()).toReturn(LANGUAGE);
-		JSONObject json = mock(JSONObject.class);
-		JSONArray jsonArray = mock(JSONArray.class);
-		//InstrumentTranslation translation = mock(InstrumentTranslation.class);
-		
-		when(json.getLong("id")).thenReturn(REMOTE_ID);
-		when(json.getString("language")).thenReturn(LANGUAGE);
-		when(json.getString("alignment")).thenReturn(ALIGNMENT);
-		when(json.getInt("current_version_number")).thenReturn(VERSION_NUMBER);
-		when(json.getJSONArray("translations")).thenReturn(jsonArray); //TODO ???
-		try {
-			json.put("id", 0121214L);
-			json.put("title", "My Title");
-			json.put("language", "English");
-			json.put("alignment", "left");
-			json.put("translation", translation);
-		} catch (JSONException je) {}
-		
-		//Instrument fromJson = mock(Instrument.class);
-		//Instrument fromJson = new Instrument();
-		//PowerMockito.mockStatic(Instrument.class);
-		//PowerMockito.when(Instrument.getDeviceLanguage()).thenReturn(LANGUAGE);
-		fromJson.createObjectFromJSON(json);
-		assertThat(fromJson.getAlignment(), equalTo("left"));
-		assertThat(fromJson.getRemoteId(), equalTo(0121214L));
-		assertThat(fromJson.getTitle(), equalTo("My Title"));
-		assertThat(fromJson.getLanguage(), equalTo("English"));
-		
-		//Instrument fromJson = PowerMock.createMock(Instrument.class);
-		Instrument fromJson = mock(Instrument.class);
-		PowerMockito.mockStatic(Instrument.class);
-		when(Instrument.getDeviceLanguage()).thenReturn(LANGUAGE);
-		doCallRealMethod().when(fromJson).createObjectFromJSON(json);
-		when(fromJson.getAlignment()).thenCallRealMethod();
-		when(fromJson.getRemoteId()).thenCallRealMethod();
-		when(fromJson.getTitle()).thenCallRealMethod();
-		when(fromJson.getLanguage()).thenCallRealMethod();
-		//doNothing().when(fromJson).save();
-		
-		fromJson.createObjectFromJSON(json);
-		assertThat(fromJson.getAlignment(), equalTo(ALIGNMENT));
-		//assertThat(fromJson.getRemoteId(), equalTo(0121214L));
-		//assertThat(fromJson.getTitle(), equalTo("My Title"));
-		assertThat(fromJson.getLanguage(), equalTo(LANGUAGE));
-	}*/
+		//TODO Implement
+	}
 
 }

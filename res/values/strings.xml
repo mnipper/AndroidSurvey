@@ -53,4 +53,6 @@
     <string name="show_surveys">Show Surveys</string>
     <string name="version_code">Version Code: </string>
     <string name="unidentified_survey">Unidentified Survey </string>
+    <string name="enable_camera">Enable Camera</string>
+    <string name="take">Take</string>
 </resources>

@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RearPictureQuestionFragment extends QuestionFragment {
 	private Button mCameraButton;
+	private ImageView mPhoto;
+	
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
         
@@ -25,7 +29,13 @@ public class RearPictureQuestionFragment extends QuestionFragment {
                 startActivity(i);
 			}
 		});
+    	
+    	mPhoto = new ImageView(getActivity());
+    	int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
+    	mPhoto.setImageResource(id);
+    	
     	questionComponent.addView(mCameraButton);
+       	questionComponent.addView(mPhoto);
     }
 
     @Override

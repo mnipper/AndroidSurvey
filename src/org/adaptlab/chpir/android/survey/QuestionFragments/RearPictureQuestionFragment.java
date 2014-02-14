@@ -7,6 +7,7 @@ import org.adaptlab.chpir.android.survey.R;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,11 +15,7 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 	private Button mCameraButton;
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
-        // TODO Implement
-        //TextView temp = new TextView(getActivity());
-        //temp.setText("This type of question is not yet implemented");
-        //questionComponent.addView(temp);
-    	
+        
     	mCameraButton = new Button(getActivity());
     	mCameraButton.setText(R.string.enable_camera);
     	mCameraButton.setOnClickListener(new View.OnClickListener() {

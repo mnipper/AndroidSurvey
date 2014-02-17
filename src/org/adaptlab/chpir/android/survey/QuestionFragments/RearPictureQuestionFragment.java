@@ -1,12 +1,15 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.CameraFragment;
+import org.adaptlab.chpir.android.survey.Photo;
+import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -55,18 +58,16 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		removeCameraFragment();
-		Log.i(TAG, "RECEIVED PICTURE");
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_PHOTO) {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
-                //Photo p = new Photo(filename);
-                //mCrime.setPhoto(p);
-                //showPhoto();
+            	Photo picture = new Photo(filename);
+            	showPicture(picture);
             	Log.i(TAG, "FILENAME: " + filename);
             }
         }
+        removeCameraFragment();
 	}
 
 	private boolean isCameraAvailable() {
@@ -84,6 +85,15 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 		FragmentTransaction transaction = fm.beginTransaction();
 		transaction.remove(mCameraFragment);
 		transaction.commit();
+	}
+	
+	private void showPicture(Photo photo) {
+		BitmapDrawable bitmap = null;
+        if (photo != null) {
+            String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
+            bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+        }
+        mPhoto.setImageDrawable(bitmap);
 	}
 
 	@Override

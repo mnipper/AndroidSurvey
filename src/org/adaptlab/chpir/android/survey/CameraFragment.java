@@ -42,7 +42,6 @@ public class CameraFragment extends Fragment {
 			try {
 				os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
 				os.write(data);
-				Log.i(TAG, "filename: " + filename);
 			} catch (Exception e) {
 				Log.e(TAG, "Error writing to file " + filename, e);
 				success = false;
@@ -59,6 +58,8 @@ public class CameraFragment extends Fragment {
 				if (success) {
 					Log.i(TAG, "SUCCESS!!");
 					if (getTargetFragment() == null) return;
+					Log.i(TAG, getTargetFragment().getClass().getName());
+					Log.i(TAG, getTargetRequestCode()+"");
 					Intent i = new Intent();
 					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
 					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);

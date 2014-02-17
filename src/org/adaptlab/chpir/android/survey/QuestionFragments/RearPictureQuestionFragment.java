@@ -18,12 +18,11 @@ import com.activeandroid.util.Log;
 
 public class RearPictureQuestionFragment extends QuestionFragment {
     private static final String TAG = "RearPictureQuestionFragment";
-    private static final String EXTRA_FILENAME = 
-    		"org.adaptlab.chpir.android.survey.QuestionFragments.filaname";
     private static final int REQUEST_PHOTO = 0;
 
 	private Button mCameraButton;
 	private ImageView mPhoto;
+	private CameraFragment mCameraFragment;
 	
 	@Override
 	protected void createQuestionComponent(ViewGroup questionComponent) {
@@ -33,16 +32,14 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 			mCameraButton.setText(R.string.enable_camera);
 			mCameraButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					//Intent i = new Intent(getActivity(), CameraActivity.class);
-					//startActivityForResult(i, REQUEST_PHOTO);
 					Log.i(TAG, "SHOW CAMERA");
 					//getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
 			        //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					FragmentTransaction transaction = fm.beginTransaction();
-					CameraFragment fragment = new CameraFragment();
-					fragment.setTargetFragment(RearPictureQuestionFragment.this, REQUEST_PHOTO);
-					transaction.add(R.id.fragmentContainer, fragment);
+					mCameraFragment = new CameraFragment();
+					mCameraFragment.setTargetFragment(RearPictureQuestionFragment.this, REQUEST_PHOTO);
+					transaction.add(R.id.fragmentContainer, mCameraFragment);
 					transaction.commit();
 				}
 			});
@@ -58,6 +55,7 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		removeCameraFragment();
 		Log.i(TAG, "RECEIVED PICTURE");
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_PHOTO) {
@@ -79,6 +77,13 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 		} else {
 			return true;
 		}   
+	}
+	
+	private void removeCameraFragment() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.remove(mCameraFragment);
+		transaction.commit();
 	}
 
 	@Override

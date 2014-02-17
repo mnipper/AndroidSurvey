@@ -19,7 +19,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +33,6 @@ import android.widget.Toast;
 
 
 public class InstrumentFragment extends ListFragment {
-    private final static String TAG = "InstrumentFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

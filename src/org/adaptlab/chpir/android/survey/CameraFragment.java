@@ -58,16 +58,15 @@ public class CameraFragment extends Fragment {
 			if (success) {
 				if (success) {
 					Log.i(TAG, "SUCCESS!!");
-					Log.i(TAG, EXTRA_PHOTO_FILENAME);
+					if (getTargetFragment() == null) return;
 					Intent i = new Intent();
 					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
-					getActivity().setResult(Activity.RESULT_OK, i);
+					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
 					Log.i(TAG, "PICTURE SENT");
 				} else {
-					getActivity().setResult(Activity.RESULT_CANCELED);
+					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
 				}
 			}
-			//getActivity().finish();
 		}
 	};
 
@@ -125,7 +124,7 @@ public class CameraFragment extends Fragment {
 	}
 
 	private Size getBestSupportedSize(List<Size> sizes, int width, int height) {
-		/*final double ASPECT_TOLERANCE = 0.1;
+		final double ASPECT_TOLERANCE = 0.1;
 		double targetRatio = (double) width / height;
 		if (sizes == null) return null;
 
@@ -151,17 +150,7 @@ public class CameraFragment extends Fragment {
 				}
 			}
 		}
-		return optimalSize;*/
-		Size bestSize = sizes.get(0);
-        int largestArea = bestSize.width * bestSize.height;
-        for (Size s : sizes) {
-            int area = s.width * s.height;
-            if (area > largestArea) {
-                bestSize = s;
-                largestArea = area;
-            }
-        }
-        return bestSize;
+		return optimalSize;
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
-import org.adaptlab.chpir.android.survey.CameraActivity;
 import org.adaptlab.chpir.android.survey.CameraFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
@@ -8,6 +7,8 @@ import org.adaptlab.chpir.android.survey.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,11 +18,13 @@ import com.activeandroid.util.Log;
 
 public class RearPictureQuestionFragment extends QuestionFragment {
     private static final String TAG = "RearPictureQuestionFragment";
+    private static final String EXTRA_FILENAME = 
+    		"org.adaptlab.chpir.android.survey.QuestionFragments.filaname";
     private static final int REQUEST_PHOTO = 0;
 
 	private Button mCameraButton;
 	private ImageView mPhoto;
-
+	
 	@Override
 	protected void createQuestionComponent(ViewGroup questionComponent) {
 
@@ -30,8 +33,17 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 			mCameraButton.setText(R.string.enable_camera);
 			mCameraButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					Intent i = new Intent(getActivity(), CameraActivity.class);
-					startActivityForResult(i, REQUEST_PHOTO);
+					//Intent i = new Intent(getActivity(), CameraActivity.class);
+					//startActivityForResult(i, REQUEST_PHOTO);
+					Log.i(TAG, "SHOW CAMERA");
+					//getActivity().requestWindowFeature(Window.FEATURE_NO_TITLE);
+			        //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+					FragmentManager fm = getActivity().getSupportFragmentManager();
+					FragmentTransaction transaction = fm.beginTransaction();
+					CameraFragment fragment = new CameraFragment();
+					fragment.setTargetFragment(RearPictureQuestionFragment.this, REQUEST_PHOTO);
+					transaction.add(R.id.fragmentContainer, fragment);
+					transaction.commit();
 				}
 			});
 			
@@ -46,7 +58,7 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "RECEIVE PICTURE");
+		Log.i(TAG, "RECEIVED PICTURE");
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_PHOTO) {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);

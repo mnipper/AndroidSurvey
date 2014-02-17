@@ -10,6 +10,8 @@ import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import com.activeandroid.Model;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Context;
 import android.os.Bundle;
@@ -398,5 +400,12 @@ public class SurveyFragment extends Fragment {
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
     }
+    
+	@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i(TAG, "RECEIVED RESULTS");
+        if (resultCode != Activity.RESULT_OK) return;
+        //mQuestionFragment.handleActivityResult(requestCode, resultCode, data);
+	}
     
 }

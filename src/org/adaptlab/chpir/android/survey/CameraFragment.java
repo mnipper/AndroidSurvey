@@ -67,7 +67,7 @@ public class CameraFragment extends Fragment {
 					getActivity().setResult(Activity.RESULT_CANCELED);
 				}
 			}
-			getActivity().finish();
+			//getActivity().finish();
 		}
 	};
 

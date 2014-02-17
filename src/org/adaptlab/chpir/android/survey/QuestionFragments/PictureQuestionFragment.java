@@ -21,14 +21,13 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
     private static final String TAG = "PictureQuestionFragment";
 	public CameraFragment mCameraFragment;
 	private ImageView mPhoto;
+	private String mPhotoFileName;
 	
 	@Override
 	protected abstract void createQuestionComponent(ViewGroup questionComponent);
 	
 	@Override
-	protected void deserialize(String responseText) {
-		// TODO Auto-generated method stub	
-	}
+	protected abstract void deserialize(String responseText);
 	
 	protected ImageView getPhoto() {
 		return mPhoto;
@@ -50,9 +49,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
         if (requestCode == REQUEST_PHOTO) {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
-            	Photo picture = new Photo(filename);
-            	showPicture(picture);
-            	Log.i(TAG, "FILENAME: " + filename);
+            	showImage(filename);
+            	saveResponse();
             }
         }
         removeCameraFragment();
@@ -67,23 +65,25 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	
 	@Override
 	protected String serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		Log.i(TAG, mPhotoFileName);
+		return mPhotoFileName;
 	}
 	
-	protected void setPhoto() {
+	protected void setDefaultImage() {
 		mPhoto = new ImageView(getActivity());
 		int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
 		mPhoto.setImageResource(id);
 	}
 
-	private void showPicture(Photo photo) {
+	protected void showImage(String fileName) {
+		mPhotoFileName = fileName;
+		Photo photo = new Photo(fileName);
 		BitmapDrawable bitmap = null;
         if (photo != null) {
             String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
             bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+            mPhoto.setImageDrawable(bitmap);
         }
-        mPhoto.setImageDrawable(bitmap);
 	}
 
 }

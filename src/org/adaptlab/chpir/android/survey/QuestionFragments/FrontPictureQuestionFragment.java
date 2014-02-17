@@ -29,10 +29,19 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 					transaction.commit();
 				}
 			});
-			setPhoto();
+			setDefaultImage();
 			questionComponent.addView(mCameraButton);
 			questionComponent.addView(getPhoto());
 		}
     }
+    
+	@Override
+	protected void deserialize(String responseText) {
+		if (responseText == "" || responseText == null) {
+			setDefaultImage();
+		} else {
+			showImage(responseText);
+		}
+	}
 
 }

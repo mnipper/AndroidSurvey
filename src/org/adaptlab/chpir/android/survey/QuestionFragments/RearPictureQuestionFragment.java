@@ -3,6 +3,8 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.CameraFragment;
 import org.adaptlab.chpir.android.survey.R;
 
+import com.activeandroid.util.Log;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -30,9 +32,18 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 					transaction.commit();
 				}
 			});
-			setPhoto();
+			setDefaultImage();
 			questionComponent.addView(mCameraButton);
 			questionComponent.addView(getPhoto());
+		}
+	}
+	
+	protected void deserialize(String responseText) {
+		Log.i("REAR PICTURE", "filename is: " + responseText);
+		if (responseText == "" || responseText == null) {
+			setDefaultImage();
+		} else {
+			showImage(responseText);
 		}
 	}
 	

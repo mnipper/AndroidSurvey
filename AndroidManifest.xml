@@ -32,9 +32,6 @@
         <activity android:name=".SurveyActivity"
             android:uiOptions="splitActionBarWhenNarrow"  />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".CameraActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" />
         <service android:name="org.adaptlab.chpir.android.activerecordcloudsync.PollService" />
         <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.StartupReceiver">
             <intent-filter>

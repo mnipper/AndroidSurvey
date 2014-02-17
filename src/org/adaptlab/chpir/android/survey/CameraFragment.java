@@ -24,6 +24,7 @@ import android.widget.Button;
 public class CameraFragment extends Fragment {
 	private static final String TAG = "CameraFragment";
 	public static final String EXTRA_PHOTO_FILENAME = "CameraFragment.filename";
+	public int CAMERA;
 	private View mProgressIndicator;
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
@@ -158,10 +159,10 @@ public class CameraFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {    
-			mCamera = Camera.open(0);
+			mCamera = Camera.open(CAMERA);
 		} else {
 			mCamera = Camera.open();
-		} //TODO Check what's the case for a 2-camera device
+		}
 	}
 
 	@Override

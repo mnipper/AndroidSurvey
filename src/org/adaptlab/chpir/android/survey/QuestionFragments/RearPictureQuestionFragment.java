@@ -22,7 +22,7 @@ import com.activeandroid.util.Log;
 public class RearPictureQuestionFragment extends QuestionFragment {
     private static final String TAG = "RearPictureQuestionFragment";
     private static final int REQUEST_PHOTO = 0;
-
+    private static final int REAR_CAMERA = 0;
 	private Button mCameraButton;
 	private ImageView mPhoto;
 	private CameraFragment mCameraFragment;
@@ -42,6 +42,7 @@ public class RearPictureQuestionFragment extends QuestionFragment {
 					FragmentTransaction transaction = fm.beginTransaction();
 					mCameraFragment = new CameraFragment();
 					mCameraFragment.setTargetFragment(RearPictureQuestionFragment.this, REQUEST_PHOTO);
+					mCameraFragment.CAMERA = REAR_CAMERA;
 					transaction.add(R.id.fragmentContainer, mCameraFragment);
 					transaction.commit();
 				}

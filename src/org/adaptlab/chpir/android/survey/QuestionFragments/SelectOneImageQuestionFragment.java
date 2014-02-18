@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 
 public class SelectOneImageQuestionFragment extends QuestionFragment {
 	private final int PADDING = 10;

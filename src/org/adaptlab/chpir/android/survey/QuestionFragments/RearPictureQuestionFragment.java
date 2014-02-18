@@ -36,13 +36,4 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 		}
 	}
 	
-	@Override
-	protected void deserialize(String responseText) {
-		if (responseText == "" || responseText == null) {
-			setDefaultImage();
-		} else {
-			showImage(responseText);
-		}
-	}
-	
 }

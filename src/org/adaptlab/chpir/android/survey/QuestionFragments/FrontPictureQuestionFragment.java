@@ -34,14 +34,5 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 			questionComponent.addView(getPhoto());
 		}
     }
-    
-	@Override
-	protected void deserialize(String responseText) {
-		if (responseText == "" || responseText == null) {
-			setDefaultImage();
-		} else {
-			showImage(responseText);
-		}
-	}
 
 }

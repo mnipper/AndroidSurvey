@@ -27,7 +27,14 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	protected abstract void createQuestionComponent(ViewGroup questionComponent);
 	
 	@Override
-	protected abstract void deserialize(String responseText);
+	protected void deserialize(String responseText) {
+		Log.i(TAG, "response text: " + responseText);
+		if (responseText.equals("")) {
+			setDefaultImage();
+		} else {
+			showImage(responseText);
+		}
+	}
 	
 	protected ImageView getPhoto() {
 		return mPhoto;
@@ -50,7 +57,6 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
             	showImage(filename);
-            	saveResponse(); //TODO Temporary
             }
         }
         removeCameraFragment();
@@ -65,7 +71,6 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	
 	@Override
 	protected String serialize() {
-		Log.i(TAG, mPhotoFileName);
 		return mPhotoFileName;
 	}
 	
@@ -77,6 +82,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 
 	protected void showImage(String fileName) {
 		mPhotoFileName = fileName;
+		saveResponse();
 		Photo photo = new Photo(fileName);
 		BitmapDrawable bitmap = null;
         if (photo != null) {

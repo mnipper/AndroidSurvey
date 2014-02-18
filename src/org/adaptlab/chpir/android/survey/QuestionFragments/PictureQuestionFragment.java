@@ -50,7 +50,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
             	showImage(filename);
-            	saveResponse();
+            	saveResponse(); //TODO Temporary
             }
         }
         removeCameraFragment();
@@ -82,8 +82,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
         if (photo != null) {
             String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
             bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
-            mPhoto.setImageDrawable(bitmap);
         }
+        mPhoto.setImageDrawable(bitmap);
 	}
 
 }

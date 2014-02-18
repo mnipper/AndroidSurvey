@@ -38,8 +38,8 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 		}
 	}
 	
+	@Override
 	protected void deserialize(String responseText) {
-		Log.i("REAR PICTURE", "filename is: " + responseText);
 		if (responseText == "" || responseText == null) {
 			setDefaultImage();
 		} else {

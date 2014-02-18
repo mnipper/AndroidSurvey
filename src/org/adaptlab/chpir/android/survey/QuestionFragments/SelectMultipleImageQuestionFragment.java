@@ -9,10 +9,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 	private final int PADDING = 10;
+	private final int WIDTH = 500;
+	private final int HEIGHT = 500;
 	private final int SELECTED = Color.GREEN;
 	private final int UNSELECTED = Color.TRANSPARENT;
 	private List<ImageView> mImageViews;
@@ -31,6 +35,9 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 			ImageView image = new ImageView(getActivity());
 			image.setImageResource(id);
 			image.setId(i);
+			image.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+			image.getLayoutParams().width = WIDTH;
+			image.getLayoutParams().height = HEIGHT;
 			image.setPadding(PADDING, PADDING, PADDING, PADDING);
 			image.setBackgroundColor(UNSELECTED); //getting the background color of ColorDrawable when it has not be set throws an exception
 			image.setOnClickListener(new View.OnClickListener() {

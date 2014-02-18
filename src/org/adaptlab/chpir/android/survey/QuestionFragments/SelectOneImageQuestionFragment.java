@@ -20,7 +20,6 @@ public class SelectOneImageQuestionFragment extends QuestionFragment {
 
 	@Override
 	protected void createQuestionComponent(ViewGroup questionComponent) {		
-		createTempImages();
 		for (ImageView v : createTempImages()) {
 			questionComponent.addView(v);
 		}

@@ -3,8 +3,6 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.CameraFragment;
 import org.adaptlab.chpir.android.survey.R;
 
-import com.activeandroid.util.Log;
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;

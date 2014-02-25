@@ -1,9 +1,9 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.CameraFragment;
-import org.adaptlab.chpir.android.survey.Photo;
 import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
+import org.adaptlab.chpir.android.survey.Models.Photo;
 
 import com.activeandroid.util.Log;
 

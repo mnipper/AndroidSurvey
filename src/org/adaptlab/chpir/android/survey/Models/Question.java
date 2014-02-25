@@ -146,7 +146,7 @@ public class Question extends ReceiveModel {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
         if (followUpResponse == null ||
                 followUpResponse.getText().equals("") ||
-                followUpResponse.getSpecialResponse().equals(Response.SKIPPED)) {
+                followUpResponse.hasSpecialResponse()) {
             return null;
         }
         

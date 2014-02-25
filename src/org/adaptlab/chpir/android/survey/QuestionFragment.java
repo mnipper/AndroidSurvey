@@ -167,10 +167,6 @@ public abstract class QuestionFragment extends Fragment {
     	getResponse().setTimeEnded(new Date());
     }
     
-    protected void questionIsSkipped() {
-    	saveSpecialResponse(Response.SKIPPED);
-    }
-    
     private Response loadOrCreateResponse() {
         if (mSurvey.getResponseByQuestion(getQuestion()) != null) {
             return mSurvey.getResponseByQuestion(getQuestion());

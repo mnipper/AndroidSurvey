@@ -16,7 +16,10 @@ import com.activeandroid.query.Select;
 @Table(name = "Responses")
 public class Response extends SendModel {
     private static final String TAG = "Response";
-    public static final String SKIPPED = "SKIP";
+    public static final String SKIP = "SKIP";
+    public static final String RF = "RF";
+    public static final String NA = "NA";
+    public static final String DK = "DK";
 	
 	@Column(name = "Question")
 	private Question mQuestion;
@@ -179,5 +182,10 @@ public class Response extends SendModel {
     @Override 
     public boolean readyToSend() {
         return getSurvey().readyToSend();
+    }
+    
+    public boolean hasSpecialResponse() {
+        return mSpecialResponse.equals(SKIP) || mSpecialResponse.equals(RF) ||
+                mSpecialResponse.equals(NA) || mSpecialResponse.equals(DK);
     }
 }

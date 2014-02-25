@@ -6,6 +6,7 @@ import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
@@ -157,8 +158,17 @@ public class SurveyFragment extends Fragment {
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
-        	skipQuestion();
+        	setSpecialResponse(Response.SKIP);
         	return true;
+        case R.id.menu_item_rf:
+            setSpecialResponse(Response.RF);
+            return true;
+        case R.id.menu_item_na:
+            setSpecialResponse(Response.NA);
+            return true;
+        case R.id.menu_item_dk:
+            setSpecialResponse(Response.DK);
+            return true;
         case R.id.menu_item_finish:
             finishSurvey();
             return true;
@@ -178,6 +188,12 @@ public class SurveyFragment extends Fragment {
         menu.findItem(R.id.menu_item_skip)
         	.setEnabled(hasValidResponse())
         	.setVisible(AdminSettings.getInstance().getShowSkip());
+        menu.findItem(R.id.menu_item_rf)
+            .setVisible(AdminSettings.getInstance().getShowRF());
+        menu.findItem(R.id.menu_item_na)
+            .setVisible(AdminSettings.getInstance().getShowNA());
+        menu.findItem(R.id.menu_item_dk)
+            .setVisible(AdminSettings.getInstance().getShowDK());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());
@@ -384,8 +400,8 @@ public class SurveyFragment extends Fragment {
     	return Html.fromHtml(text);
     }
     
-    private void skipQuestion() {
-        mQuestionFragment.questionIsSkipped();
+    private void setSpecialResponse(String response) {
+        mQuestionFragment.saveSpecialResponse(response);
         
         if (isLastQuestion()) {
             finishSurvey();

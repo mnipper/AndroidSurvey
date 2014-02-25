@@ -154,7 +154,8 @@ public class SurveyFragment extends Fragment {
         case R.id.menu_item_previous:
             moveToPreviousQuestion();
             return true;
-        case R.id.menu_item_next:
+        case R.id.menu_item_next:            
+            mQuestionFragment.saveSpecialResponse("");
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
@@ -400,13 +401,27 @@ public class SurveyFragment extends Fragment {
     	return Html.fromHtml(text);
     }
     
+    /*
+     * Save the special response field and clear the current
+     * response if there is one.
+     */
     private void setSpecialResponse(String response) {
         mQuestionFragment.saveSpecialResponse(response);
-        
+        clearCurrentResponse();
         if (isLastQuestion()) {
             finishSurvey();
         } else {
             moveToNextQuestion();
+        }
+    }
+    
+    /*
+     * Set the current response to the empty string
+     */
+    private void clearCurrentResponse() {        
+        if (mQuestionFragment.getResponse() != null) {
+            mQuestionFragment.getResponse().setResponse("");
+            mQuestionFragment.getResponse().save();
         }
     }
             

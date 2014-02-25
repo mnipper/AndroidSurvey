@@ -53,4 +53,7 @@
     <string name="show_surveys">Show Surveys</string>
     <string name="version_code">Version Code: </string>
     <string name="unidentified_survey">Unidentified Survey </string>
+    <string name="system_information">System Information</string>
+    <string name="feature_toggle">Feature Toggle</string>
+    <string name="sync_settings">Sync Settings</string>
 </resources>

@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import java.util.ArrayList;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
+import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Survey;
@@ -175,7 +176,8 @@ public class SurveyFragment extends Fragment {
             .setVisible(!isLastQuestion())
             .setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_skip)
-        	.setEnabled(hasValidResponse());
+        	.setEnabled(hasValidResponse())
+        	.setVisible(AdminSettings.getInstance().getShowSkip());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());

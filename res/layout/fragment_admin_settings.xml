@@ -94,6 +94,30 @@
                 android:layout_height="wrap_content"
                 android:text="@string/show_surveys"
                 android:layout_marginTop="5dp" />
+            
+            <CheckBox android:id="@+id/show_skip_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_skip"
+                android:layout_marginTop="5dp" />
+            
+            <CheckBox android:id="@+id/show_na_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_na"
+                android:layout_marginTop="5dp" />
+            
+             <CheckBox android:id="@+id/show_rf_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_rf"
+                android:layout_marginTop="5dp" />
+             
+             <CheckBox android:id="@+id/show_dk_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_dk"
+                android:layout_marginTop="5dp" />
 
 
              <TextView

@@ -20,6 +20,14 @@ public class AdminSettings extends Model {
     private String mCustomLocaleCode;
     @Column(name = "ShowSurveys")
     private boolean mShowSurveys;
+    @Column(name = "ShowSkip")
+    private boolean mShowSkip;
+    @Column(name = "ShowNA")   
+    private boolean mShowNA;
+    @Column(name = "ShowRF")    
+    private boolean mShowRF;
+    @Column(name = "ShowDK")    
+    private boolean mShowDK;
     
     private static AdminSettings adminSettings;
     
@@ -109,5 +117,53 @@ public class AdminSettings extends Model {
     
     public boolean getShowSurveys() {
         return mShowSurveys;
+    }
+    
+    public void setShowSkip(boolean showSkip) {
+        mShowSkip = showSkip;
+        save();
+    }
+    
+    /*
+     * Show SKIP special response for each question if true
+     */
+    public boolean getShowSkip() {
+        return mShowSkip;
+    }
+    
+    public void setShowNA(boolean showNA) {
+        mShowNA = showNA;
+        save();
+    }
+
+    /*
+     * Show NOT APPLICABLE special response for each question if true
+     */
+    public boolean getShowNA() {
+        return mShowNA;
+    }
+    
+    public void setShowRF(boolean showRF) {
+        mShowRF = showRF;
+        save();
+    }
+    
+    /*
+     * Show REFUSED special response for each question if true
+     */
+    public boolean getShowRF() {
+        return mShowRF;
+    }
+    
+    public void setShowDK(boolean showDK) {
+        mShowDK = showDK;
+        save();
+    }
+    
+    /*
+     * Show DONT KNOW special response for each question if true
+     */
+    public boolean getShowDK() {
+        return mShowDK;
     }
 }

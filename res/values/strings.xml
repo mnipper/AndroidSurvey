@@ -58,4 +58,8 @@
     <string name="sync_settings">Sync Settings</string>
     <string name="enable_camera">Enable Camera</string>
     <string name="take">Take</string>
+    <string name="show_skip">Show Skip</string>
+    <string name="show_na">Show NA</string>
+    <string name="show_dk">Show DK</string>
+    <string name="show_rf">Show RF</string>
 </resources>

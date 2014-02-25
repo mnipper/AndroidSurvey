@@ -62,4 +62,8 @@
     <string name="show_na">Show NA</string>
     <string name="show_dk">Show DK</string>
     <string name="show_rf">Show RF</string>
+    <string name="sk">Skip this question</string>
+    <string name="rf">Refuse to answer this question</string>
+    <string name="dk">Don\'t know</string>
+    <string name="na">Not applicable</string>
 </resources>

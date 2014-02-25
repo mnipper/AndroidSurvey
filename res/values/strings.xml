@@ -56,4 +56,6 @@
     <string name="system_information">System Information</string>
     <string name="feature_toggle">Feature Toggle</string>
     <string name="sync_settings">Sync Settings</string>
+    <string name="enable_camera">Enable Camera</string>
+    <string name="take">Take</string>
 </resources>

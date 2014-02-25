@@ -15,8 +15,10 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.MonthAndYearQuestionF
 import org.adaptlab.chpir.android.survey.QuestionFragments.PhoneNumberQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RatingQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.RearPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleImageQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectMultipleWriteOtherQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneImageQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
@@ -78,6 +80,10 @@ public class QuestionFragmentFactory {
             fragment = new PhoneNumberQuestionFragment();
         } else if (Question.QuestionType.ADDRESS.toString().equals(type)) {
             fragment = new AddressQuestionFragment();
+        } else if (Question.QuestionType.SELECT_ONE_IMAGE.toString().equals(type)) {
+        	fragment = new SelectOneImageQuestionFragment();
+        } else if (Question.QuestionType.SELECT_MULTIPLE_IMAGE.toString().equals(type)) {
+        	fragment = new SelectMultipleImageQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

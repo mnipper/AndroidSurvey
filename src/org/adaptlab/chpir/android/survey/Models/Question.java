@@ -283,6 +283,10 @@ public class Question extends ReceiveModel {
                 .execute();
     }
     
+    public List<Image> images() {
+    	return new Select().from(Image.class).where("Question = ?", getId()).execute();
+    }
+    
     public List<QuestionTranslation> translations() {
         return getMany(QuestionTranslation.class, "Question");
     }

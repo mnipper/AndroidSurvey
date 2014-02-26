@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.List;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +10,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 @Table(name = "Images")
@@ -19,14 +22,20 @@ public class Image extends ReceiveModel {
     private String mPhotoUrl; 
     @Column(name = "Question")
     private Question mQuestion;
+    @Column(name = "Bitmap")
+    private Bitmap mBitmap;
     
     public Image() {
     	super();
     }
+    
+    public static List<Image> getAll() {
+    	return new Select().from(Image.class).orderBy("Id ASC").execute(); 
+    }
 
 	@Override
 	public void createObjectFromJSON(JSONObject jsonObject) {
-			Log.e(TAG, jsonObject.toString());
+			Log.i(TAG, jsonObject.toString());
 		try {
             Long remoteId = jsonObject.getLong("id");
             Image image = Image.findByRemoteId(remoteId);
@@ -37,6 +46,7 @@ public class Image extends ReceiveModel {
             image.setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
             image.setPhotoUrl(jsonObject.getString("photo_url"));
             image.save();
+            Log.i(TAG, image.getPhotoUrl());
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }   
@@ -64,6 +74,14 @@ public class Image extends ReceiveModel {
 	
 	public Question getQuestion() {
 		return mQuestion;
+	}
+	
+	public void setBitmap(Bitmap image) {
+		mBitmap = image;
+	}
+	
+	public Bitmap getBitmap() {
+		return mBitmap;
 	}
 
 	private static Image findByRemoteId(Long remoteId) {

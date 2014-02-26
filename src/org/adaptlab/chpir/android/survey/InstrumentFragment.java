@@ -8,6 +8,7 @@ import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Tasks.DownloadImagesTask;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -40,7 +41,12 @@ public class InstrumentFragment extends ListFragment {
         setHasOptionsMenu(true);
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));       
         AppUtil.appInit(getActivity());
+        downloadInstrumentImages();
     }
+    
+    private void downloadInstrumentImages() {
+    	new DownloadImagesTask(getActivity()).execute();
+	}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -247,15 +253,16 @@ public class InstrumentFragment extends ListFragment {
          */
         @Override
         protected Long doInBackground(Instrument... params) {
-            Instrument instrument = params[0];
+            downloadInstrumentImages();
+        	Instrument instrument = params[0];
             if (instrument.loaded()) {
                 return instrument.getRemoteId();
             } else {
                 return Long.valueOf(-1);
             }
         }
-        
-        @Override
+
+		@Override
         protected void onPostExecute(Long instrumentId) {
             mProgressDialog.dismiss();
             if (instrumentId == Long.valueOf(-1)) {

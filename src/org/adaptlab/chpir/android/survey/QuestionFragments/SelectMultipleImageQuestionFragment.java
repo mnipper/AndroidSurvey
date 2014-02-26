@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.QuestionFragment;
+import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,30 +24,30 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 	
 	@Override
 	protected void createQuestionComponent(ViewGroup questionComponent) {
-		for (ImageView v : createTempImages()) {
+		for (ImageView v : createImageViews()) {
 			questionComponent.addView(v);
 		}
 	}
 
-	private List<ImageView> createTempImages() {
+	private List<ImageView> createImageViews() {
 		mImageViews = new ArrayList<ImageView>();
-		int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
-		for (int i=0; i < 4; i++) {
-			ImageView image = new ImageView(getActivity());
-			image.setImageResource(id);
-			image.setId(i);
-			image.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-			image.getLayoutParams().width = WIDTH;
-			image.getLayoutParams().height = HEIGHT;
-			image.setPadding(PADDING, PADDING, PADDING, PADDING);
-			image.setBackgroundColor(UNSELECTED); //getting the background color of ColorDrawable when it has not be set throws an exception
-			image.setOnClickListener(new View.OnClickListener() {
+		List<Image> imageList = getQuestion().images();
+		for (int i=0; i < imageList.size(); i++) {
+			ImageView imgView = new ImageView(getActivity());
+			imgView.setImageBitmap(imageList.get(i).getBitmap());
+			imgView.setId(i);
+			imgView.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+			imgView.getLayoutParams().width = WIDTH;
+			imgView.getLayoutParams().height = HEIGHT;
+			imgView.setPadding(PADDING, PADDING, PADDING, PADDING);
+			imgView.setBackgroundColor(UNSELECTED); //getting the background color of ColorDrawable when it has not be set throws an exception
+			imgView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					toggleImageBackgroundColor((ImageView) v);
 				}
 			});
-			mImageViews.add(image);
+			mImageViews.add(imgView);
 		}
 		return mImageViews;
 	}

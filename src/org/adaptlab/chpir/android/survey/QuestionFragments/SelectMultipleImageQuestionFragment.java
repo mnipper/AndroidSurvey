@@ -9,7 +9,6 @@ import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import android.widget.ImageView;
 public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 	private final int SELECTED = Color.GREEN;
 	private final int UNSELECTED = Color.TRANSPARENT;
-	private List<ImageView> mImageViews;
+	private List<Integer> mSelectedViews;
 	private GridView mGridView;
 	private ArrayList<Image> mImages;
 	
@@ -31,11 +30,11 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View v = inflater.inflate(R.layout.fragment_image, questionComponent, false);
 		mImages = (ArrayList<Image>) getQuestion().images();
+		mSelectedViews = new ArrayList<Integer>();
 		mGridView = (GridView) v.findViewById(R.id.imageGridView);
 		setUpAdapter();
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	        	Log.i("CLICKED", position + "");
 	        	toggleImageBackgroundColor((ImageView) v);
 	        }
 	    });
@@ -77,12 +76,12 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 
 	@Override
 	protected void deserialize(String responseText) {
-		if (responseText.equals("")) return;    
+		if (responseText.equals("")) return;   
         String[] listOfIndices = responseText.split(LIST_DELIMITER);
         for (String index : listOfIndices) {
             if (!index.equals("")) {
                 Integer indexInteger = Integer.parseInt(index);
-                //mImageViews.get(indexInteger).setBackgroundColor(SELECTED);
+                mSelectedViews.add(indexInteger);
             }
         }		
 	}
@@ -100,7 +99,11 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 			Image img = getItem(position);
 			ImageView imageView = (ImageView)view.findViewById(R.id.image_item_view);
 			imageView.setImageBitmap(img.getBitmap());
-			imageView.setBackgroundColor(UNSELECTED);
+			if (mSelectedViews.contains(position)) {
+				imageView.setBackgroundColor(SELECTED);
+			} else {
+				imageView.setBackgroundColor(UNSELECTED);
+			}
 			return view;	
 		}
 	}

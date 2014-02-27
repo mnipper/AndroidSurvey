@@ -66,4 +66,5 @@
     <string name="rf">Refuse to answer this question</string>
     <string name="dk">Don\'t know</string>
     <string name="na">Not applicable</string>
+    <string name="desc"></string>
 </resources>

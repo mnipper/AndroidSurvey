@@ -4,52 +4,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.QuestionFragment;
+import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 public class SelectMultipleImageQuestionFragment extends QuestionFragment {
-	private final int PADDING = 10;
-	private final int WIDTH = 500;
-	private final int HEIGHT = 500;
 	private final int SELECTED = Color.GREEN;
 	private final int UNSELECTED = Color.TRANSPARENT;
 	private List<ImageView> mImageViews;
+	private GridView mGridView;
+	private ArrayList<Image> mImages;
 	
 	@Override
 	protected void createQuestionComponent(ViewGroup questionComponent) {
-		for (ImageView v : createImageViews()) {
-			questionComponent.addView(v);
-		}
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		View v = inflater.inflate(R.layout.fragment_image, questionComponent, false);
+		mImages = (ArrayList<Image>) getQuestion().images();
+		mGridView = (GridView) v.findViewById(R.id.imageGridView);
+		setUpAdapter();
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	        	Log.i("CLICKED", position + "");
+	        	toggleImageBackgroundColor((ImageView) v);
+	        }
+	    });
+		questionComponent.addView(mGridView);
 	}
 
-	private List<ImageView> createImageViews() {
-		mImageViews = new ArrayList<ImageView>();
-		List<Image> imageList = getQuestion().images();
-		for (int i=0; i < imageList.size(); i++) {
-			ImageView imgView = new ImageView(getActivity());
-			imgView.setImageBitmap(imageList.get(i).getBitmap());
-			imgView.setId(i);
-			imgView.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-			imgView.getLayoutParams().width = WIDTH;
-			imgView.getLayoutParams().height = HEIGHT;
-			imgView.setPadding(PADDING, PADDING, PADDING, PADDING);
-			imgView.setBackgroundColor(UNSELECTED); //getting the background color of ColorDrawable when it has not be set throws an exception
-			imgView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					toggleImageBackgroundColor((ImageView) v);
-				}
-			});
-			mImageViews.add(imgView);
-		}
-		return mImageViews;
+	private void setUpAdapter() {
+		if (getActivity() == null || mGridView == null) return;
+        if (mImages != null) {
+            mGridView.setAdapter(new ImageAdapter(mImages));
+        } else {
+            mGridView.setAdapter(null);
+        }
 	}
 	
 	private void toggleImageBackgroundColor(ImageView view) {
@@ -65,12 +64,12 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
 	@Override
 	protected String serialize() {
 		String serialized = "";
-		for (int i=0; i<mImageViews.size(); i++) {
-			ImageView view = mImageViews.get(i);
+		for (int i=0; i < mGridView.getChildCount(); i++) {
+			ImageView view = (ImageView) mGridView.getChildAt(i);
 			ColorDrawable drawable = (ColorDrawable) view.getBackground();
 			if (drawable.getColor() == SELECTED) {
-				serialized += view.getId();
-				if (i <  mImageViews.size() - 1) serialized += LIST_DELIMITER;
+				serialized += i;
+				if (i <  mGridView.getChildCount() - 1) serialized += LIST_DELIMITER;
 			}
 		}
 		return serialized;
@@ -83,9 +82,27 @@ public class SelectMultipleImageQuestionFragment extends QuestionFragment {
         for (String index : listOfIndices) {
             if (!index.equals("")) {
                 Integer indexInteger = Integer.parseInt(index);
-                mImageViews.get(indexInteger).setBackgroundColor(SELECTED);
+                //mImageViews.get(indexInteger).setBackgroundColor(SELECTED);
             }
         }		
+	}
+	
+	private class ImageAdapter extends ArrayAdapter<Image> {
+		
+		public ImageAdapter(ArrayList<Image> images) {
+			super(getActivity(), 0, images);
+		}
+		
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null) {
+                view = getActivity().getLayoutInflater().inflate(R.layout.image_item, parent, false);
+            }
+			Image img = getItem(position);
+			ImageView imageView = (ImageView)view.findViewById(R.id.image_item_view);
+			imageView.setImageBitmap(img.getBitmap());
+			imageView.setBackgroundColor(UNSELECTED);
+			return view;	
+		}
 	}
 
 }

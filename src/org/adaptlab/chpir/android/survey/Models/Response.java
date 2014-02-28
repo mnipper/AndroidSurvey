@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.json.JSONException;
@@ -37,12 +38,19 @@ public class Response extends SendModel {
 	private Date mTimeStarted;
 	@Column(name = "TimeEnded")
 	private Date mTimeEnded;
+	@Column(name = "UUID")
+	private String mUUID;
 	
 	public Response() {
 		super();
 		mSent = false;
 		mText = "";
 		mSpecialResponse = "";
+		mUUID = UUID.randomUUID().toString();
+	}
+	
+	public String getUUID() {
+		return mUUID;
 	}
 	    
 	/*
@@ -86,6 +94,7 @@ public class Response extends SendModel {
             jsonObject.put("time_started", getTimeStarted());
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
+            jsonObject.put("uuid", getUUID());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {

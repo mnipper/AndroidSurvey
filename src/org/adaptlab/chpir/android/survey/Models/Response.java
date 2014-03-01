@@ -197,4 +197,9 @@ public class Response extends SendModel {
         return mSpecialResponse.equals(SKIP) || mSpecialResponse.equals(RF) ||
                 mSpecialResponse.equals(NA) || mSpecialResponse.equals(DK);
     }
+    
+    public ResponsePhoto getPictureByResponse(Survey survey) {
+        return new Select().from(ResponsePhoto.class).where(
+        		"Response = ? AND Survey = ?", getId(), survey.getId()).executeSingle();
+    }
 }

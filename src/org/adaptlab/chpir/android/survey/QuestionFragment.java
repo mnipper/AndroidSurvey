@@ -5,6 +5,7 @@ import java.util.Date;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
+import com.activeandroid.util.Log;
 
 public abstract class QuestionFragment extends Fragment {
     protected final static String LIST_DELIMITER = ",";
@@ -36,6 +38,7 @@ public abstract class QuestionFragment extends Fragment {
     private Survey mSurvey;
     private Response mResponse;
     private Instrument mInstrument;
+    private ResponsePhoto mResponsePhoto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,9 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
+            mResponsePhoto = loadOrCreatePicture();
+            mResponsePhoto.setResponse(mResponse);
+            mResponsePhoto.setSurvey(mSurvey); 
         }
         
         saveTimeStarted();
@@ -90,6 +96,10 @@ public abstract class QuestionFragment extends Fragment {
     
     public Instrument getInstrument() { 
         return mInstrument;
+    }
+    
+    public ResponsePhoto getResponsePhoto() {
+    	return mResponsePhoto;
     }
     
     /*
@@ -142,6 +152,11 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
+    protected void saveResponsePhoto() {
+    	Log.i("Q Fragment", "save photo");
+    	mResponsePhoto.save();
+    }
+    
     protected void saveResponse() {
         getResponse().setResponse(serialize());
         saveTimeEnded();
@@ -171,6 +186,14 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             return new Response();
         }
+    }
+    
+    private ResponsePhoto loadOrCreatePicture() {
+    	//if (mResponse.getPictureByResponse(getSurvey()) != null) {
+            //return mResponse.getPictureByResponse(getSurvey());
+        //} else {
+            return new ResponsePhoto();
+        //}
     }
     
     private void animateValidationTextView(boolean valid) {        

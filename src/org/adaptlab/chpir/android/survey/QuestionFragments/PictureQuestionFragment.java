@@ -10,6 +10,8 @@ import com.activeandroid.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -56,7 +58,15 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
         if (requestCode == REQUEST_PHOTO) {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
-            	showImage(filename);
+            	Log.i(TAG, "onActivityResult");
+            	//showImage(filename);
+            	Photo photo = new Photo(filename);
+        		BitmapDrawable bitmap = null;
+                if (photo != null) {
+                    String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
+                    bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+                }
+                mPhoto.setImageDrawable(bitmap);
             }
         }
         removeCameraFragment();
@@ -82,7 +92,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 
 	protected void showImage(String fileName) {
 		mPhotoFileName = fileName;
-		saveResponse();
+		createPhotoBitmap(mPhotoFileName);
+		saveResponsePhoto();
 		Photo photo = new Photo(fileName);
 		BitmapDrawable bitmap = null;
         if (photo != null) {
@@ -90,6 +101,12 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
             bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
         }
         mPhoto.setImageDrawable(bitmap);
+	}
+	
+	private void createPhotoBitmap(String filename) {
+		String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
+		Bitmap bitmap = BitmapFactory.decodeFile(path);
+		getResponsePhoto().setBitmap(bitmap);
 	}
 
 }

@@ -25,6 +25,8 @@ public class ResponsePhoto extends SendModel {
 	@Column(name = "Bitmap")
 	private Bitmap mBitmap;
 	
+	//TODO Is mSurvey redundant?
+	
 	public ResponsePhoto() {
 		super();
 		mSent = false;
@@ -37,9 +39,9 @@ public class ResponsePhoto extends SendModel {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("response_uuid", getResponse().getUUID());
-            jsonObject.put("photo", getBitmap());
+            jsonObject.put("picture", getBitmap());
            
-            json.put("response_photo", jsonObject);
+            json.put("response_image", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }

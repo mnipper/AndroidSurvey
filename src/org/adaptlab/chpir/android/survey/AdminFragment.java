@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class AdminFragment extends Fragment {
 
     private EditText mDeviceIdentifierEditText;
+    private EditText mDeviceLabelEditText;
     private EditText mSyncIntervalEditText;
     private EditText mApiEndPointEditText;
     private EditText mCustomLocaleEditText;
@@ -43,6 +44,9 @@ public class AdminFragment extends Fragment {
         mDeviceIdentifierEditText = (EditText) v
                 .findViewById(R.id.device_identifier_edit_text);
         mDeviceIdentifierEditText.setText(getAdminSettingsInstanceDeviceId());
+        
+        mDeviceLabelEditText = (EditText) v.findViewById(R.id.device_label_edit_text);
+        mDeviceLabelEditText.setText(AdminSettings.getInstance().getDeviceLabel());
 
         mSyncIntervalEditText = (EditText) v
                 .findViewById(R.id.sync_interval_edit_text);
@@ -83,6 +87,7 @@ public class AdminFragment extends Fragment {
             public void onClick(View v) {
                 AdminSettings.getInstance().setDeviceIdentifier(mDeviceIdentifierEditText
                         .getText().toString());
+                AdminSettings.getInstance().setDeviceLabel(mDeviceLabelEditText.getText().toString());
                 
                 AdminSettings.getInstance().setSyncInterval(Integer
                         .parseInt(mSyncIntervalEditText.getText().toString()));

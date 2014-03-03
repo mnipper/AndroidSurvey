@@ -12,6 +12,8 @@ public class AdminSettings extends Model {
     private static final String TAG = "AdminSettings";
     @Column(name = "DeviceIdentifier")
     private String mDeviceIdentifier;
+    @Column(name = "DeviceLabel")
+    private String mDeviceLabel;
     @Column(name = "SyncInterval")
     private int mSyncInterval;
     @Column(name = "ApiUrl")
@@ -59,13 +61,21 @@ public class AdminSettings extends Model {
     }
     
     public void setDeviceIdentifier(String id) {
-        Log.i(TAG, "Setting device identifier: " + id);
         mDeviceIdentifier = id;
         save();
     }
     
     public String getDeviceIdentifier() {
         return mDeviceIdentifier;
+    }
+    
+    public void setDeviceLabel(String label) {
+        mDeviceLabel = label;
+        save();
+    }
+    
+    public String getDeviceLabel() {
+        return mDeviceLabel;
     }
     
     /**

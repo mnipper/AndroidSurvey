@@ -32,9 +32,9 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	protected void deserialize(String responseText) {
 		Log.i(TAG, "response text: " + responseText);
 		if (responseText.equals("")) {
-			setDefaultImage();
+			//setDefaultImage();
 		} else {
-			showImage(responseText);
+			//showImage(responseText);
 		}
 	}
 	

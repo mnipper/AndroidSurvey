@@ -1,8 +1,15 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.CameraFragment;
+import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.adaptlab.chpir.android.survey.R;
+import org.adaptlab.chpir.android.survey.Models.Photo;
 
+import com.activeandroid.util.Log;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -11,6 +18,7 @@ import android.widget.Button;
 
 public class RearPictureQuestionFragment extends PictureQuestionFragment {
     private static final int REAR_CAMERA = 0;
+    private static final String TAG = "RearPictureQuestionFragment";
 	private Button mCameraButton;
 	
 	@Override

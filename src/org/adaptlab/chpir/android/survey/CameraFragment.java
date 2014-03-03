@@ -54,15 +54,15 @@ public class CameraFragment extends Fragment {
 				} 
 			}
 			if (success) {
-				if (success) {
-					Log.i(TAG, "SUCCESS!!");
-					if (getTargetFragment() == null) return;
-					Intent i = new Intent();
-					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
-					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-				} else {
-					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
-				}
+				Log.i(TAG, "SUCCESS!!");
+				Log.i(TAG, filename);
+				Log.i(TAG, getTargetFragment()+"");
+				if (getTargetFragment() == null) return;
+				Intent i = new Intent();
+				i.putExtra(EXTRA_PHOTO_FILENAME, filename);
+				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+			} else {
+				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
 			}
 		}
 	};

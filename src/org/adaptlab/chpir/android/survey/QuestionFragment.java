@@ -3,11 +3,15 @@ package org.adaptlab.chpir.android.survey;
 import java.util.Date;
 
 import org.adaptlab.chpir.android.survey.Models.Instrument;
+import org.adaptlab.chpir.android.survey.Models.Photo;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -220,4 +224,5 @@ public abstract class QuestionFragment extends Fragment {
             mValidationTextView.setAnimation(animation);
         }
     }
+    
 }

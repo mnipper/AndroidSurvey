@@ -54,12 +54,12 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
+		Log.i(TAG, "Callback Received...");
+		if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == REQUEST_PHOTO) {
             String filename = data.getStringExtra(CameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
             	Log.i(TAG, "onActivityResult");
-            	//showImage(filename);
             	Photo photo = new Photo(filename);
         		BitmapDrawable bitmap = null;
                 if (photo != null) {
@@ -67,6 +67,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
                     bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
                 }
                 mPhoto.setImageDrawable(bitmap);
+                mPhotoFileName = filename;
+        		saveResponsePhoto();
             }
         }
         removeCameraFragment();

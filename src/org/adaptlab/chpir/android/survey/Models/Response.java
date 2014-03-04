@@ -40,6 +40,8 @@ public class Response extends SendModel {
 	private Date mTimeEnded;
 	@Column(name = "UUID")
 	private String mUUID;
+	@Column(name = "ResponsePhoto")
+	private ResponsePhoto mResponsePhoto;
 	
 	public Response() {
 		super();
@@ -167,6 +169,14 @@ public class Response extends SendModel {
 	
 	public Date getTimeEnded() {
 		return mTimeEnded;
+	}
+	
+	public void setResponsePhoto(ResponsePhoto photo) {
+		mResponsePhoto = photo;
+	}
+	
+	public ResponsePhoto getResponsePhoto() {
+		return mResponsePhoto;
 	}
     
     @Override

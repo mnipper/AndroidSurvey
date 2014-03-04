@@ -30,8 +30,9 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	
 	@Override
 	protected void deserialize(String responseText) {
-		Log.i(TAG, "response text: " + responseText);
-		//mPhotoFileName = responseText;
+		if (getResponsePhoto() != null) {
+			mPhotoFileName = getResponsePhoto().getPicturePath();
+		}
 	}
 	
 	protected ImageView getPhoto() {
@@ -67,8 +68,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
                 }
                 mPhoto.setImageDrawable(bitmap);
                 mPhotoFileName = filename;
-                savePhotoLocation();
-        		saveResponsePhoto();
+        		saveResponsePhoto(); //TODO Should save happen here or onPause()
             }
         }
         removeCameraFragment();
@@ -84,7 +84,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		savePhotoLocation();
+		saveResponsePhoto();
 	}
 	
 	@Override
@@ -106,12 +106,6 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
             bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
         }
         mPhoto.setImageDrawable(bitmap);
-	}
-	
-	private void savePhotoLocation() {
-		Log.i(TAG, "Bitmap Factory coming up");
-		getResponsePhoto().setPicturePath(mPhotoFileName);
-		saveResponsePhoto();
 	}
 
 }

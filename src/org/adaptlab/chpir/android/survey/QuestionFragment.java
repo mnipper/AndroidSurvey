@@ -104,7 +104,7 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     public ResponsePhoto getResponsePhoto() {
-    	return mResponsePhoto;
+    	return mResponsePhoto; //TODO Should it be tied to mResponse???????
     }
     
     /*
@@ -158,7 +158,8 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     protected void saveResponsePhoto() {
-    	Log.i("Q Fragment", "save photo");
+    	Log.i("QuestionFragment", "save photo taken with camera");
+    	getResponsePhoto().setPicturePath(serialize());
     	getResponsePhoto().save();
     }
     

@@ -22,8 +22,10 @@ public class ResponsePhoto extends SendModel {
 	private Survey mSurvey;
 	@Column(name = "Response")
 	private Response mResponse;
-	@Column(name = "Bitmap")
-	private Bitmap mBitmap;
+	@Column(name = "PicturePath")
+	private String mPicturePath;
+	@Column(name = "Question")
+	private Question mQuestion;
 	
 	//TODO Is mSurvey redundant?
 	
@@ -39,7 +41,7 @@ public class ResponsePhoto extends SendModel {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("response_uuid", getResponse().getUUID());
-            jsonObject.put("picture", getBitmap());
+            jsonObject.put("picture", getPicturePath());
            
             json.put("response_image", jsonObject);
         } catch (JSONException je) {
@@ -55,7 +57,8 @@ public class ResponsePhoto extends SendModel {
 
 	@Override
 	public boolean readyToSend() {
-		return getSurvey().readyToSend();
+		//return getSurvey().readyToSend();
+		return false; //TODO 
 	}
 	
 	public void setSurvey(Survey survey) {
@@ -66,6 +69,14 @@ public class ResponsePhoto extends SendModel {
 		return mSurvey;
 	}
 	
+	public void setQuestion(Question question) {
+		mQuestion = question;
+	}
+	
+	public Question getQuestion() {
+		return mQuestion;
+	}
+	
 	public void setResponse(Response response) {
 		mResponse = response;
 	}
@@ -74,21 +85,21 @@ public class ResponsePhoto extends SendModel {
 		return mResponse;
 	}
 	
-	public void setBitmap(Bitmap photo) {
-		mBitmap = photo;
+	public void setPicturePath(String path) {
+		mPicturePath = path;
 	}
 	
-	public Bitmap getBitmap() {
-		return mBitmap;
+	public String getPicturePath() {
+		return mPicturePath;
 	}
 
 	@Override
-	public void setAsSent() {
+	public void setAsSent() {  
 		mSent = true;
         this.delete();
-        if (mSurvey.responses().size() == 0) {
-            mSurvey.delete();
-        }
+        //if (mSurvey.responsePhotos().size() == 0) { //Doubtful
+        //    mSurvey.delete();
+        //}
 	}
 	
 	public static List<Response> getAll() {

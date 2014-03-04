@@ -31,14 +31,13 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	@Override
 	protected void deserialize(String responseText) {
 		Log.i(TAG, "response text: " + responseText);
-		if (responseText.equals("")) {
-			//setDefaultImage();
-		} else {
-			//showImage(responseText);
-		}
+		//mPhotoFileName = responseText;
 	}
 	
 	protected ImageView getPhoto() {
+		if(mPhoto == null) {
+			setDefaultImage();
+		}
 		return mPhoto;
 	}
 	
@@ -68,6 +67,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
                 }
                 mPhoto.setImageDrawable(bitmap);
                 mPhotoFileName = filename;
+                savePhotoLocation();
         		saveResponsePhoto();
             }
         }
@@ -82,6 +82,12 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	}
 	
 	@Override
+	public void onPause() {
+		super.onPause();
+		savePhotoLocation();
+	}
+	
+	@Override
 	protected String serialize() {
 		return mPhotoFileName;
 	}
@@ -92,11 +98,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		mPhoto.setImageResource(id);
 	}
 
-	protected void showImage(String fileName) {
-		mPhotoFileName = fileName;
-		createPhotoBitmap(mPhotoFileName);
-		saveResponsePhoto();
-		Photo photo = new Photo(fileName);
+	protected void setImageFromCamera() {
+		Photo photo = new Photo(mPhotoFileName);
 		BitmapDrawable bitmap = null;
         if (photo != null) {
             String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
@@ -105,10 +108,10 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
         mPhoto.setImageDrawable(bitmap);
 	}
 	
-	private void createPhotoBitmap(String filename) {
-		String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
-		Bitmap bitmap = BitmapFactory.decodeFile(path);
-		getResponsePhoto().setBitmap(bitmap);
+	private void savePhotoLocation() {
+		Log.i(TAG, "Bitmap Factory coming up");
+		getResponsePhoto().setPicturePath(mPhotoFileName);
+		saveResponsePhoto();
 	}
 
 }

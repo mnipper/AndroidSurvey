@@ -2,11 +2,13 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import java.util.ArrayList;
 
+import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,9 @@ public class SelectOneImageQuestionFragment extends QuestionFragment {
             }
 			Image img = getItem(position);
 			ImageView imageView = (ImageView)view.findViewById(R.id.image_item_view);
-			imageView.setImageBitmap(img.getBitmap());
+			String path = getActivity().getFileStreamPath(img.getBitmapPath()).getAbsolutePath();
+			BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+			imageView.setImageDrawable(bitmap);
 			if (mPreviouslySelectedViewIndex == position) {
 				imageView.setBackgroundColor(SELECTED);
 			} 

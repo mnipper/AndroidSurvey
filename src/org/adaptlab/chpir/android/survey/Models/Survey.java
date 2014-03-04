@@ -108,6 +108,10 @@ public class Survey extends SendModel {
     public List<Response> responses() {
         return getMany(Response.class, "Survey");
     }
+    
+    public List<ResponsePhoto> responsePhotos() {
+    	return getMany(ResponsePhoto.class, "Survey");
+    }
  
     
     /*

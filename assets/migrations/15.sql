@@ -1,1 +1,0 @@
-ALTER TABLE ResponsePhotos ADD COLUMN Bitmap BITMAP;

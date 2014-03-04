@@ -65,7 +65,6 @@ public abstract class QuestionFragment extends Fragment {
             mResponsePhoto = loadOrCreatePicture();
             mResponsePhoto.setResponse(mResponse);
             mResponsePhoto.setQuestion(mQuestion);
-            //mResponsePhoto.setSurvey(mSurvey); 
         }
         
         saveTimeStarted();
@@ -195,13 +194,13 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     private ResponsePhoto loadOrCreatePicture() {
-//    	if (mResponse.getPictureByQuestion(getQuestion()) != null) {
-//    		Log.i("Q Frag", "old response photo");
-//            return mResponse.getPictureByQuestion(getQuestion());
-//        } else {
-//        	Log.i("Q Frag", "new response photo");
+    	if (mResponse.getResponsePhoto() != null) {
+    		Log.i("Q Frag", "old response photo");
+            return mResponse.getResponsePhoto();
+        } else {
+        	Log.i("Q Frag", "new response photo");
             return new ResponsePhoto();
-//        }
+        }
     }
     
     private void animateValidationTextView(boolean valid) {        

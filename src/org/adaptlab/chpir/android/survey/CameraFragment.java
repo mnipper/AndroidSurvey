@@ -61,6 +61,8 @@ public class CameraFragment extends Fragment {
 				Intent i = new Intent();
 				i.putExtra(EXTRA_PHOTO_FILENAME, filename);
 				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+				if (mCamera != null)
+					mCamera.release();
 			} else {
 				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
 			}

@@ -29,7 +29,6 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 					transaction.commit();
 				}
 			});
-			setDefaultImage();
 			questionComponent.addView(mCameraButton);
 			questionComponent.addView(getPhoto());
 		}

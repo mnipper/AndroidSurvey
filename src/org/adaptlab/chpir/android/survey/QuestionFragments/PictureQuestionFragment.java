@@ -33,11 +33,12 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		if (getResponsePhoto() != null) {
 			mPhotoFileName = getResponsePhoto().getPicturePath();
 		}
+		Log.i(TAG, "DESERIALIZED PQF");
 	}
 	
 	protected ImageView getPhoto() {
 		if(mPhoto == null) {
-			setDefaultImage();
+			setImageViewPhoto();
 		}
 		return mPhoto;
 	}
@@ -68,7 +69,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
                 }
                 mPhoto.setImageDrawable(bitmap);
                 mPhotoFileName = filename;
-        		saveResponsePhoto(); //TODO Should save happen here or onPause()
+        		saveResponsePhoto();
             }
         }
         removeCameraFragment();
@@ -92,19 +93,21 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		return mPhotoFileName;
 	}
 	
-	protected void setDefaultImage() {
+	protected void setImageViewPhoto() {
 		mPhoto = new ImageView(getActivity());
-		int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
-		mPhoto.setImageResource(id);
+		if (mPhotoFileName == null) {
+			Log.i(TAG, "USING DEFAULT IMAGE");
+			int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
+			mPhoto.setImageResource(id);
+		} else {
+			setImageFromCamera();
+		}
 	}
 
 	protected void setImageFromCamera() {
-		Photo photo = new Photo(mPhotoFileName);
-		BitmapDrawable bitmap = null;
-        if (photo != null) {
-            String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
-            bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
-        }
+		Log.i(TAG, "USING IMAGE FROM CAMERA");
+        String path = getActivity().getFileStreamPath(mPhotoFileName).getAbsolutePath();
+        BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
         mPhoto.setImageDrawable(bitmap);
 	}
 

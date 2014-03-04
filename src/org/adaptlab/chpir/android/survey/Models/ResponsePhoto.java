@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -18,17 +19,13 @@ public class ResponsePhoto extends SendModel {
 	private static final String TAG = "ResponsePhoto";
 	@Column(name = "SentToRemote")
 	private boolean mSent;
-	@Column(name = "Survey")
-	private Survey mSurvey;
 	@Column(name = "Response")
 	private Response mResponse;
 	@Column(name = "PicturePath")
 	private String mPicturePath;
 	@Column(name = "Question")
 	private Question mQuestion;
-	
-	//TODO Is mSurvey redundant?
-	
+		
 	public ResponsePhoto() {
 		super();
 		mSent = false;
@@ -41,13 +38,17 @@ public class ResponsePhoto extends SendModel {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("response_uuid", getResponse().getUUID());
-            jsonObject.put("picture", getPicturePath());
+            jsonObject.put("picture", getPicture());
            
             json.put("response_image", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
         return json;
+	}
+	
+	public Bitmap getPicture() {
+		return BitmapFactory.decodeFile(getPicturePath());
 	}
 
 	@Override
@@ -57,16 +58,7 @@ public class ResponsePhoto extends SendModel {
 
 	@Override
 	public boolean readyToSend() {
-		//return getSurvey().readyToSend();
-		return false; //TODO 
-	}
-	
-	public void setSurvey(Survey survey) {
-		mSurvey = survey;
-	}
-
-	public Survey getSurvey() {
-		return mSurvey;
+		return getResponse().getSurvey().readyToSend();
 	}
 	
 	public void setQuestion(Question question) {
@@ -97,9 +89,9 @@ public class ResponsePhoto extends SendModel {
 	public void setAsSent() {  
 		mSent = true;
         this.delete();
-        //if (mSurvey.responsePhotos().size() == 0) { //Doubtful
-        //    mSurvey.delete();
-        //}
+        if (getResponse().getSurvey().responsePhotos().size() == 0) { 
+            getResponse().getSurvey().delete();
+        }
 	}
 	
 	public static List<Response> getAll() {

@@ -38,7 +38,6 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 					transaction.commit();
 				}
 			});
-			//setDefaultImage();
 			questionComponent.addView(mCameraButton);
 			questionComponent.addView(getPhoto());
 		}

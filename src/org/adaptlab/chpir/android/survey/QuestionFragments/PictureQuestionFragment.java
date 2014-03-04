@@ -76,6 +76,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	}
 	
 	private void removeCameraFragment() {
+		mCameraFragment.releaseCamera();
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 		transaction.remove(mCameraFragment);

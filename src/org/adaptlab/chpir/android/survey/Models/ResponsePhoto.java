@@ -48,7 +48,11 @@ public class ResponsePhoto extends SendModel {
 	}
 	
 	public Bitmap getPicture() {
-		return BitmapFactory.decodeFile(getPicturePath());
+		if (getPicturePath() != null) {
+			return BitmapFactory.decodeFile(getPicturePath());
+		} else {
+			return null;
+		}
 	}
 
 	@Override

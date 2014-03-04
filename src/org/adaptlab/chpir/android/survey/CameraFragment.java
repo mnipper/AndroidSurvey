@@ -61,8 +61,7 @@ public class CameraFragment extends Fragment {
 				Intent i = new Intent();
 				i.putExtra(EXTRA_PHOTO_FILENAME, filename);
 				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-				if (mCamera != null)
-					mCamera.release();
+				releaseCamera();
 			} else {
 				getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
 			}
@@ -165,6 +164,10 @@ public class CameraFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		releaseCamera();
+	}
+	
+	public void releaseCamera() {
 		if (mCamera != null) {
 			mCamera.release();
 			mCamera = null;

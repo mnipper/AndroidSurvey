@@ -1,0 +1,2 @@
+ALTER TABLE Responses ADD COLUMN ResponsePhoto RESPONSEPHOTO;
+ALTER TABLE ResponsePhotos DROP COLUMN Survey;

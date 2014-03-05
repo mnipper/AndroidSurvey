@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Base64;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -41,17 +43,27 @@ public class ResponsePhoto extends SendModel {
 		JSONObject json = new JSONObject();
         
         try {
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("response_uuid", getResponse().getUUID());
-//            jsonObject.put("picture", getPicture());  
-//            json.put("response_image", jsonObject);
-        	json.put("response_uuid", getResponse().getUUID());
-        	json.put("picture", getPicture());
-        	
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("response_uuid", getResponse().getUUID());
+            jsonObject.put("picture_data", getEncodedImage());  
+            json.put("response_image", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
         return json;
+	}
+	
+	public String getEncodedImage() {
+		String encodedImage = "";
+		if (getPicturePath() != null) {
+			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
+			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+			byte[] pictureBytes = outputStream.toByteArray();
+			encodedImage = Base64.encodeToString(pictureBytes, Base64.DEFAULT);
+		}
+		return encodedImage;
 	}
 	
 	public File getPicture() {

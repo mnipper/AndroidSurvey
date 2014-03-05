@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
+import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.apache.http.HttpResponse;
@@ -19,21 +20,25 @@ import org.apache.http.params.HttpConnectionParams;
 
 import com.activeandroid.query.Select;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class UploadImagesTask extends AsyncTask<Void, Void, Void> {
 	private static final String TAG = "UploadImagesTask";
 	private static final String mRemoteTableName = "response_images";
+	private Context mContext;
 	
-	public UploadImagesTask() {
-		
+	public UploadImagesTask(Context context) {
+		mContext = context;
 	}
 	
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		Log.i(TAG, "Starting background task...upload images...");
-		uploadFile();
+		if (NetworkNotificationUtils.checkForNetworkErrors(mContext)) {
+			Log.i(TAG, "Starting background task...upload images...");
+			uploadFile();
+		}
 		return null;
 	}
 	

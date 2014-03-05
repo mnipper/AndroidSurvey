@@ -83,8 +83,8 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("images", Image.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
-        //ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
-        new UploadImagesTask();
+        ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
+        //new UploadImagesTask(mContext).execute();
 
         PollService.setServiceAlarm(context.getApplicationContext(), true);
     }

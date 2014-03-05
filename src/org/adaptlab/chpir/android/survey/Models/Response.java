@@ -40,8 +40,6 @@ public class Response extends SendModel {
 	private Date mTimeEnded;
 	@Column(name = "UUID")
 	private String mUUID;
-	@Column(name = "ResponsePhoto")
-	private ResponsePhoto mResponsePhoto;
 	
 	public Response() {
 		super();
@@ -171,28 +169,23 @@ public class Response extends SendModel {
 		return mTimeEnded;
 	}
 	
-	public void setResponsePhoto(ResponsePhoto photo) {
-		mResponsePhoto = photo;
-	}
-	
 	public ResponsePhoto getResponsePhoto() {
-		return mResponsePhoto;
+		return new Select().from(ResponsePhoto.class).where("Response = ?", getUUID()).executeSingle();
 	}
     
     @Override
     public boolean isSent() {
         return mSent;
     }
-    
+
     @Override
     public void setAsSent() {
-        mSent = true;
-//        this.delete(); // Delete from device after successful send
-//        if (mSurvey.responses().size() == 0) {
-//            mSurvey.delete();
-//        }
-//        
-//        Log.d(TAG, Response.getAll().size() + " responses left on device");
+    	mSent = true;
+    	if (getResponsePhoto() == null) {	//TODO FIX DELETE
+    		//this.delete(); 
+    	}
+    	mSurvey.deleteIfComplete();
+    	Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     
     /*

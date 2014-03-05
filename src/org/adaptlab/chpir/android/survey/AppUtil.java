@@ -12,7 +12,6 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
-import org.adaptlab.chpir.android.survey.Tasks.UploadImagesTask;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -84,7 +83,6 @@ public class AppUtil {
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
-        //new UploadImagesTask(mContext).execute();
 
         PollService.setServiceAlarm(context.getApplicationContext(), true);
     }

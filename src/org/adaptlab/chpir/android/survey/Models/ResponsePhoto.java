@@ -1,25 +1,19 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
-import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
 
 @Table(name = "ResponsePhotos")
 public class ResponsePhoto extends SendModel {
@@ -30,8 +24,6 @@ public class ResponsePhoto extends SendModel {
 	private Response mResponse;
 	@Column(name = "PicturePath")
 	private String mPicturePath;
-	@Column(name = "Question")
-	private Question mQuestion;
 		
 	public ResponsePhoto() {
 		super();
@@ -65,16 +57,6 @@ public class ResponsePhoto extends SendModel {
 		}
 		return encodedImage;
 	}
-	
-	public File getPicture() {
-		if (getPicturePath() != null) {
-			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
-			File image = new File(filepath);
-			return image;
-		} else {
-			return null;
-		}
-	}
 
 	@Override
 	public boolean isSent() {
@@ -83,15 +65,7 @@ public class ResponsePhoto extends SendModel {
 
 	@Override
 	public boolean readyToSend() {
-		return getResponse().getSurvey().readyToSend();
-	}
-	
-	public void setQuestion(Question question) {
-		mQuestion = question;
-	}
-	
-	public Question getQuestion() {
-		return mQuestion;
+		return getResponse().getSurvey().readyToSend(); 
 	}
 	
 	public void setResponse(Response response) {
@@ -114,13 +88,8 @@ public class ResponsePhoto extends SendModel {
 	public void setAsSent() {  
 		mSent = true;
         this.delete();
-        if (getResponse().getSurvey().responsePhotos().size() == 0) { 
-            getResponse().getSurvey().delete();
-        }
+        getResponse().delete();
+        getResponse().getSurvey().deleteIfComplete();
 	}
-	
-	public static List<Response> getAll() {
-        return new Select().from(ResponsePhoto.class).orderBy("Id ASC").execute();
-    }
 
 }

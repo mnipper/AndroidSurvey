@@ -67,4 +67,5 @@
     <string name="dk">Don\'t know</string>
     <string name="na">Not applicable</string>
     <string name="desc"></string>
+    <string name="device_label">Device Label</string>
 </resources>

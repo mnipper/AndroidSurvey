@@ -69,6 +69,10 @@ public class AppUtil {
         if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
             AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
         }
+        
+        if (AdminSettings.getInstance().getDeviceLabel() == null) {
+            AdminSettings.getInstance().setDeviceLabel("");
+        }
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(context));

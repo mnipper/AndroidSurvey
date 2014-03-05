@@ -1,2 +1,3 @@
 ALTER TABLE Responses ADD COLUMN ResponsePhoto RESPONSEPHOTO;
 ALTER TABLE ResponsePhotos DROP COLUMN Survey;
+ALTER TABLE AdminSettings ADD COLUMN DeviceLabel STRING;

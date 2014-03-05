@@ -12,6 +12,7 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Tasks.UploadImagesTask;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -31,6 +32,7 @@ public class AppUtil {
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
+    private static Context mContext;
     
     /*
      * Get the version code from the AndroidManifest
@@ -46,6 +48,7 @@ public class AppUtil {
     }
     
     public static final void appInit(Context context) {
+    	mContext = context;
         if (AppUtil.REQUIRE_SECURITY_CHECKS) {
             if (!AppUtil.runDeviceSecurityChecks(context)) {
                 // Device has failed security checks
@@ -76,7 +79,8 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("images", Image.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
-        ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
+        //ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
+        new UploadImagesTask();
 
         PollService.setServiceAlarm(context.getApplicationContext(), true);
     }
@@ -118,5 +122,9 @@ public class AppUtil {
     public static boolean checkAdminPassword(String password) {
         String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
         return hash.equals(ADMIN_PASSWORD_HASH);
+    }
+    
+    public static Context getContext() {
+    	return mContext;
     }
 }

@@ -1,13 +1,18 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.io.File;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.AppUtil;
+import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -36,20 +41,24 @@ public class ResponsePhoto extends SendModel {
 		JSONObject json = new JSONObject();
         
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("response_uuid", getResponse().getUUID());
-            jsonObject.put("picture", getPicture());
-           
-            json.put("response_image", jsonObject);
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("response_uuid", getResponse().getUUID());
+//            jsonObject.put("picture", getPicture());  
+//            json.put("response_image", jsonObject);
+        	json.put("response_uuid", getResponse().getUUID());
+        	json.put("picture", getPicture());
+        	
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
         return json;
 	}
 	
-	public Bitmap getPicture() {
+	public File getPicture() {
 		if (getPicturePath() != null) {
-			return BitmapFactory.decodeFile(getPicturePath());
+			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
+			File image = new File(filepath);
+			return image;
 		} else {
 			return null;
 		}

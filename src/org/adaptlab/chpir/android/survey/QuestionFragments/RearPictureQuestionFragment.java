@@ -5,9 +5,12 @@ import org.adaptlab.chpir.android.survey.R;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 public class RearPictureQuestionFragment extends PictureQuestionFragment {
     private static final int REAR_CAMERA = 0;
@@ -19,6 +22,9 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 		if (isCameraAvailable()) {
 			mCameraButton = new Button(getActivity());
 			mCameraButton.setText(R.string.enable_camera);
+			LinearLayout.LayoutParams buttonLayout = new LinearLayout.LayoutParams(500, 120);
+			buttonLayout.gravity = Gravity.CENTER;
+			mCameraButton.setLayoutParams(buttonLayout);
 			mCameraButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					FragmentManager fm = getActivity().getSupportFragmentManager();

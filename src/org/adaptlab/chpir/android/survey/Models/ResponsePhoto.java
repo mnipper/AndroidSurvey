@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -15,6 +16,7 @@ import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "ResponsePhotos")
 public class ResponsePhoto extends SendModel implements Serializable {
@@ -22,10 +24,12 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	private static final String TAG = "ResponsePhoto";
 	@Column(name = "SentToRemote")
 	private boolean mSent;
-	@Column(name = "Response")
+	@Column(name = "Response", onDelete = Column.ForeignKeyAction.SET_NULL)
 	private Response mResponse;
 	@Column(name = "PicturePath")
 	private String mPicturePath;
+	@Column(name = "ResponseUUID")
+	private String mResponseUUID;
 		
 	public ResponsePhoto() {
 		super();
@@ -38,7 +42,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
         
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("response_uuid", getResponse().getUUID());
+            jsonObject.put("response_uuid",  mResponseUUID);
             jsonObject.put("picture_data", getEncodedImage());  
             json.put("response_image", jsonObject);
         } catch (JSONException je) {
@@ -67,11 +71,20 @@ public class ResponsePhoto extends SendModel implements Serializable {
 
 	@Override
 	public boolean readyToSend() {
-		return getResponse().getSurvey().readyToSend(); 
+		if (getResponse() == null) {
+			if (getEncodedImage() == null) {
+				return false;
+			} else  {
+				return true;
+			}
+		} else {
+			return getResponse().getSurvey().readyToSend(); 
+		}
 	}
 	
 	public void setResponse(Response response) {
 		mResponse = response;
+		mResponseUUID = response.getUUID();
 	}
 	
 	public Response getResponse() {
@@ -90,8 +103,11 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	public void setAsSent() {  
 		mSent = true;
         this.delete();
-        getResponse().delete();
-        getResponse().getSurvey().deleteIfComplete();
+        Log.d(TAG, getAll().size() + " response photos left on device");
 	}
+	
+	public static List<ResponsePhoto> getAll() {
+        return new Select().from(ResponsePhoto.class).orderBy("Id ASC").execute();
+    }
 
 }

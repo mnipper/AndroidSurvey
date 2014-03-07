@@ -181,8 +181,8 @@ public class Response extends SendModel {
     @Override
     public void setAsSent() {
     	mSent = true;
-    	if (getResponsePhoto() == null) {	//TODO FIX DELETE
-    		//this.delete(); 
+    	if (getResponsePhoto() == null) {	
+    		this.delete(); 
     	}
     	mSurvey.deleteIfComplete();
     	Log.d(TAG, Response.getAll().size() + " responses left on device");

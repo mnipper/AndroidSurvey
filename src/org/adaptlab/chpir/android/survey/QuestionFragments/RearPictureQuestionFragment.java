@@ -36,7 +36,7 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 				}
 			});
 			questionComponent.addView(mCameraButton);
-			questionComponent.addView(getImageView());
+			//questionComponent.addView(getImageView());
 		}
 	}
 

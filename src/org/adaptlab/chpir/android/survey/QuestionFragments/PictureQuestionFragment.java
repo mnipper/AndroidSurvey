@@ -48,6 +48,12 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		super.onPause();
 		saveResponsePhoto();
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		setImageView();
+	}
 
 	@Override
 	protected String serialize() {
@@ -55,7 +61,14 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	}
 
 	private ImageView getImageViewPhoto() {
-		mPhoto = new ImageView(getActivity());
+		if (mPhoto == null) {
+			mPhoto = new ImageView(getActivity());
+			setImageView();
+		}
+		return mPhoto;
+	}
+	
+	private void setImageView() {
 		String filename = getResponsePhoto().getPicturePath();
 		if (filename != null) {
 			Log.i(TAG, "USING IMAGE FROM CAMERA");
@@ -63,7 +76,6 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 			BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
 			mPhoto.setImageDrawable(bitmap);
 		}
-		return mPhoto;
 	}
 
 }

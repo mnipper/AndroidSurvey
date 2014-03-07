@@ -27,8 +27,7 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 				public void onClick(View v) {
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					FragmentTransaction transaction = fm.beginTransaction();
-					mCameraFragment = new CameraFragment();
-					mCameraFragment.setTargetFragment(FrontPictureQuestionFragment.this, REQUEST_PHOTO);
+					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto());
 					mCameraFragment.CAMERA = FRONT_CAMERA;
 					transaction.replace(R.id.fragmentContainer, mCameraFragment);
 					transaction.addToBackStack(null);

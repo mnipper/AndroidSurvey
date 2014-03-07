@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -16,7 +17,8 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 @Table(name = "ResponsePhotos")
-public class ResponsePhoto extends SendModel {
+public class ResponsePhoto extends SendModel implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private static final String TAG = "ResponsePhoto";
 	@Column(name = "SentToRemote")
 	private boolean mSent;

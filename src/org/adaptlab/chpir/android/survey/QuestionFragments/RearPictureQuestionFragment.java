@@ -3,10 +3,6 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import org.adaptlab.chpir.android.survey.CameraFragment;
 import org.adaptlab.chpir.android.survey.R;
 
-import com.activeandroid.util.Log;
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -14,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 public class RearPictureQuestionFragment extends PictureQuestionFragment {
-    private static final int REAR_CAMERA = 0;
+	private static final int REAR_CAMERA = 0;
 	private Button mCameraButton;
 
 	@Override
@@ -33,11 +28,10 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 				public void onClick(View v) {
 					FragmentManager fm = getActivity().getSupportFragmentManager();                    
 					FragmentTransaction transaction = fm.beginTransaction();
-					mCameraFragment = new CameraFragment();
-					mCameraFragment.setTargetFragment(RearPictureQuestionFragment.this, REQUEST_PHOTO);
+					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto());
 					mCameraFragment.CAMERA = REAR_CAMERA;
 					transaction.replace(R.id.fragmentContainer, mCameraFragment);
-					transaction.addToBackStack(null); //TODO Figure out how to send data to a fragment in the back stack
+					transaction.addToBackStack(null); 
 					transaction.commit();
 				}
 			});
@@ -46,10 +40,4 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 		}
 	}
 
-	
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	Log.i("HEY", "CALLED WEIRD ONACTIVITY");
-    	super.onActivityResult(requestCode, resultCode, data);
-    }
 }

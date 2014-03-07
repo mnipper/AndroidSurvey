@@ -3,15 +3,11 @@ package org.adaptlab.chpir.android.survey;
 import java.util.Date;
 
 import org.adaptlab.chpir.android.survey.Models.Instrument;
-import org.adaptlab.chpir.android.survey.Models.Photo;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -199,14 +195,14 @@ public abstract class QuestionFragment extends Fragment {
     	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
     			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
 	    	if (mResponse.getResponsePhoto() == null) {
-	    		Log.i("QUESTIONFRAGMENT", "new response photo");
+	    		Log.i(TAG, "new response photo");
 	            return new ResponsePhoto();
 	        } else {
-	    		Log.i("QUESTIONFRAGMENT", "OLD!! response photo");
+	    		Log.i(TAG, "OLD!! response photo");
 	            return mResponse.getResponsePhoto();
 	        }
     	}
-		Log.i("QUESTIONFRAGMENT", "about to return NULL");
+		Log.i(TAG, "about to return NULL");
     	return null;
     }
     

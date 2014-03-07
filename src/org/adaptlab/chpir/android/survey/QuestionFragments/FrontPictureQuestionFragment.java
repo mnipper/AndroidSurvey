@@ -30,12 +30,13 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 					mCameraFragment = new CameraFragment();
 					mCameraFragment.setTargetFragment(FrontPictureQuestionFragment.this, REQUEST_PHOTO);
 					mCameraFragment.CAMERA = FRONT_CAMERA;
-					transaction.add(R.id.fragmentContainer, mCameraFragment);
+					transaction.replace(R.id.fragmentContainer, mCameraFragment);
+					transaction.addToBackStack(null);
 					transaction.commit();
 				}
 			});
 			questionComponent.addView(mCameraButton);
-			questionComponent.addView(getPhoto());
+			questionComponent.addView(getImageView());
 		}
     }
 

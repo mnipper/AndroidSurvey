@@ -31,6 +31,7 @@ import com.activeandroid.Model;
 import com.activeandroid.util.Log;
 
 public abstract class QuestionFragment extends Fragment {
+	private final static String TAG = "QuestionFragment";
     protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
@@ -198,11 +199,14 @@ public abstract class QuestionFragment extends Fragment {
     	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
     			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
 	    	if (mResponse.getResponsePhoto() == null) {
+	    		Log.i("QUESTIONFRAGMENT", "new response photo");
 	            return new ResponsePhoto();
 	        } else {
+	    		Log.i("QUESTIONFRAGMENT", "OLD!! response photo");
 	            return mResponse.getResponsePhoto();
 	        }
     	}
+		Log.i("QUESTIONFRAGMENT", "about to return NULL");
     	return null;
     }
     
@@ -230,5 +234,4 @@ public abstract class QuestionFragment extends Fragment {
             mValidationTextView.setAnimation(animation);
         }
     }
-    
 }

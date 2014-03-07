@@ -238,7 +238,7 @@ public class SurveyFragment extends Fragment {
             // Replace the question fragment if it already exist            
             fm.beginTransaction()
                 .replace(R.id.question_container, mQuestionFragment)
-                .commit();            
+                .commit();        
         }
         
         mSurvey.setLastQuestion(mQuestion);

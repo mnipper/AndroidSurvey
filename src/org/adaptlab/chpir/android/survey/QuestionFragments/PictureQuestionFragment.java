@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
@@ -29,6 +30,13 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	protected abstract void createQuestionComponent(ViewGroup questionComponent);
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		 super.onCreate(savedInstanceState);
+		 mPhotoFileName = getResponsePhoto().getPicturePath();
+		 Log.i(TAG, mPhotoFileName + " name of file"); 
+	}
+	
+	@Override
 	protected void deserialize(String responseText) {
 		if (getResponsePhoto() != null) {
 			mPhotoFileName = getResponsePhoto().getPicturePath();
@@ -36,10 +44,8 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		Log.i(TAG, "DESERIALIZED PQF");
 	}
 	
-	protected ImageView getPhoto() {
-		if(mPhoto == null) {
-			setImageViewPhoto();
-		}
+	protected ImageView getImageView() {
+		setImageViewPhoto();
 		return mPhoto;
 	}
 	
@@ -80,7 +86,9 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 		transaction.detach(mCameraFragment);
+		//fm.popBackStack();
 		transaction.commit();
+		fm.popBackStack();
 	}
 	
 	@Override
@@ -96,20 +104,25 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 	
 	protected void setImageViewPhoto() {
 		mPhoto = new ImageView(getActivity());
-		if (mPhotoFileName == null) {
-			Log.i(TAG, "USING DEFAULT IMAGE");
-			int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
-			mPhoto.setImageResource(id);
-		} else {
-			setImageFromCamera();
-		}
+//		if (mPhotoFileName == null) {
+//			Log.i(TAG, "USING DEFAULT IMAGE");
+//			int id = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
+//			mPhoto.setImageResource(id);
+//		} else {
+			Log.i(TAG, "USING IMAGE FROM CAMERA");
+			String filename = getResponsePhoto().getPicturePath();
+			if (filename != null) {
+				String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
+				BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+				mPhoto.setImageDrawable(bitmap);
+		  }
 	}
 
-	protected void setImageFromCamera() {
-		Log.i(TAG, "USING IMAGE FROM CAMERA");
-        String path = getActivity().getFileStreamPath(mPhotoFileName).getAbsolutePath();
-        BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
-        mPhoto.setImageDrawable(bitmap);
-	}
+//	protected void setImageFromCamera() {
+//		Log.i(TAG, "USING IMAGE FROM CAMERA");
+//        String path = getActivity().getFileStreamPath(mPhotoFileName).getAbsolutePath();
+//        BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
+//        mPhoto.setImageDrawable(bitmap);
+//	}
 
 }

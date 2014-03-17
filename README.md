@@ -26,6 +26,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Continuous Integration](https://github.com/mnipper/AndroidSurvey/wiki/Continuous-Integration)
 * [Launching a Survey from Another Application](https://github.com/mnipper/AndroidSurvey/wiki/Launching-a-Survey-from-another-Application)
 * [API Keys and Admin Password](https://github.com/mnipper/AndroidSurvey/wiki/API-Keys-and-Admin-Password)
+* [Creating Another App](https://github.com/mnipper/AndroidSurvey/wiki/Creating-Another-App)
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.
@@ -39,3 +40,5 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 5. Create new Pull Request
 
 If you are interested in contributing, please read through the wiki first.  New question types are especially welcome!  See this [wiki page](https://github.com/mnipper/AndroidSurvey/wiki/Adding-a-Question-Type) for instructions.
+
+If you are creating another app using this as a base project, be sure to [rename the package](https://github.com/mnipper/AndroidSurvey/wiki/Creating-Another-App).

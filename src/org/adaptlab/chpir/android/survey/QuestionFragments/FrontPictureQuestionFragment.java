@@ -5,6 +5,7 @@ import org.adaptlab.chpir.android.survey.R;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 
 public class FrontPictureQuestionFragment extends PictureQuestionFragment {
     private static final int FRONT_CAMERA = 1;
+	private static final String TAG = "FrontPictureQuestionFragment";
 	private Button mCameraButton;
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
@@ -36,6 +38,8 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 			});
 			questionComponent.addView(mCameraButton);
 //			questionComponent.addView(getImageView());
+		} else {
+			Log.i(TAG, "Camera Not Available");
 		}
     }
 

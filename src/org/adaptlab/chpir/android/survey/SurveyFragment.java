@@ -326,7 +326,7 @@ public class SurveyFragment extends Fragment {
      * to the previous question in the sequence.
      */
     public void moveToPreviousQuestion() {
-        if (mQuestionNumber >= 0) {
+        if (mQuestionNumber > 0 && mQuestionNumber < mInstrument.questions().size()) {
             mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             mQuestion = mInstrument.questions().get(mQuestionNumber);
             createQuestionFragment();

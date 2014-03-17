@@ -109,7 +109,6 @@ public class Survey extends SendModel {
     public List<Response> responses() {
         return getMany(Response.class, "Survey");
     }
- 
     
     /*
      * Getters/Setters
@@ -177,5 +176,11 @@ public class Survey extends SendModel {
     
     public void setLastQuestion(Question question) {
         mLastQuestion = question;
+    }
+    
+    public void deleteIfComplete() {
+		if (this.responses().size() == 0) {
+			this.delete();
+		}
     }
 }

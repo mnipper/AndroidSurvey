@@ -6,12 +6,11 @@ import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-
-import android.graphics.Bitmap;
-import android.util.Log;
 
 @Table(name = "Images")
 public class Image extends ReceiveModel {
@@ -22,8 +21,8 @@ public class Image extends ReceiveModel {
     private String mPhotoUrl; 
     @Column(name = "Question")
     private Question mQuestion;
-    @Column(name = "Bitmap")
-    private Bitmap mBitmap;
+    @Column(name = "BitmapPath")
+    private String mBitmapPath;
     
     public Image() {
     	super();
@@ -76,12 +75,12 @@ public class Image extends ReceiveModel {
 		return mQuestion;
 	}
 	
-	public void setBitmap(Bitmap image) {
-		mBitmap = image;
+	public void setBitmapPath(String imagePath) {
+		mBitmapPath = imagePath;
 	}
 	
-	public Bitmap getBitmap() {
-		return mBitmap;
+	public String getBitmapPath() {
+		return mBitmapPath;
 	}
 
 	private static Image findByRemoteId(Long remoteId) {

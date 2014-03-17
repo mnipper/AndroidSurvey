@@ -5,6 +5,7 @@ import java.util.Date;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
@@ -23,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
+import com.activeandroid.util.Log;
 
 public abstract class QuestionFragment extends Fragment {
+	private final static String TAG = "QuestionFragment";
     protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
@@ -36,6 +39,7 @@ public abstract class QuestionFragment extends Fragment {
     private Survey mSurvey;
     private Response mResponse;
     private Instrument mInstrument;
+    private ResponsePhoto mResponsePhoto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,10 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
+            mResponsePhoto = loadOrCreatePicture();
+            if (mResponsePhoto != null) {
+            	mResponsePhoto.setResponse(mResponse);
+            }
         }
         
         saveTimeStarted();
@@ -90,6 +98,10 @@ public abstract class QuestionFragment extends Fragment {
     
     public Instrument getInstrument() { 
         return mInstrument;
+    }
+    
+    public ResponsePhoto getResponsePhoto() {
+    	return mResponsePhoto; //TODO Should it be tied to mResponse???????
     }
     
     /*
@@ -142,6 +154,12 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
+    protected void saveResponsePhoto() {
+    	Log.i("QuestionFragment", "save photo taken with camera");
+    	getResponsePhoto().setPicturePath(serialize());
+    	getResponsePhoto().save();
+    }
+    
     protected void saveResponse() {
         getResponse().setResponse(serialize());
         saveTimeEnded();
@@ -171,6 +189,21 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             return new Response();
         }
+    }
+    
+    private ResponsePhoto loadOrCreatePicture() {
+    	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
+    			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
+	    	if (mResponse.getResponsePhoto() == null) {
+	    		Log.i(TAG, "new response photo");
+	            return new ResponsePhoto();
+	        } else {
+	    		Log.i(TAG, "OLD!! response photo");
+	            return mResponse.getResponsePhoto();
+	        }
+    	}
+		Log.i(TAG, "about to return NULL");
+    	return null;
     }
     
     private void animateValidationTextView(boolean valid) {        

@@ -1,10 +1,12 @@
 package org.adaptlab.chpir.android.survey.Tasks;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
@@ -13,8 +15,6 @@ import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -43,13 +43,23 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
         for (Image img : Image.getAll()) {
         	String url = TEMP_IMAGE_API_END_POINT + img.getPhotoUrl() + ActiveRecordCloudSync.getParams();
+        	String filename = UUID.randomUUID().toString() + ".jpg";
+			FileOutputStream filewriter = null;
         	try {
-        		byte[] bitmapBytes = getUrlBytes(url);
-        		final Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
-        		Log.i(TAG, "Bitmap Created");
-        		img.setBitmap(bitmap);
+        		byte[] imageBytes = getUrlBytes(url);
+        		filewriter = mContext.openFileOutput(filename, Context.MODE_PRIVATE);
+        		filewriter.write(imageBytes);
+        		img.setBitmapPath(filename);
+        		Log.i(TAG, "image saved in " + filename);
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					if (filewriter != null)
+						filewriter.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
         }
     }

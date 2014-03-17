@@ -5,14 +5,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import android.app.Activity;
+import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
+
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -24,10 +26,21 @@ import android.widget.Button;
 public class CameraFragment extends Fragment {
 	private static final String TAG = "CameraFragment";
 	public static final String EXTRA_PHOTO_FILENAME = "CameraFragment.filename";
+	public static final String EXTRA_RESPONSE_PHOTO = "CameraFragment.photo";
 	public int CAMERA;
 	private View mProgressIndicator;
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
+	private static ResponsePhoto mPhoto;
+	
+	public static CameraFragment newCameraFragmentInstance(ResponsePhoto picture) {
+		mPhoto = picture;
+		Bundle args = new Bundle();
+		args.putSerializable(EXTRA_RESPONSE_PHOTO,  mPhoto);
+		CameraFragment fragment = new CameraFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
 		public void onShutter() {
@@ -44,31 +57,35 @@ public class CameraFragment extends Fragment {
 				os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
 				os.write(data);
 			} catch (Exception e) {
-				Log.e(TAG, "Error writing to file " + filename, e);
 				success = false;
 			} finally {
 				try {
 					if (os != null)
 						os.close();
 				} catch (Exception e) {
-					Log.e(TAG, "Error closing file " + filename, e);
 					success = false;
 				} 
 			}
 			if (success) {
-				if (success) {
-					Log.i(TAG, "SUCCESS!!");
-					if (getTargetFragment() == null) return;
-					Log.i(TAG, getTargetFragment().getClass().getName());
-					Log.i(TAG, getTargetRequestCode()+"");
-					Intent i = new Intent();
-					i.putExtra(EXTRA_PHOTO_FILENAME, filename);
-					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-					Log.i(TAG, "PICTURE SENT");
-				} else {
-					getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
-				}
+				Log.i(TAG, "SUCCESS!!");
+				Log.i(TAG, filename);
+				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
+				picture.setPicturePath(filename);
+				picture.save();
+				Log.i(TAG, picture.getPicturePath() + " is file name");
+				releaseCamera();
+				popBackQuestionFragment();
+			} else {
+				Log.i(TAG, "Not Successful");
 			}
+		}
+
+		private void popBackQuestionFragment() {
+			FragmentManager fm = getActivity().getSupportFragmentManager();
+			fm.popBackStack();
+			FragmentTransaction transaction = fm.beginTransaction();
+			transaction.detach(CameraFragment.this);
+			transaction.commit();
 		}
 	};
 
@@ -168,6 +185,10 @@ public class CameraFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		releaseCamera();
+	}
+	
+	public void releaseCamera() {
 		if (mCamera != null) {
 			mCamera.release();
 			mCamera = null;

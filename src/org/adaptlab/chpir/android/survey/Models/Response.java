@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.json.JSONException;
@@ -37,12 +38,19 @@ public class Response extends SendModel {
 	private Date mTimeStarted;
 	@Column(name = "TimeEnded")
 	private Date mTimeEnded;
+	@Column(name = "UUID")
+	private String mUUID;
 	
 	public Response() {
 		super();
 		mSent = false;
 		mText = "";
 		mSpecialResponse = "";
+		mUUID = UUID.randomUUID().toString();
+	}
+	
+	public String getUUID() {
+		return mUUID;
 	}
 	    
 	/*
@@ -86,6 +94,7 @@ public class Response extends SendModel {
             jsonObject.put("time_started", getTimeStarted());
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
+            jsonObject.put("uuid", getUUID());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {
@@ -159,21 +168,24 @@ public class Response extends SendModel {
 	public Date getTimeEnded() {
 		return mTimeEnded;
 	}
+	
+	public ResponsePhoto getResponsePhoto() {
+		return new Select().from(ResponsePhoto.class).where("Response = ?", getUUID()).executeSingle();
+	}
     
     @Override
     public boolean isSent() {
         return mSent;
     }
-    
+
     @Override
     public void setAsSent() {
-        mSent = true;
-        this.delete(); // Delete from device after successful send
-        if (mSurvey.responses().size() == 0) {
-            mSurvey.delete();
-        }
-        
-        Log.d(TAG, Response.getAll().size() + " responses left on device");
+    	mSent = true;
+    	if (getResponsePhoto() == null) {	
+    		this.delete(); 
+    	}
+    	mSurvey.deleteIfComplete();
+    	Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     
     /*
@@ -188,4 +200,5 @@ public class Response extends SendModel {
         return mSpecialResponse.equals(SKIP) || mSpecialResponse.equals(RF) ||
                 mSpecialResponse.equals(NA) || mSpecialResponse.equals(DK);
     }
+    
 }

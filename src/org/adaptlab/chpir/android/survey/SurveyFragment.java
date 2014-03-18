@@ -198,7 +198,27 @@ public class SurveyFragment extends Fragment {
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());
+        
+        showSpecialResponseSelection(menu);
     }
+	
+    
+	/*
+	 * Give a visual indication when a special response is selected
+	 */
+	public void showSpecialResponseSelection(Menu menu) {
+        if (mQuestionFragment.getResponse() != null && menu != null) {
+            if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.SKIP)) {
+                menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
+            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.RF)) {
+                menu.findItem(R.id.menu_item_rf).setIcon(R.drawable.ic_menu_item_rf_selected);                
+            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.NA)) {
+                menu.findItem(R.id.menu_item_na).setIcon(R.drawable.ic_menu_item_na_selected);                
+            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.DK)) {
+                menu.findItem(R.id.menu_item_dk).setIcon(R.drawable.ic_menu_item_dk_selected);                
+            }
+        }
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,

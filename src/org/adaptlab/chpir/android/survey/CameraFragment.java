@@ -67,12 +67,11 @@ public class CameraFragment extends Fragment {
 				} 
 			}
 			if (success) {
-				Log.i(TAG, "SUCCESS!!");
-				Log.i(TAG, filename);
+				Log.i(TAG, filename + "is filename of picture");
 				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
 				picture.setPicturePath(filename);
 				picture.save();
-				Log.i(TAG, picture.getPicturePath() + " is file name");
+				Log.i(TAG, picture.getPicturePath() + " is path of picture");
 				releaseCamera();
 				popBackQuestionFragment();
 			} else {

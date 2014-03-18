@@ -84,7 +84,10 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	
 	public void setResponse(Response response) {
 		mResponse = response;
-		mResponseUUID = response.getUUID();
+	}
+	
+	public void setResponseUUID(String uuid) {
+		mResponseUUID = uuid;
 	}
 	
 	public Response getResponse() {

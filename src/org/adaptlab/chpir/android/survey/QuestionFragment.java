@@ -39,7 +39,6 @@ public abstract class QuestionFragment extends Fragment {
     private Survey mSurvey;
     private Response mResponse;
     private Instrument mInstrument;
-    private ResponsePhoto mResponsePhoto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,10 +58,7 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
-            mResponsePhoto = loadOrCreatePicture();
-            if (mResponsePhoto != null) {
-            	mResponsePhoto.setResponse(mResponse);
-            }
+            createResponsePhoto();
         }
         
         saveTimeStarted();
@@ -101,7 +97,7 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     public ResponsePhoto getResponsePhoto() {
-    	return mResponsePhoto; //TODO Should it be tied to mResponse???????
+    	return mResponse.getResponsePhoto();
     }
     
     /*
@@ -154,12 +150,6 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
-    protected void saveResponsePhoto() {
-    	Log.i("QuestionFragment", "save photo taken with camera");
-    	getResponsePhoto().setPicturePath(serialize());
-    	getResponsePhoto().save();
-    }
-    
     protected void saveResponse() {
         getResponse().setResponse(serialize());
         saveTimeEnded();
@@ -191,19 +181,17 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
-    private ResponsePhoto loadOrCreatePicture() {
+    private void createResponsePhoto() {
     	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
     			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
 	    	if (mResponse.getResponsePhoto() == null) {
-	    		Log.i(TAG, "new response photo");
-	            return new ResponsePhoto();
-	        } else {
-	    		Log.i(TAG, "OLD!! response photo");
-	            return mResponse.getResponsePhoto();
-	        }
+	    		Log.i(TAG, "creating new response photo");
+	    		ResponsePhoto photo = new ResponsePhoto();
+	    		photo.setResponse(mResponse);
+	    		photo.setResponseUUID(mResponse.getUUID());
+	    		photo.save();
+	        } 
     	}
-		Log.i(TAG, "about to return NULL");
-    	return null;
     }
     
     private void animateValidationTextView(boolean valid) {        

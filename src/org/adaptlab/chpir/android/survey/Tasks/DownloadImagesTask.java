@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
-    public final static String TEMP_IMAGE_API_END_POINT = "http://10.0.3.2:3000";
+    public final static String TEMP_IMAGE_API_END_POINT = "http://10.0.3.2:3000"; //TODO Fix
     public static String ACCESS_TOKEN;
     private final static String TAG = "ImageDownloader";
 
@@ -50,6 +50,7 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
         		filewriter = mContext.openFileOutput(filename, Context.MODE_PRIVATE);
         		filewriter.write(imageBytes);
         		img.setBitmapPath(filename);
+        		img.save();
         		Log.i(TAG, "image saved in " + filename);
 			} catch (IOException e) {
 				e.printStackTrace();

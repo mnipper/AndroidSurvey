@@ -14,6 +14,7 @@ import com.activeandroid.util.Log;
 public abstract class PictureQuestionFragment extends QuestionFragment {
 	public static final int REQUEST_PHOTO = 0;
 	private static final String TAG = "PictureQuestionFragment";
+	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_picture";
 	protected CameraFragment mCameraFragment;
 	protected ImageView mPhotoView;
 
@@ -49,7 +50,7 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 			Bitmap bitmap = BitmapFactory.decodeFile(path);
 			mPhotoView.setImageBitmap(bitmap);
 		} else {
-			int resId = getResources().getIdentifier("org.adaptlab.chpir.android.survey:drawable/" + "ic_action_picture", null, null);
+			int resId = getResources().getIdentifier(DEFAULT, null, null);
 			mPhotoView.setImageResource(resId);
 		}
 	}

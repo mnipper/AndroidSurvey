@@ -22,6 +22,7 @@ import com.activeandroid.query.Select;
 public class ResponsePhoto extends SendModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "ResponsePhoto";
+	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_photo_unavailable";
 	@Column(name = "SentToRemote")
 	private boolean mSent;
 	@Column(name = "Response", onDelete = Column.ForeignKeyAction.SET_NULL)
@@ -56,11 +57,21 @@ public class ResponsePhoto extends SendModel implements Serializable {
 		if (getPicturePath() != null) {
 			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
 			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-			byte[] pictureBytes = outputStream.toByteArray();
-			encodedImage = Base64.encodeToString(pictureBytes, Base64.DEFAULT);
+			encodedImage = encodeImage(bitmap);
+		} else {
+			int resId = AppUtil.getContext().getResources().getIdentifier(DEFAULT, null, null);
+			Bitmap bitmap = BitmapFactory.decodeResource(AppUtil.getContext().getResources(), resId);
+			encodedImage = encodeImage(bitmap);
 		}
+		return encodedImage;
+	}
+
+	private String encodeImage(Bitmap bitmap) {
+		String encodedImage;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+		byte[] pictureBytes = outputStream.toByteArray();
+		encodedImage = Base64.encodeToString(pictureBytes, Base64.DEFAULT);
 		return encodedImage;
 	}
 

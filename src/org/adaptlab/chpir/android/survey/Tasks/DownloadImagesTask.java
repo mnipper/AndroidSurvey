@@ -19,8 +19,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
-    public final static String TEMP_IMAGE_API_END_POINT = "http://10.0.3.2:3000";
     public static String ACCESS_TOKEN;
+    private String IMAGE_URL_END_POINT;
     private final static String TAG = "ImageDownloader";
 
 	private Context mContext;
@@ -41,8 +41,11 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
     	ACCESS_TOKEN = mContext.getResources().getString(R.string.backend_api_key);
     	ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
+        String[] endPointArray = ActiveRecordCloudSync.getEndPoint().split("/api/");
+        IMAGE_URL_END_POINT = endPointArray[0];
+        
         for (Image img : Image.getAll()) {
-        	String url = TEMP_IMAGE_API_END_POINT + img.getPhotoUrl() + ActiveRecordCloudSync.getParams();
+        	String url = IMAGE_URL_END_POINT + img.getPhotoUrl() + ActiveRecordCloudSync.getParams();
         	String filename = UUID.randomUUID().toString() + ".jpg";
 			FileOutputStream filewriter = null;
         	try {
@@ -50,6 +53,7 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
         		filewriter = mContext.openFileOutput(filename, Context.MODE_PRIVATE);
         		filewriter.write(imageBytes);
         		img.setBitmapPath(filename);
+        		img.save();
         		Log.i(TAG, "image saved in " + filename);
 			} catch (IOException e) {
 				e.printStackTrace();

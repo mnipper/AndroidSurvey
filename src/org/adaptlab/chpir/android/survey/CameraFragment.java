@@ -67,25 +67,16 @@ public class CameraFragment extends Fragment {
 				} 
 			}
 			if (success) {
-				Log.i(TAG, "SUCCESS!!");
-				Log.i(TAG, filename);
+				Log.i(TAG, filename + "is filename of picture");
 				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
 				picture.setPicturePath(filename);
 				picture.save();
-				Log.i(TAG, picture.getPicturePath() + " is file name");
+				Log.i(TAG, picture.getPicturePath() + " is path of picture");
 				releaseCamera();
 				popBackQuestionFragment();
 			} else {
 				Log.i(TAG, "Not Successful");
 			}
-		}
-
-		private void popBackQuestionFragment() {
-			FragmentManager fm = getActivity().getSupportFragmentManager();
-			fm.popBackStack();
-			FragmentTransaction transaction = fm.beginTransaction();
-			transaction.detach(CameraFragment.this);
-			transaction.commit();
 		}
 	};
 
@@ -135,6 +126,9 @@ public class CameraFragment extends Fragment {
 					mCamera.startPreview();
 				} catch (Exception e) {
 					Log.e(TAG, "Unable to start preview",e);
+					mCamera.release();
+                    mCamera = null;
+                    popBackQuestionFragment();
 				}
 			}	
 		});
@@ -181,6 +175,7 @@ public class CameraFragment extends Fragment {
 			mCamera = Camera.open();
 		}
 	}
+	//TODO Open the Camera on a different thread from main 
 
 	@Override
 	public void onPause() {
@@ -193,6 +188,14 @@ public class CameraFragment extends Fragment {
 			mCamera.release();
 			mCamera = null;
 		}
+	}
+	
+	protected void popBackQuestionFragment() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		fm.popBackStack();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.detach(CameraFragment.this);
+		transaction.commit();
 	}
 
 }

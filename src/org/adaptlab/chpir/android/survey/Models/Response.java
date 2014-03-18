@@ -170,7 +170,7 @@ public class Response extends SendModel {
 	}
 	
 	public ResponsePhoto getResponsePhoto() {
-		return new Select().from(ResponsePhoto.class).where("Response = ?", getUUID()).executeSingle();
+		return new Select().from(ResponsePhoto.class).where("ResponseUUID = ?", getUUID()).executeSingle();
 	}
     
     @Override

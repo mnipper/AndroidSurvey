@@ -1,11 +1,11 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import org.adaptlab.chpir.android.survey.CameraFragment;
-import org.adaptlab.chpir.android.survey.PictureUtils;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
 import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -14,23 +14,21 @@ import com.activeandroid.util.Log;
 public abstract class PictureQuestionFragment extends QuestionFragment {
 	public static final int REQUEST_PHOTO = 0;
 	private static final String TAG = "PictureQuestionFragment";
-	public CameraFragment mCameraFragment;
-	private ImageView mPhoto;
-	private String mPhotoFileName;
+	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_picture";
+	protected CameraFragment mCameraFragment;
+	protected ImageView mPhotoView;
 
 	@Override
 	protected abstract void createQuestionComponent(ViewGroup questionComponent);
 
 	@Override
 	protected void deserialize(String responseText) {
-		if (getResponsePhoto() != null) {
-			mPhotoFileName = getResponsePhoto().getPicturePath();
-		}
-		Log.i(TAG, "DESERIALIZED PQF");
+		//handled by showPhoto()
 	}
 
-	protected ImageView getImageView() {
-		return getImageViewPhoto();
+	@Override
+	protected String serialize() {
+		return null; //pictures are automatically saved in the CameraFragment
 	}
 
 	protected boolean isCameraAvailable() {
@@ -43,38 +41,17 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 		}   
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		saveResponsePhoto();
-	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		setImageView();
-	}
-
-	@Override
-	protected String serialize() {
-		return mPhotoFileName;
-	}
-
-	private ImageView getImageViewPhoto() {
-		if (mPhoto == null) {
-			mPhoto = new ImageView(getActivity());
-			setImageView();
-		}
-		return mPhoto;
-	}
-	
-	private void setImageView() {
+	protected void showPhoto() {
 		String filename = getResponsePhoto().getPicturePath();
+		Log.i(TAG, filename + " is filename");
 		if (filename != null) {
-			Log.i(TAG, "USING IMAGE FROM CAMERA");
 			String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
-			BitmapDrawable bitmap = PictureUtils.getScaledDrawable(getActivity(), path);
-			mPhoto.setImageDrawable(bitmap);
+			Log.i(TAG, path + "is path of picture");
+			Bitmap bitmap = BitmapFactory.decodeFile(path);
+			mPhotoView.setImageBitmap(bitmap);
+		} else {
+			int resId = getResources().getIdentifier(DEFAULT, null, null);
+			mPhotoView.setImageResource(resId);
 		}
 	}
 

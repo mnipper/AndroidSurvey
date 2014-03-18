@@ -57,6 +57,8 @@ public class Question extends ReceiveModel {
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
+    @Column(name ="ImageCount")
+    private int mImageCount;
 
     public Question() {
         super();
@@ -201,8 +203,7 @@ public class Question extends ReceiveModel {
      * number.
      */
     public boolean loaded() { 
-        return getOptionCount() == options().size() &&
-                getInstrumentVersion() == getInstrument().getVersionNumber();
+        return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
     }
 
     @Override
@@ -224,6 +225,7 @@ public class Question extends ReceiveModel {
             question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
             question.setRegExValidationMessage(jsonObject.getString("reg_ex_validation_message"));
             question.setOptionCount(jsonObject.getInt("option_count"));
+            question.setImageCount(jsonObject.getInt("image_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
@@ -390,6 +392,14 @@ public class Question extends ReceiveModel {
     
     private int getOptionCount() {
         return mOptionCount;
+    }
+    
+    private void setImageCount(int count) {
+    	mImageCount = count;
+    }
+    
+    private int getImageCount() {
+    	return mImageCount;
     }
     
     private void setInstrumentVersion(int version) {

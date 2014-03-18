@@ -41,7 +41,6 @@ public class InstrumentFragment extends ListFragment {
         setHasOptionsMenu(true);
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));       
         AppUtil.appInit(getActivity());
-        //downloadInstrumentImages();
     }
     
     private void downloadInstrumentImages() {
@@ -225,6 +224,7 @@ public class InstrumentFragment extends ListFragment {
         @Override
         protected void onPostExecute(Void param) {
             if (isAdded()) {
+            	downloadInstrumentImages();
                 setListAdapter(new InstrumentAdapter(Instrument.getAll()));
                 getActivity().setProgressBarIndeterminateVisibility(false);    
             }
@@ -253,7 +253,6 @@ public class InstrumentFragment extends ListFragment {
          */
         @Override
         protected Long doInBackground(Instrument... params) {
-            downloadInstrumentImages();
         	Instrument instrument = params[0];
             if (instrument.loaded()) {
                 return instrument.getRemoteId();

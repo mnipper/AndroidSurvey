@@ -154,12 +154,19 @@ public class SurveyFragment extends Fragment {
         case R.id.menu_item_previous:
             moveToPreviousQuestion();
             return true;
-        case R.id.menu_item_next:            
-            mQuestionFragment.saveSpecialResponse("");
+        case R.id.menu_item_next:
+            if (getSpecialResponse().equals(Response.SKIP)) {
+                mQuestionFragment.saveSpecialResponse("");
+            }
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
         	setSpecialResponse(Response.SKIP);
+            if (isLastQuestion()) {
+                finishSurvey();
+            } else {
+                moveToNextQuestion();
+            }
         	return true;
         case R.id.menu_item_rf:
             setSpecialResponse(Response.RF);
@@ -208,13 +215,13 @@ public class SurveyFragment extends Fragment {
 	 */
 	public void showSpecialResponseSelection(Menu menu) {
         if (mQuestionFragment.getResponse() != null && menu != null) {
-            if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.SKIP)) {
+            if (getSpecialResponse().equals(Response.SKIP)) {
                 menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
-            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.RF)) {
+            } else if (getSpecialResponse().equals(Response.RF)) {
                 menu.findItem(R.id.menu_item_rf).setIcon(R.drawable.ic_menu_item_rf_selected);                
-            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.NA)) {
+            } else if (getSpecialResponse().equals(Response.NA)) {
                 menu.findItem(R.id.menu_item_na).setIcon(R.drawable.ic_menu_item_na_selected);                
-            } else if (mQuestionFragment.getResponse().getSpecialResponse().equals(Response.DK)) {
+            } else if (getSpecialResponse().equals(Response.DK)) {
                 menu.findItem(R.id.menu_item_dk).setIcon(R.drawable.ic_menu_item_dk_selected);                
             }
         }
@@ -427,11 +434,9 @@ public class SurveyFragment extends Fragment {
      */
     private void setSpecialResponse(String response) {
         mQuestionFragment.saveSpecialResponse(response);
-        clearCurrentResponse();
-        if (isLastQuestion()) {
-            finishSurvey();
-        } else {
-            moveToNextQuestion();
+        //clearCurrentResponse();
+        if (isAdded()) {
+            ActivityCompat.invalidateOptionsMenu(getActivity());
         }
     }
     
@@ -451,7 +456,9 @@ public class SurveyFragment extends Fragment {
         mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        
         mProgressBar.setProgress((int) (100 * (mQuestionNumber + 1) / (float) numberQuestions));
         
-        ActivityCompat.invalidateOptionsMenu(getActivity());
+        if (isAdded()) {
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        }
     }
     
 	@Override
@@ -460,5 +467,8 @@ public class SurveyFragment extends Fragment {
         if (resultCode != Activity.RESULT_OK) return;
         //mQuestionFragment.handleActivityResult(requestCode, resultCode, data);
 	}
-    
+	
+	private String getSpecialResponse() {
+	    return mQuestionFragment.getResponse().getSpecialResponse();
+	}
 }

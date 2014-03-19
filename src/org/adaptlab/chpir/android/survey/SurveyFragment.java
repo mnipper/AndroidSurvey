@@ -337,8 +337,10 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
             createQuestionFragment();
-            if (!setQuestionText(mQuestionText))
+            if (!setQuestionText(mQuestionText)) {
+                setSpecialResponse(Response.LOGICAL_SKIP);
                 moveToNextQuestion();
+            }
         } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
         	finishSurvey();
         }

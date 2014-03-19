@@ -21,6 +21,7 @@ public class Response extends SendModel {
     public static final String RF = "RF";
     public static final String NA = "NA";
     public static final String DK = "DK";
+    public static final String LOGICAL_SKIP = "LOGICAL_SKIP";
 	
 	@Column(name = "Question")
 	private Question mQuestion;

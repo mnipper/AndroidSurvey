@@ -482,6 +482,9 @@ public class SurveyFragment extends Fragment {
 	}
 	
 	private String getSpecialResponse() {
-	    return mQuestionFragment.getResponse().getSpecialResponse();
+	    if (mQuestionFragment.getResponse() != null)
+	        return mQuestionFragment.getResponse().getSpecialResponse();
+	    else
+	        return "";
 	}
 }

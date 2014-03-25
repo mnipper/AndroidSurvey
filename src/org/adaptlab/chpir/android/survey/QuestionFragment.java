@@ -157,9 +157,11 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     public void saveSpecialResponse(String response) {
-    	getResponse().setSpecialResponse(response); 
-    	saveTimeEnded();
-    	getResponse().save();
+        if (getResponse() != null) {
+        	getResponse().setSpecialResponse(response); 
+        	saveTimeEnded();
+        	getResponse().save();
+        }
     }
     
     private void saveTimeStarted() {

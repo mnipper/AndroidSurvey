@@ -75,6 +75,7 @@
 		        android:id="@+id/api_endpoint_edit_text"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
+		        android:inputType="textUri"
 		        android:ems="10" />
             
                                       

@@ -59,6 +59,8 @@ public class Question extends ReceiveModel {
     private Long mRemoteId;
     @Column(name ="ImageCount")
     private int mImageCount;
+    @Column(name = "Instructions")
+    private String mInstructions;
 
     public Question() {
         super();
@@ -230,6 +232,7 @@ public class Question extends ReceiveModel {
             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
             question.setIdentifiesSurvey(jsonObject.getBoolean("identifies_survey"));
+            question.setInstructions(jsonObject.getString("instructions"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -374,6 +377,13 @@ public class Question extends ReceiveModel {
         return mIdentifiesSurvey;
     }
     
+    public String getInstructions() {
+        if (mInstructions == null || mInstructions.equals("") || mInstructions.equals("null"))
+            return null;
+        else
+            return mInstructions;
+    }
+    
     /*
      * Private
      */
@@ -423,5 +433,9 @@ public class Question extends ReceiveModel {
     
     private void setIdentifiesSurvey(boolean identifiesSurvey) {
         mIdentifiesSurvey = identifiesSurvey;
+    }
+    
+    private void setInstructions(String instructions) {
+        mInstructions = instructions;
     }
 }

@@ -411,19 +411,30 @@ public class SurveyFragment extends Fragment {
      * If this question is not a following up question, then just
      * set the text as normal.
      */
-    private boolean setQuestionText(TextView text) {
+    private boolean setQuestionText(TextView text) {        
+        appendInstructions(text);
+        
         if (mQuestion.isFollowUpQuestion()) {
             String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
             
             if (followUpText == null) {
                 return false;
             } else {
-                text.setText(styleTextWithHtml(followUpText));
+                text.append(styleTextWithHtml(followUpText));
             }
         } else {
-            text.setText(styleTextWithHtml(mQuestion.getText()));
+            text.append(styleTextWithHtml(mQuestion.getText()));
         }
         return true;
+    }
+    
+    /*
+     * If this question has instructions, append and add new line
+     */
+    private void appendInstructions(TextView text) {
+        if (mQuestion.getInstructions() != null) {
+            text.setText(styleTextWithHtml(mQuestion.getInstructions() + "<br /><br />"));
+        }
     }
     
     private Spanned styleTextWithHtml(String text) {

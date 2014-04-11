@@ -68,4 +68,6 @@
     <string name="na">Not applicable</string>
     <string name="desc"></string>
     <string name="device_label">Device Label</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

@@ -7,6 +7,7 @@ import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
@@ -17,9 +18,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -31,6 +35,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -63,6 +70,15 @@ public class SurveyFragment extends Fragment {
     QuestionFragment mQuestionFragment;
     private LocationServiceManager mLocationServiceManager;
 
+    //drawer vars
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String mDrawerTitle;
+    private String mTitle;
+    private ArrayList<Section> mSections;
+    private String[] mSectionTitles;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +103,53 @@ public class SurveyFragment extends Fragment {
           
         }
         startLocationServices();
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+    	super.onAttach(activity);
+    	setupNavigationDrawer();
+    }
+    
+    private void setupNavigationDrawer() {
+    	mSections = new ArrayList<Section>();
+    	mSections = (ArrayList<Section>) Section.getAll();
+    	for (int i=0; i<mSections.size(); i++) {
+    		mSectionTitles[i] = mSections.get(i).getTitle();
+    	}
+    	mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) getActivity().findViewById(R.id.left_drawer);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.drawer_list_item, mSectionTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                getActivity().getActionBar().setTitle(mTitle);
+                getActivity().invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActivity().getActionBar().setTitle(mDrawerTitle);
+                getActivity().invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+    
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+    
+    private void selectItem(int position) {
+    	//TODO Relevant QuestionFragment
+    	mDrawerList.setItemChecked(position, true);
+        //getActivity().setTitle(mSectionTitles.get(position)); //TODO 
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
     
     public void loadOrCreateSurvey() {

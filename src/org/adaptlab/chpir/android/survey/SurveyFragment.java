@@ -120,9 +120,6 @@ public class SurveyFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.drawer_list_item, mSectionTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActivity().getActionBar().setDisplayShowHomeEnabled(true);
-        getActivity().getActionBar().setHomeButtonEnabled(true);
         mDrawerToggle = new ActionBarDrawerToggle(
         		getActivity(), 
         		mDrawerLayout, 
@@ -142,6 +139,8 @@ public class SurveyFragment extends Fragment {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setHomeButtonEnabled(true);
         mNavDrawerSet = true;
     }
     

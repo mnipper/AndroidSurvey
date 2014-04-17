@@ -61,7 +61,6 @@
         <meta-data android:name="AA_DB_VERSION" android:value="18" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>
-        <!-- <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" /> -->
     </application>
 
 </manifest>

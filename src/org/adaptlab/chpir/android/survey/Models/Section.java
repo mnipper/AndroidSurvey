@@ -38,6 +38,7 @@ public class Section extends ReceiveModel {
             section.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             section.setTitle(jsonObject.getString("title"));
             section.setStartQuestionIdentifier(jsonObject.getString("start_question_identifier"));
+            section.save();
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  
@@ -57,6 +58,10 @@ public class Section extends ReceiveModel {
 	
 	public void setStartQuestionIdentifier(String beginId) {
 		mStartQuestionIdentifier = beginId;
+	}
+	
+	public String getStartQuestionIdentifier() {
+		return mStartQuestionIdentifier;
 	}
 	
 	public String getTitle() {

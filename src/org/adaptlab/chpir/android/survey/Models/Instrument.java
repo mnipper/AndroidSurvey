@@ -185,6 +185,10 @@ public class Instrument extends ReceiveModel {
         return getMany(InstrumentTranslation.class, "Instrument");
     }
     
+    public List<Section> sections() {
+    	return getMany(Section.class, "Instrument");
+    }
+    
     public static List<Instrument> loadedInstruments() {
         List<Instrument> instrumentList = new ArrayList<Instrument>();
         for (Instrument instrument : Instrument.getAll()) {

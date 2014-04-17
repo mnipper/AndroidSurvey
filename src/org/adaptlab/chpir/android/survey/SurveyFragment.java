@@ -78,6 +78,7 @@ public class SurveyFragment extends Fragment {
     private String mTitle;
     private ArrayList<Section> mSections;
     private String[] mSectionTitles;
+    private boolean mNavDrawerSet = false;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,37 +106,43 @@ public class SurveyFragment extends Fragment {
         startLocationServices();
     }
     
-    @Override
-    public void onAttach(Activity activity) {
-    	super.onAttach(activity);
-    	setupNavigationDrawer();
-    }
-    
     private void setupNavigationDrawer() {
+    	Log.i(TAG, "setting navDrawer");
     	mSections = new ArrayList<Section>();
-    	mSections = (ArrayList<Section>) Section.getAll();
+    	mSections = (ArrayList<Section>) mInstrument.sections();
+    	mSectionTitles = new String[mSections.size()];
     	for (int i=0; i<mSections.size(); i++) {
     		mSectionTitles[i] = mSections.get(i).getTitle();
     	}
+    	mTitle = mDrawerTitle = mInstrument.getTitle();
     	mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) getActivity().findViewById(R.id.left_drawer);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.drawer_list_item, mSectionTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setDisplayShowHomeEnabled(true);
         getActivity().getActionBar().setHomeButtonEnabled(true);
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-            public void onDrawerClosed(View view) {
+        mDrawerToggle = new ActionBarDrawerToggle(
+        		getActivity(), 
+        		mDrawerLayout, 
+        		R.drawable.ic_drawer, 
+        		R.string.drawer_open, 
+        		R.string.drawer_close
+        		) {
+            
+        	public void onDrawerClosed(View view) {
                 getActivity().getActionBar().setTitle(mTitle);
-                getActivity().invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                getActivity().invalidateOptionsMenu(); 
             }
 
             public void onDrawerOpened(View drawerView) {
                 getActivity().getActionBar().setTitle(mDrawerTitle);
-                getActivity().invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                getActivity().invalidateOptionsMenu();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mNavDrawerSet = true;
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -146,10 +153,24 @@ public class SurveyFragment extends Fragment {
     }
     
     private void selectItem(int position) {
-    	//TODO Relevant QuestionFragment
+    	moveToSection(mSections.get(position).getStartQuestionIdentifier());
     	mDrawerList.setItemChecked(position, true);
-        //getActivity().setTitle(mSectionTitles.get(position)); //TODO 
+        getActivity().setTitle(mInstrument.getTitle() + " : " + mSectionTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+    
+    private void moveToSection(String questionIdentifier) {
+    	mPreviousQuestions.add(mQuestionNumber);
+    	mQuestion = Question.findByQuestionIdentifier(questionIdentifier);
+    	mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
+    	createQuestionFragment();
+    	updateQuestionText();
+    	updateQuestionCountLabel();
+    }
+    
+    private void updateQuestionText() {
+    	setQuestionText(mQuestionText);
+        mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
     }
     
     public void loadOrCreateSurvey() {
@@ -164,6 +185,7 @@ public class SurveyFragment extends Fragment {
     }
     
     public void loadOrCreateQuestion() {
+    	Log.i(TAG, "Load or create question");
         mPreviousQuestions = new ArrayList<Integer>();  
         Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
         if (questionId == -1) {
@@ -209,11 +231,17 @@ public class SurveyFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_survey, menu);
+        if (mNavDrawerSet == false) {
+        	setupNavigationDrawer();
+        }
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    	if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+    	switch (item.getItemId()) {
         case R.id.menu_item_previous:
             moveToPreviousQuestion();
             return true;
@@ -268,7 +296,7 @@ public class SurveyFragment extends Fragment {
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());
-        
+     
         showSpecialResponseSelection(menu);
     }
 	
@@ -293,6 +321,7 @@ public class SurveyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
             Bundle savedInstanceState) {
+    	Log.i(TAG, "On Create View");
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
@@ -475,7 +504,7 @@ public class SurveyFragment extends Fragment {
      * set the text as normal.
      */
     private boolean setQuestionText(TextView text) {        
-        appendInstructions(text);
+    	appendInstructions(text);
         
         if (mQuestion.isFollowUpQuestion()) {
             String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
@@ -497,6 +526,8 @@ public class SurveyFragment extends Fragment {
     private void appendInstructions(TextView text) {
         if (mQuestion.getInstructions() != null) {
             text.setText(styleTextWithHtml(mQuestion.getInstructions() + "<br /><br />"));
+        } else {
+        	text.setText("");
         }
     }
     
@@ -536,13 +567,6 @@ public class SurveyFragment extends Fragment {
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
     }
-    
-	@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "RECEIVED RESULTS");
-        if (resultCode != Activity.RESULT_OK) return;
-        //mQuestionFragment.handleActivityResult(requestCode, resultCode, data);
-	}
 	
 	private String getSpecialResponse() {
 	    if (mQuestionFragment.getResponse() != null)

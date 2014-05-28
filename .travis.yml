@@ -43,9 +43,5 @@ before_install:
 # irc notifications
 notifications:
   email: false
-  irc:
-    on_success: always
-    on_failure: always
-    use_notice: true
-    channels:
-      - "card.freenode.net#dukedevelopers"
+  hipchat:
+    secure: "itDSvxPNx0StDU2A4fA4lh030sPL9Hv08wQqE6nVfl5L7AJub/J8M+2UHnjoi2UrMt4AYgLnp4bI0JNe4QbPu07xeaqM9JkkxM2WeGBzmgSh8cQIxrsIoIAzNOtoxG5prOXItvU8uAbC/m2Qe/axdo7xv2KOu22RBtZgKhuw3BE="

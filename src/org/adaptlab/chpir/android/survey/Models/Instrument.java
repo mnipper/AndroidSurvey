@@ -114,6 +114,8 @@ public class Instrument extends ReceiveModel {
     }
     
     public boolean loaded() {
+    	Log.i(TAG, "questions.size(): " + questions().size());
+    	Log.i(TAG, "getQuestionCount(): " + getQuestionCount());
         if (questions().size() != getQuestionCount()) return false;
         for (Question question : questions()) {
             if (!question.loaded()) return false;

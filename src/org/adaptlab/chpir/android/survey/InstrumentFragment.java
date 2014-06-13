@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -208,7 +209,7 @@ public class InstrumentFragment extends ListFragment {
      */
     private class RefreshInstrumentsTask extends AsyncTask<Void, Void, Void> {
         
-        @Override
+		@Override
         protected void onPreExecute() {
             getActivity().setProgressBarIndeterminateVisibility(true);
             setListAdapter(null);            
@@ -223,7 +224,7 @@ public class InstrumentFragment extends ListFragment {
         
         @Override
         protected void onPostExecute(Void param) {
-            if (isAdded()) {
+        	if (isAdded()) {
             	downloadInstrumentImages();
                 setListAdapter(new InstrumentAdapter(Instrument.getAll()));
                 getActivity().setProgressBarIndeterminateVisibility(false);    

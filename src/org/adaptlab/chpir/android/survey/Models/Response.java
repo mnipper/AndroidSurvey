@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.json.JSONException;
@@ -16,7 +17,11 @@ import com.activeandroid.query.Select;
 @Table(name = "Responses")
 public class Response extends SendModel {
     private static final String TAG = "Response";
-    public static final String SKIPPED = "SKIP";
+    public static final String SKIP = "SKIP";
+    public static final String RF = "RF";
+    public static final String NA = "NA";
+    public static final String DK = "DK";
+    public static final String LOGICAL_SKIP = "LOGICAL_SKIP";
 	
 	@Column(name = "Question")
 	private Question mQuestion;
@@ -34,12 +39,19 @@ public class Response extends SendModel {
 	private Date mTimeStarted;
 	@Column(name = "TimeEnded")
 	private Date mTimeEnded;
+	@Column(name = "UUID")
+	private String mUUID;
 	
 	public Response() {
 		super();
 		mSent = false;
 		mText = "";
 		mSpecialResponse = "";
+		mUUID = UUID.randomUUID().toString();
+	}
+	
+	public String getUUID() {
+		return mUUID;
 	}
 	    
 	/*
@@ -61,6 +73,8 @@ public class Response extends SendModel {
     public boolean saveWithValidation() {
         if (isValid()) {
             save();
+            mSurvey.setLastUpdated(new Date());
+            mSurvey.save();
             return true;
         } else {
             return false;
@@ -81,6 +95,7 @@ public class Response extends SendModel {
             jsonObject.put("time_started", getTimeStarted());
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
+            jsonObject.put("uuid", getUUID());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {
@@ -154,17 +169,24 @@ public class Response extends SendModel {
 	public Date getTimeEnded() {
 		return mTimeEnded;
 	}
+	
+	public ResponsePhoto getResponsePhoto() {
+		return new Select().from(ResponsePhoto.class).where("ResponseUUID = ?", getUUID()).executeSingle();
+	}
     
     @Override
     public boolean isSent() {
         return mSent;
     }
-    
+
     @Override
     public void setAsSent() {
-        mSent = true;
-        this.delete(); // Delete from device after successful send
-        Log.d(TAG, Response.getAll().size() + " responses left on device");
+    	mSent = true;
+    	if (getResponsePhoto() == null) {	
+    		this.delete(); 
+    	}
+    	mSurvey.deleteIfComplete();
+    	Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     
     /*
@@ -174,4 +196,10 @@ public class Response extends SendModel {
     public boolean readyToSend() {
         return getSurvey().readyToSend();
     }
+    
+    public boolean hasSpecialResponse() {
+        return mSpecialResponse.equals(SKIP) || mSpecialResponse.equals(RF) ||
+                mSpecialResponse.equals(NA) || mSpecialResponse.equals(DK);
+    }
+    
 }

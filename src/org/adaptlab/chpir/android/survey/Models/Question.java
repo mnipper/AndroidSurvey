@@ -27,7 +27,7 @@ public class Question extends ReceiveModel {
         FRONT_PICTURE, REAR_PICTURE, DATE, RATING, TIME,
         LIST_OF_TEXT_BOXES, INTEGER, EMAIL_ADDRESS,
         DECIMAL_NUMBER, INSTRUCTIONS, MONTH_AND_YEAR, YEAR,
-        PHONE_NUMBER, ADDRESS;
+        PHONE_NUMBER, ADDRESS, SELECT_ONE_IMAGE, SELECT_MULTIPLE_IMAGE;
     }
 
     @Column(name = "Text")
@@ -52,9 +52,15 @@ public class Question extends ReceiveModel {
     private int mInstrumentVersion;
     @Column(name = "NumberInInstrument")
     private int mNumberInInstrument;
+    @Column(name = "IdentifiesSurvey")
+    private boolean mIdentifiesSurvey;
     // https://github.com/pardom/ActiveAndroid/issues/22
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
+    @Column(name ="ImageCount")
+    private int mImageCount;
+    @Column(name = "Instructions")
+    private String mInstructions;
 
     public Question() {
         super();
@@ -144,7 +150,7 @@ public class Question extends ReceiveModel {
         Response followUpResponse = survey.getResponseByQuestion(getFollowingUpQuestion());
         if (followUpResponse == null ||
                 followUpResponse.getText().equals("") ||
-                followUpResponse.getSpecialResponse().equals(Response.SKIPPED)) {
+                followUpResponse.hasSpecialResponse()) {
             return null;
         }
         
@@ -199,8 +205,7 @@ public class Question extends ReceiveModel {
      * number.
      */
     public boolean loaded() { 
-        return getOptionCount() == options().size() &&
-                getInstrumentVersion() == getInstrument().getVersionNumber();
+        return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
     }
 
     @Override
@@ -222,9 +227,14 @@ public class Question extends ReceiveModel {
             question.setRegExValidation(jsonObject.getString("reg_ex_validation"));
             question.setRegExValidationMessage(jsonObject.getString("reg_ex_validation_message"));
             question.setOptionCount(jsonObject.getInt("option_count"));
+            question.setImageCount(jsonObject.getInt("image_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
-            question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
+            if (!jsonObject.isNull("number_in_instrument")) { 
+             question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
+            }
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
+            question.setIdentifiesSurvey(jsonObject.getBoolean("identifies_survey"));
+            question.setInstructions(jsonObject.getString("instructions"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -278,6 +288,10 @@ public class Question extends ReceiveModel {
                 .where("Question = ? AND InstrumentVersion = ?", getId(), getInstrumentVersion())
                 .orderBy("NumberInQuestion ASC")
                 .execute();
+    }
+    
+    public List<Image> images() {
+    	return new Select().from(Image.class).where("Question = ?", getId()).execute();
     }
     
     public List<QuestionTranslation> translations() {
@@ -361,6 +375,17 @@ public class Question extends ReceiveModel {
         return mFollowUpPosition;
     }
     
+    public boolean identifiesSurvey() {
+        return mIdentifiesSurvey;
+    }
+    
+    public String getInstructions() {
+        if (mInstructions == null || mInstructions.equals("") || mInstructions.equals("null"))
+            return null;
+        else
+            return mInstructions;
+    }
+    
     /*
      * Private
      */
@@ -381,6 +406,14 @@ public class Question extends ReceiveModel {
         return mOptionCount;
     }
     
+    private void setImageCount(int count) {
+    	mImageCount = count;
+    }
+    
+    private int getImageCount() {
+    	return mImageCount;
+    }
+    
     private void setInstrumentVersion(int version) {
         mInstrumentVersion = version;
     }
@@ -398,5 +431,13 @@ public class Question extends ReceiveModel {
     
     private void setFollowUpPosition(int position) {
         mFollowUpPosition = position;
+    }
+    
+    private void setIdentifiesSurvey(boolean identifiesSurvey) {
+        mIdentifiesSurvey = identifiesSurvey;
+    }
+    
+    private void setInstructions(String instructions) {
+        mInstructions = instructions;
     }
 }

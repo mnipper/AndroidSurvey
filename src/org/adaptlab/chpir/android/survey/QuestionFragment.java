@@ -5,6 +5,7 @@ import java.util.Date;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
+import com.activeandroid.util.Log;
 
 public abstract class QuestionFragment extends Fragment {
-    private static final String TAG = "QuestionFragment";
+	private final static String TAG = "QuestionFragment";
     protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
@@ -57,6 +58,7 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
+            createResponsePhoto();
         }
         
         saveTimeStarted();
@@ -92,6 +94,10 @@ public abstract class QuestionFragment extends Fragment {
     
     public Instrument getInstrument() { 
         return mInstrument;
+    }
+    
+    public ResponsePhoto getResponsePhoto() {
+    	return mResponse.getResponsePhoto();
     }
     
     /*
@@ -151,9 +157,11 @@ public abstract class QuestionFragment extends Fragment {
     }
     
     public void saveSpecialResponse(String response) {
-    	getResponse().setSpecialResponse(response); 
-    	saveTimeEnded();
-    	getResponse().save();
+        if (getResponse() != null) {
+        	getResponse().setSpecialResponse(response); 
+        	saveTimeEnded();
+        	getResponse().save();
+        }
     }
     
     private void saveTimeStarted() {
@@ -166,21 +174,26 @@ public abstract class QuestionFragment extends Fragment {
     private void saveTimeEnded() {
     	getResponse().setTimeEnded(new Date());
     }
-    
-    protected void questionIsSkipped() {
-    	saveSpecialResponse(Response.SKIPPED);
-    }
-    
-    protected void unDoSkip() {
-    	saveSpecialResponse("");
-    }
-    
+   
     private Response loadOrCreateResponse() {
         if (mSurvey.getResponseByQuestion(getQuestion()) != null) {
             return mSurvey.getResponseByQuestion(getQuestion());
         } else {
             return new Response();
         }
+    }
+    
+    private void createResponsePhoto() {
+    	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
+    			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
+	    	if (mResponse.getResponsePhoto() == null) {
+	    		Log.i(TAG, "creating new response photo");
+	    		ResponsePhoto photo = new ResponsePhoto();
+	    		photo.setResponse(mResponse);
+	    		photo.setResponseUUID(mResponse.getUUID());
+	    		photo.save();
+	        } 
+    	}
     }
     
     private void animateValidationTextView(boolean valid) {        

@@ -11,10 +11,17 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
         
-        <LinearLayout android:id="@+id/linear_layout_for_scroll_view" 
+       <LinearLayout android:id="@+id/linear_layout_for_scroll_view" 
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
+            
+           <TextView
+                android:id="@+id/sync_settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_settings"
+                style="@style/sectionHeader" />
 	
 		    <TextView
 		        android:id="@+id/device_identifier_label"
@@ -30,13 +37,25 @@
 		
 		        <requestFocus />
 		    </EditText>
+		    
+		    <TextView
+                android:id="@+id/device_label_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_label" />
+        
+            <EditText
+                android:id="@+id/device_label_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" />
 		
 		    <TextView
 		        android:id="@+id/sync_interval_label"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/sync_interval"
-		        android:layout_marginTop="18dp" />
+		        android:layout_marginTop="10dp" />
 		
 		    <EditText
 		        android:id="@+id/sync_interval_edit_text"
@@ -50,34 +69,103 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/api_endpoint"
-		        android:layout_marginTop="18dp" />
+                android:layout_marginTop="10dp" />
 		
 		    <EditText
 		        android:id="@+id/api_endpoint_edit_text"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
+		        android:inputType="textUri"
 		        android:ems="10" />
-		        
+            
+                                      
+            <TextView
+                android:id="@+id/custom_locale_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_locale"
+                android:layout_marginTop="10dp" />
+                
+            <EditText
+                android:id="@+id/custom_locale_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+		    
 		    <TextView
-		        android:id="@+id/custom_locale_label"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/custom_locale"
-		        android:layout_marginTop="18dp" />
-		        
-		    <EditText
-		        android:id="@+id/custom_locale_edit_text"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:ems="10" />
+                android:id="@+id/feature_toggle_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feature_toggle"
+                android:layout_marginTop="30dp"
+                style="@style/sectionHeader" />
+
+		    
+		              
+            <CheckBox android:id="@+id/show_surveys_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_surveys"
+                android:layout_marginTop="5dp" />
+            
+            <CheckBox android:id="@+id/show_skip_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_skip"
+                android:layout_marginTop="5dp" />
+            
+            <CheckBox android:id="@+id/show_na_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_na"
+                android:layout_marginTop="5dp" />
+            
+             <CheckBox android:id="@+id/show_rf_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_rf"
+                android:layout_marginTop="5dp" />
+             
+             <CheckBox android:id="@+id/show_dk_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_dk"
+                android:layout_marginTop="5dp" />
+
+
+             <TextView
+                android:id="@+id/system_info_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/system_information"
+                android:layout_marginTop="30dp"
+                style="@style/sectionHeader" />
 		    
 		    <TextView
 		        android:id="@+id/last_update_label"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/last_update"
-		        android:layout_marginTop="32dp"
+		        android:layout_marginTop="5dp"
 		        android:textStyle="bold" />
+		    
+		    <TextView
+                android:id="@+id/backend_api_key_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/api_key_label"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold" />
+		    
+		     <TextView
+                android:id="@+id/version_code_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version_code"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="30dp"
+                android:textStyle="bold"
+                 />
 		
 		    <LinearLayout
 		        android:layout_width="match_parent"

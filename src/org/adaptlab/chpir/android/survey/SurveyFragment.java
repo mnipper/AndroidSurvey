@@ -2,17 +2,28 @@ package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
 
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
+import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
+import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
+import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
+import com.activeandroid.Model;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -24,6 +35,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,16 +55,31 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.previous_questions";
    
     private Question mQuestion;
-    private ArrayList<Integer> mPreviousQuestions;
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
+    
+    // mPreviousQuestions is a Stack, however Android does not allow you
+    // to save a Stack to the savedInstanceState, so it is represented as
+    // an Integer array.
+    private ArrayList<Integer> mPreviousQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
     private ProgressBar mProgressBar;
     QuestionFragment mQuestionFragment;
+    private LocationServiceManager mLocationServiceManager;
 
+    //drawer vars
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String mDrawerTitle;
+    private String mTitle;
+    private ArrayList<Section> mSections;
+    private String[] mSectionTitles;
+    private boolean mNavDrawerSet = false;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,14 +99,121 @@ public class SurveyFragment extends Fragment {
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
             
+            loadOrCreateSurvey();
+            loadOrCreateQuestion();
+          
+        }
+        startLocationServices();
+    }
+    
+    private void setupNavigationDrawer() {
+    	Log.i(TAG, "setting navDrawer");
+    	mSections = new ArrayList<Section>();
+    	mSections = (ArrayList<Section>) mInstrument.sections();
+    	mSectionTitles = new String[mSections.size()];
+    	for (int i=0; i<mSections.size(); i++) {
+    		mSectionTitles[i] = mSections.get(i).getTitle();
+    	}
+    	mTitle = mDrawerTitle = mInstrument.getTitle();
+    	mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) getActivity().findViewById(R.id.left_drawer);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.drawer_list_item, mSectionTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerToggle = new ActionBarDrawerToggle(
+        		getActivity(), 
+        		mDrawerLayout, 
+        		R.drawable.ic_drawer, 
+        		R.string.drawer_open, 
+        		R.string.drawer_close
+        		) {
+            
+        	public void onDrawerClosed(View view) {
+                getActivity().getActionBar().setTitle(mTitle);
+                getActivity().invalidateOptionsMenu(); 
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActivity().getActionBar().setTitle(mDrawerTitle);
+                getActivity().invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setHomeButtonEnabled(true);
+        mNavDrawerSet = true;
+    }
+    
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+    
+    private void selectItem(int position) {
+    	moveToSection(mSections.get(position).getStartQuestionIdentifier());
+    	mDrawerList.setItemChecked(position, true);
+        getActivity().setTitle(mInstrument.getTitle() + " : " + mSectionTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+    
+    private void moveToSection(String questionIdentifier) {
+    	mPreviousQuestions.add(mQuestionNumber);
+    	mQuestion = Question.findByQuestionIdentifier(questionIdentifier);
+    	mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
+    	createQuestionFragment();
+    	updateQuestionText();
+    	updateQuestionCountLabel();
+    }
+    
+    private void updateQuestionText() {
+    	setQuestionText(mQuestionText);
+        mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
+    }
+    
+    public void loadOrCreateSurvey() {
+        Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
+        if (surveyId == -1) {
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);
             mSurvey.save();
-            
-            mQuestion = mInstrument.questions().get(0);
-            mQuestionNumber = 0;
-            mPreviousQuestions = new ArrayList<Integer>();
+        } else {
+            mSurvey = Model.load(Survey.class, surveyId);
         }
+    }
+    
+    public void loadOrCreateQuestion() {
+    	Log.i(TAG, "Load or create question");
+        mPreviousQuestions = new ArrayList<Integer>();  
+        Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
+        if (questionId == -1) {
+            mQuestion = mInstrument.questions().get(0);
+            mQuestionNumber = 0;              
+        } else {
+            mQuestion = Model.load(Question.class, questionId);
+            mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
+            for (int i = 0; i < mQuestionNumber; i++)
+                mPreviousQuestions.add(i);
+        }  
+    }
+    
+    private void startLocationServices() {
+    	mLocationServiceManager = LocationServiceManager.get(getActivity());
+        mLocationServiceManager.startLocationUpdates();
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().registerReceiver(mLocationServiceManager.mLocationReceiver, 
+                new IntentFilter(LocationServiceManager.ACTION_LOCATION));
+    }
+    
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(mLocationServiceManager.mLocationReceiver);
+        super.onStop();
     }
 
 	@Override
@@ -94,21 +230,43 @@ public class SurveyFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_survey, menu);
+        if (mNavDrawerSet == false) {
+        	setupNavigationDrawer();
+        }
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    	if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+    	switch (item.getItemId()) {
         case R.id.menu_item_previous:
             moveToPreviousQuestion();
             return true;
         case R.id.menu_item_next:
-        	mQuestionFragment.unDoSkip();
+            if (getSpecialResponse().equals(Response.SKIP)) {
+                mQuestionFragment.saveSpecialResponse("");
+            }
             moveToNextQuestion();
             return true;
         case R.id.menu_item_skip:
-        	skipQuestion();
+        	setSpecialResponse(Response.SKIP);
+            if (isLastQuestion()) {
+                finishSurvey();
+            } else {
+                moveToNextQuestion();
+            }
         	return true;
+        case R.id.menu_item_rf:
+            setSpecialResponse(Response.RF);
+            return true;
+        case R.id.menu_item_na:
+            setSpecialResponse(Response.NA);
+            return true;
+        case R.id.menu_item_dk:
+            setSpecialResponse(Response.DK);
+            return true;
         case R.id.menu_item_finish:
             finishSurvey();
             return true;
@@ -126,15 +284,43 @@ public class SurveyFragment extends Fragment {
             .setVisible(!isLastQuestion())
             .setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_skip)
-        	.setEnabled(hasValidResponse());
+        	.setEnabled(hasValidResponse())
+        	.setVisible(AdminSettings.getInstance().getShowSkip());
+        menu.findItem(R.id.menu_item_rf)
+            .setVisible(AdminSettings.getInstance().getShowRF());
+        menu.findItem(R.id.menu_item_na)
+            .setVisible(AdminSettings.getInstance().getShowNA());
+        menu.findItem(R.id.menu_item_dk)
+            .setVisible(AdminSettings.getInstance().getShowDK());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());
+     
+        showSpecialResponseSelection(menu);
     }
+	
+    
+	/*
+	 * Give a visual indication when a special response is selected
+	 */
+	public void showSpecialResponseSelection(Menu menu) {
+        if (mQuestionFragment.getResponse() != null && menu != null) {
+            if (getSpecialResponse().equals(Response.SKIP)) {
+                menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
+            } else if (getSpecialResponse().equals(Response.RF)) {
+                menu.findItem(R.id.menu_item_rf).setIcon(R.drawable.ic_menu_item_rf_selected);                
+            } else if (getSpecialResponse().equals(Response.NA)) {
+                menu.findItem(R.id.menu_item_na).setIcon(R.drawable.ic_menu_item_na_selected);                
+            } else if (getSpecialResponse().equals(Response.DK)) {
+                menu.findItem(R.id.menu_item_dk).setIcon(R.drawable.ic_menu_item_dk_selected);                
+            }
+        }
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
             Bundle savedInstanceState) {
+    	Log.i(TAG, "On Create View");
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
@@ -170,9 +356,11 @@ public class SurveyFragment extends Fragment {
             // Replace the question fragment if it already exist            
             fm.beginTransaction()
                 .replace(R.id.question_container, mQuestionFragment)
-                .commit();            
+                .commit();        
         }
         
+        mSurvey.setLastQuestion(mQuestion);
+        mSurvey.save();
         removeTextFocus();
 	}
 	
@@ -240,8 +428,10 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
             createQuestionFragment();
-            if (!setQuestionText(mQuestionText))
+            if (!setQuestionText(mQuestionText)) {
+                setSpecialResponse(Response.LOGICAL_SKIP);
                 moveToNextQuestion();
+            }
         } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
         	finishSurvey();
         }
@@ -256,7 +446,7 @@ public class SurveyFragment extends Fragment {
      * to the previous question in the sequence.
      */
     public void moveToPreviousQuestion() {
-        if (mQuestionNumber >= 0) {
+        if (mQuestionNumber > 0 && mQuestionNumber < mInstrument.questions().size()) {
             mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             mQuestion = mInstrument.questions().get(mQuestionNumber);
             createQuestionFragment();
@@ -269,48 +459,16 @@ public class SurveyFragment extends Fragment {
 
     /*
     * Destroy this activity, and save the survey and mark it as
-    * complete.  Send to server is network is available.
+    * complete.  Send to server if network is available.
     */
     public void finishSurvey() {
         getActivity().finish();
+        setSurveyLocation();
         mSurvey.setAsComplete();
         mSurvey.save();
-        if (PollService.isNetworkAvailable(getActivity())) {
-            new SendResponsesTask().execute();
-        }
+        new SendResponsesTask(getActivity()).execute();
     }
-    
-    /*
-     * If this question is a follow up question, then attempt
-     * to get the response to the question that is being followed up on.
-     * 
-     * If the question being followed up on was skipped by the user,
-     * then return false. This gives the calling function an opportunity
-     * to handle this accordingly.  Likely this will involve skipping
-     * the question that is a follow up question.
-     * 
-     * If this question is not a following up question, then just
-     * set the text as normal.
-     */
-    private boolean setQuestionText(TextView text) {
-        if (mQuestion.isFollowUpQuestion()) {
-            String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
-            
-            if (followUpText == null) {
-                return false;
-            } else {
-                text.setText(styleTextWithHtml(followUpText));
-            }
-        } else {
-            text.setText(styleTextWithHtml(mQuestion.getText()));
-        }
-        return true;
-    }
-    
-    private Spanned styleTextWithHtml(String text) {
-    	return Html.fromHtml(text);
-    }
-    
+       
     public boolean isFirstQuestion() {
         return mQuestionNumber == 0;
     }
@@ -327,13 +485,74 @@ public class SurveyFragment extends Fragment {
         }
     }
     
-    private void skipQuestion() {
-        mQuestionFragment.questionIsSkipped();
+    private void setSurveyLocation() {
+    	mSurvey.setLatitude(mLocationServiceManager.getLatitude());
+    	mSurvey.setLongitude(mLocationServiceManager.getLongitude());
+    }
+    
+    /*
+     * If this question is a follow up question, then attempt
+     * to get the response to the question that is being followed up on.
+     * 
+     * If the question being followed up on was skipped by the user,
+     * then return false. This gives the calling function an opportunity
+     * to handle this accordingly.  Likely this will involve skipping
+     * the question that is a follow up question.
+     * 
+     * If this question is not a following up question, then just
+     * set the text as normal.
+     */
+    private boolean setQuestionText(TextView text) {        
+    	appendInstructions(text);
         
-        if (isLastQuestion()) {
-            finishSurvey();
+        if (mQuestion.isFollowUpQuestion()) {
+            String followUpText = mQuestion.getFollowingUpText(mSurvey, getActivity());
+            
+            if (followUpText == null) {
+                return false;
+            } else {
+                text.append(styleTextWithHtml(followUpText));
+            }
         } else {
-            moveToNextQuestion();
+            text.append(styleTextWithHtml(mQuestion.getText()));
+        }
+        return true;
+    }
+    
+    /*
+     * If this question has instructions, append and add new line
+     */
+    private void appendInstructions(TextView text) {
+        if (mQuestion.getInstructions() != null) {
+            text.setText(styleTextWithHtml(mQuestion.getInstructions() + "<br /><br />"));
+        } else {
+        	text.setText("");
+        }
+    }
+    
+    private Spanned styleTextWithHtml(String text) {
+    	return Html.fromHtml(text);
+    }
+    
+    /*
+     * Save the special response field and clear the current
+     * response if there is one.
+     */
+    private void setSpecialResponse(String response) {
+        mQuestionFragment.saveSpecialResponse(response);
+        //clearCurrentResponse();
+        if (isAdded()) {
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        }
+    }
+    
+    /*
+     * Set the current response to the empty string
+     */
+    private void clearCurrentResponse() {        
+        if (mQuestionFragment.getResponse() != null) {
+            mQuestionFragment.getResponse().setResponse("");
+            mQuestionFragment.getResponse().save();
         }
     }
             
@@ -343,6 +562,15 @@ public class SurveyFragment extends Fragment {
         mQuestionIndex.setText((mQuestionNumber + 1) + " " + getString(R.string.of) + " " + numberQuestions);        
         mProgressBar.setProgress((int) (100 * (mQuestionNumber + 1) / (float) numberQuestions));
         
-        ActivityCompat.invalidateOptionsMenu(getActivity());
+        if (isAdded()) {
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        }
     }
+	
+	private String getSpecialResponse() {
+	    if (mQuestionFragment.getResponse() != null)
+	        return mQuestionFragment.getResponse().getSpecialResponse();
+	    else
+	        return "";
+	}
 }

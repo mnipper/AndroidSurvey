@@ -1,27 +1,21 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
+import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
-import org.adaptlab.chpir.android.survey.Models.Option;
-import org.adaptlab.chpir.android.survey.Models.Question;
-import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import org.adaptlab.chpir.android.survey.Tasks.DownloadImagesTask;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -33,28 +27,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 
 public class InstrumentFragment extends ListFragment {
-    private final static String TAG = "InstrumentFragment";
-    private final static boolean REQUIRE_SECURITY_CHECKS = false;
-    private String ADMIN_PASSWORD_HASH;
-    private String ACCESS_TOKEN;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
-        ADMIN_PASSWORD_HASH = getActivity().getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = getActivity().getResources().getString(R.string.backend_api_key);       
-        appInit();
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));       
+        AppUtil.appInit(getActivity());
     }
+    
+    private void downloadInstrumentImages() {
+    	new DownloadImagesTask(getActivity()).execute();
+	}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -79,7 +71,37 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((InstrumentAdapter) getListAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+        createTabs();
+    }
+    
+    public void createTabs() {
+        if (AdminSettings.getInstance().getShowSurveys()) {
+            final ActionBar actionBar = getActivity().getActionBar();     
+            ActionBar.TabListener tabListener = new ActionBar.TabListener() {    
+                @Override
+                public void onTabSelected(Tab tab,
+                        android.app.FragmentTransaction ft) {
+                    if (tab.getText().equals(getActivity().getResources().getString(R.string.surveys))) {
+                        if (Survey.getAll().isEmpty())
+                            setListAdapter(null);
+                        else
+                            setListAdapter(new SurveyAdapter(Survey.getAll()));
+                    } else {
+                        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                    }
+                }
+    
+                // Required by interface
+                public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) { }
+                public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) { }
+            };
+            
+            actionBar.removeAllTabs();
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.instruments)).setTabListener(tabListener));
+            actionBar.addTab(actionBar.newTab().setText(getActivity().getResources().getString(R.string.surveys)).setTabListener(tabListener));
+        }
     }
 
     private class InstrumentAdapter extends ArrayAdapter<Instrument> {
@@ -111,75 +133,53 @@ public class InstrumentFragment extends ListFragment {
             return convertView;
         }
     }
+    
+    private class SurveyAdapter extends ArrayAdapter<Survey> {
+        public SurveyAdapter(List<Survey> surveys) {
+            super(getActivity(), 0, surveys);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater().inflate(
+                        R.layout.list_item_survey, null);
+            }
+
+            Survey survey = getItem(position);
+
+            TextView titleTextView = (TextView) convertView
+                    .findViewById(R.id.survey_list_item_titleTextView);
+            titleTextView.setText(survey.identifier(getActivity()));
+            titleTextView.setTypeface(survey.getInstrument().getTypeFace(getActivity().getApplicationContext()));
+
+            TextView progressTextView = (TextView) convertView.findViewById(R.id.survey_list_item_progressTextView);            
+            progressTextView.setText(survey.responses().size() + " " + getString(R.string.of) + " " + survey.getInstrument().questions().size());
+
+            TextView instrumentTitleTextView = (TextView) convertView.findViewById(R.id.survey_list_item_instrumentTextView);
+            instrumentTitleTextView.setText(survey.getInstrument().getTitle());
+            
+            TextView lastUpdatedTextView = (TextView) convertView.findViewById(R.id.survey_list_item_lastUpdatedTextView);
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm yyyy-MM-dd");
+            lastUpdatedTextView.setText(df.format(survey.getLastUpdated()));
+            
+            return convertView;
+        }
+    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
-        if (instrument == null) {
-            return;
+        if (l.getAdapter() instanceof InstrumentAdapter) {
+            Instrument instrument = ((InstrumentAdapter) getListAdapter()).getItem(position);
+            if (instrument == null) return;            
+            new LoadInstrumentTask().execute(instrument);
+        } else if (l.getAdapter() instanceof SurveyAdapter) {
+            Survey survey = ((SurveyAdapter) getListAdapter()).getItem(position);
+            if (survey == null) return;
+            new LoadSurveyTask().execute(survey);            
         }
-        
-        new LoadInstrumentTask().execute(instrument);
     }
-
-    private final void appInit() {
-        if (REQUIRE_SECURITY_CHECKS) {
-            if (!runDeviceSecurityChecks()) {
-                // Device has failed security checks
-                
-                return;
-            }
-        }
-        
-        Log.i(TAG, "Initializing application...");
-        
-        Crashlytics.start(getActivity());
-        
-        DatabaseSeed.seed(getActivity());
-
-        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
-            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
-        }
-
-        ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
-        ActiveRecordCloudSync.setVersionCode(getVersionCode());
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
-        ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
-        ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
-        ActiveRecordCloudSync.addReceiveTable("options", Option.class);
-        ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
-        ActiveRecordCloudSync.addSendTable("responses", Response.class);
-
-        PollService.setServiceAlarm(getActivity().getApplicationContext(), true);
-    }
-
-    /*
-     * Security checks that must pass for the application to start.
-     * 
-     * If the application fails any security checks, display
-     * AlertDialog indicating why and immediately stop execution
-     * of the application.
-     * 
-     * Current security checks: require encryption
-     */
-    private final boolean runDeviceSecurityChecks() {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getActivity()
-                .getSystemService(Context.DEVICE_POLICY_SERVICE);
-        if (devicePolicyManager.getStorageEncryptionStatus() != DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE) {
-            new AlertDialog.Builder(getActivity())
-            .setTitle(R.string.encryption_required_title)
-            .setMessage(R.string.encryption_required_text)
-            .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
-                    getActivity().finish();
-                }
-             })
-             .show();
-            return false;
-        }
-        return true;
-    }
-    
+   
     /*
      * Only display admin area if correct password.
      */
@@ -192,7 +192,7 @@ public class InstrumentFragment extends ListFragment {
             .setView(input)
             .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
                 public void onClick(DialogInterface dialog, int button) {
-                    if (checkAdminPassword(input.getText().toString())) {
+                    if (AppUtil.checkAdminPassword(input.getText().toString())) {
                         Intent i = new Intent(getActivity(), AdminActivity.class);
                         startActivity(i);
                     } else {
@@ -205,32 +205,11 @@ public class InstrumentFragment extends ListFragment {
     }
     
     /*
-     * Hash the entered password and compare it with admin password hash
-     */
-    private boolean checkAdminPassword(String password) {
-        String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
-        return hash.equals(ADMIN_PASSWORD_HASH);
-    }
-    
-    /*
-     * Get the version code from the AndroidManifest
-     */
-    private int getVersionCode() {
-        try {
-            PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            return pInfo.versionCode;
-        } catch (NameNotFoundException nnfe) {
-            Log.e(TAG, "Error finding version code: " + nnfe);
-        }
-        return -1;
-    }
-    
-    /*
      * Refresh the receive tables from the server
      */
     private class RefreshInstrumentsTask extends AsyncTask<Void, Void, Void> {
         
-        @Override
+		@Override
         protected void onPreExecute() {
             getActivity().setProgressBarIndeterminateVisibility(true);
             setListAdapter(null);            
@@ -238,13 +217,15 @@ public class InstrumentFragment extends ListFragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            ActiveRecordCloudSync.syncReceiveTables();
+            if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity()))
+                ActiveRecordCloudSync.syncReceiveTables(getActivity());
             return null;
         }
         
         @Override
         protected void onPostExecute(Void param) {
-            if (isAdded()) {
+        	if (isAdded()) {
+            	downloadInstrumentImages();
                 setListAdapter(new InstrumentAdapter(Instrument.getAll()));
                 getActivity().setProgressBarIndeterminateVisibility(false);    
             }
@@ -273,15 +254,15 @@ public class InstrumentFragment extends ListFragment {
          */
         @Override
         protected Long doInBackground(Instrument... params) {
-            Instrument instrument = params[0];
+        	Instrument instrument = params[0];
             if (instrument.loaded()) {
                 return instrument.getRemoteId();
             } else {
                 return Long.valueOf(-1);
             }
         }
-        
-        @Override
+
+		@Override
         protected void onPostExecute(Long instrumentId) {
             mProgressDialog.dismiss();
             if (instrumentId == Long.valueOf(-1)) {
@@ -289,6 +270,48 @@ public class InstrumentFragment extends ListFragment {
             } else {
                 Intent i = new Intent(getActivity(), SurveyActivity.class);
                 i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                startActivity(i);
+            }
+        }
+    }
+    
+    private class LoadSurveyTask extends AsyncTask<Survey, Void, Survey> {
+        ProgressDialog mProgressDialog;
+        
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = ProgressDialog.show(
+                    getActivity(),
+                    getString(R.string.instrument_loading_progress_header),
+                    getString(R.string.instrument_loading_progress_message)
+            ); 
+        }
+        
+        /*
+         * If instrument is loaded, return the survey.
+         * If not, return null.
+         */
+        @Override
+        protected Survey doInBackground(Survey... params) {
+            Survey survey = params[0];
+            Instrument instrument = survey.getInstrument();
+            if (instrument.loaded()) {
+                return survey;
+            } else {
+                return null;
+            }
+        }
+        
+        @Override
+        protected void onPostExecute(Survey survey) {
+            mProgressDialog.dismiss();
+            if (survey == null) {
+                Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
+            } else {
+                Intent i = new Intent(getActivity(), SurveyActivity.class);
+                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, survey.getInstrument().getRemoteId());
+                i.putExtra(SurveyFragment.EXTRA_SURVEY_ID, survey.getId());
+                i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, survey.getLastQuestion().getId());
                 startActivity(i);
             }
         }

@@ -20,6 +20,7 @@
     <string name="save_button">Save</string>
     <string name="admin_settings">Admin</string>
     <string name="api_endpoint">Api Endpoint Url</string>
+    <string name="api_key_label">Api Key: </string>
     <string name="last_update">Last update:  </string>
     <string name="sync_notification_text">Syncing with server...</string>   
     <string name="sync_notification_complete_text">Syncing with server complete.</string>    
@@ -46,4 +47,27 @@
     <string name="and">and</string>
     <string name="comma">,</string>
     <string name="space">" "</string>
+    <string name="gps_enabled">GPS Enabled</string>
+    <string name="gps_disabled">GPS Disabled</string>
+    <string name="instruments">Instruments</string>
+    <string name="show_surveys">Show Surveys</string>
+    <string name="version_code">Version Code: </string>
+    <string name="unidentified_survey">Unidentified Survey </string>
+    <string name="system_information">System Information</string>
+    <string name="feature_toggle">Feature Toggle</string>
+    <string name="sync_settings">Sync Settings</string>
+    <string name="enable_camera">Enable Camera</string>
+    <string name="take">Take</string>
+    <string name="show_skip">Show Skip</string>
+    <string name="show_na">Show NA</string>
+    <string name="show_dk">Show DK</string>
+    <string name="show_rf">Show RF</string>
+    <string name="sk">Skip this question</string>
+    <string name="rf">Refuse to answer this question</string>
+    <string name="dk">Don\'t know</string>
+    <string name="na">Not applicable</string>
+    <string name="desc"></string>
+    <string name="device_label">Device Label</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

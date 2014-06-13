@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <TextView
+        android:id="@+id/survey_list_item_titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="10dp"
+        android:text="Survey identifier"
+        android:textSize="22sp" />  
+        
+    <TextView
+        android:id="@+id/survey_list_item_instrumentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/survey_list_item_titleTextView"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="5dp"
+        android:textSize="14sp"
+        android:textColor="#545454" /> 
+             
+                
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:layout_below="@id/survey_list_item_instrumentTextView"
+         android:paddingTop="4dp" >
+         
+	     <TextView
+	        android:id="@+id/survey_list_item_lastUpdatedTextView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="4dp"
+	        android:paddingRight="4dp"
+	        android:paddingBottom="10dp"
+	        android:textSize="14sp"
+	        android:textColor="#545454" />  
+	        
+	      <TextView
+	        android:id="@+id/survey_list_item_progressTextView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="right"
+	        android:paddingLeft="4dp"
+	        android:paddingRight="4dp"
+	        android:paddingBottom="10dp"
+	        android:textSize="14sp"
+	        android:textColor="#545454" />
+ 
+    </LinearLayout>
+
+</RelativeLayout>

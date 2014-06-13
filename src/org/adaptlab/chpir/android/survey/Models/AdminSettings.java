@@ -12,12 +12,24 @@ public class AdminSettings extends Model {
     private static final String TAG = "AdminSettings";
     @Column(name = "DeviceIdentifier")
     private String mDeviceIdentifier;
+    @Column(name = "DeviceLabel")
+    private String mDeviceLabel;
     @Column(name = "SyncInterval")
     private int mSyncInterval;
     @Column(name = "ApiUrl")
     private String mApiUrl;
     @Column(name = "CustomLocaleCode")
     private String mCustomLocaleCode;
+    @Column(name = "ShowSurveys")
+    private boolean mShowSurveys;
+    @Column(name = "ShowSkip")
+    private boolean mShowSkip;
+    @Column(name = "ShowNA")   
+    private boolean mShowNA;
+    @Column(name = "ShowRF")    
+    private boolean mShowRF;
+    @Column(name = "ShowDK")    
+    private boolean mShowDK;
     
     private static AdminSettings adminSettings;
     
@@ -45,16 +57,25 @@ public class AdminSettings extends Model {
      */
     public AdminSettings() {
         super();
+        mShowSurveys = false;
     }
     
     public void setDeviceIdentifier(String id) {
-        Log.i(TAG, "Setting device identifier: " + id);
         mDeviceIdentifier = id;
         save();
     }
     
     public String getDeviceIdentifier() {
         return mDeviceIdentifier;
+    }
+    
+    public void setDeviceLabel(String label) {
+        mDeviceLabel = label;
+        save();
+    }
+    
+    public String getDeviceLabel() {
+        return mDeviceLabel;
     }
     
     /**
@@ -98,5 +119,61 @@ public class AdminSettings extends Model {
     public String getCustomLocaleCode() {
         return mCustomLocaleCode;
     }
+    
+    public void setShowSurveys(boolean showSurveys) {
+        mShowSurveys = showSurveys;
+        save();
+    }
+    
+    public boolean getShowSurveys() {
+        return mShowSurveys;
+    }
+    
+    public void setShowSkip(boolean showSkip) {
+        mShowSkip = showSkip;
+        save();
+    }
+    
+    /*
+     * Show SKIP special response for each question if true
+     */
+    public boolean getShowSkip() {
+        return mShowSkip;
+    }
+    
+    public void setShowNA(boolean showNA) {
+        mShowNA = showNA;
+        save();
+    }
 
+    /*
+     * Show NOT APPLICABLE special response for each question if true
+     */
+    public boolean getShowNA() {
+        return mShowNA;
+    }
+    
+    public void setShowRF(boolean showRF) {
+        mShowRF = showRF;
+        save();
+    }
+    
+    /*
+     * Show REFUSED special response for each question if true
+     */
+    public boolean getShowRF() {
+        return mShowRF;
+    }
+    
+    public void setShowDK(boolean showDK) {
+        mShowDK = showDK;
+        save();
+    }
+    
+    /*
+     * Show DONT KNOW special response for each question if true
+     */
+    public boolean getShowDK() {
+        return mShowDK;
+    }
 }

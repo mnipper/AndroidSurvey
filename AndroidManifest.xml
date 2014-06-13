@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.adaptlab.chpir.android.survey"
-    android:versionCode="2"
-    android:versionName="1.1" >
+    android:versionCode="4"
+    android:versionName="1.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:required="true" android:name="android.hardware.location.gps"/>
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -47,8 +51,14 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".LocationReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="org.adaptlab.chpir.android.survey.Location.ACTION_LOCATION"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.NotificationReceiver" />
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="9" />    
+        <meta-data android:name="AA_DB_VERSION" android:value="18" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>
     </application>

@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.adaptlab.chpir.android.survey.R;
+
+import android.content.Context;
 import android.util.Log;
 
 public class ActiveRecordCloudSync {
@@ -46,26 +49,30 @@ public class ActiveRecordCloudSync {
         return mEndPoint;
     }
     
-    public static void syncReceiveTables() {
+    public static void syncReceiveTables(Context context) {
+        NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download, R.string.sync_notification_text);
         for (Map.Entry<String, Class<? extends ReceiveModel>> entry : mReceiveTables.entrySet()) {
             Log.i(TAG, "Syncing " + entry.getValue() + " from remote table " + entry.getKey());
             HttpFetchr httpFetchr = new HttpFetchr(entry.getKey(), entry.getValue());
             httpFetchr.fetch();
         }
+        NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download_done, R.string.sync_notification_complete_text);
     }
     
-    public static void syncSendTables() {
+    public static void syncSendTables(Context context) {
+        NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download, R.string.sync_notification_text);
         for (Map.Entry<String, Class<? extends SendModel>> entry : mSendTables.entrySet()) {
             Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
             HttpPushr httpPushr = new HttpPushr(entry.getKey(), entry.getValue());
             httpPushr.push();
         }
+        NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download_done, R.string.sync_notification_complete_text);
     }
     
     public static boolean isApiAvailable() {
         if (getPingAddress() == null) return true;
         int responseCode = ping(getPingAddress(), 10000);
-        return (200 <= responseCode && responseCode < 500);
+        return (200 <= responseCode && responseCode < 300);
     }
 
     /*

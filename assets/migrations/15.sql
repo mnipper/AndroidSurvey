@@ -1,0 +1,2 @@
+ALTER TABLE Responses ADD COLUMN ResponsePhoto RESPONSEPHOTO;
+ALTER TABLE AdminSettings ADD COLUMN DeviceLabel STRING;

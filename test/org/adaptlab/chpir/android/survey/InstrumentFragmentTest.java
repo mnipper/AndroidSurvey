@@ -3,103 +3,125 @@ package org.adaptlab.chpir.android.survey;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.robolectric.Robolectric.shadowOf;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowAlertDialog;
+import org.robolectric.shadows.ShadowIntent;
 import org.robolectric.tester.android.view.TestMenuItem;
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 @RunWith(RobolectricTestRunner.class)
-public class InstrumentFragmentTest {
+public class InstrumentFragmentTest extends FragmentBaseTest {
 	private static final String PASSWORD = "password";
-	private InstrumentFragment iFragment;
-	private InstrumentActivity activity;
+	private InstrumentFragment mFragment;
+	private InstrumentActivity mActivity;
 
-	@Before
+	@Override 
 	public void setUp() throws Exception {
-		activity = Robolectric.buildActivity(InstrumentActivity.class).create().get();
-		iFragment = spy(new InstrumentFragment());
-		startFragment();
+		mActivity = Robolectric.buildActivity(InstrumentActivity.class).create().get();
+		mFragment = spy(new InstrumentFragment());
+		startFragment(mActivity, mFragment);
 	}
 	
-	public void startFragment() {
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-	    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-	    fragmentTransaction.add(iFragment, null );
-	    fragmentTransaction.commit();
+	@Test
+	public void activityShouldNotBeNull() throws Exception {
+		assertNotNull(mActivity);
+	}
+	
+	@Test
+	public void fragmentShouldNotBeNull() throws Exception {
+		assertNotNull(mFragment);
 	}
 	
 	@Test
 	public void shouldHaveOptionsMenuSetToTrue() throws Exception {
-		assertThat(iFragment.hasOptionsMenu(), equalTo(true));
+		assertThat(mFragment.hasOptionsMenu(), equalTo(true));
+	}
+	
+	@Test
+	public void shouldSetListAdapter() throws Exception {
+		Bundle savedInstanceState = new Bundle();
+		mFragment.onCreate(savedInstanceState);
+		verify(mFragment, atLeastOnce()).setListAdapter(any(ArrayAdapter.class));
 	}
 	
 	@Test
 	public void shouldHaveOptionsMenuInflated() throws Exception {
-		assertThat(iFragment.isMenuVisible(), equalTo(true));
+		assertThat(mFragment.isMenuVisible(), equalTo(true));
 	}
 	
-	/*@Test	//TODO FIX
+	@Test
 	public void shouldDetectAdminMenuItemSelected() throws Exception {
-		MenuItem item = new TestMenuItem() {
-			public int getItemId() {
-			    return R.id.menu_item_admin;
-			  }
-		};
-		ShadowActivity shadowActivity = Robolectric.shadowOf(activity);
-		iFragment.onOptionsItemSelected(item);
+		MenuItem item = new TestMenuItem(R.id.menu_item_admin);
+		ShadowActivity shadowActivity = Robolectric.shadowOf(mActivity);
+		assertNotNull(shadowActivity);
+		mFragment.onOptionsItemSelected(item);
 		Intent startedIntent = shadowActivity.getNextStartedActivity();
+		assertNotNull(startedIntent);
 		ShadowIntent shadowIntent = Robolectric.shadowOf(startedIntent);
 		assertThat(shadowIntent.getComponent().getClassName(), equalTo(AdminActivity.class.getName()));	
-	}*/
+	}
 	
-	/*@Test  //TODO Find out acceptable solution to wait for sleep
+	@Test  
 	public void shouldDetectRefreshMenuItemSelected() throws Exception {
-		MenuItem item = new TestMenuItem() {
-			@Override
-			public int getItemId() {
-			    return R.id.menu_item_refresh;
-			  }
-		};
-		iFragment.onOptionsItemSelected(item);
-		assertNotNull(iFragment.getListAdapter());
-	}*/
-	
-	/*@Test
-	public void testAppInitMethod() {
-		// TODO Implement
-	}*/
-	
-	/*@Test //TODO FIX - Currently un-encrypted
-	public void runDeviceSecurityChecks() throws Exception {
-		boolean encrypted = invokeMethod(iFragment, "runDeviceSecurityChecks");
-		assertFalse(encrypted);	
-	}*/
+		MenuItem item = new TestMenuItem(R.id.menu_item_refresh);
+		mFragment.onOptionsItemSelected(item);
+		//TODO Test that an inner class instance was created
+	}
 	
 	@Test
-	public void shouldCheckAdminPassword() throws Exception {
-		boolean passwordCorrect = Whitebox.invokeMethod(iFragment, "checkAdminPassword", PASSWORD);
-		assertTrue(passwordCorrect);
+	public void shouldCallCreateTabsOnResume() throws Exception {
+		mFragment.onResume();
+		verify(mFragment, times(1)).createTabs();
+	}
+	
+	@Test
+	public void onCreateTabs() throws Exception {
+		//TODO Implement 
+	}
+	
+	@Test
+	public void testInstrumentAdapterClass() throws Exception {
+		//TODO Implement
+	}
+	
+	@Test
+	public void testSurveyAdapterClass() throws Exception {
+		//TODO Implement
+	}
+	
+	@Test
+	public void shouldLoadInstrumentTaskOnListViewClick() throws Exception {
+		//TODO Implement
+	}
+	
+	@Test
+	public void shouldLoadSurveyTaskOnListViewClick() throws Exception {
+		//TODO Implement
 	}
 	
 	@Test
 	public void shouldDisplayPasswordPromptDialog() throws Exception {
-		Whitebox.invokeMethod(iFragment, "displayPasswordPrompt");
+		Whitebox.invokeMethod(mFragment, "displayPasswordPrompt");
 		AlertDialog alert = ShadowAlertDialog.getLatestAlertDialog();
 		ShadowAlertDialog sAlert = shadowOf(alert);
-		assertThat(sAlert.getTitle().toString(), equalTo(activity.getString(R.string.password_title)));
+		assertThat(sAlert.getTitle().toString(), equalTo(mActivity.getString(R.string.password_title)));
 	}
 	
 	/*@Test //TODO FIX
@@ -114,6 +136,12 @@ public class InstrumentFragmentTest {
 		//ShadowButton sOkButton = shadowOf(okButton);
 		//sAlert.clickOn(0);
 		//sAlert.getLatestDialog();
+	}*/
+	
+	/*@Test
+	public void shouldCheckAdminPassword() throws Exception {
+		boolean passwordCorrect = Whitebox.invokeMethod(mFragment, "checkAdminPassword", PASSWORD);
+		assertTrue(passwordCorrect);
 	}*/
 	
 	/*@Test 

@@ -1,0 +1,2 @@
+ALTER TABLE Images ADD COLUMN BitmapPath STRING;
+ALTER TABLE ResponsePhotos ADD COLUMN PicturePath STRING;

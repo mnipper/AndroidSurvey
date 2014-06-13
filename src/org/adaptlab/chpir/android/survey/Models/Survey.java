@@ -1,12 +1,15 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -25,12 +28,21 @@ public class Survey extends SendModel {
     private boolean mSent;
     @Column(name = "Complete")
     private boolean mComplete;
+    @Column(name = "Latitude")
+    private String mLatitude;
+    @Column(name= "Longitude")
+    private String mLongitude;
+    @Column(name = "LastUpdated")
+    private Date mLastUpdated;
+    @Column(name = "LastQuestion")
+    private Question mLastQuestion;
 
     public Survey() {
         super();
         mSent = false;
         mComplete = false;
         mUUID = UUID.randomUUID().toString();
+        mLastUpdated = new Date();
     }
     
     @Override
@@ -42,8 +54,11 @@ public class Survey extends SendModel {
             jsonObject.put("instrument_id", getInstrument().getRemoteId());
             jsonObject.put("instrument_version_number", getInstrument().getVersionNumber());
             jsonObject.put("device_uuid", getAdminInstanceDeviceIdentifier());
+            jsonObject.put("device_label", AdminSettings.getInstance().getDeviceLabel());
             jsonObject.put("uuid", mUUID);
             jsonObject.put("instrument_title", getInstrument().getTitle());
+            jsonObject.put("latitude", mLatitude);
+            jsonObject.put("longitude", mLongitude);
             
             json.put("survey", jsonObject);
         } catch (JSONException je) {
@@ -57,6 +72,23 @@ public class Survey extends SendModel {
     }
     
     /*
+     * The identifier to display to the user to identify a Survey.
+     * Return Unidentified Survey string if no response for identifier questions.
+     */
+    public String identifier(Context context) {
+        String identifier = "";
+        for (Response response : responses()) {
+            if (response.getQuestion().identifiesSurvey()) {
+                identifier += response.getText() + " ";
+            }
+        }
+        if (identifier.trim().isEmpty())
+            return context.getString(R.string.unidentified_survey) + " " + getId();
+        else
+            return identifier;
+    }
+    
+    /*
      * Finders
      */   
     public Response getResponseByQuestion(Question question) {
@@ -64,6 +96,10 @@ public class Survey extends SendModel {
                 "Question = ? AND Survey = ?",
                 question.getId(),
                 getId()).executeSingle();
+    }
+    
+    public static List<Survey> getAll() {
+        return new Select().from(Survey.class).orderBy("LastUpdated DESC").execute();
     }
 
     
@@ -73,7 +109,6 @@ public class Survey extends SendModel {
     public List<Response> responses() {
         return getMany(Response.class, "Survey");
     }
- 
     
     /*
      * Getters/Setters
@@ -109,5 +144,43 @@ public class Survey extends SendModel {
     @Override
     public boolean readyToSend() {
         return mComplete;
+    }
+    
+    public void setLatitude(String latitude) {
+    	mLatitude = latitude;
+    }
+    
+    public String getLatitude() {
+    	return mLatitude;
+    }
+    
+    public void setLongitude(String longitude) {
+    	mLongitude = longitude;
+    }
+    
+    public String getLongitude() {
+    	return mLongitude;
+    }
+    
+    public Date getLastUpdated() {
+        return mLastUpdated;
+    }
+    
+    public void setLastUpdated(Date lastUpdate) {
+        mLastUpdated = lastUpdate;
+    }
+    
+    public Question getLastQuestion() {
+        return mLastQuestion;
+    }
+    
+    public void setLastQuestion(Question question) {
+        mLastQuestion = question;
+    }
+    
+    public void deleteIfComplete() {
+		if (this.responses().size() == 0) {
+			this.delete();
+		}
     }
 }

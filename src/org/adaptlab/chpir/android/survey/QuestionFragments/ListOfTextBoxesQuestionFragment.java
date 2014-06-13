@@ -59,5 +59,6 @@ public class ListOfTextBoxesQuestionFragment extends QuestionFragment {
             if (mResponses.size() > i)
                 mResponses.get(i).setText(listOfResponses[i]);
         }
-    }   
+    }
+   
 }

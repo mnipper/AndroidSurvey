@@ -229,7 +229,7 @@ public class Question extends ReceiveModel {
             question.setOptionCount(jsonObject.getInt("option_count"));
             question.setImageCount(jsonObject.getInt("image_count"));
             question.setInstrumentVersion(jsonObject.getInt("instrument_version"));
-            if (jsonObject.isNull("number_in_instrument") != true) { 
+            if (!jsonObject.isNull("number_in_instrument")) { 
              question.setNumberInInstrument(jsonObject.getInt("number_in_instrument"));
             }
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));

@@ -38,7 +38,14 @@ public class Section extends ReceiveModel {
             section.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             section.setTitle(jsonObject.getString("title"));
             section.setStartQuestionIdentifier(jsonObject.getString("start_question_identifier"));
-            section.save();
+            if (jsonObject.isNull("deleted_at")) {
+            	section.save();
+            } else {
+            	Section deletedSection = Section.findByRemoteId(remoteId);
+                if (deletedSection != null) {
+                	deletedSection.delete();
+                }
+            }
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  

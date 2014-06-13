@@ -95,7 +95,7 @@ public class Option extends ReceiveModel {
             option.setQuestion(Question.findByRemoteId(jsonObject.getLong("question_id")));
             option.setRemoteId(remoteId);
             option.setNextQuestion(jsonObject.getString("next_question"));
-            if (jsonObject.isNull("number_in_question") != true) {
+            if (!jsonObject.isNull("number_in_question")) {
             	option.setNumberInQuestion(jsonObject.getInt("number_in_question"));
             }
             option.setInstrumentVersion(jsonObject.getInt("instrument_version"));

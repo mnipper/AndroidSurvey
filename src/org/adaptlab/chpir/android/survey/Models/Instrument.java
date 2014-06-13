@@ -114,8 +114,6 @@ public class Instrument extends ReceiveModel {
     }
     
     public boolean loaded() {
-    	Log.i(TAG, "questions.size(): " + questions().size());
-    	Log.i(TAG, "getQuestionCount(): " + getQuestionCount());
         if (questions().size() != getQuestionCount()) return false;
         for (Question question : questions()) {
             if (!question.loaded()) return false;
@@ -188,7 +186,11 @@ public class Instrument extends ReceiveModel {
     }
     
     public List<Section> sections() {
-    	return getMany(Section.class, "Instrument");
+    	return new Select("Sections.*, Questions.QuestionIdentifier").from(Section.class)
+    			.leftJoin(Question.class)
+    			.on("Sections.StartQuestionIdentifier=Questions.QuestionIdentifier AND Sections.Instrument = " + getId())
+    			.orderBy("Questions.NumberInInstrument")
+    			.execute();
     }
     
     public static List<Instrument> loadedInstruments() {

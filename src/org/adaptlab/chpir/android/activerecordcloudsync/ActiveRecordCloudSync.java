@@ -72,6 +72,7 @@ public class ActiveRecordCloudSync {
     public static boolean isApiAvailable() {
         if (getPingAddress() == null) return true;
         int responseCode = ping(getPingAddress(), 10000);
+        if (responseCode == 426) return true; // Api is available but an app upgrade is required
         return (200 <= responseCode && responseCode < 300);
     }
 
@@ -121,7 +122,6 @@ public class ActiveRecordCloudSync {
 
     private static int ping(String url, int timeout) {
         if (url == null) return -1;
-        url = url.replaceFirst("https", "http");
         url = url + getParams();
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();

@@ -174,7 +174,7 @@ public abstract class QuestionFragment extends Fragment {
     private void saveTimeEnded() {
     	getResponse().setTimeEnded(new Date());
     }
-    
+   
     private Response loadOrCreateResponse() {
         if (mSurvey.getResponseByQuestion(getQuestion()) != null) {
             return mSurvey.getResponseByQuestion(getQuestion());

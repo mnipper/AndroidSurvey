@@ -72,6 +72,7 @@ public class ActiveRecordCloudSync {
     public static boolean isApiAvailable() {
         if (getPingAddress() == null) return true;
         int responseCode = ping(getPingAddress(), 10000);
+        if (responseCode == 426) return true; // Api is available but an app upgrade is required
         return (200 <= responseCode && responseCode < 300);
     }
 

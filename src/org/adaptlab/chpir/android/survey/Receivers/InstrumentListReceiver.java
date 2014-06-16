@@ -32,7 +32,6 @@ public class InstrumentListReceiver extends BroadcastReceiver {
         i.setAction(INSTRUMENT_LIST);
         i.putExtra(INSTRUMENT_TITLE_LIST, instrumentTitleList);
         i.putExtra(INSTRUMENT_ID_LIST, instrumentIdList);
-        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.sendBroadcast(i);
     }
 }

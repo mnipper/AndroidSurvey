@@ -53,6 +53,8 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.survey_id";
     public final static String EXTRA_PREVIOUS_QUESTION_IDS = 
             "org.adaptlab.chpir.android.survey.previous_questions";
+    public final static String EXTRA_PARTICIPANT_METADATA =
+            "org.adaptlab.chpir.android.survey.metadata";
    
     private Question mQuestion;
     private Instrument mInstrument;
@@ -94,12 +96,14 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions = savedInstanceState.getIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
+            String metadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
+            
             if (instrumentId == -1) return;
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
             
-            loadOrCreateSurvey();
+            loadOrCreateSurvey(metadata);
             loadOrCreateQuestion();
           
         }
@@ -172,11 +176,12 @@ public class SurveyFragment extends Fragment {
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
     }
     
-    public void loadOrCreateSurvey() {
+    public void loadOrCreateSurvey(String metadata) {
         Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
         if (surveyId == -1) {
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);
+            mSurvey.setMetadata(metadata);
             mSurvey.save();
         } else {
             mSurvey = Model.load(Survey.class, surveyId);

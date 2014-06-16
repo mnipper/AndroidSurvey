@@ -36,6 +36,8 @@ public class Survey extends SendModel {
     private Date mLastUpdated;
     @Column(name = "LastQuestion")
     private Question mLastQuestion;
+    @Column(name = "Metadata")
+    private String mMetadata;
 
     public Survey() {
         super();
@@ -182,5 +184,13 @@ public class Survey extends SendModel {
 		if (this.responses().size() == 0) {
 			this.delete();
 		}
+    }
+    
+    public void setMetadata(String metadata) {
+        mMetadata = metadata;
+    }
+    
+    public String getMetadata() {
+        return mMetadata;
     }
 }

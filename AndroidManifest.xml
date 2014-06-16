@@ -43,6 +43,11 @@
                 <action android:name="org.adaptlab.chpir.android.survey.start_survey" />
             </intent-filter>
         </receiver>
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.InstrumentListReceiver">
+            <intent-filter>
+                <action android:name="org.adaptlab.chpir.android.survey.get_instrument_list" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="org.adaptlab.chpir.android.survey.Receivers.NetworkStateChangeReceiver"
             android:label="NetworkChangeReceiver" >

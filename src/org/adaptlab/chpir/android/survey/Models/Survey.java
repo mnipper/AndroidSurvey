@@ -61,6 +61,7 @@ public class Survey extends SendModel {
             jsonObject.put("instrument_title", getInstrument().getTitle());
             jsonObject.put("latitude", mLatitude);
             jsonObject.put("longitude", mLongitude);
+            jsonObject.put("metadata", mMetadata);
             
             json.put("survey", jsonObject);
         } catch (JSONException je) {

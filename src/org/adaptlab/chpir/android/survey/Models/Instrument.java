@@ -187,7 +187,7 @@ public class Instrument extends ReceiveModel {
     
     public List<Section> sections() {
     	return new Select("Sections.*, Questions.QuestionIdentifier").from(Section.class)
-    			.leftJoin(Question.class)
+    			.innerJoin(Question.class)
     			.on("Sections.StartQuestionIdentifier=Questions.QuestionIdentifier AND Sections.Instrument = " + getId())
     			.orderBy("Questions.NumberInInstrument")
     			.execute();

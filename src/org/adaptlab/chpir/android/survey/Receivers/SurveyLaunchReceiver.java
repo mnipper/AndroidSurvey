@@ -23,7 +23,7 @@ public class SurveyLaunchReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, SurveyActivity.class);
             i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
             i.putExtra(SurveyFragment.EXTRA_PARTICIPANT_METADATA, metadata);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             context.startActivity(i);
         }
     }

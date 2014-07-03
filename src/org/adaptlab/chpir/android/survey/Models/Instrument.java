@@ -52,13 +52,14 @@ public class Instrument extends ReceiveModel {
      * If another language is requested, iterate through instrument translations to
      * find translated title.
      * 
-     * If the language requested is not available as a translation, return the non-translated
+     * If the language requested is not available as a translation (or is blank), return the non-translated
      * text for the title.
      */
     public String getTitle() {
         if (getLanguage().equals(getDeviceLanguage())) return mTitle;
         for(InstrumentTranslation translation : translations()) {
-            if (translation.getLanguage().equals(getDeviceLanguage())) {
+            if (translation.getLanguage().equals(getDeviceLanguage())
+                    && !translation.getTitle().trim().equals("")) {
                 return translation.getTitle();
             }
         }

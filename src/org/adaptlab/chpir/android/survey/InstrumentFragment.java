@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 
 public class InstrumentFragment extends ListFragment {
+    public final static String TAG = "InstrumentFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -268,13 +269,19 @@ public class InstrumentFragment extends ListFragment {
 
 		@Override
         protected void onPostExecute(Long instrumentId) {
-            mProgressDialog.dismiss();
-            if (instrumentId == Long.valueOf(-1)) {
-                Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
-            } else {
-                Intent i = new Intent(getActivity(), SurveyActivity.class);
-                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-                startActivity(i);
+            try {
+                mProgressDialog.dismiss();  
+            } catch (IllegalArgumentException iae) { 
+                Log.e(TAG, "Tried to close progress dialog that does not exist.");
+            }
+            if (isAdded()){
+                if (instrumentId == Long.valueOf(-1)) {
+                    Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
+                } else {
+                    Intent i = new Intent(getActivity(), SurveyActivity.class);
+                    i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                    startActivity(i);
+                }
             }
         }
     }
@@ -308,15 +315,22 @@ public class InstrumentFragment extends ListFragment {
         
         @Override
         protected void onPostExecute(Survey survey) {
-            mProgressDialog.dismiss();
-            if (survey == null) {
-                Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
-            } else {
-                Intent i = new Intent(getActivity(), SurveyActivity.class);
-                i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, survey.getInstrument().getRemoteId());
-                i.putExtra(SurveyFragment.EXTRA_SURVEY_ID, survey.getId());
-                i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, survey.getLastQuestion().getId());
-                startActivity(i);
+            try {
+                mProgressDialog.dismiss();  
+            } catch (IllegalArgumentException iae) { 
+                Log.e(TAG, "Tried to close progress dialog that does not exist.");
+            }
+            
+            if (isAdded()) {
+                if (survey == null) {
+                    Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
+                } else {
+                    Intent i = new Intent(getActivity(), SurveyActivity.class);
+                    i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, survey.getInstrument().getRemoteId());
+                    i.putExtra(SurveyFragment.EXTRA_SURVEY_ID, survey.getId());
+                    i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, survey.getLastQuestion().getId());
+                    startActivity(i);
+                }
             }
         }
     }

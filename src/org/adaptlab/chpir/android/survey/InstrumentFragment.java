@@ -71,7 +71,11 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+        if (getListAdapter() != null) {
+            ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+        } else {
+            setListAdapter(new InstrumentAdapter(Instrument.getAll())); 
+        }
         createTabs();
     }
     

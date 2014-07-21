@@ -20,7 +20,6 @@ import android.util.Log;
 
 public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
     public static String ACCESS_TOKEN;
-    private String IMAGE_URL_END_POINT;
     private final static String TAG = "ImageDownloader";
 
 	private Context mContext;
@@ -41,11 +40,11 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
     	ACCESS_TOKEN = mContext.getResources().getString(R.string.backend_api_key);
     	ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
-        String[] endPointArray = ActiveRecordCloudSync.getEndPoint().split("/api/");
-        IMAGE_URL_END_POINT = endPointArray[0];
         
         for (Image img : Image.getAll()) {
-        	String url = IMAGE_URL_END_POINT + img.getPhotoUrl() + ActiveRecordCloudSync.getParams();
+        	String[] imageUrl = img.getPhotoUrl().split("/");
+        	String url = ActiveRecordCloudSync.getEndPoint() + "images/" + imageUrl[2] + "/" + ActiveRecordCloudSync.getParams();
+        	Log.i(TAG, "Image url: " + url);
         	String filename = UUID.randomUUID().toString() + ".jpg";
 			FileOutputStream filewriter = null;
         	try {

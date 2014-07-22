@@ -20,6 +20,9 @@ public class AdminFragment extends Fragment {
     private EditText mDeviceLabelEditText;
     private EditText mSyncIntervalEditText;
     private EditText mApiEndPointEditText;
+    private EditText mApiVersionEditText;
+    private EditText mProjectIdEditText;
+    private EditText mApiKeyEditText;
     private EditText mCustomLocaleEditText;
     private TextView mLastUpdateTextView;
     private TextView mBackendApiKeyTextView;
@@ -52,8 +55,17 @@ public class AdminFragment extends Fragment {
                 .findViewById(R.id.sync_interval_edit_text);
         mSyncIntervalEditText.setText(getAdminSettingsInstanceSyncInterval());
         
-        mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_edit_text);
+        mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_text);
         mApiEndPointEditText.setText(getAdminSettingsInstanceApiUrl());
+        
+        mApiVersionEditText = (EditText) v.findViewById(R.id.api_version_text);
+        mApiVersionEditText.setText(getAdminSettingsInstanceApiVersion());
+        
+        mProjectIdEditText = (EditText) v.findViewById(R.id.project_id_text);
+        mProjectIdEditText.setText(getAdminSettingsInstanceProjectId());
+        
+        mApiKeyEditText = (EditText) v.findViewById(R.id.api_key_text);
+        mApiKeyEditText.setText(getAdminSettingsInstanceApiKey());
         
         mCustomLocaleEditText = (EditText) v.findViewById(R.id.custom_locale_edit_text);
         mCustomLocaleEditText.setText(getAdminSettingsInstanceCustomLocaleCode());
@@ -118,8 +130,6 @@ public class AdminFragment extends Fragment {
 
         return v;
     }
-
-    //TODO For testing convenience
     
 	public String getLastUpdateTime() {
 		return (PollService.getLastUpdate()) + "";
@@ -139,5 +149,17 @@ public class AdminFragment extends Fragment {
 
 	public String getAdminSettingsInstanceDeviceId() {
 		return AdminSettings.getInstance().getDeviceIdentifier();
+	}
+	
+	public String getAdminSettingsInstanceApiVersion() {
+		return AdminSettings.getInstance().getApiVersion();
+	}
+	
+	public String getAdminSettingsInstanceProjectId() {
+		return AdminSettings.getInstance().getProjectId();
+	}
+	
+	public String getAdminSettingsInstanceApiKey() {
+		return AdminSettings.getInstance().getApiKey();
 	}
 }

@@ -72,20 +72,61 @@
                 android:layout_marginTop="10dp" />
 		
 		    <EditText
-		        android:id="@+id/api_endpoint_edit_text"
+		        android:id="@+id/api_endpoint_text"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:inputType="textUri"
 		        android:ems="10" />
             
-                                      
+		    <TextView
+                android:id="@+id/api_version_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/api_version"
+                android:layout_marginTop="10dp" />
+        
+            <EditText
+                android:id="@+id/api_version_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10" />
+            
+            <TextView
+                android:id="@+id/project_id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/project_id"
+                android:layout_marginTop="10dp" />
+        
+            <EditText
+                android:id="@+id/project_id_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10" />
+         
+            <TextView
+                android:id="@+id/api_key_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/api_key"
+                android:layout_marginTop="10dp" />
+        
+            <EditText
+                android:id="@+id/api_key_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10" />
+            
             <TextView
                 android:id="@+id/custom_locale_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/custom_locale"
                 android:layout_marginTop="10dp" />
-                
+               
             <EditText
                 android:id="@+id/custom_locale_edit_text"
                 android:layout_width="match_parent"
@@ -99,9 +140,7 @@
                 android:text="@string/feature_toggle"
                 android:layout_marginTop="30dp"
                 style="@style/sectionHeader" />
-
 		    
-		              
             <CheckBox android:id="@+id/show_surveys_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

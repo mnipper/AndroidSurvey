@@ -30,6 +30,12 @@ public class AdminSettings extends Model {
     private boolean mShowRF;
     @Column(name = "ShowDK")    
     private boolean mShowDK;
+    @Column(name = "ApiVersion")
+    private String mApiVersion;
+    @Column(name = "ProjectId")
+    private String mProjectId;
+    @Column(name = "ApiKey")
+    private String mApiKey;
     
     private static AdminSettings adminSettings;
     
@@ -176,4 +182,32 @@ public class AdminSettings extends Model {
     public boolean getShowDK() {
         return mShowDK;
     }
+    
+    public void setApiVersion(String apiVersion) {
+    	mApiVersion = apiVersion;
+    	save();
+    }
+    
+    public String getApiVersion() {
+    	return mApiVersion;
+    }
+    
+    public void setProjectId(String projectId) {
+    	mProjectId = projectId;
+    	save();
+    }
+    
+    public String getProjectId() {
+    	return mProjectId;
+    }
+    
+    public void setApiKey(String apiKey) {
+    	mApiKey = apiKey;
+    	save();
+    }
+    
+    public String getApiKey() {
+    	return mApiKey;
+    }
+    
 }

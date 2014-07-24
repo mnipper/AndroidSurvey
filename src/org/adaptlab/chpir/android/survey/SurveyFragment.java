@@ -11,12 +11,8 @@ import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
-import com.activeandroid.Model;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +36,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.activeandroid.Model;
 
 public class SurveyFragment extends Fragment {
     private static final String TAG = "SurveyFragment";
@@ -395,12 +393,11 @@ public class SurveyFragment extends Fragment {
         
         if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
             try {
-                int responseIndex = Integer.parseInt(mSurvey.
-                        getResponseByQuestion(mQuestion).getText());
+                int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());
                 
                 if (responseIndex < mQuestion.options().size() && mQuestion.options().get(responseIndex).getNextQuestion() != null) {
                     nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
-                    mQuestionNumber = mInstrument.questions().indexOf(nextQuestion);
+                    mQuestionNumber = nextQuestion.getNumberInInstrument();
                 } else {
                     // Skip pattern can not yet apply to 'other' responses
                     mQuestionNumber = questionIndex + 1;
@@ -410,8 +407,7 @@ public class SurveyFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 mQuestionNumber = questionIndex + 1;
                 nextQuestion = mInstrument.questions().get(mQuestionNumber);
-                Log.wtf(TAG, "Received a non-numeric skip response index for " + 
-                        mQuestion.getQuestionIdentifier());
+                Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
             }
         } else {
             mQuestionNumber = questionIndex + 1;

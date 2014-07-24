@@ -107,13 +107,12 @@ public class AdminSettings extends Model {
         save();
     }
     
-    public void setApiUrl(String apiUrl) {
-        Log.i(TAG, "Setting api endpoint: " + apiUrl);
+    public void setApiDomainName(String apiUrl) {
         mApiUrl = apiUrl;
         save();
     }
     
-    public String getApiUrl() {
+    public String getApiDomainName() {
         return mApiUrl;
     }
     

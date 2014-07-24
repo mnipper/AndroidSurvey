@@ -59,7 +59,7 @@ public class AppUtil {
         Log.i(TAG, "Initializing application...");
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = context.getResources().getString(R.string.backend_api_key);  
+        ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();  
         
         if (!BuildConfig.DEBUG)
             Crashlytics.start(context);
@@ -76,7 +76,7 @@ public class AppUtil {
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(context));
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
+        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiDomainName());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);

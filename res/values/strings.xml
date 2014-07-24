@@ -20,7 +20,6 @@
     <string name="save_button">Save</string>
     <string name="admin_settings">Admin</string>
     <string name="api_endpoint">Api Domain Name</string>
-    <string name="api_key_label">Api Key: </string>
     <string name="api_key">Api Key</string>
     <string name="api_version">Api Version</string>
     <string name="project_id">Project Id</string>

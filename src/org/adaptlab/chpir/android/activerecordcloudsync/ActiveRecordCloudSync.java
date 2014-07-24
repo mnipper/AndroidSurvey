@@ -42,6 +42,7 @@ public class ActiveRecordCloudSync {
     }
     
     public static void setEndPoint(String endPoint) {
+    	Log.i(TAG, "Api End point is: " + endPoint);
         mEndPoint = endPoint;
     }
     

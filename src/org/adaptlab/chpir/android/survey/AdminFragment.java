@@ -19,13 +19,12 @@ public class AdminFragment extends Fragment {
     private EditText mDeviceIdentifierEditText;
     private EditText mDeviceLabelEditText;
     private EditText mSyncIntervalEditText;
-    private EditText mApiEndPointEditText;
+    private EditText mApiDomainNameEditText;
     private EditText mApiVersionEditText;
     private EditText mProjectIdEditText;
     private EditText mApiKeyEditText;
     private EditText mCustomLocaleEditText;
     private TextView mLastUpdateTextView;
-    private TextView mBackendApiKeyTextView;
     private CheckBox mShowSurveysCheckBox;
     private CheckBox mShowSkipCheckBox;
     private CheckBox mShowNACheckBox;
@@ -55,8 +54,8 @@ public class AdminFragment extends Fragment {
                 .findViewById(R.id.sync_interval_edit_text);
         mSyncIntervalEditText.setText(getAdminSettingsInstanceSyncInterval());
         
-        mApiEndPointEditText = (EditText) v.findViewById(R.id.api_endpoint_text);
-        mApiEndPointEditText.setText(getAdminSettingsInstanceApiUrl());
+        mApiDomainNameEditText = (EditText) v.findViewById(R.id.api_endpoint_text);
+        mApiDomainNameEditText.setText(getAdminSettingsInstanceApiDomainName());
         
         mApiVersionEditText = (EditText) v.findViewById(R.id.api_version_text);
         mApiVersionEditText.setText(getAdminSettingsInstanceApiVersion());
@@ -88,24 +87,20 @@ public class AdminFragment extends Fragment {
         mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
         mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + getLastUpdateTime());
         
-        mBackendApiKeyTextView = (TextView) v.findViewById(R.id.backend_api_key_label);
-        mBackendApiKeyTextView.setText(getString(R.string.api_key_label) + getString(R.string.backend_api_key));
-        
         mVersionCodeTextView = (TextView) v.findViewById(R.id.version_code_label);
         mVersionCodeTextView.setText(getString(R.string.version_code) + AppUtil.getVersionCode(getActivity()));
         
         mSaveButton = (Button) v.findViewById(R.id.save_admin_settings_button);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AdminSettings.getInstance().setDeviceIdentifier(mDeviceIdentifierEditText
-                        .getText().toString());
-                AdminSettings.getInstance().setDeviceLabel(mDeviceLabelEditText.getText().toString());
-                
-                AdminSettings.getInstance().setSyncInterval(Integer
-                        .parseInt(mSyncIntervalEditText.getText().toString()));
-                
-                AdminSettings.getInstance().setApiUrl(mApiEndPointEditText.getText().toString());
-                
+                AdminSettings.getInstance().setDeviceIdentifier(mDeviceIdentifierEditText.getText().toString());
+                AdminSettings.getInstance().setDeviceLabel(mDeviceLabelEditText.getText().toString()); 
+                AdminSettings.getInstance().setSyncInterval(Integer.parseInt(mSyncIntervalEditText.getText().toString()));               
+                AdminSettings.getInstance().setApiDomainName(mApiDomainNameEditText.getText().toString());
+                AdminSettings.getInstance().setApiVersion(mApiVersionEditText.getText().toString());
+                AdminSettings.getInstance().setProjectId(mProjectIdEditText.getText().toString());
+                AdminSettings.getInstance().setApiKey(mApiKeyEditText.getText().toString());
+
                 // If this code is set, it will override the language selection on the device
                 // for all instrument translations.
                 AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
@@ -138,9 +133,14 @@ public class AdminFragment extends Fragment {
 	public String getAdminSettingsInstanceCustomLocaleCode() {
 		return AdminSettings.getInstance().getCustomLocaleCode();
 	}
+	
+	public String getAdminSettingsInstanceApiDomainName() {
+		return AdminSettings.getInstance().getApiDomainName();
+	}
 
 	public String getAdminSettingsInstanceApiUrl() {
-		return AdminSettings.getInstance().getApiUrl();
+		return AdminSettings.getInstance().getApiDomainName() + "api/" + AdminSettings.getInstance().getApiVersion() + "/" + 
+				"projects/" + AdminSettings.getInstance().getProjectId() + "/";
 	}
 
 	public String getAdminSettingsInstanceSyncInterval() {

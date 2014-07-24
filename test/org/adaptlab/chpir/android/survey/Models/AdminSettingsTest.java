@@ -34,8 +34,8 @@ public class AdminSettingsTest {
 
 	@Test
 	public void shouldSetAndGetApiUrl() throws Exception {
-		adminSettings.setApiUrl(API_URL);	//TODO Fails because of Log - Need to import real implementation of Log
-		assertEquals(API_URL, adminSettings.getApiUrl());
+		adminSettings.setApiDomainName(API_URL);	//TODO Fails because of Log - Need to import real implementation of Log
+		assertEquals(API_URL, adminSettings.getApiDomainName());
 	}
 
 	@Test

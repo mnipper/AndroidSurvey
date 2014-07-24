@@ -40,6 +40,8 @@ public class Instrument extends ReceiveModel {
     private int mVersionNumber;
     @Column(name = "QuestionCount")
     private int mQuestionCount;
+    @Column(name = "ProjectId")
+    private Long mProjectId;
 
     public Instrument() {
         super();
@@ -140,6 +142,7 @@ public class Instrument extends ReceiveModel {
             instrument.setAlignment(jsonObject.getString("alignment"));
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.setQuestionCount(jsonObject.getInt("question_count"));
+            instrument.setProjectId(jsonObject.getLong("project_id"));
             instrument.save();
             
             // Generate translations
@@ -162,6 +165,10 @@ public class Instrument extends ReceiveModel {
      */
     public static List<Instrument> getAll() {
         return new Select().from(Instrument.class).orderBy("Id ASC").execute();
+    }
+    
+    public static List<Instrument> getAllProjectInstruments(Long projectId) {
+    	return new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Id ASC").execute();
     }
       
     public static Instrument findByRemoteId(Long id) {
@@ -237,6 +244,14 @@ public class Instrument extends ReceiveModel {
     
     public int getQuestionCount() {
         return mQuestionCount;
+    }
+    
+    public void setProjectId(Long id) {
+    	mProjectId = id;
+    }
+    
+    public Long getProjectId() {
+    	return mProjectId;
     }
     
     /*

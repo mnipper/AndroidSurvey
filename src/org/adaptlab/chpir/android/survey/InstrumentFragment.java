@@ -93,7 +93,7 @@ public class InstrumentFragment extends ListFragment {
                         else
                             setListAdapter(new SurveyAdapter(Survey.getAll()));
                     } else {
-                        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                        setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AdminSettings.getInstance().getProjectId()))));
                     }
                 }
     

@@ -209,4 +209,8 @@ public class AdminSettings extends Model {
     	return mApiKey;
     }
     
+    public String getApiUrl() {
+		return getApiDomainName() + "api/" + getApiVersion() + "/" + "projects/" + getProjectId() + "/";
+	}
+    
 }

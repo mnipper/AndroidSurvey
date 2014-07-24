@@ -111,6 +111,7 @@ public class AdminFragment extends Fragment {
                 // This immediately hits the server again upon save.
                 PollService.restartServiceAlarm(getActivity().getApplicationContext());
                 
+                ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());

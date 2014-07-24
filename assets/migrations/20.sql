@@ -1,3 +1,4 @@
 ALTER TABLE AdminSettings ADD COLUMN ApiVersion STRING;
 ALTER TABLE AdminSettings ADD COLUMN ProjectId STRING;
 ALTER TABLE AdminSettings ADD COLUMN ApiKey STRING;
+ALTER TABLE Instruments ADD COLUMN ProjectId LONG;

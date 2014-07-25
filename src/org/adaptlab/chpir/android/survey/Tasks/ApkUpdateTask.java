@@ -31,7 +31,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	private static final String TAG = "ApkUpdateTask";
 	private Context mContext;
 	private int mApkId;
-	private int mLatestVersion;
+	private Integer mLatestVersion;
 	private String mFileName;
 	private File mFile;
 	
@@ -49,18 +49,20 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	
 	@Override
 	protected void onPostExecute(Void param) {
-		if (mLatestVersion > AppUtil.getVersionCode(mContext)) {
-	        new AlertDialog.Builder(mContext)
-			.setMessage(R.string.new_apk)
-			.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
-				public void onClick(DialogInterface dialog, int button) {
-					new DownloadApkTask().execute();
-				}
-			})
-			.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {}
-            }).show();
-        }
+		if (mLatestVersion != null) {
+			if (mLatestVersion > AppUtil.getVersionCode(mContext)) {
+		        new AlertDialog.Builder(mContext)
+				.setMessage(R.string.new_apk)
+				.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
+					public void onClick(DialogInterface dialog, int button) {
+						new DownloadApkTask().execute();
+					}
+				})
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {}
+	            }).show();
+	        }
+		}
 	}
 
 	private void checkLatestApk() {
@@ -70,12 +72,13 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		try {
 			String jsonString = getUrl(url);
 	        Log.i(TAG, "Got JSON String: " + jsonString);
-	        JSONObject obj = new JSONObject(jsonString);
-	        mLatestVersion = obj.getInt("version");
-	        mApkId = obj.getInt("id");
-	        mFileName = obj.getString("apk_update_file_name");
-	        Log.i(TAG, "Latest version is: " + mLatestVersion);
-
+	        if (jsonString != null) {
+		        JSONObject obj = new JSONObject(jsonString);
+		        mLatestVersion = obj.getInt("version");
+		        mApkId = obj.getInt("id");
+		        mFileName = obj.getString("apk_update_file_name");
+		        Log.i(TAG, "Latest version is: " + mLatestVersion);
+	        }
 		} catch (ConnectException cre) {
             Log.e(TAG, "Connection was refused", cre);
         } catch (IOException ioe) {
@@ -130,6 +133,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 			Intent intent =new Intent();
 			intent.setAction(Intent.ACTION_VIEW);
 			intent.setDataAndType(Uri.fromFile(mFile), "application/vnd.android.package-archive");
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			mContext.startActivity(intent);
 		}
 

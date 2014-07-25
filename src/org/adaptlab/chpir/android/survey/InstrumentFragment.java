@@ -231,7 +231,7 @@ public class InstrumentFragment extends ListFragment {
         protected void onPostExecute(Void param) {
         	if (isAdded()) {
             	downloadInstrumentImages();
-                setListAdapter(new InstrumentAdapter(Instrument.getAll()));
+                setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AdminSettings.getInstance().getProjectId()))));
                 getActivity().setProgressBarIndeterminateVisibility(false);    
             }
         }        

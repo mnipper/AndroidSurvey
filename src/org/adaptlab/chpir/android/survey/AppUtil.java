@@ -13,6 +13,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Tasks.ApkUpdateTask;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -60,6 +61,8 @@ public class AppUtil {
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
         ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();  
+        
+        new ApkUpdateTask(mContext).execute();
         
         if (!BuildConfig.DEBUG)
             Crashlytics.start(context);

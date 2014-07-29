@@ -7,6 +7,9 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
+    <permission android:name="org.adaptlab.chpir.android.survey.LAUNCH_SURVEY" android:protectionLevel="signature" />
+    <permission android:name="org.adaptlab.chpir.android.survey.LIST_INSTRUMENTS" android:protectionLevel="signature" />
+    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -38,12 +41,14 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.SurveyLaunchReceiver">
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.SurveyLaunchReceiver"
+            android:permission="org.adaptlab.chpir.android.survey.LAUNCH_SURVEY">
             <intent-filter>
                 <action android:name="org.adaptlab.chpir.android.survey.start_survey" />
             </intent-filter>
         </receiver>
-        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.InstrumentListReceiver">
+        <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.InstrumentListReceiver"
+            android:permission="org.adaptlab.chpir.android.survey.LIST_INSTRUMENTS">
             <intent-filter>
                 <action android:name="org.adaptlab.chpir.android.survey.get_instrument_list" />
             </intent-filter>

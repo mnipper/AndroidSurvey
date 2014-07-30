@@ -397,7 +397,7 @@ public class SurveyFragment extends Fragment {
                 
                 if (responseIndex < mQuestion.options().size() && mQuestion.options().get(responseIndex).getNextQuestion() != null) {
                     nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
-                    mQuestionNumber = nextQuestion.getNumberInInstrument();
+                    mQuestionNumber = nextQuestion.getNumberInInstrument() - 1;
                 } else {
                     // Skip pattern can not yet apply to 'other' responses
                     mQuestionNumber = questionIndex + 1;

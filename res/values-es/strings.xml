@@ -72,5 +72,5 @@
     <string name="device_label">Device Label</string>
     <string name="drawer_open">Abriendo la aplicación de navegación</string>
     <string name="drawer_close">Cerrando la aplicación de navegación</string>
-    <string name="new_apk">This application has a newer version. Would you like to update it to the newer version?</string>
+    <string name="new_apk">Esta aplicación cuenta con una versión más nueva. ¿Te gustaría actualizarla a la versión más reciente?</string>
 </resources>

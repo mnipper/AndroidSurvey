@@ -30,7 +30,7 @@ import android.util.Log;
 public class AppUtil {
     private final static String TAG = "AppUtil";
     public final static boolean REQUIRE_SECURITY_CHECKS = false;
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;

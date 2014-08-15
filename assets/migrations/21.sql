@@ -1,0 +1,1 @@
+ALTER TABLE Instruments ADD COLUMN Loaded BOOLEAN;

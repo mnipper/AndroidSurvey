@@ -128,8 +128,10 @@ public class InstrumentFragment extends ListFragment {
                     .findViewById(R.id.instrument_list_item_titleTextView);
             titleTextView.setText(instrument.getTitle());
             titleTextView.setTypeface(instrument.getTypeFace(getActivity().getApplicationContext()));
+            titleTextView.setTextColor(Color.BLACK);
             
-            if (!instrument.loaded()) {
+            if (!instrument.getLoaded()) {
+                if (AppUtil.DEBUG) Log.i(TAG, instrument.getTitle() + " is loaded: " + instrument.getLoaded());
                 titleTextView.setTextColor(Color.RED);
             }
 
@@ -229,6 +231,11 @@ public class InstrumentFragment extends ListFragment {
         protected Void doInBackground(Void... params) {
             if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity()))
                 ActiveRecordCloudSync.syncReceiveTables(getActivity());
+            
+            for (Instrument instrument : Instrument.getAll()) {
+                instrument.setLoaded(instrument.loaded());
+                instrument.save();
+            }
             return null;
         }
         

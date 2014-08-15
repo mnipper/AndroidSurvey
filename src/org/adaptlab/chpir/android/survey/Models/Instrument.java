@@ -43,6 +43,8 @@ public class Instrument extends ReceiveModel {
     private int mQuestionCount;
     @Column(name = "ProjectId")
     private Long mProjectId;
+    @Column(name = "Loaded")
+    private boolean mLoaded;
 
     public Instrument() {
         super();
@@ -253,6 +255,14 @@ public class Instrument extends ReceiveModel {
     
     public Long getProjectId() {
     	return mProjectId;
+    }
+    
+    public void setLoaded(boolean loaded) {
+        mLoaded = loaded;
+    }
+    
+    public boolean getLoaded() {
+        return mLoaded;
     }
     
     /*

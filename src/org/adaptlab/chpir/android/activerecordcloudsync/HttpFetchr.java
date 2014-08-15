@@ -7,6 +7,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -35,11 +36,11 @@ public class HttpFetchr {
         try {
             String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName
                     + ActiveRecordCloudSync.getParams();
-            Log.i(TAG, "Attempting to access " + url);
+            if (AppUtil.DEBUG) Log.i(TAG, "Attempting to access " + url);
             String jsonString = getUrl(url);
-            Log.i(TAG, "Got JSON String: " + jsonString);
+            if (AppUtil.DEBUG) Log.i(TAG, "Got JSON String: " + jsonString);
             JSONArray jsonArray = new JSONArray(jsonString);
-            Log.i(TAG, "Received json result: " + jsonArray);
+            if (AppUtil.DEBUG) Log.i(TAG, "Received json result: " + jsonArray);
             
             for (int i = 0; i < jsonArray.length(); i++) {
                 ReceiveModel tableInstance = mReceiveTableClass.newInstance();

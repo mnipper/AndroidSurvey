@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
 
 import android.content.Context;
@@ -42,7 +43,7 @@ public class ActiveRecordCloudSync {
     }
     
     public static void setEndPoint(String endPoint) {
-    	Log.i(TAG, "Api End point is: " + endPoint);
+        if (AppUtil.DEBUG) Log.i(TAG, "Api End point is: " + endPoint);
         mEndPoint = endPoint;
     }
     
@@ -53,7 +54,7 @@ public class ActiveRecordCloudSync {
     public static void syncReceiveTables(Context context) {
         NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download, R.string.sync_notification_text);
         for (Map.Entry<String, Class<? extends ReceiveModel>> entry : mReceiveTables.entrySet()) {
-            Log.i(TAG, "Syncing " + entry.getValue() + " from remote table " + entry.getKey());
+            if (AppUtil.DEBUG) Log.i(TAG, "Syncing " + entry.getValue() + " from remote table " + entry.getKey());
             HttpFetchr httpFetchr = new HttpFetchr(entry.getKey(), entry.getValue());
             httpFetchr.fetch();
         }
@@ -63,7 +64,7 @@ public class ActiveRecordCloudSync {
     public static void syncSendTables(Context context) {
         NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download, R.string.sync_notification_text);
         for (Map.Entry<String, Class<? extends SendModel>> entry : mSendTables.entrySet()) {
-            Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
+            if (AppUtil.DEBUG) Log.i(TAG, "Syncing " + entry.getValue() + " to remote table " + entry.getKey());
             HttpPushr httpPushr = new HttpPushr(entry.getKey(), entry.getValue());
             httpPushr.push();
         }
@@ -130,7 +131,7 @@ public class ActiveRecordCloudSync {
             connection.setReadTimeout(timeout);
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
-            Log.i(TAG, "Received response code " + responseCode + " for api endpoint");
+            if (AppUtil.DEBUG) Log.i(TAG, "Received response code " + responseCode + " for api endpoint");
             return responseCode;
         } catch (IOException exception) {
             return -1;

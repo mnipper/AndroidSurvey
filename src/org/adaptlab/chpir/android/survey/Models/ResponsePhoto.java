@@ -117,7 +117,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	public void setAsSent() {  
 		mSent = true;
         this.delete();
-        Log.d(TAG, getAll().size() + " response photos left on device");
+        if (AppUtil.DEBUG) Log.d(TAG, getAll().size() + " response photos left on device");
 	}
 	
 	public static List<ResponsePhoto> getAll() {

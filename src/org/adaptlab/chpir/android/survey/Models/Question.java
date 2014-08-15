@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.FormatUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,7 +220,7 @@ public class Question extends ReceiveModel {
                 question = this;
             }
             
-            Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
+            if (AppUtil.DEBUG) Log.i(TAG, "Creating object from JSON Object: " + jsonObject);
             question.setText(jsonObject.getString("text"));
             question.setQuestionType(jsonObject.getString("question_type"));
             question.setQuestionIdentifier(jsonObject.getString("question_identifier"));            

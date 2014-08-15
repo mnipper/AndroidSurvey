@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.activerecordcloudsync;
 import java.io.InputStream;
 import java.util.List;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -52,14 +53,14 @@ public class HttpPushr {
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
                             "application/json"));
                     post.setEntity(se);
-                    Log.i(TAG, "Sending post request: "
+                    if (AppUtil.DEBUG) Log.i(TAG, "Sending post request: "
                             + element.toJSON().toString());
                     response = client.execute(post);
 
                     /* Checking for successful response */
                     if (response.getStatusLine().getStatusCode() >= 200
                             && response.getStatusLine().getStatusCode() < 300) {
-                        Log.i(TAG,
+                        if (AppUtil.DEBUG) Log.i(TAG,
                                 "Received OK HTTP status for "
                                         + element.toJSON());
                         InputStream in = response.getEntity().getContent();

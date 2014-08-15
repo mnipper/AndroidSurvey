@@ -187,7 +187,7 @@ public abstract class QuestionFragment extends Fragment {
     	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
     			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
 	    	if (mResponse.getResponsePhoto() == null) {
-	    		Log.i(TAG, "creating new response photo");
+	    	    if (AppUtil.DEBUG) Log.i(TAG, "creating new response photo");
 	    		ResponsePhoto photo = new ResponsePhoto();
 	    		photo.setResponse(mResponse);
 	    		photo.setResponseUUID(mResponse.getUUID());

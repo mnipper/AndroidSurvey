@@ -16,6 +16,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -127,6 +128,10 @@ public class InstrumentFragment extends ListFragment {
                     .findViewById(R.id.instrument_list_item_titleTextView);
             titleTextView.setText(instrument.getTitle());
             titleTextView.setTypeface(instrument.getTypeFace(getActivity().getApplicationContext()));
+            
+            if (!instrument.loaded()) {
+                titleTextView.setTextColor(Color.RED);
+            }
 
             TextView questionCountTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_questionCountTextView);

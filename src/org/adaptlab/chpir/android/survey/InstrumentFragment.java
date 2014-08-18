@@ -232,10 +232,6 @@ public class InstrumentFragment extends ListFragment {
             if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity()))
                 ActiveRecordCloudSync.syncReceiveTables(getActivity());
             
-            for (Instrument instrument : Instrument.getAll()) {
-                instrument.setLoaded(instrument.loaded());
-                instrument.save();
-            }
             return null;
         }
         
@@ -272,7 +268,7 @@ public class InstrumentFragment extends ListFragment {
         @Override
         protected Long doInBackground(Instrument... params) {
         	Instrument instrument = params[0];
-            if (instrument.loaded()) {
+            if (instrument.getLoaded()) {
                 return instrument.getRemoteId();
             } else {
                 return Long.valueOf(-1);
@@ -318,7 +314,7 @@ public class InstrumentFragment extends ListFragment {
         protected Survey doInBackground(Survey... params) {
             Survey survey = params[0];
             Instrument instrument = survey.getInstrument();
-            if (instrument.loaded()) {
+            if (instrument.getLoaded()) {
                 return survey;
             } else {
                 return null;

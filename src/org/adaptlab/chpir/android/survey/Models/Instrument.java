@@ -118,14 +118,6 @@ public class Instrument extends ReceiveModel {
         }
         return Locale.getDefault().getLanguage();
     }
-    
-    public boolean loaded() {
-        if (questions().size() != getQuestionCount()) return false;
-        for (Question question : questions()) {
-            if (!question.loaded()) return false;
-        }
-        return true;
-    }
 
     @Override
     public void createObjectFromJSON(JSONObject jsonObject) {
@@ -146,6 +138,7 @@ public class Instrument extends ReceiveModel {
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.setQuestionCount(jsonObject.getInt("question_count"));
             instrument.setProjectId(jsonObject.getLong("project_id"));
+            instrument.setLoaded(false);
             instrument.save();
             
             // Generate translations
@@ -262,6 +255,8 @@ public class Instrument extends ReceiveModel {
     }
     
     public boolean getLoaded() {
+        if (mLoaded) return true;        
+        setLoaded(loaded());
         return mLoaded;
     }
     
@@ -278,5 +273,13 @@ public class Instrument extends ReceiveModel {
     
     private void setQuestionCount(int num) {
         mQuestionCount = num;
+    }
+        
+    private boolean loaded() {
+        if (questions().size() != getQuestionCount()) return false;
+        for (Question question : questions()) {
+            if (!question.loaded()) return false;
+        }
+        return true;
     }
 }

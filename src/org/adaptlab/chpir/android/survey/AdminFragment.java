@@ -30,6 +30,7 @@ public class AdminFragment extends Fragment {
     private CheckBox mShowNACheckBox;
     private CheckBox mShowRFCheckBox;
     private CheckBox mShowDKCheckBox;
+    private CheckBox mRequirePasswordCheckBox;
     private TextView mVersionCodeTextView;
     private Button mSaveButton;
 
@@ -84,6 +85,9 @@ public class AdminFragment extends Fragment {
         mShowDKCheckBox = (CheckBox) v.findViewById(R.id.show_dk_checkbox);
         mShowDKCheckBox.setChecked(AdminSettings.getInstance().getShowDK());
         
+        mRequirePasswordCheckBox = (CheckBox) v.findViewById(R.id.require_password);
+        mRequirePasswordCheckBox.setChecked(AdminSettings.getInstance().getRequirePassword());
+        
         mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
         mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + getLastUpdateTime());
         
@@ -119,6 +123,7 @@ public class AdminFragment extends Fragment {
                 AdminSettings.getInstance().setShowNA(mShowNACheckBox.isChecked());
                 AdminSettings.getInstance().setShowRF(mShowRFCheckBox.isChecked());
                 AdminSettings.getInstance().setShowDK(mShowDKCheckBox.isChecked());
+                AdminSettings.getInstance().setRequirePassword(mRequirePasswordCheckBox.isChecked());
                 
                 getActivity().finish();
             }

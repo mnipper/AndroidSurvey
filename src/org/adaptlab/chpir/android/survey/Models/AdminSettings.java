@@ -36,6 +36,8 @@ public class AdminSettings extends Model {
     private String mProjectId;
     @Column(name = "ApiKey")
     private String mApiKey;
+    @Column(name = "RequirePassword")
+    private boolean mRequirePassword;
     
     private static AdminSettings adminSettings;
     
@@ -207,6 +209,15 @@ public class AdminSettings extends Model {
     
     public String getApiKey() {
     	return mApiKey;
+    }
+    
+    public boolean getRequirePassword() {
+        return mRequirePassword;
+    }
+    
+    public void setRequirePassword(boolean requirePassword) {
+        mRequirePassword = requirePassword;
+        save();
     }
     
     public String getApiUrl() {

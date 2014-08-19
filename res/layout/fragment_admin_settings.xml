@@ -170,6 +170,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/show_dk"
                 android:layout_marginTop="5dp" />
+             
+              <CheckBox android:id="@+id/require_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/require_password"
+                android:layout_marginTop="5dp" />
 
 
              <TextView

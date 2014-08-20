@@ -1,8 +1,5 @@
 package org.adaptlab.chpir.android.survey.Models;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.Vendor.BCrypt;
@@ -23,7 +20,7 @@ public class DeviceUser extends ReceiveModel {
     private Long mRemoteId;
     @Column(name = "Name")
     private String mName;
-    @Column(name = "UserName")
+    @Column(name = "UserName", unique = true)
     private String mUserName;
     @Column(name = "PasswordDigest")
     private String mPasswordDigest;
@@ -86,7 +83,13 @@ public class DeviceUser extends ReceiveModel {
             deviceUser.setName(jsonObject.getString("name"));
             deviceUser.setUserName(jsonObject.getString("username"));
             deviceUser.setPasswordDigest(jsonObject.getString("password_digest"));
-            deviceUser.setActive(jsonObject.getBoolean("active"));
+            
+            if (jsonObject.isNull("active")) {
+                deviceUser.setActive(false);
+            } else {
+                deviceUser.setActive(jsonObject.getBoolean("active")); 
+            }
+            
             deviceUser.save();
             
         } catch (JSONException je) {
@@ -96,5 +99,9 @@ public class DeviceUser extends ReceiveModel {
     
     public static DeviceUser findByRemoteId(Long id) {
         return new Select().from(DeviceUser.class).where("RemoteId = ?", id).executeSingle();
+    }
+    
+    public static DeviceUser findByUserName(String userName) {
+        return new Select().from(DeviceUser.class).where("UserName = ?", userName).executeSingle();
     }
 }

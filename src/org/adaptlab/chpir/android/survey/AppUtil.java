@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Models.DeviceUser;
 import org.adaptlab.chpir.android.survey.Models.Image;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
@@ -17,8 +18,6 @@ import org.adaptlab.chpir.android.survey.Tasks.ApkUpdateTask;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.crashlytics.android.Crashlytics;
-
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -26,6 +25,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
+
+import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
     private final static String TAG = "AppUtil";
@@ -86,6 +87,7 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
         ActiveRecordCloudSync.addReceiveTable("images", Image.class);
         ActiveRecordCloudSync.addReceiveTable("sections", Section.class);
+        ActiveRecordCloudSync.addReceiveTable("device_users", DeviceUser.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);

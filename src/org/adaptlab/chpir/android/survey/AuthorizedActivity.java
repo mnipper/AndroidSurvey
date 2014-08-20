@@ -19,7 +19,7 @@ public abstract class AuthorizedActivity extends SingleFragmentActivity {
     }
     
     private void authorize() {
-        if (AdminSettings.getInstance().getRequirePassword() && AuthUtils.isSignedIn()) {
+        if (AdminSettings.getInstance().getRequirePassword() && !AuthUtils.isSignedIn()) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         }

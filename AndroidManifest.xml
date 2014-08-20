@@ -35,6 +35,7 @@
         <activity android:name=".SurveyActivity"
             android:uiOptions="splitActionBarWhenNarrow"  />
         <activity android:name=".AdminActivity" />
+        <activity android:name=".LoginActivity" android:noHistory="true" />
         <service android:name="org.adaptlab.chpir.android.activerecordcloudsync.PollService" />
         <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.StartupReceiver">
             <intent-filter>

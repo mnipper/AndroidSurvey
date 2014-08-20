@@ -74,4 +74,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="new_apk">This application has a newer version. Would you like to update it to the newer version?</string>
     <string name="require_password">Require Password To Enter Survey</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 </resources>

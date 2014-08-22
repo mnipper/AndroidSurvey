@@ -125,7 +125,6 @@ public class Option extends ReceiveModel {
 		return Question.findByQuestionIdentifier(question);
 	}
     
-    // Used for skip patterns
     private void setNextQuestion(String nextQuestion) {
         mNextQuestion = nextQuestion;
     }
@@ -140,8 +139,7 @@ public class Option extends ReceiveModel {
     public static Option findByRemoteId(Long id) {
         return new Select().from(Option.class).where("RemoteId = ?", id).executeSingle();
     }
-  
-    
+      
     /*
      * Relationships
      */ 
@@ -149,6 +147,13 @@ public class Option extends ReceiveModel {
         return getMany(OptionTranslation.class, "Option");
     }
     
+    public List<Skip> skips() {
+    	return getMany(Skip.class, "Option");
+    }
+    
+    public List<Question> questionsToSkip() {
+    	return new Select("Questions.*").from(Question.class).innerJoin(Skip.class).on("Questions.Id = Skips.Question AND Skips.Option =?", getId()).execute();
+    }
     
     /*
      * Getters/Setters

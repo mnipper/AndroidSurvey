@@ -1,10 +1,12 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
+import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
@@ -63,6 +65,7 @@ public class SurveyFragment extends Fragment {
     // to save a Stack to the savedInstanceState, so it is represented as
     // an Integer array.
     private ArrayList<Integer> mPreviousQuestions;
+    private ArrayList<Question> mQuestionsToSkip;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -187,8 +190,8 @@ public class SurveyFragment extends Fragment {
     }
     
     public void loadOrCreateQuestion() {
-    	Log.i(TAG, "Load or create question");
         mPreviousQuestions = new ArrayList<Integer>();  
+        mQuestionsToSkip = new ArrayList<Question>();
         Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
         if (questionId == -1) {
             mQuestion = mInstrument.questions().get(0);
@@ -400,21 +403,53 @@ public class SurveyFragment extends Fragment {
                     mQuestionNumber = nextQuestion.getNumberInInstrument() - 1;
                 } else {
                     // Skip pattern can not yet apply to 'other' responses
-                    mQuestionNumber = questionIndex + 1;
-                    nextQuestion = mInstrument.questions().get(mQuestionNumber);
+                    nextQuestion = nextQuestionHelper(questionIndex);
                 }
                 
             } catch (NumberFormatException nfe) {
-                mQuestionNumber = questionIndex + 1;
-                nextQuestion = mInstrument.questions().get(mQuestionNumber);
+                nextQuestion = nextQuestionHelper(questionIndex);
                 Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
             }
+        } else if (mQuestion.hasMultiSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
+        	/*
+        	 * Deselect previous skips of this question
+        	 * Get questions to be skipped based on selected option and add them to mQuestionsToSkip array.
+        	 * Set next question
+        	 */
+        	try {
+        		clearSkipsForCurrentQuestion();
+        		int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());
+        		Option selectedOption = mQuestion.options().get(responseIndex);
+        		for (Question skipQuestion: selectedOption.questionsToSkip()){
+        			mQuestionsToSkip.add(skipQuestion);
+        		}
+        		nextQuestion = nextQuestionHelper(questionIndex);  
+        	} catch (NumberFormatException nfe) {
+        		nextQuestion = nextQuestionHelper(questionIndex);
+                Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
+        	}
         } else {
-            mQuestionNumber = questionIndex + 1;
-            nextQuestion = mInstrument.questions().get(mQuestionNumber);
+            nextQuestion = nextQuestionHelper(questionIndex);
+        }
+        
+        while (mQuestionsToSkip.contains(nextQuestion)) {
+            nextQuestion = nextQuestionHelper(mQuestionNumber);        
         }
         
         return nextQuestion;
+    }
+    
+    private Question nextQuestionHelper(int index) {
+    	mQuestionNumber = index + 1;
+    	return mInstrument.questions().get(mQuestionNumber);
+    }
+    
+    private void clearSkipsForCurrentQuestion() {
+    	if (!mQuestionsToSkip.isEmpty()) {
+	    	for (Question question :mQuestion.questionsToSkip()) {
+	    		mQuestionsToSkip.remove(question);
+	    	} 
+    	}
     }
     
     /*

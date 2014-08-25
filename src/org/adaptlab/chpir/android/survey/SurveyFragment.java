@@ -417,7 +417,6 @@ public class SurveyFragment extends Fragment {
         	 * Set next question
         	 */
         	try {
-        		clearSkipsForCurrentQuestion();
         		int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());
         		Option selectedOption = mQuestion.options().get(responseIndex);
         		for (Question skipQuestion: selectedOption.questionsToSkip()){
@@ -456,7 +455,6 @@ public class SurveyFragment extends Fragment {
     }
     
     private void clearSkipsForCurrentQuestion() {
-    	//TODO Only call when moving to previous question that had been answered
     	if (!mQuestionsToSkip.isEmpty()) {
 	    	for (Question question : mQuestion.questionsToSkip()) {
 	    		mQuestionsToSkip.remove(question);
@@ -498,8 +496,13 @@ public class SurveyFragment extends Fragment {
             mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             mQuestion = mInstrument.questions().get(mQuestionNumber);
             createQuestionFragment();
-            if (!setQuestionText(mQuestionText))
+            if (!setQuestionText(mQuestionText)) {
                 moveToPreviousQuestion();
+            }
+            if (mSurvey.getResponseByQuestion(mQuestion) != null && 
+            		mSurvey.getResponseByQuestion(mQuestion).getText() != "" ) {
+        		clearSkipsForCurrentQuestion();
+            }
         }
         
         updateQuestionCountLabel();

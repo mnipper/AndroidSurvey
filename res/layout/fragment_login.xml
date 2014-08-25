@@ -8,13 +8,18 @@
         android:id="@+id/login_username_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/username" />
+        android:text="@string/username"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="40dp" />
 
     <EditText
         android:id="@+id/login_username_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textNoSuggestions"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:ems="10" >
     </EditText>
 
@@ -22,13 +27,18 @@
         android:id="@+id/login_password_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/password" />
+        android:text="@string/password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="40dp"/>
 
     <EditText
         android:id="@+id/login_password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:inputType="textPassword" >
     </EditText>
 

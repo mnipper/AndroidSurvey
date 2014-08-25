@@ -129,6 +129,7 @@ public abstract class QuestionFragment extends Fragment {
     
     public void saveOtherResponse(String response) {
         getResponse().setOtherResponse(response);
+        getResponse().setDeviceUser(AuthUtils.getCurrentUser());
         getResponse().save();
     }
     
@@ -139,6 +140,7 @@ public abstract class QuestionFragment extends Fragment {
      */
     public void saveResponseWithValidation() {
         if (getResponse().saveWithValidation()) {
+            getResponse().setDeviceUser(AuthUtils.getCurrentUser());
             animateValidationTextView(true);
         } else {
             animateValidationTextView(false);
@@ -160,6 +162,7 @@ public abstract class QuestionFragment extends Fragment {
         if (getResponse() != null) {
         	getResponse().setSpecialResponse(response); 
         	saveTimeEnded();
+        	getResponse().setDeviceUser(AuthUtils.getCurrentUser());
         	getResponse().save();
         }
     }

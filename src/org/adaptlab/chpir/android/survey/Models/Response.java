@@ -41,6 +41,8 @@ public class Response extends SendModel {
 	private Date mTimeEnded;
 	@Column(name = "UUID")
 	private String mUUID;
+	@Column(name = "CurrentUser")
+	private DeviceUser mDeviceUser;
 	
 	public Response() {
 		super();
@@ -96,6 +98,7 @@ public class Response extends SendModel {
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
             jsonObject.put("uuid", getUUID());
+            jsonObject.put("device_user_id", getDeviceUser().getRemoteId());
             
             json.put("response", jsonObject);
         } catch (JSONException je) {
@@ -202,4 +205,11 @@ public class Response extends SendModel {
                 mSpecialResponse.equals(NA) || mSpecialResponse.equals(DK);
     }
     
+    public DeviceUser getDeviceUser() {
+        return mDeviceUser;
+    }
+    
+    public void setDeviceUser(DeviceUser deviceUser) {
+        mDeviceUser = deviceUser;
+    }    
 }

@@ -29,6 +29,7 @@ A survey application for Android with a [rails backend](https://github.com/mnipp
 * [Creating Another App](https://github.com/mnipper/AndroidSurvey/wiki/Creating-Another-App)
 * [Obtaining a list of Instruments with their IDs](https://github.com/mnipper/AndroidSurvey/wiki/Obtaining-a-list-of-Instruments-with-their-IDs)
 * [Passing Metadata When Launching a Survey From Another App](https://github.com/mnipper/AndroidSurvey/wiki/Passing-Metadata-When-Launching-a-Survey-From-Another-App)
+* [Requiring Login to Begin a Survey](https://github.com/mnipper/AndroidSurvey/wiki/Survey-Login)
 
 ## ActiveAndroid
 [ActiveAndroid](https://github.com/pardom/ActiveAndroid) is used for database access.

@@ -139,8 +139,9 @@ public abstract class QuestionFragment extends Fragment {
      * Only save if valid.
      */
     public void saveResponseWithValidation() {
+        getResponse().setDeviceUser(AuthUtils.getCurrentUser());
+        
         if (getResponse().saveWithValidation()) {
-            getResponse().setDeviceUser(AuthUtils.getCurrentUser());
             animateValidationTextView(true);
         } else {
             animateValidationTextView(false);

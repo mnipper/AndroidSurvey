@@ -17,4 +17,8 @@ public class AuthUtils {
     public static void signIn(DeviceUser deviceUser) {
         CURRENT_USER = deviceUser;
     }
+    
+    public static DeviceUser getCurrentUser() {
+        return CURRENT_USER;
+    }
 }

@@ -432,11 +432,22 @@ public class SurveyFragment extends Fragment {
             nextQuestion = nextQuestionHelper(questionIndex);
         }
         
-        while (mQuestionsToSkip.contains(nextQuestion)) {
-            nextQuestion = nextQuestionHelper(mQuestionNumber);        
-        }
+        nextQuestion = getNextUnskippedQuestion(nextQuestion);
         
         return nextQuestion;
+    }
+    
+    private Question getNextUnskippedQuestion(Question nextQuestion) {
+    	if (mQuestionsToSkip.contains(nextQuestion)) {
+            mQuestionsToSkip.remove(nextQuestion);
+        	if (isLastQuestion()) {
+            	finishSurvey();
+            } else {
+            	nextQuestion = nextQuestionHelper(mQuestionNumber); 
+            	getNextUnskippedQuestion(nextQuestion);
+            }
+        }
+    	return nextQuestion;
     }
     
     private Question nextQuestionHelper(int index) {
@@ -445,8 +456,9 @@ public class SurveyFragment extends Fragment {
     }
     
     private void clearSkipsForCurrentQuestion() {
+    	//TODO Only call when moving to previous question that had been answered
     	if (!mQuestionsToSkip.isEmpty()) {
-	    	for (Question question :mQuestion.questionsToSkip()) {
+	    	for (Question question : mQuestion.questionsToSkip()) {
 	    		mQuestionsToSkip.remove(question);
 	    	} 
     	}

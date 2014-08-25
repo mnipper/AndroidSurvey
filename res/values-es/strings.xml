@@ -76,4 +76,5 @@
     <string name="username">Usuario</string>
     <string name="password">Introduzca contraseña</string>
     <string name="login_button">Iniciar sesión</string>
+    <string name="invalid_username_or_password">Correo usuario o contraseña no válida!</string>
 </resources>

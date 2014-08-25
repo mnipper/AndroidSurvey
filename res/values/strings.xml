@@ -77,4 +77,5 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="invalid_username_or_password">Invalid username or password.</string>
 </resources>

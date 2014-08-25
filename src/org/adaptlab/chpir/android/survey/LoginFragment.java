@@ -41,7 +41,7 @@ public class LoginFragment extends Fragment {
                     AuthUtils.signIn(deviceUser);
                     getActivity().finish();
                 } else {
-                    Toast.makeText(getActivity(), "WRONG PASSWORD", Toast.LENGTH_LONG).show();                    
+                    Toast.makeText(getActivity(), getString(R.string.invalid_username_or_password), Toast.LENGTH_LONG).show();                    
                 }
             }            
         });

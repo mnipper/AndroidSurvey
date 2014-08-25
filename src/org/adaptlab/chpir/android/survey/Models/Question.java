@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
@@ -110,6 +111,15 @@ public class Question extends ReceiveModel {
             }
         }
         return false;
+    }
+    
+    public boolean hasMultiSkipPattern() {
+    	for (Option option: options()) {
+    		if (option.skips() != null) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
  
     /*
@@ -275,6 +285,16 @@ public class Question extends ReceiveModel {
     
     public boolean isFollowUpQuestion() {
         return (getFollowingUpQuestion() != null);
+    }
+    
+    public List<Question> questionsToSkip() {
+    	List<Question> toBeSkipped = new ArrayList<Question>();
+    	for (Option option : options()) {
+    		for (Question question : option.questionsToSkip()) {
+    			toBeSkipped.add(question);
+    		}
+    	}
+    	return toBeSkipped;
     }
     
     /*

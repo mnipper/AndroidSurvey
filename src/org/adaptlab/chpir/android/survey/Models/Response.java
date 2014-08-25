@@ -41,7 +41,7 @@ public class Response extends SendModel {
 	private Date mTimeEnded;
 	@Column(name = "UUID")
 	private String mUUID;
-	@Column(name = "CurrentUser")
+	@Column(name = "DeviceUser")
 	private DeviceUser mDeviceUser;
 	
 	public Response() {

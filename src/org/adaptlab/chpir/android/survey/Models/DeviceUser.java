@@ -44,6 +44,9 @@ public class DeviceUser extends ReceiveModel {
     }
     
     public boolean checkPassword(String password) {
+        if (!mActive) {
+            return false;
+        }
         return BCrypt.checkpw(password, mPasswordDigest);
     }
     

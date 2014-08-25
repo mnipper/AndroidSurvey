@@ -73,4 +73,6 @@
     <string name="drawer_open">Abriendo la aplicación de navegación</string>
     <string name="drawer_close">Cerrando la aplicación de navegación</string>
     <string name="new_apk">Esta aplicación cuenta con una versión más nueva. ¿Te gustaría actualizarla a la versión más reciente?</string>
+    <string name="password">Introduzca contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
 </resources>

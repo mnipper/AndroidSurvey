@@ -98,7 +98,9 @@ public class Response extends SendModel {
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
             jsonObject.put("uuid", getUUID());
-            jsonObject.put("device_user_id", getDeviceUser().getRemoteId());
+            if (getDeviceUser() != null) {
+                jsonObject.put("device_user_id", getDeviceUser().getRemoteId());
+            }
             
             json.put("response", jsonObject);
         } catch (JSONException je) {

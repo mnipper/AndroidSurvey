@@ -112,7 +112,6 @@ public class SurveyFragment extends Fragment {
     }
     
     private void setupNavigationDrawer() {
-    	Log.i(TAG, "setting navDrawer");
     	mSections = new ArrayList<Section>();
     	mSections = (ArrayList<Section>) mInstrument.sections();
     	mSectionTitles = new String[mSections.size()];

@@ -391,57 +391,68 @@ public class SurveyFragment extends Fragment {
      * next question in the sequence.
      */
     private Question getNextQuestion(int questionIndex) {
-        Question nextQuestion = null;
-        
+        Question nextQuestion = null;      
         if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
             try {
-                int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());
-                
-                if (responseIndex < mQuestion.options().size() && mQuestion.options().get(responseIndex).getNextQuestion() != null) {
-                    nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
-                    mQuestionNumber = nextQuestion.getNumberInInstrument() - 1;
-                } else {
-                    // Skip pattern can not yet apply to 'other' responses
-                    nextQuestion = nextQuestionHelper(questionIndex);
-                }
-                
+                int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());                
+                nextQuestion = getNextQuestionForSkipPattern(questionIndex, responseIndex);                
             } catch (NumberFormatException nfe) {
-                nextQuestion = nextQuestionHelper(questionIndex);
-                Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
+                nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
             }
         } else if (mQuestion.hasMultiSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
-        	/*
-        	 * Deselect previous skips of this question
-        	 * Get questions to be skipped based on selected option and add them to mQuestionsToSkip array.
-        	 * Set next question
-        	 */
         	try {
         		int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());
-        		Option selectedOption = mQuestion.options().get(responseIndex);
-        		for (Question skipQuestion: selectedOption.questionsToSkip()){
-        			mQuestionsToSkip.add(skipQuestion);
-        		}
+        		addQuestionsToSkip(responseIndex);
         		nextQuestion = nextQuestionHelper(questionIndex);  
         	} catch (NumberFormatException nfe) {
-        		nextQuestion = nextQuestionHelper(questionIndex);
-                Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
+        		nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
         	}
+        } else if (mQuestion.hasSkipPattern() && mQuestion.hasMultiSkipPattern()){ 
+        	try {
+        		int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());            
+        		addQuestionsToSkip(responseIndex);
+        		nextQuestion = getNextQuestionForSkipPattern(questionIndex, responseIndex);
+        	} catch (NumberFormatException nfe) {
+                nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
+            }
         } else {
             nextQuestion = nextQuestionHelper(questionIndex);
-        }
-        
+        }        
         nextQuestion = getNextUnskippedQuestion(nextQuestion);
-        
         return nextQuestion;
     }
+
+	private Question getNextQuestionWhenNumberFormatException(int questionIndex) {
+		Question nextQuestion;
+		nextQuestion = nextQuestionHelper(questionIndex);
+		Log.wtf(TAG, "Received a non-numeric skip response index for " + mQuestion.getQuestionIdentifier());
+		return nextQuestion;
+	}
+
+	private void addQuestionsToSkip(int responseIndex) {
+		Option selectedOption = mQuestion.options().get(responseIndex);
+		for (Question skipQuestion: selectedOption.questionsToSkip()){
+			mQuestionsToSkip.add(skipQuestion);
+		}
+	}
+
+	private Question getNextQuestionForSkipPattern(int questionIndex, int responseIndex) {
+		Question nextQuestion;
+		if (responseIndex < mQuestion.options().size() && mQuestion.options().get(responseIndex).getNextQuestion() != null) {
+		    nextQuestion = mQuestion.options().get(responseIndex).getNextQuestion();
+		    mQuestionNumber = nextQuestion.getNumberInInstrument() - 1;
+		} else {
+		    nextQuestion = nextQuestionHelper(questionIndex);
+		}
+		return nextQuestion;
+	}
     
     private Question getNextUnskippedQuestion(Question nextQuestion) {
     	if (mQuestionsToSkip.contains(nextQuestion)) {
-            mQuestionsToSkip.remove(nextQuestion);
         	if (isLastQuestion()) {
             	finishSurvey();
             } else {
-            	nextQuestion = nextQuestionHelper(mQuestionNumber); 
+            	nextQuestion = nextQuestionHelper(nextQuestion.getNumberInInstrument()); 
             	getNextUnskippedQuestion(nextQuestion);
             }
         }

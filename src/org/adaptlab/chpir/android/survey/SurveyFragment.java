@@ -452,7 +452,7 @@ public class SurveyFragment extends Fragment {
         	if (isLastQuestion()) {
             	finishSurvey();
             } else {
-            	nextQuestion = nextQuestionHelper(nextQuestion.getNumberInInstrument()); 
+            	nextQuestion = nextQuestionHelper(nextQuestion.getNumberInInstrument() - 1); 
             	getNextUnskippedQuestion(nextQuestion);
             }
         }

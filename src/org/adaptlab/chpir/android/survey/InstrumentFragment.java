@@ -130,10 +130,7 @@ public class InstrumentFragment extends ListFragment {
             titleTextView.setTypeface(instrument.getTypeFace(getActivity().getApplicationContext()));
             titleTextView.setTextColor(Color.BLACK);
             
-            if (!instrument.getLoaded()) {
-                if (AppUtil.DEBUG) Log.i(TAG, instrument.getTitle() + " is loaded: " + instrument.getLoaded());
-                titleTextView.setTextColor(Color.RED);
-            }
+            new SetInstrumentLabelTask().execute(new InstrumentListLabel(instrument, titleTextView));
 
             TextView questionCountTextView = (TextView) convertView
                     .findViewById(R.id.instrument_list_item_questionCountTextView);
@@ -268,7 +265,7 @@ public class InstrumentFragment extends ListFragment {
         @Override
         protected Long doInBackground(Instrument... params) {
         	Instrument instrument = params[0];
-            if (instrument.getLoaded()) {
+            if (instrument.loaded()) {
                 return instrument.getRemoteId();
             } else {
                 return Long.valueOf(-1);
@@ -314,7 +311,7 @@ public class InstrumentFragment extends ListFragment {
         protected Survey doInBackground(Survey... params) {
             Survey survey = params[0];
             Instrument instrument = survey.getInstrument();
-            if (instrument.getLoaded()) {
+            if (instrument.loaded()) {
                 return survey;
             } else {
                 return null;
@@ -340,6 +337,60 @@ public class InstrumentFragment extends ListFragment {
                     startActivity(i);
                 }
             }
+        }
+    }
+       
+    /*
+     * Check that the instrument has been fully loaded from the server and sets
+     * the color of instrument label red if it has not.
+     * 
+     */
+    private class SetInstrumentLabelTask extends AsyncTask<InstrumentListLabel, Void, InstrumentListLabel> {
+        
+        @Override
+        protected InstrumentListLabel doInBackground(InstrumentListLabel... params) {
+            InstrumentListLabel instrumentListLabel = params[0];
+            Instrument instrument = instrumentListLabel.getInstrument();
+            instrumentListLabel.setLoaded(instrument.loaded());
+            return instrumentListLabel;
+        }
+
+        @Override
+        protected void onPostExecute(InstrumentListLabel instrumentListLabel) {
+            if (isAdded()){
+                if (instrumentListLabel.isLoaded()) {
+                    instrumentListLabel.getTextView().setTextColor(Color.BLACK);
+                } else {
+                    instrumentListLabel.getTextView().setTextColor(Color.RED);                    
+                }
+            }
+        }
+    }
+    
+    private static class InstrumentListLabel {
+        private Instrument mInstrument;
+        private TextView mTextView;
+        private Boolean mLoaded;
+        
+        public InstrumentListLabel(Instrument instrument, TextView textView) {
+            this.mInstrument = instrument;
+            this.mTextView = textView;
+        }
+        
+        public Instrument getInstrument() {
+            return mInstrument;
+        }
+        
+        public TextView getTextView() {
+            return mTextView;
+        }
+        
+        public void setLoaded(boolean loaded) {
+            mLoaded = loaded;
+        }
+        
+        public Boolean isLoaded() {
+            return mLoaded;
         }
     }
 }

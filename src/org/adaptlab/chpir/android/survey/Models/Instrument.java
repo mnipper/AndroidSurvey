@@ -43,8 +43,6 @@ public class Instrument extends ReceiveModel {
     private int mQuestionCount;
     @Column(name = "ProjectId")
     private Long mProjectId;
-    @Column(name = "Loaded")
-    private boolean mLoaded;
 
     public Instrument() {
         super();
@@ -138,7 +136,6 @@ public class Instrument extends ReceiveModel {
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.setQuestionCount(jsonObject.getInt("question_count"));
             instrument.setProjectId(jsonObject.getLong("project_id"));
-            instrument.setLoaded(false);
             instrument.save();
             
             // Generate translations
@@ -204,6 +201,14 @@ public class Instrument extends ReceiveModel {
         }
         return instrumentList;
     }
+      
+     public boolean loaded() {
+         if (questions().size() != getQuestionCount()) return false;
+         for (Question question : questions()) {
+             if (!question.loaded()) return false;
+         }
+         return true;
+     }
         
     /*
      * Getters/Setters
@@ -250,16 +255,6 @@ public class Instrument extends ReceiveModel {
     	return mProjectId;
     }
     
-    public void setLoaded(boolean loaded) {
-        mLoaded = loaded;
-    }
-    
-    public boolean getLoaded() {
-        if (mLoaded) return true;        
-        setLoaded(loaded());
-        return mLoaded;
-    }
-    
     /*
      * Private
      */   
@@ -273,13 +268,5 @@ public class Instrument extends ReceiveModel {
     
     private void setQuestionCount(int num) {
         mQuestionCount = num;
-    }
-        
-    private boolean loaded() {
-        if (questions().size() != getQuestionCount()) return false;
-        for (Question question : questions()) {
-            if (!question.loaded()) return false;
-        }
-        return true;
     }
 }

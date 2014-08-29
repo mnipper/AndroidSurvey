@@ -157,11 +157,11 @@ public class Instrument extends ReceiveModel {
      * Finders
      */
     public static List<Instrument> getAll() {
-        return new Select().from(Instrument.class).orderBy("Id ASC").execute();
+        return new Select().from(Instrument.class).orderBy("Title").execute();
     }
     
     public static List<Instrument> getAllProjectInstruments(Long projectId) {
-    	return new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Id ASC").execute();
+    	return new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Title").execute();
     }
       
     public static Instrument findByRemoteId(Long id) {

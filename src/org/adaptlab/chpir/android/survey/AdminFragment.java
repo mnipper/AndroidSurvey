@@ -145,7 +145,13 @@ public class AdminFragment extends Fragment {
 	}
 
 	public String getAdminSettingsInstanceApiUrl() {
-		return AdminSettings.getInstance().getApiDomainName() + "api/" + AdminSettings.getInstance().getApiVersion() + "/" + 
+	    
+	    // Append forward slash to domain name if does not exist
+	    String domainName = AdminSettings.getInstance().getApiDomainName();
+	    char lastChar = domainName.charAt(domainName.length() - 1);
+	    if (lastChar != '/') domainName = domainName + "/";
+	    
+		return domainName + "api/" + AdminSettings.getInstance().getApiVersion() + "/" + 
 				"projects/" + AdminSettings.getInstance().getProjectId() + "/";
 	}
 

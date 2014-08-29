@@ -325,7 +325,6 @@ public class SurveyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
             Bundle savedInstanceState) {
-    	Log.i(TAG, "On Create View");
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
@@ -393,9 +392,12 @@ public class SurveyFragment extends Fragment {
     private Question getNextQuestion(int questionIndex) {
         Question nextQuestion = null;      
         if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
-            try {
+        	try {
                 int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());                
-                nextQuestion = getNextQuestionForSkipPattern(questionIndex, responseIndex);                
+                if (mQuestion.hasMultiSkipPattern()) {
+            		addQuestionsToSkip(responseIndex);
+                }
+                nextQuestion = getNextQuestionForSkipPattern(questionIndex, responseIndex);   
             } catch (NumberFormatException nfe) {
                 nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
             }
@@ -407,14 +409,6 @@ public class SurveyFragment extends Fragment {
         	} catch (NumberFormatException nfe) {
         		nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
         	}
-        } else if (mQuestion.hasSkipPattern() && mQuestion.hasMultiSkipPattern()){ 
-        	try {
-        		int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());            
-        		addQuestionsToSkip(responseIndex);
-        		nextQuestion = getNextQuestionForSkipPattern(questionIndex, responseIndex);
-        	} catch (NumberFormatException nfe) {
-                nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
-            }
         } else {
             nextQuestion = nextQuestionHelper(questionIndex);
         }        

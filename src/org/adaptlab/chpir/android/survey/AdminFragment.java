@@ -148,7 +148,8 @@ public class AdminFragment extends Fragment {
 	    
 	    // Append forward slash to domain name if does not exist
 	    String domainName = AdminSettings.getInstance().getApiDomainName();
-	    if (!domainName.equals("/")) domainName = domainName + "/";
+	    char lastChar = domainName.charAt(domainName.length() - 1);
+	    if (lastChar != '/') domainName = domainName + "/";
 	    
 		return domainName + "api/" + AdminSettings.getInstance().getApiVersion() + "/" + 
 				"projects/" + AdminSettings.getInstance().getProjectId() + "/";

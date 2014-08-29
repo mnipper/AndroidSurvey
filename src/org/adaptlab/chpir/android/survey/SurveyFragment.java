@@ -418,8 +418,8 @@ public class SurveyFragment extends Fragment {
         } else {
             nextQuestion = nextQuestionHelper(questionIndex);
         }        
-        nextQuestion = getNextUnskippedQuestion(nextQuestion);
-        return nextQuestion;
+        Question question = getNextUnskippedQuestion(nextQuestion);
+        return question;
     }
 
 	private Question getNextQuestionWhenNumberFormatException(int questionIndex) {
@@ -453,7 +453,7 @@ public class SurveyFragment extends Fragment {
             	finishSurvey();
             } else {
             	nextQuestion = nextQuestionHelper(nextQuestion.getNumberInInstrument() - 1); 
-            	getNextUnskippedQuestion(nextQuestion);
+            	nextQuestion = getNextUnskippedQuestion(nextQuestion);
             }
         }
     	return nextQuestion;

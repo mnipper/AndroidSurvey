@@ -1,13 +1,16 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
@@ -66,6 +69,7 @@ public class SurveyFragment extends Fragment {
     // an Integer array.
     private ArrayList<Integer> mPreviousQuestions;
     private ArrayList<Question> mQuestionsToSkip;
+    private Set<Question> mSkippedQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -191,6 +195,7 @@ public class SurveyFragment extends Fragment {
     public void loadOrCreateQuestion() {
         mPreviousQuestions = new ArrayList<Integer>();  
         mQuestionsToSkip = new ArrayList<Question>();
+        mSkippedQuestions = new HashSet<Question>();
         Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
         if (questionId == -1) {
             mQuestion = mInstrument.questions().get(0);
@@ -390,7 +395,8 @@ public class SurveyFragment extends Fragment {
      * next question in the sequence.
      */
     private Question getNextQuestion(int questionIndex) {
-        Question nextQuestion = null;      
+        setSkippedForReview();
+    	Question nextQuestion = null;      
         if (mQuestion.hasSkipPattern() && mSurvey.getResponseByQuestion(mQuestion) != null) {
         	try {
                 int responseIndex = Integer.parseInt(mSurvey.getResponseByQuestion(mQuestion).getText());                
@@ -464,6 +470,39 @@ public class SurveyFragment extends Fragment {
 	    		mQuestionsToSkip.remove(question);
 	    	} 
     	}
+    } 
+    
+    private void setSkippedForReview() {
+    	if (nullResponse() || emptyResponse() || skippedResponse() ) {   		
+    		if (pictureResponseQuestion()) {
+				if (mQuestionFragment.getResponsePhoto().getPicturePath() == null) {
+					mSkippedQuestions.add(mQuestion);
+				} else {
+					mSkippedQuestions.remove(mQuestion);
+				}	
+    		} else {
+    			mSkippedQuestions.add(mQuestion);
+    		}
+    	} else {
+    		mSkippedQuestions.remove(mQuestion);
+    	}
+    }
+    
+    private boolean emptyResponse() {
+    	return (mSurvey.getResponseByQuestion(mQuestion).getText().length() == 0 && 
+    			mSurvey.getResponseByQuestion(mQuestion).getSpecialResponse().length() == 0);
+    }
+    
+    private boolean nullResponse() {
+    	return mSurvey.getResponseByQuestion(mQuestion) == null;
+    }
+    
+    private boolean skippedResponse() {
+    	return mSurvey.getResponseByQuestion(mQuestion).getSpecialResponse() == Response.SKIP;
+    }
+    
+    private boolean pictureResponseQuestion() {
+    	 return (mQuestion.getQuestionType() == QuestionType.FRONT_PICTURE || mQuestion.getQuestionType() == QuestionType.REAR_PICTURE);
     }
     
     /*
@@ -472,8 +511,7 @@ public class SurveyFragment extends Fragment {
      * the next question.
      */
     public void moveToNextQuestion() {
-        int questionsInInstrument = mInstrument.questions().size();
-
+    	int questionsInInstrument = mInstrument.questions().size();
         if (mQuestionNumber < questionsInInstrument - 1) {    
             mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
@@ -517,6 +555,12 @@ public class SurveyFragment extends Fragment {
     * complete.  Send to server if network is available.
     */
     public void finishSurvey() {
+//    	for(Response response :mSurvey.responses()) {
+//    		if (response.getText() == null || response.getText() == "" || 
+//    				response.getSpecialResponse() == Response.SKIP) {
+//    			Log.i(TAG, "SKIPPED QUESTION: " + response.getQuestion().getNumberInInstrument());
+//    		}
+//    	}
         getActivity().finish();
         setSurveyLocation();
         mSurvey.setAsComplete();

@@ -17,6 +17,7 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -555,17 +556,25 @@ public class SurveyFragment extends Fragment {
     * complete.  Send to server if network is available.
     */
     public void finishSurvey() {
-//    	for(Response response :mSurvey.responses()) {
-//    		if (response.getText() == null || response.getText() == "" || 
-//    				response.getSpecialResponse() == Response.SKIP) {
-//    			Log.i(TAG, "SKIPPED QUESTION: " + response.getQuestion().getNumberInInstrument());
-//    		}
+    	if (!mSkippedQuestions.isEmpty()) {
+    		Log.i(TAG, "Number of skipped questions: " + mSkippedQuestions.size());
+    		ArrayList<String> skippedQuestions = new ArrayList<String>();
+    		for (Question question : mSkippedQuestions) {
+    			skippedQuestions.add(question.getQuestionIdentifier());
+    		}
+    		Intent i = new Intent(getActivity(), ReviewPageActivity.class);
+    		Bundle b = new Bundle();
+    		b.putStringArrayList(ReviewPageFragment.EXTRA_SKIPPED_QUESTIONS_IDS, skippedQuestions);
+    		i.putExtras(b);
+    		startActivity(i);
+    	} 
+    	//else {
+//    		getActivity().finish();
+//	        setSurveyLocation();
+//	        mSurvey.setAsComplete();
+//	        mSurvey.save();
+//	        new SendResponsesTask(getActivity()).execute();
 //    	}
-        getActivity().finish();
-        setSurveyLocation();
-        mSurvey.setAsComplete();
-        mSurvey.save();
-        new SendResponsesTask(getActivity()).execute();
     }
        
     public boolean isFirstQuestion() {

@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
@@ -11,6 +10,9 @@ import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
+import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
+import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.content.Context;
@@ -88,6 +90,8 @@ public class SurveyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+          
+        checkRules();
         
         if (savedInstanceState != null) {
             mInstrument = Instrument.findByRemoteId(savedInstanceState.getLong(EXTRA_INSTRUMENT_ID));
@@ -103,7 +107,7 @@ public class SurveyFragment extends Fragment {
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
-            
+
             loadOrCreateSurvey(metadata);
             loadOrCreateQuestion();
           
@@ -627,5 +631,19 @@ public class SurveyFragment extends Fragment {
 	        return mQuestionFragment.getResponse().getSpecialResponse();
 	    else
 	        return "";
+	}
+	
+	private void checkRules() {
+	    new RuleBuilder(getActivity())
+        .addRule(new InstrumentSurveyLimitRule(mInstrument))
+        .showToastOnFailure(true)
+        .setCallbacks(new RuleCallback() {
+            
+            public void onRulesPass() { }
+            
+            public void onRulesFail() {
+                getActivity().finish();
+            }                
+        }).checkRules();
 	}
 }

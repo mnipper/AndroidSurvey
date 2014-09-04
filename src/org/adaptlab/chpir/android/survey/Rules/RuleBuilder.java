@@ -37,20 +37,16 @@ public class RuleBuilder {
     }
     
     public RuleBuilder checkRules() {
-        if (mRuleCallback == null) {
-            throw new IllegalStateException("You must set success and failure callbacks for rule checking!");
-        }
-        
         for (PassableRule rule : mRules) {
             if (!rule.passesRule()) {
                 if (mShowToastOnFailure) Toast.makeText(mContext, rule.getFailureMessage(), Toast.LENGTH_LONG).show();
-                mRuleCallback.onRulesFail();
+                if (mRuleCallback != null) mRuleCallback.onRulesFail();
                 mPassesRules = false;
                 return this;
             }
         }
         
-        mRuleCallback.onRulesPass(); 
+        if (mRuleCallback != null) mRuleCallback.onRulesPass(); 
         mPassesRules = true;
         return this;
     }

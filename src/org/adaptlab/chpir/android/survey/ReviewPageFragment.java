@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -113,7 +114,7 @@ public class ReviewPageFragment extends ListFragment {
             questionNumberTextView.setTextColor(Color.BLACK);
             
             TextView questionTextView = (TextView) convertView.findViewById(R.id.review_question_text);           
-            questionTextView.setText(question.getText());
+            questionTextView.setText(Html.fromHtml(question.getText()));
             questionTextView.setMaxLines(2);
 
             return convertView;

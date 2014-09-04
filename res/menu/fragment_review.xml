@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+   
+   <item android:id="@+id/menu_item_back"
+     android:icon="@drawable/ic_menu_item_previous_item" 
+     android:title="@string/previous_button"
+     android:showAsAction="ifRoom|withText" />
+   
+   <item android:id="@+id/menu_item_complete"
+     android:icon="@drawable/ic_menu_item_accept" 
+     android:title="@string/finish_button"
+     android:showAsAction="always|withText"
+     android:visibility="gone" />
+   
+</menu>

@@ -235,6 +235,7 @@ public class SurveyFragment extends Fragment {
     	if (mResumeQuestion == mQuestion) {
         	mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
             createQuestionFragment();
+            updateQuestionText();
             updateQuestionCountLabel();
     	}
     }

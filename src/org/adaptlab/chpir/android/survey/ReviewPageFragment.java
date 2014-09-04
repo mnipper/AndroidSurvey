@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ReviewPageFragment extends ListFragment {
@@ -40,7 +41,13 @@ public class ReviewPageFragment extends ListFragment {
     		}
     	}
         setListAdapter(new QuestionAdapter(mSkippedQuestions));
-        getActivity().setTitle("SKIPPED QUESTIONS");
+        getActivity().setTitle("Skipped Questions");
+	}
+	
+	@Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+		Question question = ((QuestionAdapter) getListAdapter()).getItem(position);
+		setReturnResults(question.getRemoteId());
 	}
 	
 	@Override
@@ -71,20 +78,21 @@ public class ReviewPageFragment extends ListFragment {
 	}
 	
 	private void returnToSurvey() {
-		Intent i = new Intent();
-		i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, mSkippedQuestions.get(0).getRemoteId());
-		getActivity().setResult(Activity.RESULT_OK, i);
-		getActivity().finish();
+		setReturnResults(mSkippedQuestions.get(0).getRemoteId());
 	}
 	
 	private void completeSurvey() {
 		mSurvey.setAsComplete();
 		mSurvey.save();
+		setReturnResults(Long.MIN_VALUE);
+		new SendResponsesTask(getActivity()).execute();
+	}
+	
+	private void setReturnResults(Long id) {
 		Intent i = new Intent();
-		i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, Long.MIN_VALUE);
+		i.putExtra(SurveyFragment.EXTRA_QUESTION_ID, id);
 		getActivity().setResult(Activity.RESULT_OK, i);
 		getActivity().finish();
-		new SendResponsesTask(getActivity()).execute();
 	}
 	
 	private class QuestionAdapter extends ArrayAdapter<Question> {
@@ -106,6 +114,7 @@ public class ReviewPageFragment extends ListFragment {
             
             TextView questionTextView = (TextView) convertView.findViewById(R.id.review_question_text);           
             questionTextView.setText(question.getText());
+            questionTextView.setMaxLines(2);
 
             return convertView;
         }		

@@ -44,6 +44,10 @@ public class ActiveRecordCloudSync {
     
     public static void setEndPoint(String endPoint) {
         if (AppUtil.DEBUG) Log.i(TAG, "Api End point is: " + endPoint);
+
+        char lastChar = endPoint.charAt(endPoint.length() - 1);
+        if (lastChar != '/') endPoint = endPoint + "/";
+        
         mEndPoint = endPoint;
     }
     

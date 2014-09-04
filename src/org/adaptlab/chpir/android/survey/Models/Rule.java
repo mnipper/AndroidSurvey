@@ -37,7 +37,6 @@ public class Rule extends ReceiveModel {
     }
     
     public static Rule findByRuleTypeAndInstrument(RuleType ruleType, Instrument instrument) {
-        Log.i(TAG, "RULES: " + getAll().get(0).getParamJSON());
         for (Rule rule : getAll()) {
             if (rule.getRuleType().equals(ruleType) && rule.getInstrument().equals(instrument)) {
                 return rule;

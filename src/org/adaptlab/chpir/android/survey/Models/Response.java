@@ -43,6 +43,8 @@ public class Response extends SendModel {
 	private String mUUID;
 	@Column(name = "DeviceUser")
 	private DeviceUser mDeviceUser;
+	@Column(name = "QuestionVersion")
+	private int mQuestionVersion;
 	
 	public Response() {
 		super();
@@ -74,6 +76,7 @@ public class Response extends SendModel {
      */
     public boolean saveWithValidation() {
         if (isValid()) {
+            setQuestionVersion(getQuestion().getQuestionVersion());
             save();
             mSurvey.setLastUpdated(new Date());
             mSurvey.save();
@@ -98,6 +101,7 @@ public class Response extends SendModel {
             jsonObject.put("time_ended", getTimeEnded());
             jsonObject.put("question_identifier", getQuestion().getQuestionIdentifier());
             jsonObject.put("uuid", getUUID());
+            jsonObject.put("question_version", getQuestionVersion());
             if (getDeviceUser() != null) {
                 jsonObject.put("device_user_id", getDeviceUser().getRemoteId());
             }
@@ -213,5 +217,13 @@ public class Response extends SendModel {
     
     public void setDeviceUser(DeviceUser deviceUser) {
         mDeviceUser = deviceUser;
-    }    
+    }  
+    
+    private void setQuestionVersion(int version) {
+        mQuestionVersion = version;
+    }
+    
+    private int getQuestionVersion() {
+        return mQuestionVersion;
+    }
 }

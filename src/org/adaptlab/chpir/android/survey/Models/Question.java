@@ -63,6 +63,8 @@ public class Question extends ReceiveModel {
     private int mImageCount;
     @Column(name = "Instructions")
     private String mInstructions;
+    @Column(name = "QuestionVersion")
+    private int mQuestionVersion;
 
     public Question() {
         super();
@@ -246,6 +248,7 @@ public class Question extends ReceiveModel {
             question.setFollowUpPosition(jsonObject.getInt("follow_up_position"));
             question.setIdentifiesSurvey(jsonObject.getBoolean("identifies_survey"));
             question.setInstructions(jsonObject.getString("instructions"));
+            question.setQuestionVersion(jsonObject.getInt("question_version"));
             question.setFollowingUpQuestion(Question.findByQuestionIdentifier(
                     jsonObject.getString("following_up_question_identifier")
                 )
@@ -407,6 +410,10 @@ public class Question extends ReceiveModel {
             return mInstructions;
     }
     
+    public int getQuestionVersion() {
+        return mQuestionVersion;
+    }
+    
     /*
      * Private
      */
@@ -460,5 +467,9 @@ public class Question extends ReceiveModel {
     
     private void setInstructions(String instructions) {
         mInstructions = instructions;
+    }
+    
+    private void setQuestionVersion(int version) {
+        mQuestionVersion = version;
     }
 }

@@ -12,11 +12,13 @@ public class RuleBuilder {
     private ArrayList<PassableRule> mRules;
     private RuleCallback mRuleCallback;
     private boolean mShowToastOnFailure;
+    private boolean mPassesRules;
     
     public RuleBuilder(Context context) {
         mContext = context;
         mRules = new ArrayList<PassableRule>();
         mShowToastOnFailure = false;
+        mPassesRules = false;
     }
     
     public RuleBuilder addRule(PassableRule rule) {
@@ -43,11 +45,17 @@ public class RuleBuilder {
             if (!rule.passesRule()) {
                 if (mShowToastOnFailure) Toast.makeText(mContext, rule.getFailureMessage(), Toast.LENGTH_LONG).show();
                 mRuleCallback.onRulesFail();
+                mPassesRules = false;
                 return this;
             }
         }
         
-        mRuleCallback.onRulesPass();        
+        mRuleCallback.onRulesPass(); 
+        mPassesRules = true;
         return this;
+    }
+    
+    public boolean getResult() {
+        return mPassesRules;
     }
 }

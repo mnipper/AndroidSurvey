@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.List;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.json.JSONException;
@@ -35,7 +37,17 @@ public class Rule extends ReceiveModel {
     }
     
     public static Rule findByRuleTypeAndInstrument(RuleType ruleType, Instrument instrument) {
-        return new Select().from(Rule.class).where("RuleType = ? AND Instrument = ?", ruleType, instrument.getRemoteId()).executeSingle();
+        Log.i(TAG, "RULES: " + getAll().get(0).getParamJSON());
+        for (Rule rule : getAll()) {
+            if (rule.getRuleType().equals(ruleType) && rule.getInstrument().equals(instrument)) {
+                return rule;
+            }
+        }
+        return null;
+    }
+    
+    public static List<Rule> getAll() {
+        return new Select().from(Rule.class).orderBy("Id ASC").execute();
     }
     
     public static Rule findByRemoteId(Long remoteId) {
@@ -58,6 +70,8 @@ public class Rule extends ReceiveModel {
             rule.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             rule.setParams(jsonObject.getString("rule_params"));
             rule.setRemoteId(remoteId);
+            rule.save();
+            
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }
@@ -74,6 +88,14 @@ public class Rule extends ReceiveModel {
             Log.e(TAG, "Could not parse rule params: " + je);
             return null;
         }
+    }
+    
+    public RuleType getRuleType() {
+        return mRuleType;
+    }
+    
+    public Instrument getInstrument() {
+        return mInstrument;
     }
     
     /*

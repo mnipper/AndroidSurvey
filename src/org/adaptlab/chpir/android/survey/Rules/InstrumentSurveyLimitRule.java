@@ -17,8 +17,10 @@ public class InstrumentSurveyLimitRule implements PassableRule {
 
     @Override
     public boolean passesRule() {
+        if (getInstrumentRule() == null) return true;
+        
         try {
-            int maxSurveys = getInstrumentRule().getParamJSON().getInt(Rule.MAX_SURVEYS_KEY);            
+            int maxSurveys = getInstrumentRule().getParamJSON().getInt(Rule.MAX_SURVEYS_KEY);
             return (mInstrument.surveys().size() <= maxSurveys);
         } catch (JSONException je) {
             Log.i(TAG, "JSON Exception when parsing JSON for rule: " + je);

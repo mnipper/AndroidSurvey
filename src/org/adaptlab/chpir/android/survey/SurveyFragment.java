@@ -62,6 +62,7 @@ public class SurveyFragment extends Fragment {
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
+    private String mMetadata;
     
     // mPreviousQuestions is a Stack, however Android does not allow you
     // to save a Stack to the savedInstanceState, so it is represented as
@@ -90,8 +91,6 @@ public class SurveyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-          
-        checkRules();
         
         if (savedInstanceState != null) {
             mInstrument = Instrument.findByRemoteId(savedInstanceState.getLong(EXTRA_INSTRUMENT_ID));
@@ -101,17 +100,17 @@ public class SurveyFragment extends Fragment {
             mPreviousQuestions = savedInstanceState.getIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
-            String metadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
+            mMetadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
             
             if (instrumentId == -1) return;
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
 
-            loadOrCreateSurvey(metadata);
-            loadOrCreateQuestion();
-          
+            loadOrCreateSurvey();
+            loadOrCreateQuestion();               
         }
+        
         startLocationServices();
     }
     
@@ -180,12 +179,12 @@ public class SurveyFragment extends Fragment {
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
     }
     
-    public void loadOrCreateSurvey(String metadata) {
+    public void loadOrCreateSurvey() {
         Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
         if (surveyId == -1) {
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);
-            mSurvey.setMetadata(metadata);
+            mSurvey.setMetadata(mMetadata);
             mSurvey.save();
         } else {
             mSurvey = Model.load(Survey.class, surveyId);
@@ -334,7 +333,7 @@ public class SurveyFragment extends Fragment {
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         mQuestionIndex = (TextView) v.findViewById(R.id.question_index);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
-        
+
         updateQuestionCountLabel();
         
         setQuestionText(mQuestionText);
@@ -344,6 +343,7 @@ public class SurveyFragment extends Fragment {
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
                 
+        checkRules();       
         return v;
     }
 
@@ -633,17 +633,18 @@ public class SurveyFragment extends Fragment {
 	        return "";
 	}
 	
-	private void checkRules() {
-	    new RuleBuilder(getActivity())
-        .addRule(new InstrumentSurveyLimitRule(mInstrument))
-        .showToastOnFailure(true)
-        .setCallbacks(new RuleCallback() {
+	private boolean checkRules() {
+	    return new RuleBuilder(getActivity())
+            .addRule(new InstrumentSurveyLimitRule(mInstrument))
+            .showToastOnFailure(true)
+            .setCallbacks(new RuleCallback() {           
+                public void onRulesPass() { }
             
-            public void onRulesPass() { }
-            
-            public void onRulesFail() {
-                getActivity().finish();
-            }                
-        }).checkRules();
+                public void onRulesFail() {
+                    getActivity().finish();
+                }                
+            })
+            .checkRules()
+            .getResult();
 	}
 }

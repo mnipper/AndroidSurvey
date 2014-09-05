@@ -23,6 +23,8 @@ public class Rule extends ReceiveModel {
     private Instrument mInstrument;
     @Column(name = "Params")
     private String mParams;
+    @Column(name = "StoredValues")
+    private String mStoredValues;
     @Column(name = "RemoteId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private Long mRemoteId;
     
@@ -31,9 +33,11 @@ public class Rule extends ReceiveModel {
     };
     
     public static final String MAX_SURVEYS_KEY = "max_surveys";
+    public static final String INSTRUMENT_SURVEY_COUNT_KEY = "instrument_survey_count";
     
     public Rule() {
         super();
+        mStoredValues = "";
     }
     
     public static Rule findByRuleTypeAndInstrument(RuleType ruleType, Instrument instrument) {
@@ -95,6 +99,36 @@ public class Rule extends ReceiveModel {
     
     public Instrument getInstrument() {
         return mInstrument;
+    }
+    
+    public <T> void setStoredValue(String key, T value) {
+        try {
+            JSONObject jsonObject = mStoredValues.equals("") ? new JSONObject() : new JSONObject(mStoredValues);
+            
+            if (AppUtil.DEBUG) Log.i(TAG, "Setting k: " + key + " to v: " + value);
+            
+            jsonObject.put(key, value);
+            mStoredValues = jsonObject.toString();
+        } catch (JSONException je) {
+            if (AppUtil.DEBUG) Log.e(TAG, "Error setting json for stored value: (k: " + key +", v: " + value + ") :" + je);
+        }
+    }
+    
+    public <T> T getStoredValue(String key) {
+        try {
+            JSONObject jsonObject = mStoredValues.equals("") ? new JSONObject() : new JSONObject(mStoredValues);
+            
+            if (AppUtil.DEBUG) Log.i(TAG, "Getting value for k: " + key);
+            
+            if (jsonObject.has(key)) {
+                return (T) jsonObject.get(key);
+            } else {
+                return null;
+            }
+        } catch (JSONException je) {
+            if (AppUtil.DEBUG) Log.e(TAG, "Error getting json value for stored value: (k: " + key +") :" + je);
+            return null;
+        }
     }
     
     /*

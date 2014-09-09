@@ -462,9 +462,11 @@ public class SurveyFragment extends Fragment {
 	}
 
 	private void addQuestionsToSkip(int responseIndex) {
-		Option selectedOption = mQuestion.options().get(responseIndex);
-		for (Question skipQuestion: selectedOption.questionsToSkip()){
-			mQuestionsToSkip.add(skipQuestion);
+		if (responseIndex < mQuestion.options().size()) {
+			Option selectedOption = mQuestion.options().get(responseIndex);
+			for (Question skipQuestion: selectedOption.questionsToSkip()){
+				mQuestionsToSkip.add(skipQuestion);
+			}
 		}
 	}
 

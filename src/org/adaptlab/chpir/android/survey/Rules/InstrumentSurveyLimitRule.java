@@ -6,6 +6,18 @@ import org.json.JSONException;
 
 import android.util.Log;
 
+/*
+ * Limit the number of surveys that can be created for a given
+ * instrument on a single device.  This actually keeps track of the
+ * number of surveys that have been created by storing the number of
+ * surveys created for each instrument in the stored values of the rule
+ * model.  It does not rely on the number of surveys currently on the
+ * device, since that may not be an indication of how many surveys have
+ * actually been created.
+ * 
+ * This will automatically update the number of surveys created for a given
+ * instrument/rule.
+ */
 public class InstrumentSurveyLimitRule implements PassableRule {
     private static final String TAG = "InstrumetSurveyLimitRule";
     
@@ -16,6 +28,12 @@ public class InstrumentSurveyLimitRule implements PassableRule {
         mInstrument = instrument;
     }
 
+   /*
+    * This will pass the rule if no rule exists for a given instrument (since
+    * no restriction has been placed on this instrument, it should definitely pass).
+    * 
+    * This rule will fail if there is a JSONException as a fail-safe.
+    */
     @Override
     public boolean passesRule() {
         if (getInstrumentRule() == null) return true;
@@ -41,6 +59,10 @@ public class InstrumentSurveyLimitRule implements PassableRule {
         return "You have failed the instrument survey limit rule!";
     }
     
+    /*
+     * Get the stored value for this given instrument rule for the number of surveys.
+     * If no value exists, initialize to 0 and return.
+     */
     private int getInstrumentSurveyCount() {
         Integer instrumentSurveyCount = getInstrumentRule().<Integer>getStoredValue(Rule.INSTRUMENT_SURVEY_COUNT_KEY);
         
@@ -51,6 +73,9 @@ public class InstrumentSurveyLimitRule implements PassableRule {
         return instrumentSurveyCount;
     }
     
+    /*
+     * Cache the mInstrumentRule if it is found.
+     */
     private Rule getInstrumentRule() {
         if (mInstrumentRule == null) {
             mInstrumentRule = Rule.findByRuleTypeAndInstrument(Rule.RuleType.INSTRUMENT_SURVEY_LIMIT_RULE, mInstrument);

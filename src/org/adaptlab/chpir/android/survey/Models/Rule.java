@@ -32,8 +32,13 @@ public class Rule extends ReceiveModel {
       INSTRUMENT_SURVEY_LIMIT_RULE, INSTRUMENT_TIMING_RULE
     };
     
+    // INSTRUMENT_SURVEY_RULE_LIMIT
     public static final String MAX_SURVEYS_KEY = "max_surveys";
     public static final String INSTRUMENT_SURVEY_COUNT_KEY = "instrument_survey_count";
+    
+    // INSTRUMENT_TIMING_RULE
+    public static final String START_TIME_KEY = "start_time";
+    public static final String END_TIME_KEY = "end_time";
     
     public Rule() {
         super();

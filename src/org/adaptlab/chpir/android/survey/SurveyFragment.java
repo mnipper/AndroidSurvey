@@ -14,6 +14,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
 import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
@@ -102,6 +103,7 @@ public class SurveyFragment extends Fragment {
         
         if (savedInstanceState != null) {
             mInstrument = Instrument.findByRemoteId(savedInstanceState.getLong(EXTRA_INSTRUMENT_ID));
+            if (!checkRules()) getActivity().finish();
             mQuestion = Question.findByRemoteId(savedInstanceState.getLong(EXTRA_QUESTION_ID));
             mSurvey = Survey.load(Survey.class, savedInstanceState.getLong(EXTRA_SURVEY_ID));
             mQuestionNumber = savedInstanceState.getInt(EXTRA_QUESTION_NUMBER);
@@ -114,7 +116,9 @@ public class SurveyFragment extends Fragment {
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
-
+            
+            if (!checkRules()) getActivity().finish();
+            
             loadOrCreateSurvey();
             loadOrCreateQuestion();               
         }
@@ -380,8 +384,7 @@ public class SurveyFragment extends Fragment {
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
-                
-        checkRules();       
+   
         return v;
     }
 
@@ -722,14 +725,8 @@ public class SurveyFragment extends Fragment {
 	private boolean checkRules() {
 	    return new RuleBuilder(getActivity())
             .addRule(new InstrumentSurveyLimitRule(mInstrument))
+            .addRule(new InstrumentTimingRule(mInstrument, getResources().getConfiguration().locale))
             .showToastOnFailure(true)
-            .setCallbacks(new RuleCallback() {           
-                public void onRulesPass() { }
-            
-                public void onRulesFail() {
-                    getActivity().finish();
-                }                
-            })
             .checkRules()
             .getResult();
 	}

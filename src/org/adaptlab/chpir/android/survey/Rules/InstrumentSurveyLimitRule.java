@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Rules;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Rule;
 import org.json.JSONException;
@@ -49,7 +50,7 @@ public class InstrumentSurveyLimitRule implements PassableRule {
                 return false;
             }
         } catch (JSONException je) {
-            Log.i(TAG, "JSON Exception when parsing JSON for rule: " + je);
+            Log.e(TAG, "JSON Exception when parsing JSON for rule: " + je);
             return false;
         }
     }

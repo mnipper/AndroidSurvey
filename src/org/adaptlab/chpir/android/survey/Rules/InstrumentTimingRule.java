@@ -63,8 +63,8 @@ public class InstrumentTimingRule implements PassableRule {
     private boolean isCurrentTimeInInterval(Date startTime, Date endTime, DateFormat timeFormat) {        
         try {
             Calendar now = Calendar.getInstance();
-            Date currentDate = timeFormat.parse(now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE));
-            return currentDate.after(startTime) && currentDate.before(endTime);
+            Date currentTime = timeFormat.parse(now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE));
+            return currentTime.after(startTime) && currentTime.before(endTime);
         } catch (ParseException pe) {
             Log.e(TAG, "Error parsing current time: " + pe);
             return false;

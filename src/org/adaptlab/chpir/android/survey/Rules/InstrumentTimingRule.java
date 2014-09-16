@@ -19,10 +19,12 @@ public class InstrumentTimingRule implements PassableRule {
     private Instrument mInstrument;
     private Locale mLocale;
     private Rule mInstrumentRule;
+    private String mFailureMessage;
     
-    public InstrumentTimingRule(Instrument instrument, Locale locale) {
+    public InstrumentTimingRule(Instrument instrument, Locale locale, String failureMessage) {
         mInstrument = instrument;
         mLocale = locale;
+        mFailureMessage = failureMessage;
     }
     
     @Override
@@ -47,7 +49,7 @@ public class InstrumentTimingRule implements PassableRule {
 
     @Override
     public String getFailureMessage() {
-        return "You cannot take a survey for this instrument at this time.";
+        return mFailureMessage;
     }
     
     /*

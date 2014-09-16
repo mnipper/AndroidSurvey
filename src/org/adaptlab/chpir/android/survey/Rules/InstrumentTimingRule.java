@@ -42,7 +42,7 @@ public class InstrumentTimingRule implements PassableRule {
             Log.e(TAG, "JSON Exception when parsing JSON for rule: " + je);
             return false;
         } catch (ParseException pe) {
-            Log.e(TAG, "Parse exception Exception when parsing date for rule: " + pe);
+            Log.e(TAG, "Parse Exception when parsing date for rule: " + pe);
             return false;
         }
     }

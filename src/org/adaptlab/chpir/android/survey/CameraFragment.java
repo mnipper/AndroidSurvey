@@ -7,9 +7,14 @@ import java.util.UUID;
 
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +22,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -41,6 +47,12 @@ public class CameraFragment extends Fragment {
 		fragment.setArguments(args);
 		return fragment;
 	}
+	
+//	@Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putString(EXTRA_RESPONSE_PHOTO, mPhoto);
+//	}
 
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
 		public void onShutter() {
@@ -67,17 +79,16 @@ public class CameraFragment extends Fragment {
 				} 
 			}
 			if (success) {
-				Log.i(TAG, filename + "is filename of picture");
 				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
 				picture.setPicturePath(filename);
 				picture.save();
-				Log.i(TAG, picture.getPicturePath() + " is path of picture");
 				releaseCamera();
 				popBackQuestionFragment();
 			} else {
 				Log.i(TAG, "Not Successful");
 			}
 		}
+
 	};
 
 	@Override
@@ -111,6 +122,7 @@ public class CameraFragment extends Fragment {
 			public void surfaceDestroyed(SurfaceHolder holder) {
 				if (mCamera != null) {
 					mCamera.stopPreview();
+					releaseCamera();
 				}
 			}
 
@@ -123,6 +135,7 @@ public class CameraFragment extends Fragment {
 				parameters.setPreviewSize(s.width, s.height);
 				mCamera.setParameters(parameters);
 				try {
+					setCameraDisplayOrientation(getActivity(), CAMERA, mCamera);
 					mCamera.startPreview();
 				} catch (Exception e) {
 					Log.e(TAG, "Unable to start preview",e);
@@ -135,6 +148,27 @@ public class CameraFragment extends Fragment {
 
 		return v;
 	}
+	
+	public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
+	     android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
+	     android.hardware.Camera.getCameraInfo(cameraId, info);
+	     int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+	     int degrees = 0;
+	     switch (rotation) {
+	         case Surface.ROTATION_0: degrees = 0; break;
+	         case Surface.ROTATION_90: degrees = 90; break;
+	         case Surface.ROTATION_180: degrees = 180; break;
+	         case Surface.ROTATION_270: degrees = 270; break;
+	     }
+	     int result;
+	     if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+	         result = (info.orientation + degrees) % 360;
+	         result = (360 - result) % 360;  // compensate the mirror
+	     } else {  // back-facing
+	         result = (info.orientation - degrees + 360) % 360;
+	     }
+	     camera.setDisplayOrientation(result);
+	 }
 
 	private Size getBestSupportedSize(List<Size> sizes, int width, int height) {
 		final double ASPECT_TOLERANCE = 0.1;

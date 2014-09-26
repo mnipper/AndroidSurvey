@@ -286,6 +286,10 @@ public class Question extends ReceiveModel {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
     
+    public static Question findByNumberInInstrument(Integer questionNumber) {
+    	return new Select().from(Question.class).where("NumberInInstrument = ?", questionNumber).executeSingle();
+    }
+    
     public boolean isFollowUpQuestion() {
         return (getFollowingUpQuestion() != null);
     }

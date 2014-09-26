@@ -16,7 +16,6 @@ import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
-import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.app.Activity;
@@ -64,6 +63,10 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.previous_questions";
     public final static String EXTRA_PARTICIPANT_METADATA =
             "org.adaptlab.chpir.android.survey.metadata";
+    public final static String EXTRA_QUESTIONS_TO_SKIP_IDS =
+            "org.adaptlab.chpir.android.survey.questions_to_skip_ids";
+    public final static String EXTRA_SKIPPED_QUESTIONS_IDS =
+            "org.adaptlab.chpir.android.survey.skipped_questions_ids";
    
     private Question mQuestion;
     private Instrument mInstrument;
@@ -76,8 +79,8 @@ public class SurveyFragment extends Fragment {
     // to save a Stack to the savedInstanceState, so it is represented as
     // an Integer array.
     private ArrayList<Integer> mPreviousQuestions;
-    private ArrayList<Question> mQuestionsToSkip;
-    private Set<Question> mSkippedQuestions;
+    private ArrayList<Integer> mQuestionsToSkip;
+    private Set<Integer> mSkippedQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -108,6 +111,9 @@ public class SurveyFragment extends Fragment {
             mSurvey = Survey.load(Survey.class, savedInstanceState.getLong(EXTRA_SURVEY_ID));
             mQuestionNumber = savedInstanceState.getInt(EXTRA_QUESTION_NUMBER);
             mPreviousQuestions = savedInstanceState.getIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS);
+            mQuestionsToSkip = savedInstanceState.getIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS);
+            ArrayList<Integer> skippedQuestions = savedInstanceState.getIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
+            mSkippedQuestions = new LinkedHashSet<Integer>(skippedQuestions);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
             mMetadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
@@ -210,8 +216,8 @@ public class SurveyFragment extends Fragment {
     
     public void loadOrCreateQuestion() {
         mPreviousQuestions = new ArrayList<Integer>();  
-        mQuestionsToSkip = new ArrayList<Question>();
-        mSkippedQuestions = new LinkedHashSet<Question>();
+        mQuestionsToSkip = new ArrayList<Integer>();
+        mSkippedQuestions = new LinkedHashSet<Integer>();
         Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
         if (questionId == -1) {
             mQuestion = mInstrument.questions().get(0);
@@ -274,6 +280,8 @@ public class SurveyFragment extends Fragment {
         outState.putLong(EXTRA_SURVEY_ID, mSurvey.getId());
         outState.putInt(EXTRA_QUESTION_NUMBER, mQuestionNumber);
         outState.putIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS, mPreviousQuestions);
+        outState.putIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS, mQuestionsToSkip);
+        outState.putIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS, new ArrayList<Integer>(mSkippedQuestions));
     }
     
     @Override
@@ -473,7 +481,7 @@ public class SurveyFragment extends Fragment {
 		if (responseIndex < mQuestion.options().size()) {
 			Option selectedOption = mQuestion.options().get(responseIndex);
 			for (Question skipQuestion: selectedOption.questionsToSkip()){
-				mQuestionsToSkip.add(skipQuestion);
+				mQuestionsToSkip.add(skipQuestion.getNumberInInstrument());
 			}
 		}
 	}
@@ -490,7 +498,7 @@ public class SurveyFragment extends Fragment {
 	}
     
     private Question getNextUnskippedQuestion(Question nextQuestion) {
-    	if (mQuestionsToSkip.contains(nextQuestion)) {
+    	if (mQuestionsToSkip.contains(nextQuestion.getNumberInInstrument())) {
         	if (isLastQuestion()) {
             	finishSurvey();
             } else {
@@ -509,7 +517,7 @@ public class SurveyFragment extends Fragment {
     private void clearSkipsForCurrentQuestion() {
     	if (!mQuestionsToSkip.isEmpty()) {
 	    	for (Question question : mQuestion.questionsToSkip()) {
-	    		mQuestionsToSkip.remove(question);
+	    		mQuestionsToSkip.remove(question.getNumberInInstrument());
 	    	} 
     	}
     } 
@@ -518,15 +526,15 @@ public class SurveyFragment extends Fragment {
     	if (nullResponse() || emptyResponse() || skippedResponse() ) {   		
     		if (pictureResponseQuestion()) {
 				if (mQuestionFragment.getResponsePhoto().getPicturePath() == null) {
-					mSkippedQuestions.add(mQuestion);
+					mSkippedQuestions.add(mQuestion.getNumberInInstrument());
 				} else {
-					mSkippedQuestions.remove(mQuestion);
+					mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
 				}	
     		} else {
-    			mSkippedQuestions.add(mQuestion);
+    			mSkippedQuestions.add(mQuestion.getNumberInInstrument());
     		}
     	} else {
-    		mSkippedQuestions.remove(mQuestion);
+    		mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
     	}
     }
     
@@ -601,7 +609,8 @@ public class SurveyFragment extends Fragment {
     	setSurveyLocation();
     	if (!mSkippedQuestions.isEmpty()) {
     		ArrayList<String> skippedQuestions = new ArrayList<String>();
-    		for (Question question : mSkippedQuestions) {
+    		for (Integer questionNumber : mSkippedQuestions) {
+    			Question question = Question.findByNumberInInstrument(questionNumber);
     			skippedQuestions.add(question.getQuestionIdentifier());
     		}
     		Intent i = new Intent(getActivity(), ReviewPageActivity.class);

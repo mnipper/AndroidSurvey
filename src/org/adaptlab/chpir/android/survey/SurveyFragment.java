@@ -13,6 +13,7 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
@@ -739,6 +740,8 @@ public class SurveyFragment extends Fragment {
                     getActivity().getString(R.string.rule_failure_instrument_survey_limit)))
             .addRule(new InstrumentTimingRule(mInstrument, getResources().getConfiguration().locale,
                     getActivity().getString(R.string.rule_failure_survey_timing)))
+            .addRule(new InstrumentSurveyLimitPerMinuteRule(mInstrument,
+                    getActivity().getString(R.string.rule_instrument_survey_limit_per_minute)))
             .showToastOnFailure(true)
             .checkRules()
             .getResult();

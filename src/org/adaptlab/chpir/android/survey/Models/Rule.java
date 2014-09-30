@@ -29,7 +29,7 @@ public class Rule extends ReceiveModel {
     private Long mRemoteId;
     
     public static enum RuleType {
-      INSTRUMENT_SURVEY_LIMIT_RULE, INSTRUMENT_TIMING_RULE
+      INSTRUMENT_SURVEY_LIMIT_RULE, INSTRUMENT_TIMING_RULE, INSTRUMENT_SURVEY_LIMIT_PER_MINUTE_RULE
     };
     
     // INSTRUMENT_SURVEY_RULE_LIMIT
@@ -39,6 +39,11 @@ public class Rule extends ReceiveModel {
     // INSTRUMENT_TIMING_RULE
     public static final String START_TIME_KEY = "start_time";
     public static final String END_TIME_KEY = "end_time";
+    
+    // INSTRUMENT_SURVEY_LIMIT_PER_MINUTE_RULE
+    public static final String NUM_SURVEYS_KEY = "num_surveys";
+    public static final String MINUTE_INTERVAL_KEY = "minute_interval";
+    public static final String SURVEY_TIMESTAMPS_KEY = "survey_timestamps";
     
     public Rule() {
         super();

@@ -18,11 +18,11 @@ import android.util.Log;
  * This will automatically update the number of surveys created for a given
  * instrument/rule.
  */
-public class InstrumentSurveyLimitRule implements PassableRule {
+public class InstrumentSurveyLimitRule extends PassableRule {
     private static final String TAG = "InstrumetSurveyLimitRule";
+    private static final Rule.RuleType RULE_TYPE = Rule.RuleType.INSTRUMENT_SURVEY_LIMIT_RULE;
     
     private Instrument mInstrument;
-    private Rule mInstrumentRule;
     private String mFailureMessage;
 
     public InstrumentSurveyLimitRule(Instrument instrument, String failureMessage) {
@@ -38,14 +38,15 @@ public class InstrumentSurveyLimitRule implements PassableRule {
     */
     @Override
     public boolean passesRule() {
-        if (getInstrumentRule() == null) return true;
+        if (getInstrumentRule(mInstrument, RULE_TYPE) == null) return true;
         
         try {
-            int maxSurveys = getInstrumentRule().getParamJSON().getInt(Rule.MAX_SURVEYS_KEY);
-            int instrumentSurveyCount = getInstrumentSurveyCount();
+            Rule instrumentRule = getInstrumentRule(mInstrument, RULE_TYPE);
+            int maxSurveys = instrumentRule.getParamJSON().getInt(Rule.MAX_SURVEYS_KEY);
+            int instrumentSurveyCount = getInstrumentSurveyCount(instrumentRule);
             if (++instrumentSurveyCount <= maxSurveys) {
-                mInstrumentRule.setStoredValue(Rule.INSTRUMENT_SURVEY_COUNT_KEY, instrumentSurveyCount);
-                mInstrumentRule.save();
+                instrumentRule.setStoredValue(Rule.INSTRUMENT_SURVEY_COUNT_KEY, instrumentSurveyCount);
+                instrumentRule.save();
                 return true;
             } else {
                 return false;
@@ -65,23 +66,13 @@ public class InstrumentSurveyLimitRule implements PassableRule {
      * Get the stored value for this given instrument rule for the number of surveys.
      * If no value exists, initialize to 0 and return.
      */
-    private int getInstrumentSurveyCount() {
-        Integer instrumentSurveyCount = getInstrumentRule().<Integer>getStoredValue(Rule.INSTRUMENT_SURVEY_COUNT_KEY);
+    private int getInstrumentSurveyCount(Rule instrumentRule) {
+        Integer instrumentSurveyCount = instrumentRule.<Integer>getStoredValue(Rule.INSTRUMENT_SURVEY_COUNT_KEY);
         
         if (instrumentSurveyCount == null) {
             instrumentSurveyCount = 0;
         }
         
         return instrumentSurveyCount;
-    }
-    
-    /*
-     * Cache the mInstrumentRule if it is found.
-     */
-    private Rule getInstrumentRule() {
-        if (mInstrumentRule == null) {
-            mInstrumentRule = Rule.findByRuleTypeAndInstrument(Rule.RuleType.INSTRUMENT_SURVEY_LIMIT_RULE, mInstrument);
-        }
-        return mInstrumentRule;
     }
 }

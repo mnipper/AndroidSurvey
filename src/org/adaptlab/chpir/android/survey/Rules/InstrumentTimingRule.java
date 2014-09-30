@@ -13,12 +13,12 @@ import org.json.JSONException;
 
 import android.util.Log;
 
-public class InstrumentTimingRule implements PassableRule {
-    private static final String TAG = "InstrumentTimingRule";
+public class InstrumentTimingRule extends PassableRule {
+    private static final String TAG = "InstrumentTimingRule";    
+    private static final Rule.RuleType RULE_TYPE = Rule.RuleType.INSTRUMENT_TIMING_RULE;
     
     private Instrument mInstrument;
     private Locale mLocale;
-    private Rule mInstrumentRule;
     private String mFailureMessage;
     
     public InstrumentTimingRule(Instrument instrument, Locale locale, String failureMessage) {
@@ -29,13 +29,13 @@ public class InstrumentTimingRule implements PassableRule {
     
     @Override
     public boolean passesRule() {
-        if (getInstrumentRule() == null) return true;
+        if (super.getInstrumentRule(mInstrument, RULE_TYPE) == null) return true;
         
         try {            
             DateFormat timeFormat = new SimpleDateFormat("HH:mm", mLocale);
             
-            Date startTime = timeFormat.parse(getInstrumentRule().getParamJSON().getString(Rule.START_TIME_KEY));
-            Date endTime = timeFormat.parse(getInstrumentRule().getParamJSON().getString(Rule.END_TIME_KEY));
+            Date startTime = timeFormat.parse(getInstrumentRule(mInstrument, RULE_TYPE).getParamJSON().getString(Rule.START_TIME_KEY));
+            Date endTime = timeFormat.parse(getInstrumentRule(mInstrument, RULE_TYPE).getParamJSON().getString(Rule.END_TIME_KEY));
 
             return isCurrentTimeInInterval(startTime, endTime, timeFormat);
         } catch (JSONException je) {
@@ -50,16 +50,6 @@ public class InstrumentTimingRule implements PassableRule {
     @Override
     public String getFailureMessage() {
         return mFailureMessage;
-    }
-    
-    /*
-     * Cache the mInstrumentRule if it is found.
-     */
-    private Rule getInstrumentRule() {
-        if (mInstrumentRule == null) {
-            mInstrumentRule = Rule.findByRuleTypeAndInstrument(Rule.RuleType.INSTRUMENT_TIMING_RULE, mInstrument);
-        }
-        return mInstrumentRule;
     }
     
     private boolean isCurrentTimeInInterval(Date startTime, Date endTime, DateFormat timeFormat) {        

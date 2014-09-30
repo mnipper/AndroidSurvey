@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class RearPictureQuestionFragment extends PictureQuestionFragment {
-	private static final int REAR_CAMERA = 0;
 	private static final String TAG = "RearPictureQuestionFragment";
 	private Button mCameraButton;
 
@@ -30,8 +29,7 @@ public class RearPictureQuestionFragment extends PictureQuestionFragment {
 				public void onClick(View v) {
 					FragmentManager fm = getActivity().getSupportFragmentManager();     
 					FragmentTransaction transaction = fm.beginTransaction();
-					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto());
-					mCameraFragment.CAMERA = REAR_CAMERA;
+					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto(), REAR_CAMERA);
 					transaction.replace(R.id.fragmentContainer, mCameraFragment);
 					transaction.addToBackStack(null); 
 					transaction.commit();

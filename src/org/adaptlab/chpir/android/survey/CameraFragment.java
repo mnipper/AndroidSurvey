@@ -9,12 +9,8 @@ import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
-import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,26 +29,29 @@ public class CameraFragment extends Fragment {
 	private static final String TAG = "CameraFragment";
 	public static final String EXTRA_PHOTO_FILENAME = "CameraFragment.filename";
 	public static final String EXTRA_RESPONSE_PHOTO = "CameraFragment.photo";
-	public int CAMERA;
+	public static final String EXTRA_CAMERA = "CameraFragment.camera_index";
+	public static int CAMERA;
 	private View mProgressIndicator;
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
 	private static ResponsePhoto mPhoto;
 	
-	public static CameraFragment newCameraFragmentInstance(ResponsePhoto picture) {
+	public static CameraFragment newCameraFragmentInstance(ResponsePhoto picture, int camera_index) {
 		mPhoto = picture;
+		CAMERA = camera_index;
 		Bundle args = new Bundle();
 		args.putSerializable(EXTRA_RESPONSE_PHOTO,  mPhoto);
+		args.putSerializable(EXTRA_CAMERA, CAMERA);
 		CameraFragment fragment = new CameraFragment();
 		fragment.setArguments(args);
 		return fragment;
 	}
 	
-//	@Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putString(EXTRA_RESPONSE_PHOTO, mPhoto);
-//	}
+	@Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(EXTRA_CAMERA, CAMERA);
+	}
 
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
 		public void onShutter() {
@@ -81,6 +80,8 @@ public class CameraFragment extends Fragment {
 			if (success) {
 				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
 				picture.setPicturePath(filename);
+				picture.setCameraOrientation(getResources().getConfiguration().orientation);
+				picture.setCamera(CAMERA);
 				picture.save();
 				releaseCamera();
 				popBackQuestionFragment();
@@ -130,11 +131,11 @@ public class CameraFragment extends Fragment {
 				if (mCamera == null) {
 					return;
 				}
-				Camera.Parameters parameters = mCamera.getParameters();
-				Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
-				parameters.setPreviewSize(s.width, s.height);
-				mCamera.setParameters(parameters);
 				try {
+					Camera.Parameters parameters = mCamera.getParameters();
+					Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
+					parameters.setPreviewSize(s.width, s.height);
+					mCamera.setParameters(parameters);
 					setCameraDisplayOrientation(getActivity(), CAMERA, mCamera);
 					mCamera.startPreview();
 				} catch (Exception e) {

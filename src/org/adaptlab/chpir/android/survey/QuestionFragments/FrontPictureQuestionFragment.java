@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class FrontPictureQuestionFragment extends PictureQuestionFragment {
-    private static final int FRONT_CAMERA = 1;
 	private static final String TAG = "FrontPictureQuestionFragment";
 	private Button mCameraButton;
     @Override
@@ -30,8 +29,7 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 				public void onClick(View v) {
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					FragmentTransaction transaction = fm.beginTransaction();
-					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto());
-					mCameraFragment.CAMERA = FRONT_CAMERA;
+					mCameraFragment = CameraFragment.newCameraFragmentInstance(getResponsePhoto(), FRONT_CAMERA);
 					transaction.replace(R.id.fragmentContainer, mCameraFragment);
 					transaction.addToBackStack(null);
 					transaction.commit();

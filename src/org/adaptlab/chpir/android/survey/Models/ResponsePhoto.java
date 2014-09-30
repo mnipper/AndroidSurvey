@@ -31,6 +31,10 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	private String mPicturePath;
 	@Column(name = "ResponseUUID")
 	private String mResponseUUID;
+	@Column(name = "CameraOrientation")
+	private Integer mCameraOrientation;
+	@Column(name = "Camera")
+	private Integer mCamera;
 		
 	public ResponsePhoto() {
 		super();
@@ -123,5 +127,21 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	public static List<ResponsePhoto> getAll() {
         return new Select().from(ResponsePhoto.class).orderBy("Id ASC").execute();
     }
+	
+	public void setCameraOrientation(int orientation) {
+		mCameraOrientation = orientation;
+	}
+	
+	public int getCameraOrientation() {
+		return mCameraOrientation;
+	}
+	
+	public void setCamera(int camera) {
+		mCamera = camera;
+	}
+	
+	public int getCamera() {
+		return mCamera;
+	}
 
 }

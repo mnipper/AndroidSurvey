@@ -1,7 +1,5 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
-import java.io.IOException;
-
 import org.adaptlab.chpir.android.survey.CameraFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 
@@ -9,17 +7,20 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 public abstract class PictureQuestionFragment extends QuestionFragment {
+	public static final int REAR_CAMERA = 0;
+    public static final int FRONT_CAMERA = 1;
 	public static final int REQUEST_PHOTO = 0;
 	private static final String TAG = "PictureQuestionFragment";
 	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_picture";
 	protected CameraFragment mCameraFragment;
 	protected ImageView mPhotoView;
 	private Bitmap mBitmap;
+	
 	@Override
 	protected abstract void createQuestionComponent(ViewGroup questionComponent);
 
@@ -49,52 +50,25 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 			String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
 			mBitmap = BitmapFactory.decodeFile(path);
 			mPhotoView.setImageBitmap(mBitmap);
-			checkDeviceOrientation();
+			rotateImageView();
 		} else {
 			int resId = getResources().getIdentifier(DEFAULT, null, null);
 			mPhotoView.setImageResource(resId);
 		}
 	}
 
-	private void checkDeviceOrientation() {
+	private void rotateImageView() {
 		int deviceOrientation = getResources().getConfiguration().orientation;
-		String path = getActivity().getFileStreamPath(getResponsePhoto().getPicturePath()).getAbsolutePath();
-		ExifInterface ei = null;
-		try {
-			ei = new ExifInterface(path);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		int fileOrientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-		if (deviceOrientation == Configuration.ORIENTATION_PORTRAIT) {
-			switch(fileOrientation) {
-			case ExifInterface.ORIENTATION_ROTATE_90:
-				mPhotoView.setRotation(90);
-				break;
-			case ExifInterface.ORIENTATION_ROTATE_180:
-				mPhotoView.setRotation(180);
-				break; 
-			case ExifInterface.ORIENTATION_ROTATE_270:
-				mPhotoView.setRotation(270);
-				break;
-			default:
-				mPhotoView.setRotation(90);
-			}
-		} else if (deviceOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-			switch(fileOrientation) {
-			case ExifInterface.ORIENTATION_ROTATE_90:
-				mPhotoView.setRotation(90);
-				break;
-			case ExifInterface.ORIENTATION_ROTATE_180:
-				mPhotoView.setRotation(180);
-				break; 
-			case ExifInterface.ORIENTATION_ROTATE_270:
-				mPhotoView.setRotation(270);
-				break;
-			default:
-				mPhotoView.setRotation(180);
-			}
-		}
+		int originalOrientation = getResponsePhoto().getCameraOrientation();
+		int camera = getResponsePhoto().getCamera();
+		Log.i(TAG, "CAMERA: " + camera + " ORIENTATION: " + deviceOrientation);		
+		if (camera == FRONT_CAMERA && originalOrientation == Configuration.ORIENTATION_PORTRAIT) {
+			mPhotoView.setRotation(-90);
+		} else if (camera == REAR_CAMERA && originalOrientation == Configuration.ORIENTATION_PORTRAIT) {
+			mPhotoView.setRotation(90);
+		} else if (originalOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+			mPhotoView.setRotation(180);
+		} 
 	}
 
 }

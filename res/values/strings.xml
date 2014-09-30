@@ -78,4 +78,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="invalid_username_or_password">Invalid username or password.</string>
+    <string name="rule_failure_survey_timing">You cannot take a survey for this instrument at this time.</string>
+    <string name="rule_failure_instrument_survey_limit">You cannot take a survey for this instrument.  You have taken the maximum number of surveys allowed.</string>
 </resources>

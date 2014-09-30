@@ -735,8 +735,10 @@ public class SurveyFragment extends Fragment {
 	
 	private boolean checkRules() {
 	    return new RuleBuilder(getActivity())
-            .addRule(new InstrumentSurveyLimitRule(mInstrument))
-            .addRule(new InstrumentTimingRule(mInstrument, getResources().getConfiguration().locale))
+            .addRule(new InstrumentSurveyLimitRule(mInstrument,
+                    getActivity().getString(R.string.rule_failure_instrument_survey_limit)))
+            .addRule(new InstrumentTimingRule(mInstrument, getResources().getConfiguration().locale,
+                    getActivity().getString(R.string.rule_failure_survey_timing)))
             .showToastOnFailure(true)
             .checkRules()
             .getResult();

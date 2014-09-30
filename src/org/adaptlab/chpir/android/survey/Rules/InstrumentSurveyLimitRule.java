@@ -1,6 +1,5 @@
 package org.adaptlab.chpir.android.survey.Rules;
 
-import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Rule;
 import org.json.JSONException;
@@ -24,9 +23,11 @@ public class InstrumentSurveyLimitRule implements PassableRule {
     
     private Instrument mInstrument;
     private Rule mInstrumentRule;
+    private String mFailureMessage;
 
-    public InstrumentSurveyLimitRule(Instrument instrument) {
+    public InstrumentSurveyLimitRule(Instrument instrument, String failureMessage) {
         mInstrument = instrument;
+        mFailureMessage = failureMessage;
     }
 
    /*
@@ -57,7 +58,7 @@ public class InstrumentSurveyLimitRule implements PassableRule {
     
     @Override
     public String getFailureMessage() {
-        return "You have failed the instrument survey limit rule!";
+        return mFailureMessage;
     }
     
     /*

@@ -19,10 +19,12 @@ public class InstrumentTimingRule implements PassableRule {
     private Instrument mInstrument;
     private Locale mLocale;
     private Rule mInstrumentRule;
+    private String mFailureMessage;
     
-    public InstrumentTimingRule(Instrument instrument, Locale locale) {
+    public InstrumentTimingRule(Instrument instrument, Locale locale, String failureMessage) {
         mInstrument = instrument;
         mLocale = locale;
+        mFailureMessage = failureMessage;
     }
     
     @Override
@@ -40,14 +42,14 @@ public class InstrumentTimingRule implements PassableRule {
             Log.e(TAG, "JSON Exception when parsing JSON for rule: " + je);
             return false;
         } catch (ParseException pe) {
-            Log.e(TAG, "Parse exception Exception when parsing date for rule: " + pe);
+            Log.e(TAG, "Parse Exception when parsing date for rule: " + pe);
             return false;
         }
     }
 
     @Override
     public String getFailureMessage() {
-        return "You cannot take a survey for this instrument at this time.";
+        return mFailureMessage;
     }
     
     /*

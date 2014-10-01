@@ -180,7 +180,7 @@ public class Response extends SendModel {
 	}
 	
 	public ResponsePhoto getResponsePhoto() {
-		return new Select().from(ResponsePhoto.class).where("ResponseUUID = ?", getUUID()).executeSingle();
+		return new Select().from(ResponsePhoto.class).where("Response = ?", getId()).executeSingle();
 	}
     
     @Override

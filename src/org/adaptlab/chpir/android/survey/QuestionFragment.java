@@ -24,11 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
-import com.activeandroid.util.Log;
 
 public abstract class QuestionFragment extends Fragment {
-	private final static String TAG = "QuestionFragment";
-    protected final static String LIST_DELIMITER = ",";
+	protected final static String LIST_DELIMITER = ",";
     protected abstract void createQuestionComponent(ViewGroup questionComponent);
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
@@ -58,7 +56,6 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setQuestion(mQuestion);
             mResponse.setSurvey(mSurvey);
             mInstrument = mSurvey.getInstrument();
-            createResponsePhoto();
         }
         
         saveTimeStarted();
@@ -96,8 +93,8 @@ public abstract class QuestionFragment extends Fragment {
         return mInstrument;
     }
     
-    public ResponsePhoto getResponsePhoto() {
-    	return mResponse.getResponsePhoto();
+    protected ResponsePhoto getResponsePhoto() {
+    	return getResponse().getResponsePhoto();
     }
     
     /*
@@ -185,19 +182,6 @@ public abstract class QuestionFragment extends Fragment {
         } else {
             return new Response();
         }
-    }
-    
-    private void createResponsePhoto() {
-    	if (mQuestion.getQuestionType() == Question.QuestionType.REAR_PICTURE || 
-    			mQuestion.getQuestionType() == Question.QuestionType.FRONT_PICTURE) {
-	    	if (mResponse.getResponsePhoto() == null) {
-	    	    if (AppUtil.DEBUG) Log.i(TAG, "creating new response photo");
-	    		ResponsePhoto photo = new ResponsePhoto();
-	    		photo.setResponse(mResponse);
-	    		photo.setResponseUUID(mResponse.getUUID());
-	    		photo.save();
-	        } 
-    	}
     }
     
     private void animateValidationTextView(boolean valid) {        

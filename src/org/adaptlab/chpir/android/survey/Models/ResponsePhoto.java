@@ -29,8 +29,6 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	private Response mResponse;
 	@Column(name = "PicturePath")
 	private String mPicturePath;
-	@Column(name = "ResponseUUID")
-	private String mResponseUUID;
 	@Column(name = "CameraOrientation")
 	private Integer mCameraOrientation;
 	@Column(name = "Camera")
@@ -47,7 +45,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
         
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("response_uuid",  mResponseUUID);
+            jsonObject.put("response_uuid",  getResponse().getUUID());
             jsonObject.put("picture_data", getEncodedImage());  
             json.put("response_image", jsonObject);
         } catch (JSONException je) {
@@ -58,7 +56,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	
 	public String getEncodedImage() {
 		String encodedImage = "";
-		if (getPicturePath() != null) {
+		if (getPicturePath() != null && getPicturePath() != "") {
 			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
 			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 			encodedImage = encodeImage(bitmap);
@@ -99,10 +97,6 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	
 	public void setResponse(Response response) {
 		mResponse = response;
-	}
-	
-	public void setResponseUUID(String uuid) {
-		mResponseUUID = uuid;
 	}
 	
 	public Response getResponse() {

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +17,8 @@ import android.widget.LinearLayout;
 public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 	private static final String TAG = "FrontPictureQuestionFragment";
 	private Button mCameraButton;
-    @Override
+    
+	@Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
 
 		if (isCameraAvailable()) {
@@ -36,6 +38,9 @@ public class FrontPictureQuestionFragment extends PictureQuestionFragment {
 				}
 			});
 			mPhotoView = new ImageView(getActivity());
+			LinearLayout.LayoutParams photoLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			photoLayout.topMargin = 300;
+			mPhotoView.setLayoutParams(photoLayout);			
 			showPhoto();
 			questionComponent.addView(mCameraButton);
 			questionComponent.addView(mPhotoView);

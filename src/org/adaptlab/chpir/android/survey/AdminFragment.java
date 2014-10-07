@@ -109,14 +109,10 @@ public class AdminFragment extends Fragment {
                 // for all instrument translations.
                 AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
                 
-                PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
-                
-                // Restart the polling immediately with new interval.
-                // This immediately hits the server again upon save.
-                PollService.restartServiceAlarm(getActivity().getApplicationContext());
-                
+                PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());                
                 ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
+                AppUtil.startApkUpdate();
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());
                 AdminSettings.getInstance().setShowSkip(mShowSkipCheckBox.isChecked());

@@ -66,9 +66,7 @@ public class AppUtil {
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
         ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();  
-        
-        new ApkUpdateTask(mContext).execute();
-        
+                
         if (!BuildConfig.DEBUG)
             Crashlytics.start(context);
         
@@ -97,7 +95,16 @@ public class AppUtil {
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
 
-        PollService.setServiceAlarm(context.getApplicationContext(), true);
+        startApkUpdate();
+
+    }
+    
+    public static void startApkUpdate() {
+    	new ApkUpdateTask(mContext).execute();
+    }
+    
+    public static void startPollService() {
+    	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
     }
     
     /*

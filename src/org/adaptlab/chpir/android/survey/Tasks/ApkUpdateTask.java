@@ -61,6 +61,8 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 	                   public void onClick(DialogInterface dialog, int id) {}
 	            }).show();
+	        } else {
+	        	AppUtil.startPollService();
 	        }
 		}
 	}

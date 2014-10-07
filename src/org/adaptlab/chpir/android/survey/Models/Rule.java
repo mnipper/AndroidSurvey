@@ -83,8 +83,14 @@ public class Rule extends ReceiveModel {
             rule.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
             rule.setParams(jsonObject.getString("rule_params"));
             rule.setRemoteId(remoteId);
-            rule.save();
-            
+            if (jsonObject.isNull("deleted_at")) {
+                rule.save();
+            } else {
+                Rule deletedRule = Rule.findByRemoteId(remoteId);
+                if (deletedRule != null) {
+                    deletedRule.delete();
+                }
+            }
         } catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }

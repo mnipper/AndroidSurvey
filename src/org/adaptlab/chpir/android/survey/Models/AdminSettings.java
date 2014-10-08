@@ -110,6 +110,9 @@ public class AdminSettings extends Model {
     }
     
     public void setApiDomainName(String apiUrl) {
+        char lastChar = apiUrl.charAt(apiUrl.length() - 1);
+        if (lastChar != '/') apiUrl = apiUrl + "/";
+        
         mApiUrl = apiUrl;
         save();
     }

@@ -1,10 +1,8 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.util.TimeZone;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
 import org.adaptlab.chpir.android.survey.Models.Image;
@@ -95,16 +93,7 @@ public class AppUtil {
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
 
-        startApkUpdate();
-
-    }
-    
-    public static void startApkUpdate() {
-    	new ApkUpdateTask(mContext).execute();
-    }
-    
-    public static void startPollService() {
-    	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
+        new ApkUpdateTask(mContext).execute();
     }
     
     /*

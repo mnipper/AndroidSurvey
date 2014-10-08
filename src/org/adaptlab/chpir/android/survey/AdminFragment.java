@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Tasks.ApkUpdateTask;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -112,7 +113,7 @@ public class AdminFragment extends Fragment {
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());                
                 ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
-                AppUtil.startApkUpdate();
+                new ApkUpdateTask(getActivity()).execute();
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());
                 AdminSettings.getInstance().setShowSkip(mShowSkipCheckBox.isChecked());

@@ -69,7 +69,6 @@ public abstract class PictureQuestionFragment extends QuestionFragment {
 
 	protected boolean showPhoto() {
 		String filename = mPhoto.getPicturePath();
-		Log.i(TAG, "PHOTO FILE NAME ON SHOWPHOTO(): " + filename);
 		if (filename != null && filename != "") {
 			String path = getActivity().getFileStreamPath(filename).getAbsolutePath();
 			mBitmap = BitmapFactory.decodeFile(path);

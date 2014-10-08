@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -556,6 +557,20 @@ public class SurveyFragment extends Fragment {
     	 return (mQuestion.getQuestionType() == QuestionType.FRONT_PICTURE || mQuestion.getQuestionType() == QuestionType.REAR_PICTURE);
     }
     
+    private boolean isInstructionsQuestion(Question question) {
+    	return (question.getQuestionType() == QuestionType.INSTRUCTIONS);
+    }
+    
+    private void removeInstructionsQuestions() {
+    	for (Iterator<Integer> iterator = mSkippedQuestions.iterator(); iterator.hasNext();) {
+    	    Integer next = iterator.next();
+			Question question = Question.findByNumberInInstrument(next, mInstrument.getId());
+    	    if (isInstructionsQuestion(question)) {
+    	        iterator.remove();
+    	    }
+    	}
+    }
+    
     /*
      * Switch out the next question with a fragment from the
      * QuestionFragmentFactory.  Increment the question to
@@ -607,6 +622,7 @@ public class SurveyFragment extends Fragment {
     */
     public void finishSurvey() {
     	setSkippedForReview(); //To check if last question is skipped
+    	removeInstructionsQuestions();
     	setSurveyLocation();
     	if (!mSkippedQuestions.isEmpty()) {
     		ArrayList<String> skippedQuestions = new ArrayList<String>();

@@ -8,6 +8,12 @@ import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentLaunchRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
+import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
+import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.DownloadImagesTask;
 
 import android.app.ActionBar;
@@ -273,7 +279,7 @@ public class InstrumentFragment extends ListFragment {
         }
 
 		@Override
-        protected void onPostExecute(Long instrumentId) {
+        protected void onPostExecute(final Long instrumentId) {
             try {
                 mProgressDialog.dismiss();  
             } catch (IllegalArgumentException iae) { 
@@ -283,9 +289,20 @@ public class InstrumentFragment extends ListFragment {
                 if (instrumentId == Long.valueOf(-1)) {
                     Toast.makeText(getActivity(), R.string.instrument_not_loaded, Toast.LENGTH_LONG).show();
                 } else {
-                    Intent i = new Intent(getActivity(), SurveyActivity.class);
-                    i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
-                    startActivity(i);
+                    new RuleBuilder(getActivity())
+                    .addRule(new InstrumentLaunchRule(Instrument.findByRemoteId(instrumentId),
+                            getActivity().getString(R.string.rule_failure_instrument_launch)))
+                    .showToastOnFailure(true)
+                    .setCallbacks(new RuleCallback() {
+                        public void onRulesPass() {
+                            Intent i = new Intent(getActivity(), SurveyActivity.class);
+                            i.putExtra(SurveyFragment.EXTRA_INSTRUMENT_ID, instrumentId);
+                            startActivity(i);
+                        }
+
+                        public void onRulesFail() { }                        
+                    })
+                    .checkRules();
                 }
             }
         }

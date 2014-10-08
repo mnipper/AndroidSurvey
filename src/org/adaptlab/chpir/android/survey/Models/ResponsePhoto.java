@@ -22,7 +22,6 @@ import com.activeandroid.query.Select;
 public class ResponsePhoto extends SendModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "ResponsePhoto";
-	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_photo_unavailable";
 	@Column(name = "SentToRemote")
 	private boolean mSent;
 	@Column(name = "Response", onDelete = Column.ForeignKeyAction.SET_NULL)

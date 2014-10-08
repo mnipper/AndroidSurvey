@@ -611,13 +611,13 @@ public class SurveyFragment extends Fragment {
     	if (!mSkippedQuestions.isEmpty()) {
     		ArrayList<String> skippedQuestions = new ArrayList<String>();
     		for (Integer questionNumber : mSkippedQuestions) {
-    			Question question = Question.findByNumberInInstrument(questionNumber);
+    			Question question = Question.findByNumberInInstrument(questionNumber, mInstrument.getId());
     			skippedQuestions.add(question.getQuestionIdentifier());
     		}
     		Intent i = new Intent(getActivity(), ReviewPageActivity.class);
     		Bundle b = new Bundle();
-    		b.putStringArrayList(ReviewPageFragment.EXTRA_SKIPPED_QUESTIONS_IDS, skippedQuestions);
-    		b.putLong(ReviewPageFragment.EXTRA_SURVEY_ID, mSurvey.getId());
+    		b.putStringArrayList(ReviewPageFragment.EXTRA_REVIEW_QUESTION_IDS, skippedQuestions);
+    		b.putLong(ReviewPageFragment.EXTRA_REVIEW_SURVEY_ID, mSurvey.getId());
     		i.putExtras(b);
     		startActivityForResult(i, REVIEW_CODE);
     	} 

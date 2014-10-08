@@ -286,8 +286,8 @@ public class Question extends ReceiveModel {
         return new Select().from(Question.class).where("QuestionIdentifier = ?", identifier).executeSingle();
     }
     
-    public static Question findByNumberInInstrument(Integer questionNumber) {
-    	return new Select().from(Question.class).where("NumberInInstrument = ?", questionNumber).executeSingle();
+    public static Question findByNumberInInstrument(Integer questionNumber, Long instrumentId) {
+    	return new Select().from(Question.class).where("NumberInInstrument = ? AND Instrument = ?", questionNumber, instrumentId).executeSingle();
     }
     
     public boolean isFollowUpQuestion() {

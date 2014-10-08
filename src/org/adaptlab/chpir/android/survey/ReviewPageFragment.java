@@ -22,8 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ReviewPageFragment extends ListFragment {
-	public final static String EXTRA_SKIPPED_QUESTIONS_IDS = "org.adaptlab.chpir.android.survey.skipped_questions_ids";
-	public final static String EXTRA_SURVEY_ID = "org.adaptlab.chpir.android.survey.current_survey_id";
+	public final static String EXTRA_REVIEW_QUESTION_IDS = "org.adaptlab.chpir.android.survey.review_question_ids";
+	public final static String EXTRA_REVIEW_SURVEY_ID = "org.adaptlab.chpir.android.survey.review_survey_id";
 	private ArrayList<Question> mSkippedQuestions;
 	private Survey mSurvey;
 	
@@ -33,8 +33,8 @@ public class ReviewPageFragment extends ListFragment {
         setHasOptionsMenu(true);
         mSkippedQuestions = new ArrayList<Question>();
         ArrayList<String> skippedQuestionsIds = new ArrayList<String>();
-    	skippedQuestionsIds = getActivity().getIntent().getExtras().getStringArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
-    	mSurvey = Survey.load(Survey.class, getActivity().getIntent().getExtras().getLong(EXTRA_SURVEY_ID));
+    	skippedQuestionsIds = getActivity().getIntent().getExtras().getStringArrayList(EXTRA_REVIEW_QUESTION_IDS);
+    	mSurvey = Survey.load(Survey.class, getActivity().getIntent().getExtras().getLong(EXTRA_REVIEW_SURVEY_ID));
     	for (String id : skippedQuestionsIds) {
     		Question q = Question.findByQuestionIdentifier(id);
     		if (q != null) {

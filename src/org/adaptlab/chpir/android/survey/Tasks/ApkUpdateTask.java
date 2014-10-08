@@ -11,6 +11,7 @@ import java.net.URL;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
+import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
@@ -62,7 +63,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	                   public void onClick(DialogInterface dialog, int id) {}
 	            }).show();
 	        } else {
-	        	AppUtil.startPollService();
+	        	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
 	        }
 		}
 	}
@@ -132,7 +133,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		
 		@Override 
 		protected void onPostExecute(Void param) {
-			Intent intent =new Intent();
+			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_VIEW);
 			intent.setDataAndType(Uri.fromFile(mFile), "application/vnd.android.package-archive");
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

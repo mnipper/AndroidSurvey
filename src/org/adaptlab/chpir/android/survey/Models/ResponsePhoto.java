@@ -61,9 +61,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
 			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 			encodedImage = encodeImage(bitmap);
 		} else {
-			int resId = AppUtil.getContext().getResources().getIdentifier(DEFAULT, null, null);
-			Bitmap bitmap = BitmapFactory.decodeResource(AppUtil.getContext().getResources(), resId);
-			encodedImage = encodeImage(bitmap);
+			encodedImage = null;
 		}
 		return encodedImage;
 	}

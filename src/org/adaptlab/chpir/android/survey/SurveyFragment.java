@@ -345,13 +345,13 @@ public class SurveyFragment extends Fragment {
             .setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_skip)
         	.setEnabled(hasValidResponse())
-        	.setVisible(AdminSettings.getInstance().getShowSkip());
+        	.setVisible(AppUtil.getAdminSettingsInstance().getShowSkip());
         menu.findItem(R.id.menu_item_rf)
-            .setVisible(AdminSettings.getInstance().getShowRF());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowRF());
         menu.findItem(R.id.menu_item_na)
-            .setVisible(AdminSettings.getInstance().getShowNA());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowNA());
         menu.findItem(R.id.menu_item_dk)
-            .setVisible(AdminSettings.getInstance().getShowDK());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowDK());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());

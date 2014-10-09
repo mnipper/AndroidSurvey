@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +57,7 @@ public class Survey extends SendModel {
             jsonObject.put("instrument_id", getInstrument().getRemoteId());
             jsonObject.put("instrument_version_number", getInstrument().getVersionNumber());
             jsonObject.put("device_uuid", getAdminInstanceDeviceIdentifier());
-            jsonObject.put("device_label", AdminSettings.getInstance().getDeviceLabel());
+            jsonObject.put("device_label", AppUtil.getAdminSettingsInstance().getDeviceLabel());
             jsonObject.put("uuid", mUUID);
             jsonObject.put("instrument_title", getInstrument().getTitle());
             jsonObject.put("latitude", mLatitude);
@@ -71,7 +72,7 @@ public class Survey extends SendModel {
     }
     
     public String getAdminInstanceDeviceIdentifier() {
-    	return AdminSettings.getInstance().getDeviceIdentifier();
+    	return AppUtil.getAdminSettingsInstance().getDeviceIdentifier();
     }
     
     /*

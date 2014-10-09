@@ -111,8 +111,9 @@ public class Instrument extends ReceiveModel {
     }
     
     public static String getDeviceLanguage() {
-        if (!AdminSettings.getInstance().getCustomLocaleCode().equals("")) {
-            return AdminSettings.getInstance().getCustomLocaleCode();
+    	//Log.i(TAG, "Custom Locale Code: " + AppUtil.getAdminSettingsInstance().getCustomLocaleCode());
+    	if ( AppUtil.getAdminSettingsInstance().getCustomLocaleCode() != null && !AppUtil.getAdminSettingsInstance().getCustomLocaleCode().equals("")) {
+            return AppUtil.getAdminSettingsInstance().getCustomLocaleCode();
         }
         return Locale.getDefault().getLanguage();
     }

@@ -1,7 +1,5 @@
 package org.adaptlab.chpir.android.survey;
 
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
-
 import android.content.Intent;
 
 public abstract class AuthorizedActivity extends SingleFragmentActivity {
@@ -19,7 +17,7 @@ public abstract class AuthorizedActivity extends SingleFragmentActivity {
     }
     
     private void authorize() {
-        if (AdminSettings.getInstance().getRequirePassword() && !AuthUtils.isSignedIn()) {
+        if (AppUtil.getAdminSettingsInstance().getRequirePassword() && !AuthUtils.isSignedIn()) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
         }

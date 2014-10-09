@@ -14,7 +14,6 @@ import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,9 +68,9 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	}
 
 	private void checkLatestApk() {
-		ActiveRecordCloudSync.setAccessToken(AdminSettings.getInstance().getApiKey());
+		ActiveRecordCloudSync.setAccessToken(AppUtil.getAdminSettingsInstance().getApiKey());
 		ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
-		String url = AdminSettings.getInstance().getApiUrl() + "android_updates" + ActiveRecordCloudSync.getParams();
+		String url = AppUtil.getAdminSettingsInstance().getApiUrl() + "android_updates" + ActiveRecordCloudSync.getParams();
 		try {
 			String jsonString = getUrl(url);
 	        Log.i(TAG, "Got JSON String: " + jsonString);
@@ -141,7 +140,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		}
 
 		private void downloadLatestApk() {
-			String url = AdminSettings.getInstance().getApiUrl() + "android_updates/" + mApkId + "/" + ActiveRecordCloudSync.getParams();
+			String url = AppUtil.getAdminSettingsInstance().getApiUrl() + "android_updates/" + mApkId + "/" + ActiveRecordCloudSync.getParams();
 			File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 		    mFile = new File(path, mFileName);
 		    FileOutputStream filewriter = null;

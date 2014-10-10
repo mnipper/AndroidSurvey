@@ -33,7 +33,6 @@ import com.crashlytics.android.Crashlytics;
 public class AppUtil {
     private final static String TAG = "AppUtil";
     public final static boolean REQUIRE_SECURITY_CHECKS = false;
-    public final static boolean DEFAULT_ADMIN_SETTINGS = false;
     public static boolean DEBUG = true;
     
     public static String ADMIN_PASSWORD_HASH;
@@ -100,7 +99,7 @@ public class AppUtil {
     }
 
 	private static void setAdminSettingsInstance() {
-		if (AppUtil.DEFAULT_ADMIN_SETTINGS) {
+		if (mContext.getResources().getBoolean(R.bool.default_admin_settings)) {
         	adminSettingsInstance = DefaultAdminSettings.getInstance();
         } else {
         	adminSettingsInstance = AdminSettings.getInstance();

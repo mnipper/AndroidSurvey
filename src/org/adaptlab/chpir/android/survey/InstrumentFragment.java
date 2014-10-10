@@ -61,7 +61,7 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
     	super.onPrepareOptionsMenu(menu);
-    	if (AppUtil.DEFAULT_ADMIN_SETTINGS) {
+    	if (getResources().getBoolean(R.bool.default_admin_settings)) {
     		menu.findItem(R.id.menu_item_admin).setEnabled(false);
     		menu.findItem(R.id.menu_item_admin).setVisible(false);
     	}

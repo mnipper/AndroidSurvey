@@ -5,13 +5,9 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentLaunchRule;
-import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
-import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
-import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
 import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.DownloadImagesTask;
@@ -61,6 +57,15 @@ public class InstrumentFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_instrument, menu);
     }
+    
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+    	super.onPrepareOptionsMenu(menu);
+    	if (getResources().getBoolean(R.bool.default_admin_settings)) {
+    		menu.findItem(R.id.menu_item_admin).setEnabled(false);
+    		menu.findItem(R.id.menu_item_admin).setVisible(false);
+    	}
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -88,7 +93,7 @@ public class InstrumentFragment extends ListFragment {
     }
     
     public void createTabs() {
-        if (AdminSettings.getInstance().getShowSurveys()) {
+        if (AppUtil.getAdminSettingsInstance().getShowSurveys()) {
             final ActionBar actionBar = getActivity().getActionBar();     
             ActionBar.TabListener tabListener = new ActionBar.TabListener() {    
                 @Override
@@ -100,7 +105,7 @@ public class InstrumentFragment extends ListFragment {
                         else
                             setListAdapter(new SurveyAdapter(Survey.getAll()));
                     } else {
-                        setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AdminSettings.getInstance().getProjectId()))));
+                        setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()))));
                     }
                 }
     
@@ -242,8 +247,10 @@ public class InstrumentFragment extends ListFragment {
         protected void onPostExecute(Void param) {
         	if (isAdded()) {
             	downloadInstrumentImages();
-                setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AdminSettings.getInstance().getProjectId()))));
-                getActivity().setProgressBarIndeterminateVisibility(false);    
+            	if (AppUtil.getAdminSettingsInstance().getProjectId() != null) {
+            		setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()))));
+            	}
+            	getActivity().setProgressBarIndeterminateVisibility(false);    
             }
         }        
     }

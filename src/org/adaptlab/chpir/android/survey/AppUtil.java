@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
 import org.adaptlab.chpir.android.survey.Models.Image;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
@@ -37,6 +38,7 @@ public class AppUtil {
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
     private static Context mContext;
+    private static AdminSettings adminSettingsInstance;
     
     /*
      * Get the version code from the AndroidManifest
@@ -60,27 +62,27 @@ public class AppUtil {
             }
         }
         
-        Log.i(TAG, "Initializing application...");
+        setAdminSettingsInstance();
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();  
+        ACCESS_TOKEN = adminSettingsInstance.getApiKey();  
                 
         if (!BuildConfig.DEBUG)
             Crashlytics.start(context);
         
         DatabaseSeed.seed(context);
 
-        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
-            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
+        if (adminSettingsInstance.getDeviceIdentifier() == null) {
+        	adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());
         }
         
-        if (AdminSettings.getInstance().getDeviceLabel() == null) {
-            AdminSettings.getInstance().setDeviceLabel("");
+        if (adminSettingsInstance.getDeviceLabel() == null) {
+        	adminSettingsInstance.setDeviceLabel("");
         }
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(context));
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
+        ActiveRecordCloudSync.setEndPoint(adminSettingsInstance.getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
@@ -95,6 +97,14 @@ public class AppUtil {
 
         new ApkUpdateTask(mContext).execute();
     }
+
+	private static void setAdminSettingsInstance() {
+		if (mContext.getResources().getBoolean(R.bool.default_admin_settings)) {
+        	adminSettingsInstance = DefaultAdminSettings.getInstance();
+        } else {
+        	adminSettingsInstance = AdminSettings.getInstance();
+        }
+	}
     
     /*
      * Security checks that must pass for the application to start.
@@ -138,4 +148,12 @@ public class AppUtil {
     public static Context getContext() {
     	return mContext;
     }
+    
+    public static AdminSettings getAdminSettingsInstance() {
+    	if (adminSettingsInstance == null) {
+    		setAdminSettingsInstance();
+    	}
+    	return adminSettingsInstance;
+    }
+    
 }

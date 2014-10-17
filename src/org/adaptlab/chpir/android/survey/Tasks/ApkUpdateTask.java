@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
@@ -59,7 +60,9 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {}
+	                   public void onClick(DialogInterface dialog, int id) {
+	                	   PollService.setServiceAlarm(mContext.getApplicationContext(), true);
+	                   }
 	            }).show();
 	        } else {
 	        	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
@@ -78,8 +81,9 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		        JSONObject obj = new JSONObject(jsonString);
 		        mLatestVersion = obj.getInt("version");
 		        mApkId = obj.getInt("id");
-		        mFileName = obj.getString("apk_update_file_name");
+		        mFileName = UUID.randomUUID().toString() + ".apk";
 		        Log.i(TAG, "Latest version is: " + mLatestVersion);
+		        Log.i(TAG, "Old version is: " + AppUtil.getVersionCode(mContext));
 	        }
 		} catch (ConnectException cre) {
             Log.e(TAG, "Connection was refused", cre);
@@ -148,7 +152,6 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
         		byte[] imageBytes = getUrlBytes(url);
     			filewriter = new FileOutputStream(mFile);
         		filewriter.write(imageBytes);
-        		Log.i(TAG, "APK saved in " + mFile.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {

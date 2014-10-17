@@ -44,7 +44,7 @@ public class InstrumentFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setListAdapter(new InstrumentAdapter(Instrument.getAll()));       
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));     
         AppUtil.appInit(getActivity());
     }
     
@@ -84,11 +84,7 @@ public class InstrumentFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (getListAdapter() != null) {
-            ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
-        } else {
-            setListAdapter(new InstrumentAdapter(Instrument.getAll())); 
-        }
+        setListAdapter(new InstrumentAdapter(Instrument.getAll()));
         createTabs();
     }
     

@@ -8,12 +8,13 @@ import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
+import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,16 +60,20 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {}
+	                   public void onClick(DialogInterface dialog, int id) {
+	                	   PollService.setServiceAlarm(mContext.getApplicationContext(), true);
+	                   }
 	            }).show();
+	        } else {
+	        	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
 	        }
 		}
 	}
 
 	private void checkLatestApk() {
-		ActiveRecordCloudSync.setAccessToken(AdminSettings.getInstance().getApiKey());
+		ActiveRecordCloudSync.setAccessToken(AppUtil.getAdminSettingsInstance().getApiKey());
 		ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
-		String url = AdminSettings.getInstance().getApiUrl() + "android_updates" + ActiveRecordCloudSync.getParams();
+		String url = AppUtil.getAdminSettingsInstance().getApiUrl() + "android_updates" + ActiveRecordCloudSync.getParams();
 		try {
 			String jsonString = getUrl(url);
 	        Log.i(TAG, "Got JSON String: " + jsonString);
@@ -76,8 +81,9 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		        JSONObject obj = new JSONObject(jsonString);
 		        mLatestVersion = obj.getInt("version");
 		        mApkId = obj.getInt("id");
-		        mFileName = obj.getString("apk_update_file_name");
+		        mFileName = UUID.randomUUID().toString() + ".apk";
 		        Log.i(TAG, "Latest version is: " + mLatestVersion);
+		        Log.i(TAG, "Old version is: " + AppUtil.getVersionCode(mContext));
 	        }
 		} catch (ConnectException cre) {
             Log.e(TAG, "Connection was refused", cre);
@@ -130,7 +136,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		
 		@Override 
 		protected void onPostExecute(Void param) {
-			Intent intent =new Intent();
+			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_VIEW);
 			intent.setDataAndType(Uri.fromFile(mFile), "application/vnd.android.package-archive");
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -138,7 +144,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		}
 
 		private void downloadLatestApk() {
-			String url = AdminSettings.getInstance().getApiUrl() + "android_updates/" + mApkId + "/" + ActiveRecordCloudSync.getParams();
+			String url = AppUtil.getAdminSettingsInstance().getApiUrl() + "android_updates/" + mApkId + "/" + ActiveRecordCloudSync.getParams();
 			File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 		    mFile = new File(path, mFileName);
 		    FileOutputStream filewriter = null;
@@ -146,7 +152,6 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
         		byte[] imageBytes = getUrlBytes(url);
     			filewriter = new FileOutputStream(mFile);
         		filewriter.write(imageBytes);
-        		Log.i(TAG, "APK saved in " + mFile.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {

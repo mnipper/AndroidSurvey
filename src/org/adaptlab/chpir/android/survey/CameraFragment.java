@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
@@ -17,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -27,19 +29,28 @@ public class CameraFragment extends Fragment {
 	private static final String TAG = "CameraFragment";
 	public static final String EXTRA_PHOTO_FILENAME = "CameraFragment.filename";
 	public static final String EXTRA_RESPONSE_PHOTO = "CameraFragment.photo";
-	public int CAMERA;
+	public static final String EXTRA_CAMERA = "CameraFragment.camera_index";
+	public static int CAMERA;
 	private View mProgressIndicator;
 	private Camera mCamera;
 	private SurfaceView mSurfaceView;
 	private static ResponsePhoto mPhoto;
 	
-	public static CameraFragment newCameraFragmentInstance(ResponsePhoto picture) {
+	public static CameraFragment newCameraFragmentInstance(ResponsePhoto picture, int camera_index) {
 		mPhoto = picture;
+		CAMERA = camera_index;
 		Bundle args = new Bundle();
 		args.putSerializable(EXTRA_RESPONSE_PHOTO,  mPhoto);
+		args.putSerializable(EXTRA_CAMERA, CAMERA);
 		CameraFragment fragment = new CameraFragment();
 		fragment.setArguments(args);
 		return fragment;
+	}
+	
+	@Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(EXTRA_CAMERA, CAMERA);
 	}
 
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
@@ -67,17 +78,18 @@ public class CameraFragment extends Fragment {
 				} 
 			}
 			if (success) {
-				Log.i(TAG, filename + "is filename of picture");
 				ResponsePhoto picture =  (ResponsePhoto) getArguments().getSerializable(EXTRA_RESPONSE_PHOTO);
 				picture.setPicturePath(filename);
+				picture.setCameraOrientation(getResources().getConfiguration().orientation);
+				picture.setCamera(CAMERA);
 				picture.save();
-				Log.i(TAG, picture.getPicturePath() + " is path of picture");
 				releaseCamera();
 				popBackQuestionFragment();
 			} else {
 				Log.i(TAG, "Not Successful");
 			}
 		}
+
 	};
 
 	@Override
@@ -111,6 +123,7 @@ public class CameraFragment extends Fragment {
 			public void surfaceDestroyed(SurfaceHolder holder) {
 				if (mCamera != null) {
 					mCamera.stopPreview();
+					releaseCamera();
 				}
 			}
 
@@ -118,11 +131,12 @@ public class CameraFragment extends Fragment {
 				if (mCamera == null) {
 					return;
 				}
-				Camera.Parameters parameters = mCamera.getParameters();
-				Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
-				parameters.setPreviewSize(s.width, s.height);
-				mCamera.setParameters(parameters);
 				try {
+					Camera.Parameters parameters = mCamera.getParameters();
+					Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
+					parameters.setPreviewSize(s.width, s.height);
+					mCamera.setParameters(parameters);
+					setCameraDisplayOrientation(getActivity(), CAMERA, mCamera);
 					mCamera.startPreview();
 				} catch (Exception e) {
 					Log.e(TAG, "Unable to start preview",e);
@@ -135,6 +149,27 @@ public class CameraFragment extends Fragment {
 
 		return v;
 	}
+	
+	public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
+	     android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
+	     android.hardware.Camera.getCameraInfo(cameraId, info);
+	     int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+	     int degrees = 0;
+	     switch (rotation) {
+	         case Surface.ROTATION_0: degrees = 0; break;
+	         case Surface.ROTATION_90: degrees = 90; break;
+	         case Surface.ROTATION_180: degrees = 180; break;
+	         case Surface.ROTATION_270: degrees = 270; break;
+	     }
+	     int result;
+	     if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+	         result = (info.orientation + degrees) % 360;
+	         result = (360 - result) % 360;  // compensate the mirror
+	     } else {  // back-facing
+	         result = (info.orientation - degrees + 360) % 360;
+	     }
+	     camera.setDisplayOrientation(result);
+	 }
 
 	private Size getBestSupportedSize(List<Size> sizes, int width, int height) {
 		final double ASPECT_TOLERANCE = 0.1;

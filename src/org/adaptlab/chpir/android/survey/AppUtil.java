@@ -3,8 +3,8 @@ package org.adaptlab.chpir.android.survey;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
-import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
 import org.adaptlab.chpir.android.survey.Models.Image;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
@@ -12,6 +12,7 @@ import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
+import org.adaptlab.chpir.android.survey.Models.Rule;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Skip;
 import org.adaptlab.chpir.android.survey.Models.Survey;
@@ -37,6 +38,7 @@ public class AppUtil {
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
     private static Context mContext;
+    private static AdminSettings adminSettingsInstance;
     
     /*
      * Get the version code from the AndroidManifest
@@ -60,29 +62,27 @@ public class AppUtil {
             }
         }
         
-        Log.i(TAG, "Initializing application...");
+        setAdminSettingsInstance();
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();  
-        
-        new ApkUpdateTask(mContext).execute();
-        
+        ACCESS_TOKEN = adminSettingsInstance.getApiKey();  
+                
         if (!BuildConfig.DEBUG)
             Crashlytics.start(context);
         
         DatabaseSeed.seed(context);
 
-        if (AdminSettings.getInstance().getDeviceIdentifier() == null) {
-            AdminSettings.getInstance().setDeviceIdentifier(UUID.randomUUID().toString());
+        if (adminSettingsInstance.getDeviceIdentifier() == null) {
+        	adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());
         }
         
-        if (AdminSettings.getInstance().getDeviceLabel() == null) {
-            AdminSettings.getInstance().setDeviceLabel("");
+        if (adminSettingsInstance.getDeviceLabel() == null) {
+        	adminSettingsInstance.setDeviceLabel("");
         }
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(context));
-        ActiveRecordCloudSync.setEndPoint(AdminSettings.getInstance().getApiUrl());
+        ActiveRecordCloudSync.setEndPoint(adminSettingsInstance.getApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
@@ -90,12 +90,21 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("sections", Section.class);
         ActiveRecordCloudSync.addReceiveTable("device_users", DeviceUser.class);
         ActiveRecordCloudSync.addReceiveTable("skips", Skip.class);
+        ActiveRecordCloudSync.addReceiveTable("rules", Rule.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
 
-        PollService.setServiceAlarm(context.getApplicationContext(), true);
+        new ApkUpdateTask(mContext).execute();
     }
+
+	private static void setAdminSettingsInstance() {
+		if (mContext.getResources().getBoolean(R.bool.default_admin_settings)) {
+        	adminSettingsInstance = DefaultAdminSettings.getInstance();
+        } else {
+        	adminSettingsInstance = AdminSettings.getInstance();
+        }
+	}
     
     /*
      * Security checks that must pass for the application to start.
@@ -139,4 +148,12 @@ public class AppUtil {
     public static Context getContext() {
     	return mContext;
     }
+    
+    public static AdminSettings getAdminSettingsInstance() {
+    	if (adminSettingsInstance == null) {
+    		setAdminSettingsInstance();
+    	}
+    	return adminSettingsInstance;
+    }
+    
 }

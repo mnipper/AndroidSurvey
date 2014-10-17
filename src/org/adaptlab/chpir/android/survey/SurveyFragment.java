@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,6 +14,10 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
+import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
+import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
 
 import android.app.Activity;
@@ -60,19 +65,24 @@ public class SurveyFragment extends Fragment {
             "org.adaptlab.chpir.android.survey.previous_questions";
     public final static String EXTRA_PARTICIPANT_METADATA =
             "org.adaptlab.chpir.android.survey.metadata";
+    public final static String EXTRA_QUESTIONS_TO_SKIP_IDS =
+            "org.adaptlab.chpir.android.survey.questions_to_skip_ids";
+    public final static String EXTRA_SKIPPED_QUESTIONS_IDS =
+            "org.adaptlab.chpir.android.survey.skipped_questions_ids";
    
     private Question mQuestion;
     private Instrument mInstrument;
     private Survey mSurvey;
     private int mQuestionNumber;
+    private String mMetadata;
     private Question mResumeQuestion = null;
     
     // mPreviousQuestions is a Stack, however Android does not allow you
     // to save a Stack to the savedInstanceState, so it is represented as
     // an Integer array.
     private ArrayList<Integer> mPreviousQuestions;
-    private ArrayList<Question> mQuestionsToSkip;
-    private Set<Question> mSkippedQuestions;
+    private ArrayList<Integer> mQuestionsToSkip;
+    private Set<Integer> mSkippedQuestions;
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
@@ -98,23 +108,29 @@ public class SurveyFragment extends Fragment {
         
         if (savedInstanceState != null) {
             mInstrument = Instrument.findByRemoteId(savedInstanceState.getLong(EXTRA_INSTRUMENT_ID));
+            if (!checkRules()) getActivity().finish();
             mQuestion = Question.findByRemoteId(savedInstanceState.getLong(EXTRA_QUESTION_ID));
             mSurvey = Survey.load(Survey.class, savedInstanceState.getLong(EXTRA_SURVEY_ID));
             mQuestionNumber = savedInstanceState.getInt(EXTRA_QUESTION_NUMBER);
             mPreviousQuestions = savedInstanceState.getIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS);
+            mQuestionsToSkip = savedInstanceState.getIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS);
+            ArrayList<Integer> skippedQuestions = savedInstanceState.getIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
+            mSkippedQuestions = new LinkedHashSet<Integer>(skippedQuestions);
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
-            String metadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
+            mMetadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
             
             if (instrumentId == -1) return;
             
             mInstrument = Instrument.findByRemoteId(instrumentId);
             if (mInstrument == null) return;
             
-            loadOrCreateSurvey(metadata);
-            loadOrCreateQuestion();
-          
+            if (!checkRules()) getActivity().finish();
+            
+            loadOrCreateSurvey();
+            loadOrCreateQuestion();               
         }
+        
         startLocationServices();
     }
     
@@ -188,12 +204,12 @@ public class SurveyFragment extends Fragment {
         mLocationServiceManager.startLocationUpdates();
     }
     
-    public void loadOrCreateSurvey(String metadata) {
+    public void loadOrCreateSurvey() {
         Long surveyId = getActivity().getIntent().getLongExtra(EXTRA_SURVEY_ID, -1);
         if (surveyId == -1) {
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);
-            mSurvey.setMetadata(metadata);
+            mSurvey.setMetadata(mMetadata);
             mSurvey.save();
         } else {
             mSurvey = Model.load(Survey.class, surveyId);
@@ -202,8 +218,8 @@ public class SurveyFragment extends Fragment {
     
     public void loadOrCreateQuestion() {
         mPreviousQuestions = new ArrayList<Integer>();  
-        mQuestionsToSkip = new ArrayList<Question>();
-        mSkippedQuestions = new LinkedHashSet<Question>();
+        mQuestionsToSkip = new ArrayList<Integer>();
+        mSkippedQuestions = new LinkedHashSet<Integer>();
         Long questionId = getActivity().getIntent().getLongExtra(EXTRA_QUESTION_ID, -1);
         if (questionId == -1) {
             mQuestion = mInstrument.questions().get(0);
@@ -266,6 +282,8 @@ public class SurveyFragment extends Fragment {
         outState.putLong(EXTRA_SURVEY_ID, mSurvey.getId());
         outState.putInt(EXTRA_QUESTION_NUMBER, mQuestionNumber);
         outState.putIntegerArrayList(EXTRA_PREVIOUS_QUESTION_IDS, mPreviousQuestions);
+        outState.putIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS, mQuestionsToSkip);
+        outState.putIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS, new ArrayList<Integer>(mSkippedQuestions));
     }
     
     @Override
@@ -327,13 +345,13 @@ public class SurveyFragment extends Fragment {
             .setEnabled(hasValidResponse());
         menu.findItem(R.id.menu_item_skip)
         	.setEnabled(hasValidResponse())
-        	.setVisible(AdminSettings.getInstance().getShowSkip());
+        	.setVisible(AppUtil.getAdminSettingsInstance().getShowSkip());
         menu.findItem(R.id.menu_item_rf)
-            .setVisible(AdminSettings.getInstance().getShowRF());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowRF());
         menu.findItem(R.id.menu_item_na)
-            .setVisible(AdminSettings.getInstance().getShowNA());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowNA());
         menu.findItem(R.id.menu_item_dk)
-            .setVisible(AdminSettings.getInstance().getShowDK());
+            .setVisible(AppUtil.getAdminSettingsInstance().getShowDK());
         menu.findItem(R.id.menu_item_finish)
             .setVisible(isLastQuestion())
             .setEnabled(hasValidResponse());
@@ -367,7 +385,7 @@ public class SurveyFragment extends Fragment {
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
         mQuestionIndex = (TextView) v.findViewById(R.id.question_index);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
-        
+
         updateQuestionCountLabel();
         
         setQuestionText(mQuestionText);
@@ -376,7 +394,7 @@ public class SurveyFragment extends Fragment {
         
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
-                
+   
         return v;
     }
 
@@ -465,7 +483,7 @@ public class SurveyFragment extends Fragment {
 		if (responseIndex < mQuestion.options().size()) {
 			Option selectedOption = mQuestion.options().get(responseIndex);
 			for (Question skipQuestion: selectedOption.questionsToSkip()){
-				mQuestionsToSkip.add(skipQuestion);
+				mQuestionsToSkip.add(skipQuestion.getNumberInInstrument());
 			}
 		}
 	}
@@ -482,7 +500,7 @@ public class SurveyFragment extends Fragment {
 	}
     
     private Question getNextUnskippedQuestion(Question nextQuestion) {
-    	if (mQuestionsToSkip.contains(nextQuestion)) {
+    	if (mQuestionsToSkip.contains(nextQuestion.getNumberInInstrument())) {
         	if (isLastQuestion()) {
             	finishSurvey();
             } else {
@@ -501,7 +519,7 @@ public class SurveyFragment extends Fragment {
     private void clearSkipsForCurrentQuestion() {
     	if (!mQuestionsToSkip.isEmpty()) {
 	    	for (Question question : mQuestion.questionsToSkip()) {
-	    		mQuestionsToSkip.remove(question);
+	    		mQuestionsToSkip.remove(question.getNumberInInstrument());
 	    	} 
     	}
     } 
@@ -510,15 +528,15 @@ public class SurveyFragment extends Fragment {
     	if (nullResponse() || emptyResponse() || skippedResponse() ) {   		
     		if (pictureResponseQuestion()) {
 				if (mQuestionFragment.getResponsePhoto().getPicturePath() == null) {
-					mSkippedQuestions.add(mQuestion);
+					mSkippedQuestions.add(mQuestion.getNumberInInstrument());
 				} else {
-					mSkippedQuestions.remove(mQuestion);
+					mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
 				}	
     		} else {
-    			mSkippedQuestions.add(mQuestion);
+    			mSkippedQuestions.add(mQuestion.getNumberInInstrument());
     		}
     	} else {
-    		mSkippedQuestions.remove(mQuestion);
+    		mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
     	}
     }
     
@@ -537,6 +555,20 @@ public class SurveyFragment extends Fragment {
     
     private boolean pictureResponseQuestion() {
     	 return (mQuestion.getQuestionType() == QuestionType.FRONT_PICTURE || mQuestion.getQuestionType() == QuestionType.REAR_PICTURE);
+    }
+    
+    private boolean isInstructionsQuestion(Question question) {
+    	return (question.getQuestionType() == QuestionType.INSTRUCTIONS);
+    }
+    
+    private void removeInstructionsQuestions() {
+    	for (Iterator<Integer> iterator = mSkippedQuestions.iterator(); iterator.hasNext();) {
+    	    Integer next = iterator.next();
+			Question question = Question.findByNumberInInstrument(next, mInstrument.getId());
+    	    if (isInstructionsQuestion(question)) {
+    	        iterator.remove();
+    	    }
+    	}
     }
     
     /*
@@ -590,16 +622,18 @@ public class SurveyFragment extends Fragment {
     */
     public void finishSurvey() {
     	setSkippedForReview(); //To check if last question is skipped
+    	removeInstructionsQuestions();
     	setSurveyLocation();
     	if (!mSkippedQuestions.isEmpty()) {
     		ArrayList<String> skippedQuestions = new ArrayList<String>();
-    		for (Question question : mSkippedQuestions) {
+    		for (Integer questionNumber : mSkippedQuestions) {
+    			Question question = Question.findByNumberInInstrument(questionNumber, mInstrument.getId());
     			skippedQuestions.add(question.getQuestionIdentifier());
     		}
     		Intent i = new Intent(getActivity(), ReviewPageActivity.class);
     		Bundle b = new Bundle();
-    		b.putStringArrayList(ReviewPageFragment.EXTRA_SKIPPED_QUESTIONS_IDS, skippedQuestions);
-    		b.putLong(ReviewPageFragment.EXTRA_SURVEY_ID, mSurvey.getId());
+    		b.putStringArrayList(ReviewPageFragment.EXTRA_REVIEW_QUESTION_IDS, skippedQuestions);
+    		b.putLong(ReviewPageFragment.EXTRA_REVIEW_SURVEY_ID, mSurvey.getId());
     		i.putExtras(b);
     		startActivityForResult(i, REVIEW_CODE);
     	} 
@@ -714,5 +748,18 @@ public class SurveyFragment extends Fragment {
 	        return mQuestionFragment.getResponse().getSpecialResponse();
 	    else
 	        return "";
+	}
+	
+	private boolean checkRules() {
+	    return new RuleBuilder(getActivity())
+            .addRule(new InstrumentSurveyLimitRule(mInstrument,
+                    getActivity().getString(R.string.rule_failure_instrument_survey_limit)))
+            .addRule(new InstrumentTimingRule(mInstrument, getResources().getConfiguration().locale,
+                    getActivity().getString(R.string.rule_failure_survey_timing)))
+            .addRule(new InstrumentSurveyLimitPerMinuteRule(mInstrument,
+                    getActivity().getString(R.string.rule_instrument_survey_limit_per_minute)))
+            .showToastOnFailure(true)
+            .checkRules()
+            .getResult();
 	}
 }

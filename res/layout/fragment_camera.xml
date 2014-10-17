@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,17 +13,16 @@
         <SurfaceView
             android:id="@+id/camera_surfaceView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content" />
             
             <Button
-            android:id="@+id/camera_takePictureButton"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_action_camera" />
+                android:id="@+id/camera_takePictureButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/ic_action_camera" />
             
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/camera_progressIndicator"

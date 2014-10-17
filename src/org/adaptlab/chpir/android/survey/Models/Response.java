@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.AuthUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class Response extends SendModel {
 		mText = "";
 		mSpecialResponse = "";
 		mUUID = UUID.randomUUID().toString();
+		setDeviceUser(AuthUtils.getCurrentUser());
 	}
 	
 	public String getUUID() {
@@ -180,7 +182,7 @@ public class Response extends SendModel {
 	}
 	
 	public ResponsePhoto getResponsePhoto() {
-		return new Select().from(ResponsePhoto.class).where("ResponseUUID = ?", getUUID()).executeSingle();
+		return new Select().from(ResponsePhoto.class).where("Response = ?", getId()).executeSingle();
 	}
     
     @Override

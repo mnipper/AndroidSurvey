@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.PollService;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Tasks.ApkUpdateTask;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -109,14 +110,10 @@ public class AdminFragment extends Fragment {
                 // for all instrument translations.
                 AdminSettings.getInstance().setCustomLocaleCode(mCustomLocaleEditText.getText().toString());
                 
-                PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());
-                
-                // Restart the polling immediately with new interval.
-                // This immediately hits the server again upon save.
-                PollService.restartServiceAlarm(getActivity().getApplicationContext());
-                
+                PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());                
                 ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
+                new ApkUpdateTask(getActivity()).execute();
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());
                 AdminSettings.getInstance().setShowSkip(mShowSkipCheckBox.isChecked());

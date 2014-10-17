@@ -11,7 +11,6 @@ import java.util.UUID;
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
 import org.adaptlab.chpir.android.survey.AppUtil;
-import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Image;
 
 import android.content.Context;
@@ -37,7 +36,7 @@ public class DownloadImagesTask extends AsyncTask<Void, Void, Void> {
 	}
 	
 	public void downloadImages() {
-    	ACCESS_TOKEN = AdminSettings.getInstance().getApiKey();
+    	ACCESS_TOKEN = AppUtil.getAdminSettingsInstance().getApiKey();
     	ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(mContext));
         

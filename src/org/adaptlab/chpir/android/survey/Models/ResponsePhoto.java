@@ -22,15 +22,16 @@ import com.activeandroid.query.Select;
 public class ResponsePhoto extends SendModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "ResponsePhoto";
-	private static final String DEFAULT = "org.adaptlab.chpir.android.survey:drawable/ic_action_photo_unavailable";
 	@Column(name = "SentToRemote")
 	private boolean mSent;
 	@Column(name = "Response", onDelete = Column.ForeignKeyAction.SET_NULL)
 	private Response mResponse;
 	@Column(name = "PicturePath")
 	private String mPicturePath;
-	@Column(name = "ResponseUUID")
-	private String mResponseUUID;
+	@Column(name = "CameraOrientation")
+	private Integer mCameraOrientation;
+	@Column(name = "Camera")
+	private Integer mCamera;
 		
 	public ResponsePhoto() {
 		super();
@@ -43,7 +44,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
         
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("response_uuid",  mResponseUUID);
+            jsonObject.put("response_uuid",  getResponse().getUUID());
             jsonObject.put("picture_data", getEncodedImage());  
             json.put("response_image", jsonObject);
         } catch (JSONException je) {
@@ -54,14 +55,12 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	
 	public String getEncodedImage() {
 		String encodedImage = "";
-		if (getPicturePath() != null) {
+		if (getPicturePath() != null && getPicturePath() != "") {
 			String filepath = AppUtil.getContext().getFileStreamPath(getPicturePath()).getAbsolutePath();
 			Bitmap bitmap = BitmapFactory.decodeFile(filepath);
 			encodedImage = encodeImage(bitmap);
 		} else {
-			int resId = AppUtil.getContext().getResources().getIdentifier(DEFAULT, null, null);
-			Bitmap bitmap = BitmapFactory.decodeResource(AppUtil.getContext().getResources(), resId);
-			encodedImage = encodeImage(bitmap);
+			encodedImage = null;
 		}
 		return encodedImage;
 	}
@@ -97,10 +96,6 @@ public class ResponsePhoto extends SendModel implements Serializable {
 		mResponse = response;
 	}
 	
-	public void setResponseUUID(String uuid) {
-		mResponseUUID = uuid;
-	}
-	
 	public Response getResponse() {
 		return mResponse;
 	}
@@ -123,5 +118,21 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	public static List<ResponsePhoto> getAll() {
         return new Select().from(ResponsePhoto.class).orderBy("Id ASC").execute();
     }
+	
+	public void setCameraOrientation(int orientation) {
+		mCameraOrientation = orientation;
+	}
+	
+	public int getCameraOrientation() {
+		return mCameraOrientation;
+	}
+	
+	public void setCamera(int camera) {
+		mCamera = camera;
+	}
+	
+	public int getCamera() {
+		return mCamera;
+	}
 
 }

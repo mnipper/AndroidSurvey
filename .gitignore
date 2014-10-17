@@ -29,7 +29,6 @@ res/values/com_crashlytics_export_strings.xml
 assets/crashlytics-build.properties
 
 # API Keys
-res/values/api-keys.xml
 res/values/keys.xml
 
 # APK Build
@@ -38,3 +37,6 @@ libs/survey_pk
 #Gradle
 build/
 .gradle/
+
+# Default Admin Settings
+res/values/defaults.xml

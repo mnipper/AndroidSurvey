@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.AppUtil;
+import org.apache.commons.codec.CharEncoding;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -48,8 +49,7 @@ public class HttpPushr {
                     HttpPost post = new HttpPost(
                             ActiveRecordCloudSync.getEndPoint()
                                     + mRemoteTableName + ActiveRecordCloudSync.getParams());
-                    StringEntity se = new StringEntity(element.toJSON()
-                            .toString());
+                    StringEntity se = new StringEntity(element.toJSON().toString(), CharEncoding.UTF_8);
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
                             "application/json"));
                     post.setEntity(se);

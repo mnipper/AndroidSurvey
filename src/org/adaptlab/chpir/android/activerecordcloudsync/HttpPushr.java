@@ -50,8 +50,7 @@ public class HttpPushr {
                     HttpPost post = new HttpPost(
                             ActiveRecordCloudSync.getEndPoint()
                                     + mRemoteTableName + ActiveRecordCloudSync.getParams());
-                    StringEntity se = new StringEntity(element.toJSON()
-                            .toString(), CharEncoding.UTF_8);
+                    StringEntity se = new StringEntity(element.toJSON().toString(), CharEncoding.UTF_8);
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
                             "application/json"));
                     post.setEntity(se);

@@ -154,6 +154,10 @@ public abstract class QuestionFragment extends Fragment {
         getResponse().setResponse(serialize());
         saveTimeEnded();
         saveResponseWithValidation();
+        if (isAdded() && !mResponse.getText().equals("")) {
+            mResponse.setSpecialResponse("");
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        }
     }
     
     public void saveSpecialResponse(String response) {

@@ -725,10 +725,11 @@ public class SurveyFragment extends Fragment {
     /*
      * Set the current response to the empty string
      */
-    private void clearCurrentResponse() {        
+    private void clearCurrentResponse() {
         if (mQuestionFragment.getResponse() != null) {
             mQuestionFragment.getResponse().setResponse("");
             mQuestionFragment.getResponse().save();
+            mQuestionFragment.deserialize(mQuestionFragment.getResponse().getText());
         }
     }
             

@@ -32,7 +32,7 @@ import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
     private final static String TAG = "AppUtil";
-    public final static boolean REQUIRE_SECURITY_CHECKS = true;
+    public final static boolean REQUIRE_SECURITY_CHECKS = false;
     public static boolean DEBUG = false;
     
     public static String ADMIN_PASSWORD_HASH;

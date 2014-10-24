@@ -8,6 +8,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.ResponsePhoto;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,22 @@ public abstract class QuestionFragment extends Fragment {
     private Response mResponse;
     private Instrument mInstrument;
 
+    OnSaveResponseListener mCallback;
+    
+    public interface OnSaveResponseListener {
+        public void onResponseSaved();
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);      
+        try {
+            mCallback = (OnSaveResponseListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnSaveResponseListener");
+        }
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -158,6 +175,7 @@ public abstract class QuestionFragment extends Fragment {
             mResponse.setSpecialResponse("");
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
+        mCallback.onResponseSaved();
     }
     
     public void saveSpecialResponse(String response) {

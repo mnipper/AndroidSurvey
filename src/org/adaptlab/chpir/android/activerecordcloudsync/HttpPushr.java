@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.io.InputStream;
+import java.nio.charset.CharsetEncoder;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.AppUtil;

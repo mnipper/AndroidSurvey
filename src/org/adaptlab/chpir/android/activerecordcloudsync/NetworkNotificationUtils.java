@@ -18,6 +18,8 @@ public class NetworkNotificationUtils {
      * Place a notification in the notification tray
      */
     public static void showNotification(Context context, int iconId, int textId) {
+        if (context == null) return;
+        
         Resources r = context.getResources();
 
         Notification notification = new NotificationCompat.Builder(context)

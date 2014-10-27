@@ -197,7 +197,7 @@ public class Question extends ReceiveModel {
     }
     
     /*
-     * Find an exisiting translation, or return a new QuestionTranslation
+     * Find an existing translation, or return a new QuestionTranslation
      * if a translation does not yet exist.
      */
     public QuestionTranslation getTranslationByLanguage(String language) {

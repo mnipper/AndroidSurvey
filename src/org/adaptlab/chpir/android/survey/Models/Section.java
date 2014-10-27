@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,13 +47,48 @@ public class Section extends ReceiveModel {
                 	deletedSection.delete();
                 }
             }
+            
+            //Generate translations
+            JSONArray translationsArray = jsonObject.getJSONArray("translations");
+            for(int i = 0; i < translationsArray.length(); i++) {
+                JSONObject translationJSON = translationsArray.getJSONObject(i);
+                SectionTranslation translation = section.getTranslationByLanguage(translationJSON.getString("language"));
+                translation.setSection(section);
+                translation.setText(translationJSON.getString("text"));
+                translation.save();
+            }
+            
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }  
 	}
+	
+	/*
+     * Find an existing translation, or return a new SectionTranslation
+     * if a translation does not yet exist.
+     */
+    public SectionTranslation getTranslationByLanguage(String language) {
+        for(SectionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(language)) {
+                return translation;
+            }
+        }
+        
+        SectionTranslation translation = new SectionTranslation();
+        translation.setLanguage(language);
+        return translation;
+    }
+    
+    public List<SectionTranslation> translations() {
+    	return getMany(SectionTranslation.class, "Section");
+    }
 
 	public void setInstrument(Instrument instrument) {
 		mInstrument = instrument;
+	}
+	
+	public Instrument getInstrument() {
+		return mInstrument;
 	}
 
 	public void setRemoteId(Long remoteId) {
@@ -71,7 +107,24 @@ public class Section extends ReceiveModel {
 		return mStartQuestionIdentifier;
 	}
 	
+	/*
+     * If the language of the instrument is the same as the language setting on the
+     * device (or through the Admin settings), then return the section title.
+     * 
+     * If another language is requested, iterate through section translations to
+     * find translated title.
+     * 
+     * If the language requested is not available as a translation, return the non-translated
+     * text for the section.
+     */
 	public String getTitle() {
+		if (getInstrument().getLanguage().equals(Instrument.getDeviceLanguage())) return mTitle;
+        for (SectionTranslation translation : translations()) {
+            if (translation.getLanguage().equals(Instrument.getDeviceLanguage())) {
+                return translation.getText();
+            }
+        }
+		//Default
 		return mTitle;
 	}
 

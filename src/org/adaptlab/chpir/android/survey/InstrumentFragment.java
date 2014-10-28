@@ -145,6 +145,10 @@ public class InstrumentFragment extends ListFragment {
             questionCountTextView.setText(numQuestions + " "
                     + FormatUtils.pluralize(numQuestions, getString(R.string.question), getString(R.string.questions)));
 
+            
+            TextView instrumentVersionTextView = (TextView) (TextView) convertView.findViewById(R.id.instrument_list_item_instrumentVersionTextView);
+            instrumentVersionTextView.setText(getString(R.string.version) + ": " + instrument.getVersionNumber());
+            
             return convertView;
         }
     }

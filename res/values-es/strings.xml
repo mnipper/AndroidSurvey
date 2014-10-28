@@ -78,4 +78,5 @@
     <string name="login">Iniciar sesión</string>
     <string name="invalid_username_or_password">Correo usuario o contraseña no válida!</string>
     <string name="rule_failure_instrument_launch">No se puede poner en marcha una encuesta para este instrumento desde esta aplicación. Por favor, cree una encuesta de la aplicación correspondiente.</string>
+    <string name="version">versión</string>
 </resources>

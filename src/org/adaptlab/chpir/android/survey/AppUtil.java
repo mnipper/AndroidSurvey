@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
+import org.adaptlab.chpir.android.survey.Models.DeviceSyncEntry;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
 import org.adaptlab.chpir.android.survey.Models.Image;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
@@ -95,6 +96,7 @@ public class AppUtil {
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
+        ActiveRecordCloudSync.addSendTable("device_sync_entries", DeviceSyncEntry.class);
 
         new ApkUpdateTask(mContext).execute();
     }

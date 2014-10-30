@@ -1,7 +1,7 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.io.InputStream;
-import java.nio.charset.CharsetEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -81,6 +81,23 @@ public class HttpPushr {
     }
 
 	public List<? extends SendModel> getElements() {
-		return new Select().from(mSendTableClass).orderBy("Id ASC").execute();
+	    SendModel sendModel;
+	    
+	    try {
+	        
+            sendModel = mSendTableClass.newInstance();
+            if (!sendModel.isPersistent()) {
+                List<SendModel> sendModelList = new ArrayList<SendModel>();
+                sendModelList.add(sendModel);
+                return sendModelList;
+            }
+            
+        } catch (InstantiationException ie) {
+            Log.e(TAG, "InstantiationException: " + ie);
+        } catch (IllegalAccessException ie) {
+            Log.e(TAG, "IllegalAccessException: " + ie);
+        }
+	    
+        return new Select().from(mSendTableClass).orderBy("Id ASC").execute();
 	}
 }

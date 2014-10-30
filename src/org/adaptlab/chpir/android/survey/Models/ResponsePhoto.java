@@ -92,6 +92,9 @@ public class ResponsePhoto extends SendModel implements Serializable {
 		}
 	}
 	
+    @Override
+    public boolean isPersistent() { return true; }
+	
 	public void setResponse(Response response) {
 		mResponse = response;
 	}

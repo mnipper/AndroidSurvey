@@ -75,6 +75,9 @@ public class Survey extends SendModel {
     	return AppUtil.getAdminSettingsInstance().getDeviceIdentifier();
     }
     
+    @Override
+    public boolean isPersistent() { return true; }
+    
     /*
      * The identifier to display to the user to identify a Survey.
      * Return Unidentified Survey string if no response for identifier questions.

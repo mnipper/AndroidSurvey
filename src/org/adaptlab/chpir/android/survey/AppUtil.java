@@ -32,8 +32,9 @@ import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
     private final static String TAG = "AppUtil";
-    public final static boolean REQUIRE_SECURITY_CHECKS = false;
-    public static boolean DEBUG = false;
+    public final static boolean PRODUCTION = !BuildConfig.DEBUG;
+    public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
+    public static boolean DEBUG = !PRODUCTION;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
@@ -67,7 +68,7 @@ public class AppUtil {
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
         ACCESS_TOKEN = adminSettingsInstance.getApiKey();  
                 
-        if (!BuildConfig.DEBUG)
+        if (PRODUCTION)
             Crashlytics.start(context);
         
         DatabaseSeed.seed(context);

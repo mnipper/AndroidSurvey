@@ -236,8 +236,10 @@ public class InstrumentFragment extends ListFragment {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity()))
+            if (isAdded() && NetworkNotificationUtils.checkForNetworkErrors(getActivity())) {
                 ActiveRecordCloudSync.syncReceiveTables(getActivity());
+                ActiveRecordCloudSync.syncSendTables(getActivity());
+            }
             
             return null;
         }

@@ -16,6 +16,7 @@ public class DeviceSyncEntry extends SendModel {
     
     public DeviceSyncEntry() {
         mLocationServiceManager = LocationServiceManager.get(AppUtil.getContext());
+        mLocationServiceManager.startLocationUpdates();
     }
 
     @Override

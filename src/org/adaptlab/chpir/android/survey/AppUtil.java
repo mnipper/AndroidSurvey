@@ -93,10 +93,10 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("device_users", DeviceUser.class);
         ActiveRecordCloudSync.addReceiveTable("skips", Skip.class);
         ActiveRecordCloudSync.addReceiveTable("rules", Rule.class);
+        ActiveRecordCloudSync.addSendTable("device_sync_entries", DeviceSyncEntry.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
-        ActiveRecordCloudSync.addSendTable("device_sync_entries", DeviceSyncEntry.class);
 
         new ApkUpdateTask(mContext).execute();
     }

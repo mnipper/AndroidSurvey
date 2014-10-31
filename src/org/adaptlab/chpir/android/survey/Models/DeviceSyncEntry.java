@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.Locale;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +12,11 @@ import android.util.Log;
 
 public class DeviceSyncEntry extends SendModel {
     private static final String TAG = "DeviceSyncEntry";
-    //private LocationServiceManager mLocationServiceManager;
+    private LocationServiceManager mLocationServiceManager;
+    
+    public DeviceSyncEntry() {
+        mLocationServiceManager = LocationServiceManager.get(AppUtil.getContext());
+    }
 
     @Override
     public JSONObject toJSON() {
@@ -20,8 +25,10 @@ public class DeviceSyncEntry extends SendModel {
         
         try {
             JSONObject jsonObject = new JSONObject();
-            //jsonObject.put("latitude", mLocationServiceManager.getLatitude());
-            //jsonObject.put("longitude", mLocationServiceManager.getLongitude());
+            
+            jsonObject.put("latitude", mLocationServiceManager.getLatitude());
+            jsonObject.put("longitude", mLocationServiceManager.getLongitude());
+            jsonObject.put("current_version", AppUtil.getVersionCode(AppUtil.getContext()));
             jsonObject.put("num_surveys", Survey.getAll().size());
             jsonObject.put("current_language", Locale.getDefault().getDisplayLanguage());
             jsonObject.put("instrument_versions", instrumentVersions().toString());

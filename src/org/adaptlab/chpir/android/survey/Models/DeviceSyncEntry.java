@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -35,6 +36,7 @@ public class DeviceSyncEntry extends SendModel {
             jsonObject.put("instrument_versions", instrumentVersions().toString());
             jsonObject.put("device_uuid", AdminSettings.getInstance().getDeviceIdentifier());
             jsonObject.put("api_key", AdminSettings.getInstance().getApiKey());
+            jsonObject.put("timezone", TimeZone.getDefault().getDisplayName() + " " + TimeZone.getDefault().getID());
             
             json.put("device_sync_entry", jsonObject);
         } catch (JSONException je) {

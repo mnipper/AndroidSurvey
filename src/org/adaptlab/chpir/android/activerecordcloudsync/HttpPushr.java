@@ -1,7 +1,6 @@
 package org.adaptlab.chpir.android.activerecordcloudsync;
 
 import java.io.InputStream;
-import java.nio.charset.CharsetEncoder;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -38,49 +37,66 @@ public class HttpPushr {
 
         List<? extends SendModel> allElements = getElements();
 
-        for (SendModel element : allElements) {
-            HttpClient client = new DefaultHttpClient();
-            HttpConnectionParams
-                    .setConnectionTimeout(client.getParams(), 10000); // Timeout limit
-
-            HttpResponse response;
-
-            if (!element.isSent() && element.readyToSend()) {
-                try {
-                    HttpPost post = new HttpPost(
-                            ActiveRecordCloudSync.getEndPoint()
-                                    + mRemoteTableName + ActiveRecordCloudSync.getParams());
-                    StringEntity se = new StringEntity(element.toJSON().toString(), CharEncoding.UTF_8);
-                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
-                            "application/json"));
-                    post.setEntity(se);
-                    if (AppUtil.DEBUG) Log.i(TAG, "Sending post request: "
-                            + element.toJSON().toString());
-                    response = client.execute(post);
-
-                    /* Checking for successful response */
-                    if (response.getStatusLine().getStatusCode() >= 200
-                            && response.getStatusLine().getStatusCode() < 300) {
-                        if (AppUtil.DEBUG) Log.i(TAG,
-                                "Received OK HTTP status for "
-                                        + element.toJSON());
-                        InputStream in = response.getEntity().getContent();
-                        element.setAsSent();
-                    } else {
-                        Log.e(TAG, "Received BAD HTTP status code " + response.getStatusLine().getStatusCode()
-                                + " for " + element.toJSON());
-                    }
-
-                } catch (Exception e) {
-                    Log.e(TAG, "Cannot establish connection", e);
-                }
-
+        try {
+            if (isPersistent()) {
+                for (SendModel element : allElements)
+                    sendData(element);
+            } else {
+                sendData(mSendTableClass.newInstance());   
             }
+        } catch (InstantiationException ie) {
+            Log.e(TAG, "InstantiationException: " + ie);
+        } catch (IllegalAccessException ie) {
+            Log.e(TAG, "IllegalAccessException: " + ie);
         }
-
     }
 
 	public List<? extends SendModel> getElements() {
-		return new Select().from(mSendTableClass).orderBy("Id ASC").execute();
+        return new Select().from(mSendTableClass).orderBy("Id ASC").execute();
+	}
+	
+	private void sendData(SendModel element) {
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams
+                .setConnectionTimeout(client.getParams(), 10000); // Timeout limit
+
+        HttpResponse response;
+
+        if (!element.isSent() && element.readyToSend()) {
+            try {
+                HttpPost post = new HttpPost(
+                        ActiveRecordCloudSync.getEndPoint()
+                                + mRemoteTableName + ActiveRecordCloudSync.getParams());
+                StringEntity se = new StringEntity(element.toJSON().toString(), CharEncoding.UTF_8);
+                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
+                        "application/json"));
+                post.setEntity(se);
+                if (AppUtil.DEBUG) Log.i(TAG, "Sending post request: "
+                        + element.toJSON().toString());
+                response = client.execute(post);
+
+                /* Checking for successful response */
+                if (response.getStatusLine().getStatusCode() >= 200
+                        && response.getStatusLine().getStatusCode() < 300) {
+                    if (AppUtil.DEBUG) Log.i(TAG,
+                            "Received OK HTTP status for "
+                                    + element.toJSON());
+                    InputStream in = response.getEntity().getContent();
+                    element.setAsSent();
+                } else {
+                    Log.e(TAG, "Received BAD HTTP status code " + response.getStatusLine().getStatusCode()
+                            + " for " + element.toJSON());
+                }
+
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot establish connection", e);
+            }
+
+        }
+	}
+	
+	private boolean isPersistent() throws InstantiationException, IllegalAccessException {  	       
+	    SendModel sendModel = mSendTableClass.newInstance();
+        return sendModel.isPersistent();
 	}
 }

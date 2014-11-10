@@ -9,4 +9,5 @@ public abstract class SendModel extends Model {
     public abstract boolean isSent();
     public abstract boolean readyToSend();
     public abstract void setAsSent();
+    public abstract boolean isPersistent();
 }

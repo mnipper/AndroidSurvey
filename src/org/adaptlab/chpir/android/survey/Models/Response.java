@@ -115,6 +115,9 @@ public class Response extends SendModel {
         return json;
     }
     
+    @Override
+    public boolean isPersistent() { return true; }
+    
     /*
      * Finders
      */

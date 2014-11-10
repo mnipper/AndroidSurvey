@@ -32,7 +32,7 @@ import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
     private final static String TAG = "AppUtil";
-    public final static boolean PRODUCTION = !BuildConfig.DEBUG;
+    public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
     

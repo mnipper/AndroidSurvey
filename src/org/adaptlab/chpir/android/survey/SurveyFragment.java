@@ -130,7 +130,9 @@ public class SurveyFragment extends Fragment {
             loadOrCreateQuestion();               
         }
         
-        startLocationServices();
+        if (AppUtil.getAdminSettingsInstance().getRecordSurveyLocation()) {
+        	startLocationServices();
+        }
     }
     
     private void setupNavigationDrawer() {
@@ -234,13 +236,17 @@ public class SurveyFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().registerReceiver(mLocationServiceManager.mLocationReceiver, 
+        if (AppUtil.getAdminSettingsInstance().getRecordSurveyLocation()) {
+        	getActivity().registerReceiver(mLocationServiceManager.mLocationReceiver, 
                 new IntentFilter(LocationServiceManager.ACTION_LOCATION));
+        }
     }
     
     @Override
     public void onStop() {
-        getActivity().unregisterReceiver(mLocationServiceManager.mLocationReceiver);
+    	if (AppUtil.getAdminSettingsInstance().getRecordSurveyLocation()) {
+    		getActivity().unregisterReceiver(mLocationServiceManager.mLocationReceiver);
+    	}
         super.onStop();
     }
     
@@ -622,7 +628,9 @@ public class SurveyFragment extends Fragment {
     public void finishSurvey() {
     	setSkippedForReview(); //To check if last question is skipped
     	removeInstructionsQuestions();
-    	setSurveyLocation();
+    	if (AppUtil.getAdminSettingsInstance().getRecordSurveyLocation()) {
+    		setSurveyLocation();
+    	}
     	if (!mSkippedQuestions.isEmpty()) {
     		ArrayList<String> skippedQuestions = new ArrayList<String>();
     		for (Integer questionNumber : mSkippedQuestions) {

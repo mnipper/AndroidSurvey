@@ -177,6 +177,11 @@
                 android:text="@string/require_password"
                 android:layout_marginTop="5dp" />
 
+              <CheckBox android:id="@+id/record_survey_location_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/record_survey_location"
+                android:layout_marginTop="5dp"  />
 
              <TextView
                 android:id="@+id/system_info_label"

@@ -32,6 +32,7 @@ public class AdminFragment extends Fragment {
     private CheckBox mShowRFCheckBox;
     private CheckBox mShowDKCheckBox;
     private CheckBox mRequirePasswordCheckBox;
+    private CheckBox mRecordSurveyLocationCheckBox;
     private TextView mVersionCodeTextView;
     private Button mSaveButton;
 
@@ -89,6 +90,9 @@ public class AdminFragment extends Fragment {
         mRequirePasswordCheckBox = (CheckBox) v.findViewById(R.id.require_password);
         mRequirePasswordCheckBox.setChecked(AdminSettings.getInstance().getRequirePassword());
         
+        mRecordSurveyLocationCheckBox = (CheckBox) v.findViewById(R.id.record_survey_location_checkbox);
+        mRecordSurveyLocationCheckBox.setChecked(AdminSettings.getInstance().getRecordSurveyLocation());
+        
         mLastUpdateTextView = (TextView) v.findViewById(R.id.last_update_label);
         mLastUpdateTextView.setText(mLastUpdateTextView.getText().toString() + getLastUpdateTime());
         
@@ -121,6 +125,7 @@ public class AdminFragment extends Fragment {
                 AdminSettings.getInstance().setShowRF(mShowRFCheckBox.isChecked());
                 AdminSettings.getInstance().setShowDK(mShowDKCheckBox.isChecked());
                 AdminSettings.getInstance().setRequirePassword(mRequirePasswordCheckBox.isChecked());
+                AdminSettings.getInstance().setRecordSurveyLocation(mRecordSurveyLocationCheckBox.isChecked());
                 
                 getActivity().finish();
             }

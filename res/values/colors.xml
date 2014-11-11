@@ -2,4 +2,5 @@
 <resources>
     <color name="emphasis">#31b6e7</color>
     <color name="bg_gray">#cecbce</color>
+    <color name="drawer_background">#C0CD2F</color>
 </resources>

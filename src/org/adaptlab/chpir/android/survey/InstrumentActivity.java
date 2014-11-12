@@ -8,4 +8,10 @@ public class InstrumentActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return new InstrumentFragment();
     }
+    
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.instrument_fragment;
+    }
+    
 }

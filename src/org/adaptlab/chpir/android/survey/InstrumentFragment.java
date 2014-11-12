@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,7 +47,7 @@ public class InstrumentFragment extends ListFragment {
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));     
         AppUtil.appInit(getActivity());
     }
-    
+
     private void downloadInstrumentImages() {
     	new DownloadImagesTask(getActivity()).execute();
 	}
@@ -127,6 +128,11 @@ public class InstrumentFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.list_item_instrument, null);
             }
+            if (position % 2 == 0) {
+                convertView.setBackgroundResource(R.drawable.list_background_color);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
+            }
 
             Instrument instrument = getItem(position);
 
@@ -164,7 +170,12 @@ public class InstrumentFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.list_item_survey, null);
             }
-
+            if (position % 2 == 0) {
+                convertView.setBackgroundResource(R.drawable.list_background_color);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
+            }
+            
             Survey survey = getItem(position);
 
             TextView titleTextView = (TextView) convertView

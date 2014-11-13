@@ -42,9 +42,8 @@
 		        android:id="@+id/question_container"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="16dp"
-		        android:layout_marginRight="16dp"
-		        android:layout_marginTop="16dp" />
+		        android:layout_marginLeft="20dp"
+		        android:layout_marginRight="20dp" />
                     
             <LinearLayout android:id="@+id/linear_layout_for_question_index" 
                 android:orientation="vertical"

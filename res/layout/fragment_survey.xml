@@ -42,7 +42,7 @@
 		        android:id="@+id/question_container"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="20dp"
+		        android:layout_marginLeft="40dp"
 		        android:layout_marginRight="20dp" />
                     
             <LinearLayout android:id="@+id/linear_layout_for_question_index" 

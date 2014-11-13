@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +34,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 public class InstrumentFragment extends ListFragment {
     public final static String TAG = "InstrumentFragment";

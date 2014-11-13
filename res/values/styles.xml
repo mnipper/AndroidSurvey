@@ -1,23 +1,85 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="Theme.Survey" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_survey</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Survey</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Survey</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Survey</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Survey</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Survey</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_survey</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_survey</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Survey</item> 
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTabText.Survey</item>
+        <item name="android:textViewStyle">@style/TextView.Survey</item> 
+        <item name="android:checkboxStyle">@style/CheckBox.Survey</item>
+        <item name="android:radioButtonStyle">@style/RadioButton.Survey</item>
+        <item name="android:editTextStyle">@style/EditText.Survey</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
-
+    <style name="TextView.Survey" parent="android:Widget.TextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="EditText.Survey" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="CheckBox.Survey" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="RadioButton.Survey" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="ActionBarTabText.Survey" parent="@android:style/Widget.Holo.ActionBar.TabText">
+        <item name="android:textColor">@color/actionbar_tabs</item>
+    </style>
+    
+    <style name="ActionBar.Solid.Survey" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_survey</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_survey</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_survey</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Survey</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Survey" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_survey</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Survey</item>
+    </style>
+
+    <style name="PopupMenu.Survey" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_survey</item>	
+    </style>
+
+    <style name="DropDownListView.Survey" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_survey</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Survey" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_survey</item>
+    </style>
+
+    <style name="DropDownNav.Survey" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_survey</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_survey</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_survey</item>
+    </style>
+    
+    <style name="ProgressBar.Survey" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_survey</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Survey" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_survey</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Survey.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Survey</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Survey</item>
+    </style>
 
 </resources>

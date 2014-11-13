@@ -9,9 +9,4 @@ public class InstrumentActivity extends SingleFragmentActivity {
         return new InstrumentFragment();
     }
     
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.instrument_fragment;
-    }
-    
 }

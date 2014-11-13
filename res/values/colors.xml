@@ -4,6 +4,7 @@
     <color name="bg_gray">#cecbce</color>
     <color name="drawer_background">#C0CD2F</color>
     <color name="list_background_one">#DDDFE1</color>
-    <color name="list_background_two">#FFFFFF</color>
+    <color name="list_background_two">#E6C8AA</color>
     <color name="item_selected">#1C939D</color>
+    <color name="actionbar_tabs">#FFFFFF</color>
 </resources>

@@ -38,6 +38,8 @@ public class AdminSettings extends Model {
     private String mApiKey;
     @Column(name = "RequirePassword")
     private boolean mRequirePassword;
+    @Column(name= "RecordSurveyLocation")
+    private boolean mRecordSurveyLocation;
     
     private static AdminSettings adminSettings;
     
@@ -221,6 +223,15 @@ public class AdminSettings extends Model {
     public void setRequirePassword(boolean requirePassword) {
         mRequirePassword = requirePassword;
         save();
+    }
+    
+    public void setRecordSurveyLocation(boolean recordSurveyLocation) {
+    	mRecordSurveyLocation = recordSurveyLocation;
+    	save();
+    }
+    
+    public boolean getRecordSurveyLocation() {
+    	return mRecordSurveyLocation;
     }
     
     public String getApiUrl() {

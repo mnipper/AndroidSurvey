@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.adaptlab.chpir.android.survey"
-    android:versionCode="9"
-    android:versionName="1.7.1" >
+    android:versionCode="10"
+    android:versionName="1.8" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -23,7 +23,7 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.Survey"
         android:name="com.activeandroid.app.Application" >
         <activity
             android:name="org.adaptlab.chpir.android.survey.InstrumentActivity"
@@ -73,7 +73,7 @@
         </receiver>
         <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.NotificationReceiver" />
         <meta-data android:name="AA_DB_NAME" android:value="Survey.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="28" />    
+        <meta-data android:name="AA_DB_VERSION" android:value="29" />    
         <meta-data android:name="SEED_DB" android:value="false" /> 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_api_key"/>
     </application>

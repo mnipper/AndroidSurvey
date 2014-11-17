@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Top Shadow -->
+    <item>
+        <shape  android:shape="rectangle">
+            <solid android:color="@color/response_component_border" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    
+    <!-- Bottom rectangle -->
+    <item android:top="5px">
+        <shape  android:shape="rectangle">
+            <solid android:color="@color/response_component_background" />
+            <corners android:radius="10dp" />
+            <stroke android:width="1px" android:color="@color/response_component_border"/>
+            <padding
+                android:top="10dp"
+                android:bottom="10dp"
+                android:left="10dp"
+                android:right="10dp" />
+        </shape>
+    </item>
+
+</layer-list>

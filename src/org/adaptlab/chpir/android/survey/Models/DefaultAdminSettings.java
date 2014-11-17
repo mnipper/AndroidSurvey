@@ -34,6 +34,11 @@ public class DefaultAdminSettings extends AdminSettings {
 	}
 	
 	@Override
+	public boolean getRequirePassword() {
+		return true;
+	}
+	
+	@Override
 	public int getSyncInterval() {
 		return getSyncIntervalInMinutes() * 1000 * 60;
 	}
@@ -75,6 +80,11 @@ public class DefaultAdminSettings extends AdminSettings {
 			 customLocaleCode = "";
 		 }
 		 return customLocaleCode;
+	}
+	
+	@Override
+	public boolean getRecordSurveyLocation() {
+		return AppUtil.getContext().getResources().getBoolean(R.bool.default_record_survey_location);
 	}
 
 }

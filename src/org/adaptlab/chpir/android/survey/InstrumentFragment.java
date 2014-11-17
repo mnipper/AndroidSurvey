@@ -35,7 +35,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class InstrumentFragment extends ListFragment {
     public final static String TAG = "InstrumentFragment";
 
@@ -46,7 +45,7 @@ public class InstrumentFragment extends ListFragment {
         setListAdapter(new InstrumentAdapter(Instrument.getAll()));     
         AppUtil.appInit(getActivity());
     }
-    
+
     private void downloadInstrumentImages() {
     	new DownloadImagesTask(getActivity()).execute();
 	}
@@ -127,6 +126,11 @@ public class InstrumentFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.list_item_instrument, null);
             }
+            if (position % 2 == 0) {
+                convertView.setBackgroundResource(R.drawable.list_background_color);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
+            }
 
             Instrument instrument = getItem(position);
 
@@ -164,7 +168,12 @@ public class InstrumentFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.list_item_survey, null);
             }
-
+            if (position % 2 == 0) {
+                convertView.setBackgroundResource(R.drawable.list_background_color);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
+            }
+            
             Survey survey = getItem(position);
 
             TextView titleTextView = (TextView) convertView

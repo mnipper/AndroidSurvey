@@ -8,4 +8,5 @@ public class InstrumentActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return new InstrumentFragment();
     }
+    
 }

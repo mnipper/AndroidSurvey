@@ -22,7 +22,11 @@ public class EncryptUtil {
     private final static String KEY_STRING = "";
     
     public static String encrypt(String text) {
-        if (text == null || text.isEmpty()) return "";
+        if (text == null || text.isEmpty()) return "";   
+        
+        if (KEY_STRING == null || KEY_STRING.isEmpty()) {
+            throw new SecurityException("Public Key is not set for EncryptUtil");
+        }
         
         try {
             return encryptWithKey("text", getPublicKey());

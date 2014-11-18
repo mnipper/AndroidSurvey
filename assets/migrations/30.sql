@@ -1,0 +1,1 @@
+ALTER TABLE AdminSettings ADD COLUMN ConsentApiUrl STRING;

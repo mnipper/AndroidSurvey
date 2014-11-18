@@ -40,6 +40,8 @@ public class AdminSettings extends Model {
     private boolean mRequirePassword;
     @Column(name= "RecordSurveyLocation")
     private boolean mRecordSurveyLocation;
+    @Column(name = "ConsentApiUrl")
+    private String mConsentApiUrl;
     
     private static AdminSettings adminSettings;
     
@@ -232,6 +234,15 @@ public class AdminSettings extends Model {
     
     public boolean getRecordSurveyLocation() {
     	return mRecordSurveyLocation;
+    }
+    
+    public String getConsentApiUrl() {
+        return mConsentApiUrl;
+    }
+    
+    public void setConsentApiUrl(String consentApiUrl) {
+        mConsentApiUrl = consentApiUrl;
+        save();
     }
     
     public String getApiUrl() {

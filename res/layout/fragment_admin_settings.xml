@@ -121,6 +121,20 @@
                 android:ems="10" />
             
             <TextView
+                android:id="@+id/consent_api_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/consent_api_endpoint"
+                android:layout_marginTop="10dp" />
+        
+            <EditText
+                android:id="@+id/consent_api_url_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:ems="10" />
+            
+            <TextView
                 android:id="@+id/custom_locale_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

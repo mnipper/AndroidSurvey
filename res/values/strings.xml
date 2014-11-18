@@ -84,4 +84,5 @@
     <string name="rule_failure_instrument_launch">You cannot launch a survey for this instrument from this app.  Please create a survey from the appropriate application.</string>
     <string name="version">version</string>
     <string name="record_survey_location">Record Survey Location</string>
+    <string name="consent_api_endpoint">Consent Service Endpoint Url</string>
 </resources>

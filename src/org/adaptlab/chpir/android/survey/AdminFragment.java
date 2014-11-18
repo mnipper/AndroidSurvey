@@ -25,6 +25,7 @@ public class AdminFragment extends Fragment {
     private EditText mProjectIdEditText;
     private EditText mApiKeyEditText;
     private EditText mCustomLocaleEditText;
+    private EditText mConsentApiUrlEditText;
     private TextView mLastUpdateTextView;
     private CheckBox mShowSurveysCheckBox;
     private CheckBox mShowSkipCheckBox;
@@ -69,6 +70,9 @@ public class AdminFragment extends Fragment {
         mApiKeyEditText = (EditText) v.findViewById(R.id.api_key_text);
         mApiKeyEditText.setText(getAdminSettingsInstanceApiKey());
         
+        mConsentApiUrlEditText = (EditText) v.findViewById(R.id.consent_api_url_text);
+        mConsentApiUrlEditText.setText(AdminSettings.getInstance().getConsentApiUrl());
+        
         mCustomLocaleEditText = (EditText) v.findViewById(R.id.custom_locale_edit_text);
         mCustomLocaleEditText.setText(getAdminSettingsInstanceCustomLocaleCode());
         
@@ -109,6 +113,7 @@ public class AdminFragment extends Fragment {
                 AdminSettings.getInstance().setApiVersion(mApiVersionEditText.getText().toString());
                 AdminSettings.getInstance().setProjectId(mProjectIdEditText.getText().toString());
                 AdminSettings.getInstance().setApiKey(mApiKeyEditText.getText().toString());
+                AdminSettings.getInstance().setConsentApiUrl(mConsentApiUrlEditText.getText().toString());
 
                 // If this code is set, it will override the language selection on the device
                 // for all instrument translations.

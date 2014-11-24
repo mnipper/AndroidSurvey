@@ -39,6 +39,8 @@ public class Survey extends SendModel {
     private Question mLastQuestion;
     @Column(name = "Metadata")
     private String mMetadata;
+    @Column(name = "ProjectId")
+    private Long mProjectId;
 
     public Survey() {
         super();
@@ -109,6 +111,12 @@ public class Survey extends SendModel {
         return new Select().from(Survey.class).orderBy("LastUpdated DESC").execute();
     }
 
+    public static List<Survey> getAllProjectSurveys(Long projectId) {
+    	return new Select()
+    		.from(Survey.class)
+    		.where("ProjectId = ?", projectId)
+    		.orderBy("LastUpdated DESC").execute();
+    }
     
     /*
      * Relationships
@@ -197,5 +205,13 @@ public class Survey extends SendModel {
     
     public String getMetadata() {
         return mMetadata;
+    }
+    
+    public void setProjectId(Long id) {
+    	mProjectId = id;
+    }
+    
+    public Long getProjectId() {
+    	return mProjectId;
     }
 }

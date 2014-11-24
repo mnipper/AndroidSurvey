@@ -97,7 +97,7 @@ public class InstrumentFragment extends ListFragment {
                         if (Survey.getAll().isEmpty())
                             setListAdapter(null);
                         else
-                            setListAdapter(new SurveyAdapter(Survey.getAll()));
+                            setListAdapter(new SurveyAdapter(Survey.getAllProjectSurveys(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()))));
                     } else {
                         setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()))));
                     }

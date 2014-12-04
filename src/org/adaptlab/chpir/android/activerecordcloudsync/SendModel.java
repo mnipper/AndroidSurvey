@@ -10,4 +10,8 @@ public abstract class SendModel extends Model {
     public abstract boolean readyToSend();
     public abstract void setAsSent();
     public abstract boolean isPersistent();
+    
+    public String getEndPoint() {
+        return ActiveRecordCloudSync.getEndPoint();
+    }
 }

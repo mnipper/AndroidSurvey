@@ -2,6 +2,7 @@ package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Date;
 
+import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
 import org.adaptlab.chpir.android.survey.EncryptUtil;
 import org.json.JSONException;
@@ -53,6 +54,11 @@ public class ConsentForm extends SendModel {
     @Override
     public void setAsSent() {
         this.delete();
+    }
+    
+    @Override
+    public String getEndPoint() {
+        return ActiveRecordCloudSync.getConsentEndPoint();
     }
     
     public void setName(String name) {

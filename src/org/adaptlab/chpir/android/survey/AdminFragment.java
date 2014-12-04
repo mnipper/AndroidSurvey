@@ -122,6 +122,7 @@ public class AdminFragment extends Fragment {
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());                
                 ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
+                ActiveRecordCloudSync.setConsentEndPoint(AdminSettings.getInstance().getConsentApiUrl());
                 new ApkUpdateTask(getActivity()).execute();
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());

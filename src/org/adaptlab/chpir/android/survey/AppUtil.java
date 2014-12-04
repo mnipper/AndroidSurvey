@@ -1,9 +1,11 @@
 package org.adaptlab.chpir.android.survey;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
+import org.adaptlab.chpir.android.survey.Models.ConsentForm;
 import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceSyncEntry;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
@@ -85,6 +87,7 @@ public class AppUtil {
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);
         ActiveRecordCloudSync.setVersionCode(AppUtil.getVersionCode(context));
         ActiveRecordCloudSync.setEndPoint(adminSettingsInstance.getApiUrl());
+        ActiveRecordCloudSync.setConsentEndPoint(adminSettingsInstance.getConsentApiUrl());
         ActiveRecordCloudSync.addReceiveTable("instruments", Instrument.class);
         ActiveRecordCloudSync.addReceiveTable("questions", Question.class);
         ActiveRecordCloudSync.addReceiveTable("options", Option.class);
@@ -97,6 +100,7 @@ public class AppUtil {
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
         ActiveRecordCloudSync.addSendTable("device_sync_entries", DeviceSyncEntry.class);
+        ActiveRecordCloudSync.addSendTable("consent_forms", ConsentForm.class);
 
         new ApkUpdateTask(mContext).execute();
     }

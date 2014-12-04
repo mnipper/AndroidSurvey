@@ -22,6 +22,7 @@ public class ActiveRecordCloudSync {
     private static String mEndPoint;        // The remote API endpoint url
     private static String mAccessToken;     // API Access Key
     private static int mVersionCode;        // App version code from Manifest
+    private static String mConsentEndPoint;
     
     /**
      * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
@@ -53,6 +54,17 @@ public class ActiveRecordCloudSync {
     
     public static String getEndPoint() {
         return mEndPoint;
+    }
+    
+    public static void setConsentEndPoint(String endPoint) {
+        char lastChar = endPoint.charAt(endPoint.length() - 1);
+        if (lastChar != '/') endPoint = endPoint + "/";
+        
+        mConsentEndPoint = endPoint;        
+    }
+    
+    public static String getConsentEndPoint() {
+        return mConsentEndPoint;
     }
     
     public static void syncReceiveTables(Context context) {

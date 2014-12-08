@@ -38,6 +38,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
+    public static boolean REQUIRE_CONSENT = PRODUCTION;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;

@@ -1,6 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
 import java.util.Date;
+import java.util.List;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.SendModel;
@@ -12,6 +13,7 @@ import android.util.Log;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table(name = "ConsentForms")
 public class ConsentForm extends SendModel {
@@ -23,6 +25,8 @@ public class ConsentForm extends SendModel {
     private String mEmail;
     @Column(name = "Date")
     private Date mDate;
+    @Column(name = "SendEmailCopy")
+    private boolean mSendEmailCopy;
 
     @Override
     public JSONObject toJSON() {
@@ -33,6 +37,7 @@ public class ConsentForm extends SendModel {
             jsonObject.put("name", getName());
             jsonObject.put("email", getEmail());
             jsonObject.put("date", getDate());
+            jsonObject.put("send_email_copy", getSendEmailCopy());
 
             json.put("consent_form", jsonObject);
         } catch (JSONException je) {
@@ -53,12 +58,19 @@ public class ConsentForm extends SendModel {
 
     @Override
     public void setAsSent() {
-        this.delete();
+        this.mName = "";
+        this.mEmail = "";
+        save();
     }
     
     @Override
     public String getEndPoint() {
         return ActiveRecordCloudSync.getConsentEndPoint();
+    }
+    
+    public static boolean consentGiven() {
+        List<ConsentForm> consentForms = new Select().from(ConsentForm.class).execute();
+        return !consentForms.isEmpty();
     }
     
     public void setName(String name) {
@@ -83,5 +95,13 @@ public class ConsentForm extends SendModel {
     
     public Date getDate() {
         return mDate;
+    }
+    
+    private boolean getSendEmailCopy() {
+        return mSendEmailCopy;
+    }
+    
+    public void setSendEmailCopy(boolean sendEmailCopy) {
+        mSendEmailCopy = sendEmailCopy;
     }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/consent_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/consent_text"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="40dp" />
+
+    <EditText
+        android:id="@+id/consent_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10" >
+    </EditText>
+    
+   <EditText
+        android:id="@+id/consent_email_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10" >
+    </EditText>
+    
+    <CheckBox android:id="@+id/email_copy_of_consent_checkbox"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/send_email_copy_of_consent"
+         android:layout_marginTop="5dp" />
+
+    <Button
+        android:id="@+id/consent_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="18dp"
+        android:text="@string/consent_button"
+        android:width="200dp" />
+
+</LinearLayout>

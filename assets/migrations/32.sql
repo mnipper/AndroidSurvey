@@ -1,0 +1,1 @@
+ALTER TABLE ConsentForms ADD COLUMN SendEmailCopy BOOLEAN;

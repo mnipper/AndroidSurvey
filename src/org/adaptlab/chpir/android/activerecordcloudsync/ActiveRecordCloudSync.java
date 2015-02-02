@@ -57,10 +57,12 @@ public class ActiveRecordCloudSync {
     }
     
     public static void setConsentEndPoint(String endPoint) {
-        char lastChar = endPoint.charAt(endPoint.length() - 1);
-        if (lastChar != '/') endPoint = endPoint + "/";
-        
-        mConsentEndPoint = endPoint;        
+        if (endPoint != null) {
+	    	char lastChar = endPoint.charAt(endPoint.length() - 1);
+	        if (lastChar != '/') endPoint = endPoint + "/";
+	        
+	        mConsentEndPoint = endPoint;   
+        }
     }
     
     public static String getConsentEndPoint() {

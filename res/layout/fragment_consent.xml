@@ -4,15 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView 
+        android:id="@+id/consent_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="@string/consent_title"/>
+    
     <TextView
         android:id="@+id/consent_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/consent_text"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginRight="16dp" 
+        android:maxLines="8"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"/>
 
+    <TextView 
+        android:id="@+id/consent_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"    
+        android:text="@string/consent_name"/>
+    
     <EditText
         android:id="@+id/consent_name_edit_text"
         android:layout_width="match_parent"
@@ -23,11 +41,19 @@
         android:ems="10" >
     </EditText>
     
+   <TextView 
+        android:id="@+id/consent_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="@string/consent_email"/>
+   
    <EditText
         android:id="@+id/consent_email_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
+        android:inputType="textEmailAddress"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:ems="10" >
@@ -43,7 +69,7 @@
         android:id="@+id/consent_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|center"
         android:layout_marginTop="18dp"
         android:text="@string/consent_button"
         android:width="200dp" />

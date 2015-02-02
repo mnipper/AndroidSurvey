@@ -34,8 +34,14 @@ public class HttpFetchr {
         }
         
         try {
-            String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName
+        	String url = "";
+        	if (mRemoteTableName == "consent_texts" ) {
+        		url = ActiveRecordCloudSync.getConsentEndPoint() + mRemoteTableName
+                        + ActiveRecordCloudSync.getParams();
+        	} else {
+        		url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName
                     + ActiveRecordCloudSync.getParams();
+        	}
             if (AppUtil.DEBUG) Log.i(TAG, "Attempting to access " + url);
             String jsonString = getUrl(url);
             if (AppUtil.DEBUG) Log.i(TAG, "Got JSON String: " + jsonString);

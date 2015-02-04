@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
+import org.adaptlab.chpir.android.survey.Models.ConsentForm;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -105,7 +106,7 @@ public class SurveyFragment extends Fragment {
         setHasOptionsMenu(true);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         
-        if (AppUtil.REQUIRE_CONSENT ){ //&& !ConsentForm.consentGiven()) {
+        if (AppUtil.REQUIRE_CONSENT && !ConsentForm.consentGiven()) {
             Intent i = new Intent(getActivity(), ConsentActivity.class);
             startActivity(i);
             getActivity().finish();

@@ -9,7 +9,6 @@ import org.adaptlab.chpir.android.survey.Models.ConsentText;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

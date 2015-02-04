@@ -19,9 +19,11 @@
         android:text="@string/consent_text"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" 
-        android:maxLines="8"
+        android:padding="5dp"
+        android:maxLines="10"
         android:scrollbars="vertical"
-        android:fadeScrollbars="false"/>
+        android:fadeScrollbars="false"
+        android:background="@drawable/question_text_layout" />
 
     <TextView 
         android:id="@+id/consent_name"
@@ -67,11 +69,17 @@
 
     <Button
         android:id="@+id/consent_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:text="@string/consent_button"
-        android:width="200dp" />
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:background="@drawable/consent_button"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5" />
 
 </LinearLayout>

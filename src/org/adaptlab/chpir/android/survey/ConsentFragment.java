@@ -8,7 +8,9 @@ import org.adaptlab.chpir.android.survey.Models.ConsentText;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConsentFragment extends Fragment {
     private TextView mConsentTextView;
@@ -23,6 +26,7 @@ public class ConsentFragment extends Fragment {
     private EditText mEmailEditText;
     private CheckBox mEmailConsentFormCheckBox;
     private Button mConsentButton;
+    private Button mDissentButton;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -47,10 +51,29 @@ public class ConsentFragment extends Fragment {
                 consentForm.setEmail(mEmailEditText.getText().toString());
                 consentForm.setDate(new Date());
                 consentForm.setSendEmailCopy(mEmailConsentFormCheckBox.isChecked());
-                consentForm.save();
-                
-                getActivity().finish();
+                if (isValidName(mNameEditText.getText().toString())) {
+                	if (mEmailConsentFormCheckBox.isChecked() || !TextUtils.isEmpty(mEmailEditText.getText().toString())) {
+                		if (isValidEmail(mEmailEditText.getText().toString())) {
+                			consentForm.save();             
+                        	getActivity().finish();
+                		} else {
+                			Toast.makeText(getActivity(), "Please enter a valid email address!", Toast.LENGTH_SHORT).show();
+                		}
+                	} else {
+                		consentForm.save();             
+                		getActivity().finish();
+                	}
+                } else {
+                	Toast.makeText(getActivity(), "Please enter a valid name!", Toast.LENGTH_SHORT).show();
+                }
             }            
+        });
+        
+        mDissentButton = (Button) v.findViewById(R.id.disagree_button);
+        mDissentButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				getActivity().finish();
+			}        	
         });
         
         return v;       
@@ -61,4 +84,17 @@ public class ConsentFragment extends Fragment {
 		ConsentText consent = ConsentText.findByProjectId(Long.valueOf(projectId));
 		return consent.getText();
 	}
+	
+	private boolean isValidName(String name) {
+		return !TextUtils.isEmpty(name);
+	}
+	
+	private boolean isValidEmail(CharSequence email) {
+	    if (TextUtils.isEmpty(email)) {
+	        return false;
+	    } else {
+	        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+	    }
+	}
+
 }

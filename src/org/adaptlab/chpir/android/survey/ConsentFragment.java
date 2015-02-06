@@ -51,21 +51,18 @@ public class ConsentFragment extends Fragment {
                 consentForm.setEmail(mEmailEditText.getText().toString());
                 consentForm.setDate(new Date());
                 consentForm.setSendEmailCopy(mEmailConsentFormCheckBox.isChecked());
-                if (isValidName(mNameEditText.getText().toString())) {
-                	if (mEmailConsentFormCheckBox.isChecked() || !TextUtils.isEmpty(mEmailEditText.getText().toString())) {
-                		if (isValidEmail(mEmailEditText.getText().toString())) {
-                			consentForm.save();             
-                        	getActivity().finish();
-                		} else {
-                			Toast.makeText(getActivity(), "Please enter a valid email address!", Toast.LENGTH_SHORT).show();
-                		}
-                	} else {
-                		consentForm.save();             
-                		getActivity().finish();
-                	}
-                } else {
+                
+                if (!isValidName(mNameEditText.getText().toString())) {
                 	Toast.makeText(getActivity(), "Please enter a valid name!", Toast.LENGTH_SHORT).show();
+                	return;
                 }
+                
+               if (mEmailConsentFormCheckBox.isChecked() && !isValidEmail(mEmailEditText.getText().toString())) {
+     		    	Toast.makeText(getActivity(), "Please enter a valid email address!", Toast.LENGTH_SHORT).show();
+     		    	return;
+        		}
+    			consentForm.save();             
+        		getActivity().finish();
             }            
         });
         

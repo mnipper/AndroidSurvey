@@ -1,0 +1,1 @@
+ALTER TABLE Surveys ADD COLUMN ProjectId LONG;

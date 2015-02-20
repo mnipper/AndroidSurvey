@@ -218,6 +218,7 @@ public class SurveyFragment extends Fragment {
             mSurvey = new Survey();
             mSurvey.setInstrument(mInstrument);
             mSurvey.setMetadata(mMetadata);
+            mSurvey.setProjectId(mInstrument.getProjectId());
             mSurvey.save();
         } else {
             mSurvey = Model.load(Survey.class, surveyId);

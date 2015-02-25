@@ -184,6 +184,12 @@ public class InstrumentFragment extends ListFragment {
             TextView progressTextView = (TextView) convertView.findViewById(R.id.survey_list_item_progressTextView);            
             progressTextView.setText(survey.responses().size() + " " + getString(R.string.of) + " " + survey.getInstrument().questions().size());
 
+            if (survey.readyToSend()) {
+            	progressTextView.setTextColor(Color.GREEN);
+            } else {
+            	progressTextView.setTextColor(Color.RED);
+            }
+            
             TextView instrumentTitleTextView = (TextView) convertView.findViewById(R.id.survey_list_item_instrumentTextView);
             instrumentTitleTextView.setText(survey.getInstrument().getTitle());
             

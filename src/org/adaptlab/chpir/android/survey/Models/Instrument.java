@@ -162,7 +162,15 @@ public class Instrument extends ReceiveModel {
     }
     
     public static List<Instrument> getAllProjectInstruments(Long projectId) {
-    	return new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Title").execute();
+    	List<Instrument> allInstruments = new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Title").execute();
+    	List<Instrument> unLoadedInstruments = new ArrayList<Instrument>();
+    	for (Instrument instrument : allInstruments) {
+    		if (!instrument.loaded()) {
+    			unLoadedInstruments.add(instrument);
+    		}
+    	}
+    	allInstruments.removeAll(unLoadedInstruments);
+    	return allInstruments;
     }
       
     public static Instrument findByRemoteId(Long id) {

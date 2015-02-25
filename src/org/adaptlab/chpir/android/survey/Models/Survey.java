@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -112,10 +113,15 @@ public class Survey extends SendModel {
     }
 
     public static List<Survey> getAllProjectSurveys(Long projectId) {
-    	return new Select()
-    		.from(Survey.class)
-    		.where("ProjectId = ?", projectId)
-    		.orderBy("LastUpdated DESC").execute();
+    	List<Survey> allSurveys = new Select().from(Survey.class).where("ProjectId = ?", projectId).orderBy("LastUpdated DESC").execute();
+    	List<Survey> surveysToOmit = new ArrayList<Survey>();
+    	for (Survey survey : allSurveys) {
+    		if (!survey.getInstrument().loaded()) {
+    			surveysToOmit.add(survey);
+    		}
+    	}
+    	allSurveys.removeAll(surveysToOmit);
+    	return allSurveys;
     }
     
     /*

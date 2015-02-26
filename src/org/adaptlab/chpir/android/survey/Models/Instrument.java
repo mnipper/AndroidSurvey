@@ -43,6 +43,8 @@ public class Instrument extends ReceiveModel {
     private int mQuestionCount;
     @Column(name = "ProjectId")
     private Long mProjectId;
+    @Column(name = "Published")
+    private boolean mPublished;
 
     public Instrument() {
         super();
@@ -137,6 +139,7 @@ public class Instrument extends ReceiveModel {
             instrument.setVersionNumber(jsonObject.getInt("current_version_number"));
             instrument.setQuestionCount(jsonObject.getInt("question_count"));
             instrument.setProjectId(jsonObject.getLong("project_id"));
+            instrument.setPublished(jsonObject.getBoolean("published"));
             instrument.save();
             
             // Generate translations
@@ -162,15 +165,10 @@ public class Instrument extends ReceiveModel {
     }
     
     public static List<Instrument> getAllProjectInstruments(Long projectId) {
-    	List<Instrument> allInstruments = new Select().from(Instrument.class).where("ProjectID = ?", projectId).orderBy("Title").execute();
-    	List<Instrument> unLoadedInstruments = new ArrayList<Instrument>();
-    	for (Instrument instrument : allInstruments) {
-    		if (!instrument.loaded()) {
-    			unLoadedInstruments.add(instrument);
-    		}
-    	}
-    	allInstruments.removeAll(unLoadedInstruments);
-    	return allInstruments;
+    	return new Select().from(Instrument.class)
+    			.where("ProjectID = ? AND Published = ?", projectId, 1)	//sqlite saves booleans as integers
+    			.orderBy("Title")
+    			.execute();
     }
       
     public static Instrument findByRemoteId(Long id) {
@@ -264,6 +262,10 @@ public class Instrument extends ReceiveModel {
     	return mProjectId;
     }
     
+    public boolean getPublished() {
+    	return mPublished;
+    }
+    
     /*
      * Private
      */   
@@ -277,5 +279,10 @@ public class Instrument extends ReceiveModel {
     
     private void setQuestionCount(int num) {
         mQuestionCount = num;
+    }
+    
+    private void setPublished(boolean published) {
+    	Log.i(TAG, "PUBLISHED: " + published);
+    	mPublished = published;
     }
 }

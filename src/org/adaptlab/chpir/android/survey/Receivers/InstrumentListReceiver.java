@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.Receivers;
 
+import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Rule;
 import org.adaptlab.chpir.android.survey.Models.Rule.RuleType;
@@ -21,7 +22,16 @@ public class InstrumentListReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Received broadcast to send list of available instruments");
         
-        int instrumentListSize = Instrument.getAll().size();
+        Long currentProjectId;
+        
+        try {
+            currentProjectId = Long.valueOf(AdminSettings.getInstance().getProjectId());
+        } catch (NumberFormatException nfe) {
+            Log.e(TAG, "Project ID is not a number: " + nfe);
+            return;
+        }
+        
+        int instrumentListSize = Instrument.getAllProjectInstruments(currentProjectId).size();
         
         String[] instrumentTitleList = new String[instrumentListSize];
         long[] instrumentIdList = new long[instrumentListSize];

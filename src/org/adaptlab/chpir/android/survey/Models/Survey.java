@@ -86,30 +86,29 @@ public class Survey extends SendModel {
      * Return Unidentified Survey string if no response for identifier questions.
      */
     public String identifier(Context context) {
-		String surveyLabel = null;
-		String identifier = "";
+    	String surveyLabel = null;
+    	String identifier = "";
     	try {
-			JSONObject metadata = new JSONObject(getMetadata());
-			if (metadata.has("survey_label")) {
-	        	surveyLabel = metadata.getString("survey_label");
-	        }
-		} catch (JSONException er) {
-			Log.e(TAG, er.getMessage());
-		}
-    	
-    	if (TextUtils.isEmpty(surveyLabel))  {
-	        for (Response response : responses()) {
-	            if (response.getQuestion().identifiesSurvey()) {
-	                identifier += response.getText() + " ";
-	            }
-	        }
-	        if (identifier.trim().isEmpty())
-	            return context.getString(R.string.unidentified_survey) + " " + getId();
-	        else
-	            return identifier;
-    	} else {
-    		return surveyLabel;
+    		JSONObject metadata = new JSONObject(getMetadata());
+    		if (metadata.has("survey_label")) {
+    			surveyLabel = metadata.getString("survey_label");
+    		}
+    	} catch (JSONException er) {
+    		Log.e(TAG, er.getMessage());
     	}
+
+    	if (!TextUtils.isEmpty(surveyLabel))  { return surveyLabel; }
+    	
+    	for (Response response : responses()) {
+    		if (response.getQuestion().identifiesSurvey()) {
+    			identifier += response.getText() + " ";
+    		}
+    	}
+    	
+    	if (identifier.trim().isEmpty())
+    		return context.getString(R.string.unidentified_survey) + " " + getId();
+    	else
+    		return identifier;
     }
     
     /*

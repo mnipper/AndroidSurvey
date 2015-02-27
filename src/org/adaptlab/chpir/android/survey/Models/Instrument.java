@@ -282,7 +282,6 @@ public class Instrument extends ReceiveModel {
     }
     
     private void setPublished(boolean published) {
-    	Log.i(TAG, "PUBLISHED: " + published);
     	mPublished = published;
     }
 }

@@ -38,9 +38,9 @@ public class InstrumentListReceiver extends BroadcastReceiver {
         String[] instrumentParticipantTypes = new String[instrumentListSize];
 
         for (int i = 0; i < instrumentListSize; i++) {
-            instrumentTitleList[i] = Instrument.getAll().get(i).getTitle();
-            instrumentIdList[i] = Instrument.getAll().get(i).getRemoteId();
-            Rule rules = Rule.findByRuleTypeAndInstrument(RuleType.PARTICIPANT_TYPE_RULE, Instrument.getAll().get(i));
+            instrumentTitleList[i] = Instrument.getAllProjectInstruments(currentProjectId).get(i).getTitle();
+            instrumentIdList[i] = Instrument.getAllProjectInstruments(currentProjectId).get(i).getRemoteId();
+            Rule rules = Rule.findByRuleTypeAndInstrument(RuleType.PARTICIPANT_TYPE_RULE, Instrument.getAllProjectInstruments(currentProjectId).get(i));
             if (rules == null) {
                 instrumentParticipantTypes[i] = "";
             } else {

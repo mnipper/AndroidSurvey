@@ -10,6 +10,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionF
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfIntegerBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.MonthAndYearQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.PhoneNumberQuestionFragment;
@@ -84,6 +85,8 @@ public class QuestionFragmentFactory {
         	fragment = new SelectOneImageQuestionFragment();
         } else if (Question.QuestionType.SELECT_MULTIPLE_IMAGE.toString().equals(type)) {
         	fragment = new SelectMultipleImageQuestionFragment();
+        } else if (Question.QuestionType.LIST_OF_INTEGER_BOXES.toString().equals(type)) {
+            fragment = new ListOfIntegerBoxesQuestionFragment();
         } else {
             // Return free response fragment if unknown question type
             // This should never happen

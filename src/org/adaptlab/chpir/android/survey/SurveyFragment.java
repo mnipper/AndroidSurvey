@@ -415,7 +415,11 @@ public class SurveyFragment extends Fragment {
      * on the view in the question_container.
      */
 	protected void createQuestionFragment() {        
-        FragmentManager fm = getChildFragmentManager();       
+        if (mQuestion == null)
+        		loadOrCreateQuestion();
+        if (mSurvey == null)
+        		loadOrCreateSurvey();
+		FragmentManager fm = getChildFragmentManager();       
         mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
 
         if (fm.findFragmentById(R.id.question_container) == null) {

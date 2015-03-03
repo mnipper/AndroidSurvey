@@ -9,6 +9,10 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class SliderQuestionFragment extends QuestionFragment {
     private int mProgress;
     private SeekBar mSlider;
+    
+    protected void beforeAddViewHook(ViewGroup questionComponent) {
+        
+    }
 
     @Override
     protected void createQuestionComponent(ViewGroup questionComponent) {
@@ -23,6 +27,7 @@ public class SliderQuestionFragment extends QuestionFragment {
             public void onStartTrackingTouch(SeekBar seekBar) { }
             public void onStopTrackingTouch(SeekBar seekBar) { }     
         });
+        beforeAddViewHook(questionComponent);
         questionComponent.addView(mSlider);
     }
 

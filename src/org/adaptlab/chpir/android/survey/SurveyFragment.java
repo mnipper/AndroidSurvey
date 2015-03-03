@@ -18,6 +18,8 @@ import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
 import org.adaptlab.chpir.android.survey.Tasks.SendResponsesTask;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +34,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,6 +88,7 @@ public class SurveyFragment extends Fragment {
 
     private TextView mQuestionText;
     private TextView mQuestionIndex;
+    private TextView mParticipantLabel;
     private ProgressBar mProgressBar;
     QuestionFragment mQuestionFragment;
     private LocationServiceManager mLocationServiceManager;
@@ -389,9 +393,11 @@ public class SurveyFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_survey, parent, false);
 
         mQuestionText = (TextView) v.findViewById(R.id.question_text);
+        mParticipantLabel = (TextView) v.findViewById(R.id.participant_label);
         mQuestionIndex = (TextView) v.findViewById(R.id.question_index);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
 
+        setParticipantLabel();
         updateQuestionCountLabel();
         
         setQuestionText(mQuestionText);
@@ -740,7 +746,21 @@ public class SurveyFragment extends Fragment {
             mQuestionFragment.deserialize(mQuestionFragment.getResponse().getText());
         }
     }
-            
+          
+    private void setParticipantLabel() {
+    	String surveyMetaData = mSurvey.getMetadata();
+    	if (!TextUtils.isEmpty(surveyMetaData)) {
+	    	try {
+	    		JSONObject metadata = new JSONObject(surveyMetaData);
+	    		if (metadata.has("survey_label")) {
+	    			mParticipantLabel.setText(metadata.getString("survey_label"));
+	    		}
+	    	} catch (JSONException er) {
+	    		Log.e(TAG, er.getMessage());
+	    	}
+    	}
+    }
+    
     private void updateQuestionCountLabel() {    	
         int numberQuestions = mInstrument.questions().size();
         

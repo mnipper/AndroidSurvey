@@ -18,6 +18,7 @@ import org.adaptlab.chpir.android.survey.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -52,18 +53,20 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	protected void onPostExecute(Void param) {
 		if (mLatestVersion != null) {
 			if (mLatestVersion > AppUtil.getVersionCode(mContext)) {
-		        new AlertDialog.Builder(mContext)
-				.setMessage(R.string.new_apk)
-				.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
-					public void onClick(DialogInterface dialog, int button) {
-						new DownloadApkTask().execute();
-					}
-				})
-				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                	   PollService.setServiceAlarm(mContext.getApplicationContext(), true);
-	                   }
-	            }).show();
+		        if (!((Activity) mContext).isFinishing() || !((Activity) mContext).isDestroyed()) {
+					new AlertDialog.Builder(mContext)
+					.setMessage(R.string.new_apk)
+					.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 
+						public void onClick(DialogInterface dialog, int button) {
+							new DownloadApkTask().execute();
+						}
+					})
+					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+		                   public void onClick(DialogInterface dialog, int id) {
+		                	   PollService.setServiceAlarm(mContext.getApplicationContext(), true);
+		                   }
+		            }).show();
+		        }
 	        } else {
 	        	PollService.setServiceAlarm(mContext.getApplicationContext(), true);
 	        }
@@ -76,14 +79,14 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 		String url = AppUtil.getAdminSettingsInstance().getApiUrl() + "android_updates" + ActiveRecordCloudSync.getParams();
 		try {
 			String jsonString = getUrl(url);
-	        Log.i(TAG, "Got JSON String: " + jsonString);
+			if (AppUtil.DEBUG) Log.i(TAG, "Got JSON String: " + jsonString);
 	        if (jsonString != null) {
 		        JSONObject obj = new JSONObject(jsonString);
 		        mLatestVersion = obj.getInt("version");
 		        mApkId = obj.getInt("id");
 		        mFileName = UUID.randomUUID().toString() + ".apk";
-		        Log.i(TAG, "Latest version is: " + mLatestVersion);
-		        Log.i(TAG, "Old version is: " + AppUtil.getVersionCode(mContext));
+		        if (AppUtil.DEBUG) 
+		        	Log.i(TAG, "Latest version is: " + mLatestVersion + ". Old version is: " + AppUtil.getVersionCode(mContext));
 	        }
 		} catch (ConnectException cre) {
             Log.e(TAG, "Connection was refused", cre);

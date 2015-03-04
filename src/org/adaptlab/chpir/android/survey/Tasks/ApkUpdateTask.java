@@ -53,7 +53,7 @@ public class ApkUpdateTask extends AsyncTask<Void, Void, Void> {
 	protected void onPostExecute(Void param) {
 		if (mLatestVersion != null) {
 			if (mLatestVersion > AppUtil.getVersionCode(mContext)) {
-		        if (!((Activity) mContext).isFinishing() || !((Activity) mContext).isDestroyed()) {
+		        if (!((Activity) mContext).isFinishing() && !((Activity) mContext).isDestroyed()) {
 					new AlertDialog.Builder(mContext)
 					.setMessage(R.string.new_apk)
 					.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() { 

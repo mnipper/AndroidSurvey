@@ -88,15 +88,16 @@ public class Survey extends SendModel {
     public String identifier(Context context) {
     	String surveyLabel = null;
     	String identifier = "";
-    	try {
-    		JSONObject metadata = new JSONObject(getMetadata());
-    		if (metadata.has("survey_label")) {
-    			surveyLabel = metadata.getString("survey_label");
-    		}
-    	} catch (JSONException er) {
-    		Log.e(TAG, er.getMessage());
+    	if (!TextUtils.isEmpty(getMetadata())) {
+	    	try {
+	    		JSONObject metadata = new JSONObject(getMetadata());
+	    		if (metadata.has("survey_label")) {
+	    			surveyLabel = metadata.getString("survey_label");
+	    		}
+	    	} catch (JSONException er) {
+	    		Log.e(TAG, er.getMessage());
+	    	}
     	}
-
     	if (!TextUtils.isEmpty(surveyLabel))  { return surveyLabel; }
     	
     	for (Response response : responses()) {

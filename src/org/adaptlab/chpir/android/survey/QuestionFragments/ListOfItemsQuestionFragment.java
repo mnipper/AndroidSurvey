@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 public abstract class ListOfItemsQuestionFragment extends QuestionFragment {
     private ArrayList<EditText> mResponses;
+    protected abstract EditText createEditText();
     
-    protected void createQuestionComponent(ViewGroup questionComponent, EditText editText) {
+    protected void createQuestionComponent(ViewGroup questionComponent) {
         mResponses = new ArrayList<EditText>();
         for (Option option : getQuestion().options()) {
             final TextView optionText = new TextView(getActivity());
             optionText.setText(option.getText());
+            questionComponent.addView(optionText);
+            EditText editText = createEditText();
             editText.setHint(R.string.free_response_edittext);
             editText.setTypeface(getInstrument().getTypeFace(getActivity().getApplicationContext()));
-            questionComponent.addView(optionText);
             questionComponent.addView(editText);
             mResponses.add(editText);
             editText.addTextChangedListener(new TextWatcher() {
@@ -57,5 +59,5 @@ public abstract class ListOfItemsQuestionFragment extends QuestionFragment {
             if (mResponses.size() > i)
                 mResponses.get(i).setText(listOfResponses[i]);
         }
-    }   
+    }
 }

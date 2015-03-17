@@ -37,6 +37,9 @@ libs/survey_pk
 #Gradle
 build/
 .gradle/
+.idea/
+gradle/
+AndroidSurvey.iml
 
 # Default Admin Settings
 res/values/defaults.xml

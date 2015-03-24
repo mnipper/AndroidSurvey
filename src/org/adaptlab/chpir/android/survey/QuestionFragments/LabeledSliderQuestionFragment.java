@@ -34,7 +34,8 @@ public class LabeledSliderQuestionFragment extends SliderQuestionFragment {
     }
     
     private int getGravityByPosition(Option option) {
-        List<Option> options = getQuestion().options();
+        List<Option> options = getQuestion().options();        
+        if (options.isEmpty()) return Gravity.START;
         
         if (options.get(0).equals(option)) {
             // Left-most label

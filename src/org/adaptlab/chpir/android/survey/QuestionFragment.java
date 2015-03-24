@@ -31,11 +31,11 @@ public abstract class QuestionFragment extends Fragment {
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
     
-    private TextView mValidationTextView;
+    public TextView mValidationTextView;
 
     private Question mQuestion;
     private Survey mSurvey;
-    private Response mResponse;
+    public Response mResponse;
     private Instrument mInstrument;
     
     @Override

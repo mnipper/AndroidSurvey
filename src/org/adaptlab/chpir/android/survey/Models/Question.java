@@ -30,7 +30,7 @@ public class Question extends ReceiveModel {
         LIST_OF_TEXT_BOXES, INTEGER, EMAIL_ADDRESS,
         DECIMAL_NUMBER, INSTRUCTIONS, MONTH_AND_YEAR, YEAR,
         PHONE_NUMBER, ADDRESS, SELECT_ONE_IMAGE, SELECT_MULTIPLE_IMAGE,
-        LIST_OF_INTEGER_BOXES;
+        LIST_OF_INTEGER_BOXES, GRID_SELECT_MULTIPLE, GRID_SELECT_SINGLE;
     }
 
     @Column(name = "Text")
@@ -219,7 +219,9 @@ public class Question extends ReceiveModel {
      * number.
      */
     public boolean loaded() { 
-        return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
+    	//TODO
+        //return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
+    	return true;
     }
 
     @Override
@@ -431,7 +433,7 @@ public class Question extends ReceiveModel {
         return false;
     }
     
-    private void setOptionCount(int num) {
+    public void setOptionCount(int num) {
         mOptionCount = num;
     }
     
@@ -439,7 +441,7 @@ public class Question extends ReceiveModel {
         return mOptionCount;
     }
     
-    private void setImageCount(int count) {
+    public void setImageCount(int count) {
     	mImageCount = count;
     }
     
@@ -447,7 +449,7 @@ public class Question extends ReceiveModel {
     	return mImageCount;
     }
     
-    private void setInstrumentVersion(int version) {
+    public void setInstrumentVersion(int version) {
         mInstrumentVersion = version;
     }
     

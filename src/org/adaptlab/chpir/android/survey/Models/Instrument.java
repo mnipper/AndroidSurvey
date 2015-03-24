@@ -61,13 +61,13 @@ public class Instrument extends ReceiveModel {
      * text for the title.
      */
     public String getTitle() {
-        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
-        for(InstrumentTranslation translation : translations()) {
-            if (translation.getLanguage().equals(getDeviceLanguage())
-                    && !translation.getTitle().trim().equals("")) {
-                return translation.getTitle();
-            }
-        }
+//        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
+//        for(InstrumentTranslation translation : translations()) {
+//            if (translation.getLanguage().equals(getDeviceLanguage())
+//                    && !translation.getTitle().trim().equals("")) {
+//                return translation.getTitle();
+//            }
+//        }
         
         // Fall back to default
         return mTitle;
@@ -210,10 +210,11 @@ public class Instrument extends ReceiveModel {
     }
       
      public boolean loaded() {
-         if (questions().size() != getQuestionCount()) return false;
-         for (Question question : questions()) {
-             if (!question.loaded()) return false;
-         }
+    	 //TODO
+//         if (questions().size() != getQuestionCount()) return false;
+//         for (Question question : questions()) {
+//             if (!question.loaded()) return false;
+//         }
          return true;
      }
         
@@ -242,7 +243,7 @@ public class Instrument extends ReceiveModel {
         return mTitle;
     }
     
-    private void setVersionNumber(int version) {
+    public void setVersionNumber(int version) {
         mVersionNumber = version;
     }
     
@@ -265,11 +266,8 @@ public class Instrument extends ReceiveModel {
     public boolean getPublished() {
     	return mPublished;
     }
-    
-    /*
-     * Private
-     */   
-    private void setLanguage(String language) {
+     
+    public void setLanguage(String language) {
         mLanguage = language;
     }
     
@@ -277,11 +275,11 @@ public class Instrument extends ReceiveModel {
         mAlignment = alignment;
     }
     
-    private void setQuestionCount(int num) {
+    public void setQuestionCount(int num) {
         mQuestionCount = num;
     }
     
-    private void setPublished(boolean published) {
+    public void setPublished(boolean published) {
     	mPublished = published;
     }
 }

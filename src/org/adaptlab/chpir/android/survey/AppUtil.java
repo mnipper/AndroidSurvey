@@ -33,7 +33,7 @@ import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
     private final static String TAG = "AppUtil";
-    public final static boolean PRODUCTION = true;
+    public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
     
@@ -72,7 +72,7 @@ public class AppUtil {
         if (PRODUCTION)
             Crashlytics.start(context);
         
-        DatabaseSeed.seed(context);
+        //DatabaseSeed.seed(context);
 
         if (adminSettingsInstance.getDeviceIdentifier() == null) {
         	adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());

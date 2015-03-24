@@ -8,6 +8,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.DecimalNumberQuestion
 import org.adaptlab.chpir.android.survey.QuestionFragments.EmailAddressQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FreeResponseQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectSingleFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfIntegerBoxesQuestionFragment;
@@ -23,6 +24,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneImageQuestio
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SelectOneWriteOtherQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.SliderQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectMultipleFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.TimeQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.YearQuestionFragment;
 
@@ -87,7 +89,11 @@ public class QuestionFragmentFactory {
         	fragment = new SelectMultipleImageQuestionFragment();
         } else if (Question.QuestionType.LIST_OF_INTEGER_BOXES.toString().equals(type)) {
             fragment = new ListOfIntegerBoxesQuestionFragment();
-        } else {
+        } else if (Question.QuestionType.GRID_SELECT_MULTIPLE.toString().equals(type)) {
+        	fragment = new GridSelectMultipleFragment();
+        } else if (Question.QuestionType.GRID_SELECT_SINGLE.toString().equals(type)) {
+        	fragment = new GridSelectSingleFragment();
+    	} else {
             // Return free response fragment if unknown question type
             // This should never happen
             Log.wtf(TAG, "Received unknown question type: " + type);

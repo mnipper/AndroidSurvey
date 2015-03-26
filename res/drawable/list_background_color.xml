@@ -14,5 +14,5 @@
         android:state_pressed="false" 
         android:state_selected="true"
         android:drawable="@color/item_selected" />
-
+    
 </selector>

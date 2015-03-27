@@ -9,6 +9,7 @@ import org.adaptlab.chpir.android.survey.AppUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -112,7 +113,7 @@ public class ResponsePhoto extends SendModel implements Serializable {
 	}
 
 	@Override
-	public void setAsSent() {  
+	public void setAsSent(Context context) {  
 		mSent = true;
         this.delete();
         if (AppUtil.DEBUG) Log.d(TAG, getAll().size() + " response photos left on device");

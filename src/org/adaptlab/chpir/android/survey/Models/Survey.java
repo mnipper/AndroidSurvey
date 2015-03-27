@@ -88,16 +88,8 @@ public class Survey extends SendModel {
     public String identifier(Context context) {
     	String surveyLabel = null;
     	String identifier = "";
-    	if (!TextUtils.isEmpty(getMetadata())) {
-	    	try {
-	    		JSONObject metadata = new JSONObject(getMetadata());
-	    		if (metadata.has("survey_label")) {
-	    			surveyLabel = metadata.getString("survey_label");
-	    		}
-	    	} catch (JSONException er) {
-	    		Log.e(TAG, er.getMessage());
-	    	}
-    	}
+    	
+    	if (!TextUtils.isEmpty(getMetadata())) { surveyLabel = getMetadataLabel(); }    	
     	if (!TextUtils.isEmpty(surveyLabel))  { return surveyLabel; }
     	
     	for (Response response : responses()) {
@@ -169,9 +161,14 @@ public class Survey extends SendModel {
     }
     
     @Override
-    public void setAsSent() {
+    public void setAsSent(Context context) {
         mSent = true;
         this.save();
+        
+        EventLog eventLog = new EventLog(EventLog.EventType.SENT_SURVEY, context);
+        eventLog.setInstrument(mInstrument);
+        eventLog.setSurveyIdentifier(identifier(context));
+        eventLog.save();
     }
     
     @Override
@@ -231,5 +228,18 @@ public class Survey extends SendModel {
     
     public Long getProjectId() {
     	return mProjectId;
+    }
+    
+    private String getMetadataLabel() {
+        try {
+            JSONObject metadata = new JSONObject(getMetadata());
+            if (metadata.has("survey_label")) {
+                return metadata.getString("survey_label");
+            }
+        } catch (JSONException er) {
+            Log.e(TAG, er.getMessage());
+        }
+        
+        return "";
     }
 }

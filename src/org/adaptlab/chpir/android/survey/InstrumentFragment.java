@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.activerecordcloudsync.NetworkNotificationUtils;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
@@ -12,6 +13,7 @@ import org.adaptlab.chpir.android.survey.Rules.InstrumentLaunchRule;
 import org.adaptlab.chpir.android.survey.Rules.RuleBuilder;
 import org.adaptlab.chpir.android.survey.Rules.RuleCallback;
 import org.adaptlab.chpir.android.survey.Tasks.DownloadImagesTask;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -25,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.InputType;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +45,7 @@ public class InstrumentFragment extends ListFragment {
 	public final static String TAG = "InstrumentFragment";
 	private List<Survey> mSurveys;
 	private SurveyAdapter mSurveyAdapter;
+	private ListView mSurveyListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,9 +109,9 @@ public class InstrumentFragment extends ListFragment {
 							mSurveys = Survey.getAllProjectSurveys(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()));
 							mSurveyAdapter = new SurveyAdapter(mSurveys);
 							setListAdapter(mSurveyAdapter);
-							ListView surveyListView = getListView();
-							surveyListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-							surveyListView.setMultiChoiceModeListener(mListener);
+							mSurveyListView = getListView();
+							mSurveyListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+							mSurveyListView.setMultiChoiceModeListener(mListener);
 						}
 					} else {
 						setListAdapter(new InstrumentAdapter(Instrument.getAllProjectInstruments(Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId()))));
@@ -133,9 +137,11 @@ public class InstrumentFragment extends ListFragment {
 			Survey survey = mSurveys.get(position);
 			if (checked) {
 				selected.add(survey);
+				mSurveyAdapter.setNewSelection(position, true);
 			} else {
 				selected.remove(survey);
-			}        	
+				mSurveyAdapter.setNewSelection(position, false);
+			}  
 		}
 
 		@Override
@@ -185,12 +191,13 @@ public class InstrumentFragment extends ListFragment {
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
+			mSurveyAdapter.clearSelection();
 			mSurveyAdapter.notifyDataSetChanged();
 		}
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
+			return true;
 		}
 	};
 
@@ -238,9 +245,26 @@ public class InstrumentFragment extends ListFragment {
 	}
 
 	private class SurveyAdapter extends ArrayAdapter<Survey> {
+		private SparseBooleanArray mSelectionViews = new SparseBooleanArray();
+		
 		public SurveyAdapter(List<Survey> surveys) {
 			super(getActivity(), 0, surveys);
 		}
+		
+		public void setNewSelection(int position, boolean value) {
+            mSelectionViews.put(position, value);
+            notifyDataSetChanged();
+        }
+  
+        public boolean isPositionChecked(int position) {
+            Boolean result = mSelectionViews.get(position);
+            return result == null ? false : result;
+        }
+  
+        public void clearSelection() {
+            mSelectionViews.clear();
+            notifyDataSetChanged();
+        }
 
 		@SuppressLint("InflateParams")
 		@Override
@@ -252,6 +276,10 @@ public class InstrumentFragment extends ListFragment {
 				convertView.setBackgroundResource(R.drawable.list_background_color);
 			} else {
 				convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
+			}
+			
+			if (mSelectionViews != null && mSurveyAdapter.isPositionChecked(position) != false) {
+				convertView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
 			}
 
 			Survey survey = getItem(position);

@@ -43,3 +43,6 @@ AndroidSurvey.iml
 
 # Default Admin Settings
 res/values/defaults.xml
+
+# Ignore Mac DS_Store files
+.DS_Store

@@ -3,7 +3,10 @@ package org.adaptlab.chpir.android.survey.Models;
 import java.util.Date;
 import java.util.List;
 
+import org.adaptlab.chpir.android.survey.R;
+
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -57,10 +60,11 @@ public class EventLog extends Model {
         return mTimestamp;
     }
     
-    public String getLogMessage() {
+    public String getLogMessage(Context context) {
+        Resources r = context.getResources();
+        
         if (mEventType == EventType.SENT_SURVEY) {
-            // TODO: Internationalize
-            return "Sent " + mInstrument.getTitle() + " for " + mSurveyIdentifier;
+            return r.getString(R.string.event_log_sent_survey, mInstrument.getTitle(), mSurveyIdentifier);
         }
         
         return "";

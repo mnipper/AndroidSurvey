@@ -84,4 +84,8 @@
     <string name="rule_failure_instrument_launch">You cannot launch a survey for this instrument from this app.  Please create a survey from the appropriate application.</string>
     <string name="version">version</string>
     <string name="record_survey_location">Record Survey Location</string>
+    <string name="event_log_sent_survey">Sent %1$s for %2$s.</string>
+    <string name="delete">Delete</string>
+    <string name="delete_surveys_title">Delete Selected Surveys?</string>
+    <string name="delete_surveys_message">You will not be able to recover the surveys once you delete them!</string>
 </resources>

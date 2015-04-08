@@ -14,6 +14,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.activeandroid.query.Select;
@@ -22,11 +23,14 @@ public class HttpPushr {
     private static final String TAG = "HttpPushr";
     private Class<? extends SendModel> mSendTableClass;
     private String mRemoteTableName;
+    private Context mContext;
 
     public HttpPushr(String remoteTableName,
-            Class<? extends SendModel> sendTableClass) {
+            Class<? extends SendModel> sendTableClass,
+            Context context) {
         mSendTableClass = sendTableClass;
         mRemoteTableName = remoteTableName;
+        mContext = context;
     }
 
     public void push() {
@@ -82,7 +86,7 @@ public class HttpPushr {
                             "Received OK HTTP status for "
                                     + element.toJSON());
                     InputStream in = response.getEntity().getContent();
-                    element.setAsSent();
+                    element.setAsSent(mContext);
                 } else {
                     Log.e(TAG, "Received BAD HTTP status code " + response.getStatusLine().getStatusCode()
                             + " for " + element.toJSON());

@@ -9,6 +9,7 @@ import org.adaptlab.chpir.android.survey.AuthUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.activeandroid.annotation.Column;
@@ -194,7 +195,7 @@ public class Response extends SendModel {
     }
 
     @Override
-    public void setAsSent() {
+    public void setAsSent(Context context) {
     	mSent = true;
     	if (getResponsePhoto() == null) {	
     		this.delete(); 

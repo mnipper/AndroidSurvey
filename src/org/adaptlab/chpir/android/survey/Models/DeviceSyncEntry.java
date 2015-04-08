@@ -9,6 +9,7 @@ import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 public class DeviceSyncEntry extends SendModel {
@@ -53,7 +54,7 @@ public class DeviceSyncEntry extends SendModel {
     public boolean readyToSend() { return true; }
 
     @Override
-    public void setAsSent() { }
+    public void setAsSent(Context context) { }
     
     @Override
     public boolean isPersistent() { return false; }

@@ -11,6 +11,7 @@ import org.adaptlab.chpir.android.survey.QuestionFragments.FrontPictureQuestionF
 import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectSingleFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.InstructionsQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.IntegerQuestionFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.LabeledSliderQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfIntegerBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.ListOfTextBoxesQuestionFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragments.MonthAndYearQuestionFragment;
@@ -93,7 +94,9 @@ public class QuestionFragmentFactory {
         	fragment = new GridSelectMultipleFragment();
         } else if (Question.QuestionType.GRID_SELECT_SINGLE.toString().equals(type)) {
         	fragment = new GridSelectSingleFragment();
-    	} else {
+        } else if (Question.QuestionType.LABELED_SLIDER.toString().equals(type)) {
+            fragment = new LabeledSliderQuestionFragment();
+        } else {
             // Return free response fragment if unknown question type
             // This should never happen
             Log.wtf(TAG, "Received unknown question type: " + type);

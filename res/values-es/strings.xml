@@ -80,4 +80,8 @@
     <string name="rule_failure_instrument_launch">No se puede poner en marcha una encuesta para este instrumento desde esta aplicación. Por favor, cree una encuesta de la aplicación correspondiente.</string>
     <string name="version">versión</string>
     <string name="record_survey_location">Indicar lugar de encuesta</string>
+    <string name="event_log_sent_survey">Enviado %1$s por %2$s.</string>
+    <string name="delete">Borrar</string>
+    <string name="delete_surveys_title">¿Desea borrar las encuestas seleccionadas?</string>
+    <string name="delete_surveys_message">¡No podrá restablecer las encuestas una vez que las borres!</string>
 </resources>

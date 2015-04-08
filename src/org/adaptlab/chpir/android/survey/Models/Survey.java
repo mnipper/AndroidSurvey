@@ -10,7 +10,11 @@ import org.adaptlab.chpir.android.survey.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -88,16 +92,8 @@ public class Survey extends SendModel {
     public String identifier(Context context) {
     	String surveyLabel = null;
     	String identifier = "";
-    	if (!TextUtils.isEmpty(getMetadata())) {
-	    	try {
-	    		JSONObject metadata = new JSONObject(getMetadata());
-	    		if (metadata.has("survey_label")) {
-	    			surveyLabel = metadata.getString("survey_label");
-	    		}
-	    	} catch (JSONException er) {
-	    		Log.e(TAG, er.getMessage());
-	    	}
-    	}
+    	
+    	if (!TextUtils.isEmpty(getMetadata())) { surveyLabel = getMetadataLabel(); }    	
     	if (!TextUtils.isEmpty(surveyLabel))  { return surveyLabel; }
     	
     	for (Response response : responses()) {
@@ -169,9 +165,29 @@ public class Survey extends SendModel {
     }
     
     @Override
-    public void setAsSent() {
+    public void setAsSent(Context context) {
         mSent = true;
         this.save();
+        
+        EventLog eventLog = new EventLog(EventLog.EventType.SENT_SURVEY, context);
+        eventLog.setInstrument(mInstrument);
+        eventLog.setSurveyIdentifier(identifier(context));
+        eventLog.save();
+        
+        Resources r = context.getResources();
+
+        Notification notification = new NotificationCompat.Builder(context)
+            .setTicker(r.getString(R.string.app_name))
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle(r.getString(R.string.app_name))
+            .setContentText(eventLog.getLogMessage(context))
+            .setAutoCancel(true)
+            .build();
+        
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        
+        notificationManager.notify(eventLog.getLogMessage(context), 1, notification);
     }
     
     @Override
@@ -231,5 +247,18 @@ public class Survey extends SendModel {
     
     public Long getProjectId() {
     	return mProjectId;
+    }
+    
+    private String getMetadataLabel() {
+        try {
+            JSONObject metadata = new JSONObject(getMetadata());
+            if (metadata.has("survey_label")) {
+                return metadata.getString("survey_label");
+            }
+        } catch (JSONException er) {
+            Log.e(TAG, er.getMessage());
+        }
+        
+        return "";
     }
 }

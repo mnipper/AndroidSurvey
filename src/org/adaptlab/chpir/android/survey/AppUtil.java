@@ -69,10 +69,13 @@ public class AppUtil {
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
         ACCESS_TOKEN = adminSettingsInstance.getApiKey();  
                 
-        if (PRODUCTION)
+        if (PRODUCTION) {
             Crashlytics.start(context);
+            Crashlytics.setUserIdentifier(adminSettingsInstance.getDeviceIdentifier());
+            Crashlytics.setString("device label", adminSettingsInstance.getDeviceLabel());
+        }
         
-        //DatabaseSeed.seed(context);
+        DatabaseSeed.seed(context);
 
         if (adminSettingsInstance.getDeviceIdentifier() == null) {
         	adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());

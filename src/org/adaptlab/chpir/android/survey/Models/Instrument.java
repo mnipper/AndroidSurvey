@@ -61,13 +61,13 @@ public class Instrument extends ReceiveModel {
      * text for the title.
      */
     public String getTitle() {
-//        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
-//        for(InstrumentTranslation translation : translations()) {
-//            if (translation.getLanguage().equals(getDeviceLanguage())
-//                    && !translation.getTitle().trim().equals("")) {
-//                return translation.getTitle();
-//            }
-//        }
+        if (getLanguage().equals(getDeviceLanguage())) return mTitle;
+        for(InstrumentTranslation translation : translations()) {
+            if (translation.getLanguage().equals(getDeviceLanguage())
+                    && !translation.getTitle().trim().equals("")) {
+                return translation.getTitle();
+            }
+        }
         
         // Fall back to default
         return mTitle;
@@ -210,11 +210,10 @@ public class Instrument extends ReceiveModel {
     }
       
      public boolean loaded() {
-    	 //TODO
-//         if (questions().size() != getQuestionCount()) return false;
-//         for (Question question : questions()) {
-//             if (!question.loaded()) return false;
-//         }
+         if (questions().size() != getQuestionCount()) return false;
+         for (Question question : questions()) {
+             if (!question.loaded()) return false;
+         }
          return true;
      }
         

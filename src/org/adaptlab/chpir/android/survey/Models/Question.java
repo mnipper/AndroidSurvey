@@ -66,6 +66,10 @@ public class Question extends ReceiveModel {
     private String mInstructions;
     @Column(name = "QuestionVersion")
     private int mQuestionVersion;
+    @Column(name = "Grid")
+    private Grid mGrid;
+    @Column(name = "FirstInGrid")
+    private boolean mFirstInGrid;
 
     public Question() {
         super();
@@ -219,9 +223,7 @@ public class Question extends ReceiveModel {
      * number.
      */
     public boolean loaded() { 
-    	//TODO
-        //return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
-    	return true;
+        return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
     }
 
     @Override
@@ -256,6 +258,10 @@ public class Question extends ReceiveModel {
                     jsonObject.getString("following_up_question_identifier")
                 )
             );
+            if (!jsonObject.isNull("grid_id")) {
+            	question.setGrid(Grid.findByRemoteId(jsonObject.getLong("grid_id")));
+            }
+            question.setFirstInGrid(jsonObject.getBoolean("first_in_grid"));
             question.setRemoteId(remoteId);
             question.save();
             
@@ -478,5 +484,13 @@ public class Question extends ReceiveModel {
     
     private void setQuestionVersion(int version) {
         mQuestionVersion = version;
+    }
+    
+    private void setGrid(Grid grid) {
+    	mGrid = grid;
+    }
+    
+    private void setFirstInGrid(boolean firstInGrid) {
+    	mFirstInGrid = firstInGrid;
     }
 }

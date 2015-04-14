@@ -14,8 +14,8 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
-import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectMultipleFragment;
-import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectSingleFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.MultipleSelectGridFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SingleSelectGridFragment;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
@@ -460,24 +460,23 @@ public class SurveyFragment extends Fragment {
 	}
 	
 	private void createGridFragment() {
-    	Fragment fragment = null;
 		if (mQuestion.getQuestionType() == QuestionType.SELECT_ONE) {
-        	fragment = new GridSelectSingleFragment();
+			mQuestionFragment = new SingleSelectGridFragment();
         } else {
-        	fragment = new GridSelectMultipleFragment();
+        	mQuestionFragment = new MultipleSelectGridFragment();
         }
     	Bundle bundle = new Bundle();
     	bundle.putLong(GridFragment.EXTRA_GRID_ID, mQuestion.getGrid().getRemoteId());
     	bundle.putLong(GridFragment.EXTRA_SURVEY_ID, mSurvey.getId());
-    	fragment.setArguments(bundle);
+    	mQuestionFragment.setArguments(bundle);
     	FragmentManager fm = getChildFragmentManager();
     	if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
-                .add(R.id.question_container, fragment)
+                .add(R.id.question_container, mQuestionFragment)
                 .commit();
         } else {
             fm.beginTransaction()
-                .replace(R.id.question_container, fragment)
+                .replace(R.id.question_container, mQuestionFragment)
                 .commit();    
         }
     }
@@ -578,7 +577,7 @@ public class SurveyFragment extends Fragment {
     private void clearSkipsForCurrentQuestion() {
     	if (!mQuestionsToSkip.isEmpty()) {
 	    	for (Question question : mQuestion.questionsToSkip()) {
-	    		mQuestionsToSkip.remove(question.getNumberInInstrument());
+	    		mQuestionsToSkip.remove(Integer.valueOf(question.getNumberInInstrument()));
 	    	} 
     	}
     } 
@@ -589,13 +588,13 @@ public class SurveyFragment extends Fragment {
 				if (mQuestionFragment.getResponsePhoto().getPicturePath() == null) {
 					mSkippedQuestions.add(mQuestion.getNumberInInstrument());
 				} else {
-					mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
+					mSkippedQuestions.remove(Integer.valueOf(mQuestion.getNumberInInstrument()));
 				}	
     		} else {
     			mSkippedQuestions.add(mQuestion.getNumberInInstrument());
     		}
     	} else {
-    		mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
+    		mSkippedQuestions.remove(Integer.valueOf(mQuestion.getNumberInInstrument()));
     	}
     }
     
@@ -638,7 +637,12 @@ public class SurveyFragment extends Fragment {
     public void moveToNextQuestion() {
     	int questionsInInstrument = mInstrument.questions().size();
         if (mQuestionNumber < questionsInInstrument - 1) {    
-            mPreviousQuestions.add(mQuestionNumber);
+            if (mQuestion.firstInGrid()) {
+            	mQuestionNumber = mGrid.questions().get(mGrid.questions().size() - 1).getNumberInInstrument() - 1;
+            	mPreviousQuestions.add(mQuestion.getNumberInInstrument() - 1);
+            } else {
+            	mPreviousQuestions.add(mQuestionNumber);
+            }
             mQuestion = getNextQuestion(mQuestionNumber);            
         	createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
@@ -648,7 +652,6 @@ public class SurveyFragment extends Fragment {
         } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
         	finishSurvey();
         }
-        
         updateQuestionCountLabel();
     }
     

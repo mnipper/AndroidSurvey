@@ -4,21 +4,26 @@ import java.util.List;
 
 import org.adaptlab.chpir.android.survey.Models.Grid;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
-
-import com.activeandroid.Model;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ViewGroup;
 
-public class GridFragment extends Fragment {
+import com.activeandroid.Model;
+
+public abstract class GridFragment extends QuestionFragment {
 	public final static String EXTRA_GRID_ID = 
             "org.adaptlab.chpir.android.survey.grid_id";
 	public final static String EXTRA_SURVEY_ID =
 			"org.adaptlab.chpir.android.survey.survey_id";
 	
+	protected void createQuestionComponent(ViewGroup questionComponent){};
+	protected void deserialize(String reponseText){};
+	protected abstract void deserialize(ViewGroup group, String responseText);
+	
+	@SuppressWarnings("unused")
 	private static final String TAG = "GridFragment";
 	private Grid mGrid;
 	private Survey mSurvey;
@@ -26,7 +31,6 @@ public class GridFragment extends Fragment {
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
         	mGrid = Grid.findByRemoteId(savedInstanceState.getLong(EXTRA_GRID_ID));
         	mQuestions = mGrid.questions();
@@ -36,12 +40,26 @@ public class GridFragment extends Fragment {
         }
         setHasOptionsMenu(true);
         init();
+        super.onCreate(savedInstanceState);
 	}
 	
-	private void init() {
+	@Override
+	public void init() {
 		long surveyId = getArguments().getLong(EXTRA_SURVEY_ID);
 		if (surveyId != -1) {
 			mSurvey = Model.load(Survey.class, surveyId);
+			createResponses();
+		}
+	}
+
+	private void createResponses() {
+		for (Question question : mGrid.questions()) {
+			if (mSurvey.getResponseByQuestion(question) == null) {
+				Response response = new Response();
+				response.setQuestion(question);
+				response.setSurvey(mSurvey);
+				response.save();
+			}
 		}
 	}
 
@@ -49,14 +67,18 @@ public class GridFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(EXTRA_GRID_ID, mGrid.getRemoteId());
+        outState.putLong(EXTRA_GRID_ID, getId());
 	}
 	
-	public List<Question> getQuestions() {
+	protected List<Question> getQuestions() {
 		return mQuestions;
 	}
 	
-	public Grid getGrid() {
+	protected Grid getGrid() {
 		return mGrid;
 	}
 	
+	protected Survey getSurvey() {
+		return mSurvey;
+	}
 }

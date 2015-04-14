@@ -2,33 +2,29 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 
 import java.util.List;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.GridFragment;
-import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.GridLabel;
-import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class GridSelectSingleFragment extends GridFragment {
+public class SingleSelectGridFragment extends GridFragment {
 	
-	private static final String TAG = "GridSelectSingleFragment";
+	private static final String TAG = "SingleSelectGridFragment";
 	private static int QUESTION_COLUMN_WIDTH = 700;
 	private static int OPTION_COLUMN_WIDTH = 400;
 	
@@ -56,7 +52,7 @@ public class GridSelectSingleFragment extends GridFragment {
 		TableLayout bodyTableLayout = (TableLayout) v.findViewById(R.id.body_table_view);    
         mQuestions = getQuestions();
         for (int k = 0; k < mQuestions.size(); k++) {
-	        Question q = mQuestions.get(k);        
+	        final Question q = mQuestions.get(k);        
         	TableRow questionRow= new TableRow(getActivity());
             TextView questionText = new TextView(getActivity());
             questionText.setText(q.getText());
@@ -66,16 +62,40 @@ public class GridSelectSingleFragment extends GridFragment {
             RadioGroup radioButtons = new RadioGroup(getActivity());
             radioButtons.setOrientation(RadioGroup.HORIZONTAL);           
             for (GridLabel label : getGrid().labels()) {
+            	int id = getGrid().labels().indexOf(label);
             	RadioButton button = new RadioButton(getActivity());
+            	button.setId(id);
             	button.setWidth(OPTION_COLUMN_WIDTH);
-            	radioButtons.addView(button, getGrid().labels().indexOf(label));
+            	radioButtons.addView(button, id);
             }
-            questionRow.addView(radioButtons);
-            
+            questionRow.addView(radioButtons);           
             bodyTableLayout.addView(questionRow, k);
-        
+            radioButtons.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+					setResponseIndex(q, checkedId);
+				}        	
+            });
+            deserialize(radioButtons, getSurvey().getResponseByQuestion(q).getText());
         }
         return v;
     }
+	
+	private void setResponseIndex(Question q, int checkedId) {
+		Response response = getSurvey().getResponseByQuestion(q);
+		response.setResponse(String.valueOf(checkedId));
+		response.save();
+		if (AppUtil.DEBUG) Log.i(TAG, "For Question: " + q.getQuestionIdentifier() + " Picked Response: " + response.getText());
+	}  
+
+	@Override
+	protected void deserialize(ViewGroup group, String responseText) {
+		if (!TextUtils.isEmpty(responseText)) {
+			((RadioGroup) group).check(Integer.parseInt(responseText));
+		}
+	}
+
+	@Override
+	protected String serialize() { return null; }
 
 }

@@ -21,9 +21,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class GridSelectMultipleFragment extends GridFragment {
+public class MultipleSelectGridFragment extends GridFragment {
 
-	private static final String TAG = "GridSelectMultipleFragment";
+	private static final String TAG = "MultipleSelectGridFragment";
 	private static int Q_ID_WIDTH = 200;
 	private static int Q_TEXT_WIDTH = 500;
 	private static int O_COL_WIDTH = 300;
@@ -89,5 +89,13 @@ public class GridSelectMultipleFragment extends GridFragment {
 
 		return v;
 	}
+
+	@Override
+	protected void deserialize(ViewGroup group, String responseText) {
+		
+	}
+
+	@Override
+	protected String serialize() { return null; }
 	
 }

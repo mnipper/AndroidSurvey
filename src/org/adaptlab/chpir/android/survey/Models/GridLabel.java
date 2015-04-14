@@ -47,6 +47,10 @@ public class GridLabel extends ReceiveModel {
 	public static GridLabel findByRemoteId(Long remoteId) {
 		return new Select().from(GridLabel.class).where("RemoteId = ?", remoteId).executeSingle();
 	}
+	
+	public String getLabelText() {
+		return mLabel;
+	}
 
 	private void setLabel(String label) {
 		mLabel = label;

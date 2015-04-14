@@ -426,6 +426,26 @@ public class Question extends ReceiveModel {
     public int getQuestionVersion() {
         return mQuestionVersion;
     }
+
+    public void setInstrumentVersion(int version) {
+        mInstrumentVersion = version;
+    }
+    
+    public void setOptionCount(int num) {
+        mOptionCount = num;
+    }
+    
+    public void setImageCount(int count) {
+    	mImageCount = count;
+    }
+    
+    public boolean firstInGrid() {
+    	return mFirstInGrid;
+    }
+    
+    public Grid getGrid() {
+    	return mGrid;
+    }
     
     /*
      * Private
@@ -439,24 +459,12 @@ public class Question extends ReceiveModel {
         return false;
     }
     
-    public void setOptionCount(int num) {
-        mOptionCount = num;
-    }
-    
     private int getOptionCount() {
         return mOptionCount;
     }
     
-    public void setImageCount(int count) {
-    	mImageCount = count;
-    }
-    
     private int getImageCount() {
     	return mImageCount;
-    }
-    
-    public void setInstrumentVersion(int version) {
-        mInstrumentVersion = version;
     }
     
     private void setNumberInInstrument(int number) {

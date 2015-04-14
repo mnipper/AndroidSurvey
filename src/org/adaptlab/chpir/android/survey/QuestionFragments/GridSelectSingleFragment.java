@@ -1,12 +1,18 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
+import java.util.List;
+
+import org.adaptlab.chpir.android.survey.GridFragment;
 import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
+import org.adaptlab.chpir.android.survey.Models.GridLabel;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,87 +26,56 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class GridSelectSingleFragment extends QuestionFragment {
-
+public class GridSelectSingleFragment extends GridFragment {
+	
 	private static final String TAG = "GridSelectSingleFragment";
-	private static int Q_ID_WIDTH = 200;
-	private static int Q_TEXT_WIDTH = 500;
-	private static int O_COL_WIDTH = 300;
+	private static int QUESTION_COLUMN_WIDTH = 700;
+	private static int OPTION_COLUMN_WIDTH = 400;
+	
+	private List<Question> mQuestions;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        
 		View v = inflater.inflate(R.layout.fragment_table_question, parent, false);        
-		TableLayout gridSelectTableLayout = (TableLayout) v.findViewById(R.id.table_view);    
-        TableRow headerRow= new TableRow(getActivity());
-
-        Question q = getQuestion();    
-        TextView qid = new TextView(getActivity());
-        qid.setText("Q_ID");
-        headerRow.addView(qid);
-        TextView q_text = new TextView(getActivity());
-        q_text.setText("Q_TEXT");
-        headerRow.addView(q_text);
+		
+		TableLayout headerTableLayout = (TableLayout) v.findViewById(R.id.header_table_view);
+		TableRow headerRow= new TableRow(getActivity());
+		TextView questionTextHeader = new TextView(getActivity());
+        questionTextHeader.setText("Question Text");
+        questionTextHeader.setWidth(QUESTION_COLUMN_WIDTH);
+        headerRow.addView(questionTextHeader);
         
-        gridSelectTableLayout.addView(headerRow, 0);
-        
-        //TODO get number of questions to be show on the table
-        
-        for (int k=1; k<4; k++) {
+        for (GridLabel label : getGrid().labels()) {
+        	TextView textView = new TextView(getActivity());
+        	textView.setText(label.getLabelText());
+        	textView.setWidth(OPTION_COLUMN_WIDTH);
+        	headerRow.addView(textView);
+        }
+        headerTableLayout.addView(headerRow, 0);
+		
+		TableLayout bodyTableLayout = (TableLayout) v.findViewById(R.id.body_table_view);    
+        mQuestions = getQuestions();
+        for (int k = 0; k < mQuestions.size(); k++) {
+	        Question q = mQuestions.get(k);        
         	TableRow questionRow= new TableRow(getActivity());
-            TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
-            questionRow.setLayoutParams(rowLayoutParams);
-            TextView questionIdentifier = new TextView(getActivity());
-            questionIdentifier.setText(q.getQuestionIdentifier());
-            questionIdentifier.setWidth(Q_ID_WIDTH);
-            questionRow.addView(questionIdentifier);
             TextView questionText = new TextView(getActivity());
             questionText.setText(q.getText());
-            questionText.setWidth(Q_TEXT_WIDTH);
+            questionText.setWidth(QUESTION_COLUMN_WIDTH);
             questionRow.addView(questionText);
             
             RadioGroup radioButtons = new RadioGroup(getActivity());
-            radioButtons.setOrientation(RadioGroup.HORIZONTAL);
-            
-            for(Option option : q.options()) {
+            radioButtons.setOrientation(RadioGroup.HORIZONTAL);           
+            for (GridLabel label : getGrid().labels()) {
             	RadioButton button = new RadioButton(getActivity());
-            	TableRow.LayoutParams buttonRowParams = new TableRow.LayoutParams(
-            			TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-            	button.setLayoutParams(buttonRowParams);
-            	button.setText(option.getText());
-            	radioButtons.addView(button, q.options().indexOf(option));
+            	button.setWidth(OPTION_COLUMN_WIDTH);
+            	radioButtons.addView(button, getGrid().labels().indexOf(label));
             }
             questionRow.addView(radioButtons);
             
-            gridSelectTableLayout.addView(questionRow, k);
-        }
-
-//        ViewGroup questionComponent = (LinearLayout) v.findViewById(R.id.question_component);        
-//        mValidationTextView = (TextView) v.findViewById(R.id.validation_text);
-//
-//        // Overridden by subclasses to place their graphical elements on the fragment.
-//        createQuestionComponent(questionComponent);
-//        deserialize(mResponse.getText());
+            bodyTableLayout.addView(questionRow, k);
         
+        }
         return v;
     }
-	
-	@Override
-	protected void createQuestionComponent(ViewGroup questionComponent) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected String serialize() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void deserialize(String responseText) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

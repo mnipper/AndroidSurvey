@@ -1,5 +1,7 @@
 package org.adaptlab.chpir.android.survey.Models;
 
+import java.util.List;
+
 import org.adaptlab.chpir.android.activerecordcloudsync.ReceiveModel;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.json.JSONException;
@@ -44,6 +46,29 @@ public class Grid extends ReceiveModel {
 
 	public static Grid findByRemoteId(Long remoteId) {
 		return new Select().from(Grid.class).where("RemoteId = ?", remoteId).executeSingle();
+	}
+	
+	public Long getRemoteId() {
+		return mRemoteId;
+	}
+	
+	public List<Question> questions() {
+		return new Select()
+			.from(Question.class)
+			.where("Grid = ?", getId())
+			.orderBy("NumberInInstrument ASC")
+			.execute();
+	}
+	
+	public List<GridLabel> labels() {
+		return new Select()
+			.from(GridLabel.class)
+			.where("Grid = ?", getId())
+			.execute();
+	}
+	
+	public String getText() {
+		return mName;
 	}
 	
 	private void setInstrument(Instrument instrument) {

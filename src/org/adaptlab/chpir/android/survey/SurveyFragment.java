@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
+import org.adaptlab.chpir.android.survey.Models.Grid;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -13,6 +14,8 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectMultipleFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.GridSelectSingleFragment;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
@@ -78,6 +81,7 @@ public class SurveyFragment extends Fragment {
     private int mQuestionNumber;
     private String mMetadata;
     private Question mResumeQuestion = null;
+    private Grid mGrid;
     
     // mPreviousQuestions is a Stack, however Android does not allow you
     // to save a Stack to the savedInstanceState, so it is represented as
@@ -119,6 +123,9 @@ public class SurveyFragment extends Fragment {
             mQuestionsToSkip = savedInstanceState.getIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS);
             ArrayList<Integer> skippedQuestions = savedInstanceState.getIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
             mSkippedQuestions = new LinkedHashSet<Integer>(skippedQuestions);
+            if (mQuestion.firstInGrid()) {
+            	mGrid = mQuestion.getGrid();
+            }
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
             mMetadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
@@ -235,7 +242,10 @@ public class SurveyFragment extends Fragment {
             mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
             for (int i = 0; i < mQuestionNumber; i++)
                 mPreviousQuestions.add(i);
-        }  
+        } 
+        if (mQuestion.firstInGrid()) {
+        	mGrid = mQuestion.getGrid();
+        }
     }
     
     @Override
@@ -374,7 +384,7 @@ public class SurveyFragment extends Fragment {
 	 * Give a visual indication when a special response is selected
 	 */
 	public void showSpecialResponseSelection(Menu menu) {
-        if (mQuestionFragment.getResponse() != null && menu != null) {
+        if (mQuestionFragment != null && mQuestionFragment.getResponse() != null && menu != null) {
             if (getSpecialResponse().equals(Response.SKIP)) {
                 menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
             } else if (getSpecialResponse().equals(Response.RF)) {
@@ -399,11 +409,13 @@ public class SurveyFragment extends Fragment {
 
         setParticipantLabel();
         updateQuestionCountLabel();
-        
-        setQuestionText(mQuestionText);
+        if (mQuestion.firstInGrid()) {
+        	setGridLabelText(mQuestionText);
+        } else {
+        	setQuestionText(mQuestionText);
+        }
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
         createQuestionFragment();
-        
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
    
@@ -419,25 +431,56 @@ public class SurveyFragment extends Fragment {
         		loadOrCreateQuestion();
         if (mSurvey == null)
         		loadOrCreateSurvey();
-		FragmentManager fm = getChildFragmentManager();       
-        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
-
-        if (fm.findFragmentById(R.id.question_container) == null) {
-            // Add the first question fragment
+        if (mQuestion.firstInGrid()) {
+        	createGridFragment();
+        } else {
+			FragmentManager fm = getChildFragmentManager();       
+	        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
+	
+	        if (fm.findFragmentById(R.id.question_container) == null) {
+	            // Add the first question fragment
+	            fm.beginTransaction()
+	                .add(R.id.question_container, mQuestionFragment)
+	                .commit();
+	        } else {
+	            // Replace the question fragment if it already exist            
+	            fm.beginTransaction()
+	                .replace(R.id.question_container, mQuestionFragment)
+	                .commit();        
+	        }
+	        
+	        mSurvey.setLastQuestion(mQuestion);
+	        mSurvey.save();
+	        removeTextFocus();
+        } 
+	}
+	
+	private void setGridLabelText(TextView view) {
+		view.append(styleTextWithHtml(mGrid.getText()));
+	}
+	
+	private void createGridFragment() {
+    	Fragment fragment = null;
+		if (mQuestion.getQuestionType() == QuestionType.SELECT_ONE) {
+        	fragment = new GridSelectSingleFragment();
+        } else {
+        	fragment = new GridSelectMultipleFragment();
+        }
+    	Bundle bundle = new Bundle();
+    	bundle.putLong(GridFragment.EXTRA_GRID_ID, mQuestion.getGrid().getRemoteId());
+    	bundle.putLong(GridFragment.EXTRA_SURVEY_ID, mSurvey.getId());
+    	fragment.setArguments(bundle);
+    	FragmentManager fm = getChildFragmentManager();
+    	if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
-                .add(R.id.question_container, mQuestionFragment)
+                .add(R.id.question_container, fragment)
                 .commit();
         } else {
-            // Replace the question fragment if it already exist            
             fm.beginTransaction()
-                .replace(R.id.question_container, mQuestionFragment)
-                .commit();        
+                .replace(R.id.question_container, fragment)
+                .commit();    
         }
-        
-        mSurvey.setLastQuestion(mQuestion);
-        mSurvey.save();
-        removeTextFocus();
-	}
+    }
 	
 	/*
 	 * This will remove the focus of the input as the survey is
@@ -597,11 +640,11 @@ public class SurveyFragment extends Fragment {
         if (mQuestionNumber < questionsInInstrument - 1) {    
             mPreviousQuestions.add(mQuestionNumber);
             mQuestion = getNextQuestion(mQuestionNumber);            
-            createQuestionFragment();
+        	createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
                 setSpecialResponse(Response.LOGICAL_SKIP);
                 moveToNextQuestion();
-            }
+            }  
         } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
         	finishSurvey();
         }
@@ -672,7 +715,7 @@ public class SurveyFragment extends Fragment {
     }
 
     public boolean hasValidResponse() {
-        if (mQuestionFragment.getResponse() != null) {
+        if (mQuestionFragment != null && mQuestionFragment.getResponse() != null) {
             return mQuestionFragment.getResponse().isValid();
         } else {
             return true;

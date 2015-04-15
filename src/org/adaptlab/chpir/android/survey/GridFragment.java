@@ -8,7 +8,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.activeandroid.Model;
@@ -20,10 +20,7 @@ public abstract class GridFragment extends QuestionFragment {
 			"org.adaptlab.chpir.android.survey.survey_id";
 	
 	protected void createQuestionComponent(ViewGroup questionComponent){};
-	protected void deserialize(String reponseText){};
-	protected abstract void deserialize(ViewGroup group, String responseText);
 	
-	@SuppressWarnings("unused")
 	private static final String TAG = "GridFragment";
 	private Grid mGrid;
 	private Survey mSurvey;
@@ -59,6 +56,20 @@ public abstract class GridFragment extends QuestionFragment {
 				response.setQuestion(question);
 				response.setSurvey(mSurvey);
 				response.save();
+			}
+		}
+	}
+	
+	@Override
+	public void saveSpecialResponse(String specialResponse) {
+		for (Question question : mGrid.questions()) {
+			Response response = mSurvey.getResponseByQuestion(question);
+			if (response != null) {
+				response.setSpecialResponse(specialResponse);
+				response.setDeviceUser(AuthUtils.getCurrentUser());
+				response.save();
+				if (AppUtil.DEBUG) Log.i(TAG, "Saved special response: " + response.getSpecialResponse() + 
+						" for question: " + question.getQuestionIdentifier());
 			}
 		}
 	}

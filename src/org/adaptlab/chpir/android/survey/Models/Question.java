@@ -122,7 +122,7 @@ public class Question extends ReceiveModel {
     
     public boolean hasMultiSkipPattern() {
     	for (Option option: options()) {
-    		if (option.skips() != null) {
+    		if (option.skips() != null && !option.skips().isEmpty()) {
     			return true;
     		}
     	}

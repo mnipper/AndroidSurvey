@@ -1,14 +1,17 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.GridFragment;
-import org.adaptlab.chpir.android.survey.QuestionFragment;
 import org.adaptlab.chpir.android.survey.R;
-import org.adaptlab.chpir.android.survey.Models.Option;
+import org.adaptlab.chpir.android.survey.Models.GridLabel;
 import org.adaptlab.chpir.android.survey.Models.Question;
+import org.adaptlab.chpir.android.survey.Models.Response;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,86 +19,117 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class MultipleSelectGridFragment extends GridFragment {
 
+	private static int OPTION_COLUMN_WIDTH = 400;
+	private static int QUESTION_COLUMN_WIDTH = 700;
 	private static final String TAG = "MultipleSelectGridFragment";
-	private static int Q_ID_WIDTH = 200;
-	private static int Q_TEXT_WIDTH = 500;
-	private static int O_COL_WIDTH = 300;
+	
+	private Map<String, List<CheckBox>> mCheckBoxes;
+	private Question mQuestion;
 	private List<Question> mQuestions;
+	private Map<String, List<Integer>> mResponseIndices;
+	
+	@Override
+	protected void deserialize(String responseText) {
+		if (responseText.equals("")) return;    
+        String[] listOfIndices = responseText.split(LIST_DELIMITER);
+        for (String index : listOfIndices) {
+            if (!index.equals("")) {
+                Integer indexInteger = Integer.parseInt(index);
+                mCheckBoxes.get(mQuestion.getQuestionIdentifier()).get(indexInteger).setChecked(true);
+            }
+        }
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-
-		View v = inflater.inflate(R.layout.fragment_table_question, parent,false);
-		TableLayout gridSelectTableLayout = (TableLayout) v.findViewById(R.id.body_table_view);
-		TableRow headerRow = new TableRow(getActivity());
-		TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
-		headerRow.setLayoutParams(lp);
-		headerRow.setBackgroundColor(Color.BLUE);
-		mQuestions = getQuestions();
+		View v = inflater.inflate(R.layout.fragment_table_question, parent, false);
 		
+		TableLayout headerTable = (TableLayout) v.findViewById(R.id.header_table_view);
+		TableRow headerRow = new TableRow(getActivity());
+		TextView questionTextHeader = new TextView(getActivity());
+		questionTextHeader.setText("Question Text");
+		questionTextHeader.setWidth(QUESTION_COLUMN_WIDTH);
+		headerRow.addView(questionTextHeader);
+		for (GridLabel label : getGrid().labels()) {
+        	TextView textView = new TextView(getActivity());
+        	textView.setText(label.getLabelText());
+        	textView.setWidth(OPTION_COLUMN_WIDTH);
+        	headerRow.addView(textView);
+        }
+        headerTable.addView(headerRow, 0);
+		
+		TableLayout gridTableLayout = (TableLayout) v.findViewById(R.id.body_table_view);
+		mQuestions = getQuestions();
+		mResponseIndices = new HashMap<String, List<Integer>>();
+		mCheckBoxes = new HashMap<String, List<CheckBox>>();
 		for (int k = 0; k < mQuestions.size(); k++) {
-			Question q = mQuestions.get(k);
-			TextView qid = new TextView(getActivity());
-			qid.setText("Q_ID");
-			qid.setWidth(Q_ID_WIDTH);
-			headerRow.addView(qid);
-			TextView q_text = new TextView(getActivity());
-			q_text.setText("Q_TEXT");
-			q_text.setWidth(Q_TEXT_WIDTH);
-			headerRow.addView(q_text);
-			for (Option opt : q.options()) {
-				TextView optionCol = new TextView(getActivity());
-				optionCol.setText(opt.getText());
-				optionCol.setWidth(O_COL_WIDTH);
-				headerRow.addView(optionCol);
-			}
-			gridSelectTableLayout.addView(headerRow, 0);
-			
+			final Question q = mQuestions.get(k);			
 			TableRow questionRow = new TableRow(getActivity());
-			TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(
-					TableRow.LayoutParams.MATCH_PARENT);
-			questionRow.setLayoutParams(rowLayoutParams);
-			TextView questionIdentifier = new TextView(getActivity());
-			questionIdentifier.setText(q.getQuestionIdentifier());
-			questionIdentifier.setWidth(Q_ID_WIDTH);
-			questionRow.addView(questionIdentifier);
 			TextView questionText = new TextView(getActivity());
 			questionText.setText(q.getText());
-			questionText.setWidth(Q_TEXT_WIDTH);
+			questionText.setWidth(QUESTION_COLUMN_WIDTH);
 			questionRow.addView(questionText);
-
-			for (Option option : q.options()) {
+			
+			List<CheckBox> checkBoxes =  new ArrayList<CheckBox>();
+			for (GridLabel label : getGrid().labels()) {
+				final int id = getGrid().labels().indexOf(label);
 				CheckBox checkbox = new CheckBox(getActivity());
+				checkbox.setId(id);
+				checkbox.setWidth(OPTION_COLUMN_WIDTH);
 				checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						// TODO save changes
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						setResponses(q, id);
 					}
 				});
-				checkbox.setWidth(O_COL_WIDTH);
 				questionRow.addView(checkbox);
+				checkBoxes.add(checkbox);
 			}
-
-			gridSelectTableLayout.addView(questionRow, k);
+			mQuestion = q;
+			mCheckBoxes.put(q.getQuestionIdentifier(), checkBoxes);
+			deserialize(getSurvey().getResponseByQuestion(q).getText());
+			gridTableLayout.addView(questionRow, k);
 		}
 
 		return v;
 	}
-
-	@Override
-	protected void deserialize(ViewGroup group, String responseText) {
-		
+	
+	private void saveResponses(Question question, List<Integer> responseIndices) {
+		String serialized = "";
+        for (int i = 0; i < responseIndices.size(); i++) {
+            serialized += responseIndices.get(i);
+            if (i <  responseIndices.size() - 1) serialized += LIST_DELIMITER;
+        }
+        Response response = getSurvey().getResponseByQuestion(question);
+        response.setResponse(serialized);
+        response.save();
+        if (AppUtil.DEBUG) Log.i(TAG, "For Question: " + question.getQuestionIdentifier() + " Picked Response: " + response.getText());
 	}
 
 	@Override
 	protected String serialize() { return null; }
+
+	private void setResponses(Question question, Integer responseIndex) {
+		if (mResponseIndices.containsKey(question.getQuestionIdentifier())) {
+			List<Integer> responses = mResponseIndices.get(question.getQuestionIdentifier());
+			if (responses.contains(responseIndex)) {
+				responses.remove(responseIndex);
+			} else {
+				responses.add(responseIndex);
+			}
+			mResponseIndices.put(question.getQuestionIdentifier(), responses);
+		} else {
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(responseIndex);
+			mResponseIndices.put(question.getQuestionIdentifier(), list);
+		}
+		saveResponses(question, mResponseIndices.get(question.getQuestionIdentifier()));
+	}
 	
 }

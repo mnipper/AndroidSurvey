@@ -1,5 +1,6 @@
 package org.adaptlab.chpir.android.survey.QuestionFragments;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.adaptlab.chpir.android.survey.AppUtil;
@@ -24,11 +25,20 @@ import android.widget.TextView;
 
 public class SingleSelectGridFragment extends GridFragment {
 	
-	private static final String TAG = "SingleSelectGridFragment";
-	private static int QUESTION_COLUMN_WIDTH = 700;
 	private static int OPTION_COLUMN_WIDTH = 400;
+	private static int QUESTION_COLUMN_WIDTH = 700;
+	private static final String TAG = "SingleSelectGridFragment";
 	
+	private int mIndex;
 	private List<Question> mQuestions;
+	private List<RadioGroup> mRadioGroups;
+	
+	@Override
+	protected void deserialize(String responseText) {
+		if (!TextUtils.isEmpty(responseText)) {
+			mRadioGroups.get(mIndex).check(Integer.parseInt(responseText));
+		}
+	}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -51,6 +61,7 @@ public class SingleSelectGridFragment extends GridFragment {
 		
 		TableLayout bodyTableLayout = (TableLayout) v.findViewById(R.id.body_table_view);    
         mQuestions = getQuestions();
+        mRadioGroups = new ArrayList<RadioGroup>();
         for (int k = 0; k < mQuestions.size(); k++) {
 	        final Question q = mQuestions.get(k);        
         	TableRow questionRow= new TableRow(getActivity());
@@ -76,26 +87,21 @@ public class SingleSelectGridFragment extends GridFragment {
 					setResponseIndex(q, checkedId);
 				}        	
             });
-            deserialize(radioButtons, getSurvey().getResponseByQuestion(q).getText());
+            mRadioGroups.add(radioButtons);
+            mIndex = k;
+            deserialize(getSurvey().getResponseByQuestion(q).getText());
         }
         return v;
-    }
-	
+    }  
+
+	@Override
+	protected String serialize() { return null; }
+
 	private void setResponseIndex(Question q, int checkedId) {
 		Response response = getSurvey().getResponseByQuestion(q);
 		response.setResponse(String.valueOf(checkedId));
 		response.save();
 		if (AppUtil.DEBUG) Log.i(TAG, "For Question: " + q.getQuestionIdentifier() + " Picked Response: " + response.getText());
-	}  
-
-	@Override
-	protected void deserialize(ViewGroup group, String responseText) {
-		if (!TextUtils.isEmpty(responseText)) {
-			((RadioGroup) group).check(Integer.parseInt(responseText));
-		}
 	}
-
-	@Override
-	protected String serialize() { return null; }
 
 }

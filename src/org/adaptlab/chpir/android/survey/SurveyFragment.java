@@ -524,7 +524,7 @@ public class SurveyFragment extends Fragment {
         		nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
         	}
         } else {
-            nextQuestion = nextQuestionHelper(questionIndex);
+        	nextQuestion = nextQuestionHelper(questionIndex);
         }        
         Question question = getNextUnskippedQuestion(nextQuestion);
         return question;
@@ -640,10 +640,14 @@ public class SurveyFragment extends Fragment {
             if (mQuestion.firstInGrid()) {
             	mQuestionNumber = mGrid.questions().get(mGrid.questions().size() - 1).getNumberInInstrument() - 1;
             	mPreviousQuestions.add(mQuestion.getNumberInInstrument() - 1);
+            	mQuestion = mGrid.questions().get(mGrid.questions().size() - 1);
             } else {
             	mPreviousQuestions.add(mQuestionNumber);
             }
-            mQuestion = getNextQuestion(mQuestionNumber);            
+            mQuestion = getNextQuestion(mQuestionNumber);  
+            if (mQuestion.getGrid() != null) {
+            	mGrid = mQuestion.getGrid();
+            }
         	createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
                 setSpecialResponse(Response.LOGICAL_SKIP);
@@ -665,6 +669,9 @@ public class SurveyFragment extends Fragment {
         if (mQuestionNumber > 0 && mQuestionNumber < mInstrument.questions().size()) {
             mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             mQuestion = mInstrument.questions().get(mQuestionNumber);
+            if (mQuestion.getGrid() != null) {
+            	mGrid = mQuestion.getGrid();
+            }
             createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
                 moveToPreviousQuestion();

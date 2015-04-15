@@ -50,9 +50,9 @@ public class InstrumentFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	    AppUtil.appInit(getActivity());
 		setHasOptionsMenu(true);
 		setListAdapter(new InstrumentAdapter(Instrument.getAll()));     
-		AppUtil.appInit(getActivity());
 	}
 
 	private void downloadInstrumentImages() {

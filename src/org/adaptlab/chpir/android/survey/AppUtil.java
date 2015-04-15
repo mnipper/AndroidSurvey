@@ -28,6 +28,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
 import com.crashlytics.android.Crashlytics;
 
 public class AppUtil {
@@ -35,6 +37,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
+    public final static boolean ENCRYPT_DB = false;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
@@ -63,11 +66,27 @@ public class AppUtil {
             }
         }
         
+        try {
+            if (ENCRYPT_DB) {
+                ActiveAndroid.initialize(new Configuration.Builder(context)
+                    .setEncrypted(true)
+                    .setPassword("PASSWORD")
+                    .create());
+            } else {
+                ActiveAndroid.initialize(new Configuration.Builder(context)
+                    .setEncrypted(false)
+                    .create());
+            }
+        } catch (net.sqlcipher.database.SQLiteException sqe) {
+            Log.i(TAG, "WRONG PASSWORD!");
+            return;
+        }
+        
         setAdminSettingsInstance();
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
-        ACCESS_TOKEN = adminSettingsInstance.getApiKey();  
-                
+        ACCESS_TOKEN = adminSettingsInstance.getApiKey(); 
+                        
         if (PRODUCTION) {
             Crashlytics.start(context);
             Crashlytics.setUserIdentifier(adminSettingsInstance.getDeviceIdentifier());

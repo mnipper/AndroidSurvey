@@ -88,4 +88,7 @@
     <string name="delete">Delete</string>
     <string name="delete_surveys_title">Delete Selected Surveys?</string>
     <string name="delete_surveys_message">You will not be able to recover the surveys once you delete them!</string>
+    <string name="encryption_password_create_confirmation">Confirmation</string>
+    <string name="encryption_password_create_instructions">Please choose a password and enter it below.</string>
+    <string name="encryption_password_instructions">Please enter your password below to decrypt.</string>
 </resources>

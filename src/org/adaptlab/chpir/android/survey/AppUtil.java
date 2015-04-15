@@ -20,8 +20,7 @@ import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Skip;
 import org.adaptlab.chpir.android.survey.Models.Survey;
 import org.adaptlab.chpir.android.survey.Tasks.ApkUpdateTask;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import org.adaptlab.chpir.android.survey.Vendor.BCrypt;
 
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
@@ -151,8 +150,7 @@ public class AppUtil {
      * Hash the entered password and compare it with admin password hash
      */
     public static boolean checkAdminPassword(String password) {
-        String hash = new String(Hex.encodeHex(DigestUtils.sha256(password)));
-        return hash.equals(ADMIN_PASSWORD_HASH);
+        return BCrypt.checkpw(password, ADMIN_PASSWORD_HASH);
     }
     
     public static Context getContext() {

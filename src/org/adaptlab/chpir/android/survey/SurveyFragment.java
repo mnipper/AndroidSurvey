@@ -54,6 +54,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
+import com.crashlytics.android.Crashlytics;
 
 public class SurveyFragment extends Fragment {
     private static final String TAG = "SurveyFragment";
@@ -138,7 +139,11 @@ public class SurveyFragment extends Fragment {
             if (!checkRules()) getActivity().finish();
             
             loadOrCreateSurvey();
-            loadOrCreateQuestion();               
+            loadOrCreateQuestion();             
+        }
+        
+        if (AppUtil.PRODUCTION) {
+            Crashlytics.setString("last instrument", mInstrument.getTitle());
         }
         
         if (AppUtil.getAdminSettingsInstance().getRecordSurveyLocation()) {
@@ -479,7 +484,7 @@ public class SurveyFragment extends Fragment {
                 .replace(R.id.question_container, mQuestionFragment)
                 .commit();    
         }
-    }
+	}
 	
 	/*
 	 * This will remove the focus of the input as the survey is

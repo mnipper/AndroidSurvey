@@ -10,6 +10,7 @@ import org.adaptlab.chpir.android.survey.Models.GridLabel;
 import org.adaptlab.chpir.android.survey.Models.Question;
 import org.adaptlab.chpir.android.survey.Models.Response;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -46,15 +47,18 @@ public class SingleSelectGridFragment extends GridFragment {
 		
 		TableLayout headerTableLayout = (TableLayout) v.findViewById(R.id.header_table_view);
 		TableRow headerRow= new TableRow(getActivity());
+		headerRow.setBackground(getResources().getDrawable(R.drawable.table_border));
 		TextView questionTextHeader = new TextView(getActivity());
         questionTextHeader.setText("Question Text");
         questionTextHeader.setWidth(QUESTION_COLUMN_WIDTH);
+        questionTextHeader.setTypeface(Typeface.DEFAULT_BOLD);
         headerRow.addView(questionTextHeader);
         
         for (GridLabel label : getGrid().labels()) {
         	TextView textView = new TextView(getActivity());
         	textView.setText(label.getLabelText());
         	textView.setWidth(OPTION_COLUMN_WIDTH);
+        	textView.setTypeface(Typeface.DEFAULT_BOLD);
         	headerRow.addView(textView);
         }
         headerTableLayout.addView(headerRow, 0);
@@ -65,6 +69,7 @@ public class SingleSelectGridFragment extends GridFragment {
         for (int k = 0; k < mQuestions.size(); k++) {
 	        final Question q = mQuestions.get(k);        
         	TableRow questionRow= new TableRow(getActivity());
+        	questionRow.setBackground(getResources().getDrawable(R.drawable.table_border));
             TextView questionText = new TextView(getActivity());
             questionText.setText(q.getText());
             questionText.setWidth(QUESTION_COLUMN_WIDTH);

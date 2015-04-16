@@ -447,6 +447,14 @@ public class Question extends ReceiveModel {
     	return mGrid;
     }
     
+	public boolean belongsToGrid() {
+		if (getGrid() == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+    
     /*
      * Private
      */

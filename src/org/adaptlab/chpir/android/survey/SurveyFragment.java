@@ -124,7 +124,7 @@ public class SurveyFragment extends Fragment {
             mQuestionsToSkip = savedInstanceState.getIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS);
             ArrayList<Integer> skippedQuestions = savedInstanceState.getIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
             mSkippedQuestions = new LinkedHashSet<Integer>(skippedQuestions);
-            if (mQuestion.firstInGrid()) {
+            if (mQuestion.belongsToGrid()) {
             	mGrid = mQuestion.getGrid();
             }
         } else {
@@ -248,7 +248,7 @@ public class SurveyFragment extends Fragment {
             for (int i = 0; i < mQuestionNumber; i++)
                 mPreviousQuestions.add(i);
         } 
-        if (mQuestion.firstInGrid()) {
+        if (mQuestion.belongsToGrid()) {
         	mGrid = mQuestion.getGrid();
         }
     }
@@ -414,7 +414,7 @@ public class SurveyFragment extends Fragment {
 
         setParticipantLabel();
         updateQuestionCountLabel();
-        if (mQuestion.firstInGrid()) {
+        if (mQuestion.belongsToGrid()) {
         	setGridLabelText(mQuestionText);
         } else {
         	setQuestionText(mQuestionText);
@@ -436,32 +436,13 @@ public class SurveyFragment extends Fragment {
         		loadOrCreateQuestion();
         if (mSurvey == null)
         		loadOrCreateSurvey();
-        if (mQuestion.firstInGrid()) {
+        if (mQuestion.belongsToGrid()) {
         	createGridFragment();
         } else {
 			FragmentManager fm = getChildFragmentManager();       
 	        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
-	
-	        if (fm.findFragmentById(R.id.question_container) == null) {
-	            // Add the first question fragment
-	            fm.beginTransaction()
-	                .add(R.id.question_container, mQuestionFragment)
-	                .commit();
-	        } else {
-	            // Replace the question fragment if it already exist            
-	            fm.beginTransaction()
-	                .replace(R.id.question_container, mQuestionFragment)
-	                .commit();        
-	        }
-	        
-	        mSurvey.setLastQuestion(mQuestion);
-	        mSurvey.save();
-	        removeTextFocus();
+	        switchOutFragments(fm);
         } 
-	}
-	
-	private void setGridLabelText(TextView view) {
-		view.append(styleTextWithHtml(mGrid.getText()));
 	}
 	
 	private void createGridFragment() {
@@ -475,7 +456,11 @@ public class SurveyFragment extends Fragment {
     	bundle.putLong(GridFragment.EXTRA_SURVEY_ID, mSurvey.getId());
     	mQuestionFragment.setArguments(bundle);
     	FragmentManager fm = getChildFragmentManager();
-    	if (fm.findFragmentById(R.id.question_container) == null) {
+    	switchOutFragments(fm);
+	}
+
+	private void switchOutFragments(FragmentManager fm) {
+		if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
                 .add(R.id.question_container, mQuestionFragment)
                 .commit();
@@ -484,6 +469,14 @@ public class SurveyFragment extends Fragment {
                 .replace(R.id.question_container, mQuestionFragment)
                 .commit();    
         }
+    	
+    	mSurvey.setLastQuestion(mQuestion);
+        mSurvey.save();
+        removeTextFocus();
+	}
+	
+	private void setGridLabelText(TextView view) {
+		view.append(styleTextWithHtml(mGrid.getText()));
 	}
 	
 	/*

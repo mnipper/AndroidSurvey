@@ -85,6 +85,7 @@ public class MultipleSelectGridFragment extends GridFragment {
 			for (GridLabel label : getGrid().labels()) {
 				final int id = getGrid().labels().indexOf(label);
 				CheckBox checkbox = new CheckBox(getActivity());
+				checkbox.setSaveEnabled(false);
 				checkbox.setId(id);
 				checkbox.setWidth(OPTION_COLUMN_WIDTH);
 				checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

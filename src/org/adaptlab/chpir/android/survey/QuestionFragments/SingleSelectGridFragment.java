@@ -80,6 +80,7 @@ public class SingleSelectGridFragment extends GridFragment {
             for (GridLabel label : getGrid().labels()) {
             	int id = getGrid().labels().indexOf(label);
             	RadioButton button = new RadioButton(getActivity());
+            	button.setSaveEnabled(false);
             	button.setId(id);
             	button.setWidth(OPTION_COLUMN_WIDTH);
             	radioButtons.addView(button, id);

@@ -78,7 +78,7 @@ public abstract class GridFragment extends QuestionFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(EXTRA_GRID_ID, mGrid.getRemoteId());
-        outState.putLong(EXTRA_GRID_ID, getId());
+        outState.putLong(EXTRA_SURVEY_ID, mSurvey.getId());
 	}
 	
 	protected List<Question> getQuestions() {

@@ -48,17 +48,24 @@ public class SelectMultipleQuestionFragment extends QuestionFragment {
         return serialized;
     }
 
-    @Override
-    protected void deserialize(String responseText) {
-        if (responseText.equals("")) return;    
-        String[] listOfIndices = responseText.split(LIST_DELIMITER);
-        for (String index : listOfIndices) {
-            if (!index.equals("")) {
-                Integer indexInteger = Integer.parseInt(index);
-                mCheckBoxes.get(indexInteger).setChecked(true);
-            }
-        }
-    }
+	@Override
+	protected void deserialize(String responseText) {
+		if (responseText.equals("")) {
+			for (CheckBox box : mCheckBoxes) {
+				if (box.isChecked()) {
+					box.setChecked(false);
+				}
+			}
+		} else {
+			String[] listOfIndices = responseText.split(LIST_DELIMITER);
+			for (String index : listOfIndices) {
+				if (!index.equals("")) {
+					Integer indexInteger = Integer.parseInt(index);
+					mCheckBoxes.get(indexInteger).setChecked(true);
+				}
+			}
+		}
+	}
     
     protected void toggleResponseIndex(int index) {
         if (mResponseIndices.contains(index)) {

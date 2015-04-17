@@ -20,7 +20,9 @@ public class SliderQuestionFragment extends QuestionFragment {
         mSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mProgress = progress;
-                saveResponse();
+                if (mProgress > -1) {
+                	saveResponse();
+                }
             }
 
             // Required by interface
@@ -38,8 +40,11 @@ public class SliderQuestionFragment extends QuestionFragment {
 
     @Override
     protected void deserialize(String responseText) {
-        if (!responseText.equals(""))
+        if (responseText.equals("")) {
+        	mSlider.setProgress(-1);
+        } else {
             mSlider.setProgress(Integer.parseInt(responseText));
+        }
     }
    
 }

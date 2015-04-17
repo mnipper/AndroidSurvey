@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.GridFragment;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.GridLabel;
@@ -14,7 +13,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ public class MultipleSelectGridFragment extends GridFragment {
 
 	private static int OPTION_COLUMN_WIDTH = 400;
 	private static int QUESTION_COLUMN_WIDTH = 700;
-	private static final String TAG = "MultipleSelectGridFragment";
 	
 	private Map<String, List<CheckBox>> mCheckBoxes;
 	private Question mQuestion;
@@ -37,14 +35,23 @@ public class MultipleSelectGridFragment extends GridFragment {
 	
 	@Override
 	protected void deserialize(String responseText) {
-		if (responseText.equals("")) return;    
-        String[] listOfIndices = responseText.split(LIST_DELIMITER);
-        for (String index : listOfIndices) {
-            if (!index.equals("")) {
-                Integer indexInteger = Integer.parseInt(index);
-                mCheckBoxes.get(mQuestion.getQuestionIdentifier()).get(indexInteger).setChecked(true);
-            }
-        }
+		if (responseText.equals("")) {
+			for (List<CheckBox> checkBoxList : mCheckBoxes.values()) {
+				for (CheckBox box : checkBoxList) {
+					if (box.isChecked()) {
+						box.setChecked(false);
+					}
+				}
+			}
+		} else {
+	        String[] listOfIndices = responseText.split(LIST_DELIMITER);
+	        for (String index : listOfIndices) {
+	            if (!index.equals("")) {
+	                Integer indexInteger = Integer.parseInt(index);
+	                mCheckBoxes.get(mQuestion.getQuestionIdentifier()).get(indexInteger).setChecked(true);
+	            }
+	        }
+		}
 	}
 	
 	@Override
@@ -108,14 +115,19 @@ public class MultipleSelectGridFragment extends GridFragment {
 	
 	private void saveResponses(Question question, List<Integer> responseIndices) {
 		String serialized = "";
-        for (int i = 0; i < responseIndices.size(); i++) {
-            serialized += responseIndices.get(i);
-            if (i <  responseIndices.size() - 1) serialized += LIST_DELIMITER;
-        }
-        Response response = getSurvey().getResponseByQuestion(question);
-        response.setResponse(serialized);
-        response.save();
-        if (AppUtil.DEBUG) Log.i(TAG, "For Question: " + question.getQuestionIdentifier() + " Picked Response: " + response.getText());
+		for (int i = 0; i < responseIndices.size(); i++) {
+			serialized += responseIndices.get(i);
+			if (i < responseIndices.size() - 1)
+				serialized += LIST_DELIMITER;
+		}
+		Response response = getSurvey().getResponseByQuestion(question);
+		response.setResponse(serialized);
+		response.save();
+		if (isAdded() && !response.getText().equals("")) {
+			response.setSpecialResponse("");
+			response.save();
+			ActivityCompat.invalidateOptionsMenu(getActivity());
+		}
 	}
 
 	@Override

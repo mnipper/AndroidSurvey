@@ -93,6 +93,14 @@ public abstract class QuestionFragment extends Fragment {
         return mInstrument;
     }
     
+    public String getSpecialResponse() {
+    	if (getResponse() != null) {
+	        return getResponse().getSpecialResponse();
+    	} else {
+	        return "";
+    	}
+    }
+    
     protected ResponsePhoto getResponsePhoto() {
     	return getResponse().getResponsePhoto();
     }
@@ -166,6 +174,14 @@ public abstract class QuestionFragment extends Fragment {
         	saveTimeEnded();
         	getResponse().setDeviceUser(AuthUtils.getCurrentUser());
         	getResponse().save();
+        }
+    }
+    
+    public void clearCurrentResponse() {
+    	if (getResponse() != null) {
+            getResponse().setResponse("");
+            getResponse().save();
+            deserialize(getResponse().getText());
         }
     }
     

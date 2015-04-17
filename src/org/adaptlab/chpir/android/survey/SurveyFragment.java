@@ -330,7 +330,7 @@ public class SurveyFragment extends Fragment {
             moveToPreviousQuestion();
             return true;
         case R.id.menu_item_next:
-            if (getSpecialResponse().equals(Response.SKIP)) {
+            if (mQuestionFragment.getSpecialResponse().equals(Response.SKIP)) {
                 mQuestionFragment.saveSpecialResponse("");
             }
             moveToNextQuestion();
@@ -389,14 +389,14 @@ public class SurveyFragment extends Fragment {
 	 * Give a visual indication when a special response is selected
 	 */
 	public void showSpecialResponseSelection(Menu menu) {
-        if (mQuestionFragment != null && mQuestionFragment.getResponse() != null && menu != null) {
-            if (getSpecialResponse().equals(Response.SKIP)) {
+        if (mQuestionFragment != null && mQuestionFragment.getSpecialResponse() != null && menu != null) {
+        	if (mQuestionFragment.getSpecialResponse().equals(Response.SKIP)) {
                 menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
-            } else if (getSpecialResponse().equals(Response.RF)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.RF)) {
                 menu.findItem(R.id.menu_item_rf).setIcon(R.drawable.ic_menu_item_rf_selected);                
-            } else if (getSpecialResponse().equals(Response.NA)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.NA)) {
                 menu.findItem(R.id.menu_item_na).setIcon(R.drawable.ic_menu_item_na_selected);                
-            } else if (getSpecialResponse().equals(Response.DK)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.DK)) {
                 menu.findItem(R.id.menu_item_dk).setIcon(R.drawable.ic_menu_item_dk_selected);                
             }
         }
@@ -785,20 +785,9 @@ public class SurveyFragment extends Fragment {
      */
     private void setSpecialResponse(String response) {
         mQuestionFragment.saveSpecialResponse(response);
-        clearCurrentResponse();
+        mQuestionFragment.clearCurrentResponse();
         if (isAdded()) {
             ActivityCompat.invalidateOptionsMenu(getActivity());
-        }
-    }
-    
-    /*
-     * Set the current response to the empty string
-     */
-    private void clearCurrentResponse() {
-        if (mQuestionFragment.getResponse() != null) {
-            mQuestionFragment.getResponse().setResponse("");
-            mQuestionFragment.getResponse().save();
-            mQuestionFragment.deserialize(mQuestionFragment.getResponse().getText());
         }
     }
           
@@ -826,13 +815,6 @@ public class SurveyFragment extends Fragment {
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
     }
-	
-	private String getSpecialResponse() {
-	    if (mQuestionFragment.getResponse() != null)
-	        return mQuestionFragment.getResponse().getSpecialResponse();
-	    else
-	        return "";
-	}
 	
 	private boolean checkRules() {
 	    return new RuleBuilder(getActivity())

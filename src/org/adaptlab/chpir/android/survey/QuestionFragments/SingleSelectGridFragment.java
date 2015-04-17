@@ -3,7 +3,6 @@ package org.adaptlab.chpir.android.survey.QuestionFragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.GridFragment;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.GridLabel;
@@ -12,8 +11,7 @@ import org.adaptlab.chpir.android.survey.Models.Response;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ public class SingleSelectGridFragment extends GridFragment {
 	
 	private static int OPTION_COLUMN_WIDTH = 400;
 	private static int QUESTION_COLUMN_WIDTH = 700;
-	private static final String TAG = "SingleSelectGridFragment";
 	
 	private int mIndex;
 	private List<Question> mQuestions;
@@ -36,8 +33,15 @@ public class SingleSelectGridFragment extends GridFragment {
 	
 	@Override
 	protected void deserialize(String responseText) {
-		if (!TextUtils.isEmpty(responseText)) {
-			mRadioGroups.get(mIndex).check(Integer.parseInt(responseText));
+		if (responseText.equals("")) {
+			for (RadioGroup group : mRadioGroups) {
+				int checked = group.getCheckedRadioButtonId();
+	        	if (checked > -1) {
+	        		((RadioButton) group.getChildAt(checked)).setChecked(false);
+	        	}
+			}
+		} else {
+			((RadioButton) mRadioGroups.get(mIndex).getChildAt(Integer.parseInt(responseText))).setChecked(true);
 		}
 	}
 	
@@ -107,7 +111,11 @@ public class SingleSelectGridFragment extends GridFragment {
 		Response response = getSurvey().getResponseByQuestion(q);
 		response.setResponse(String.valueOf(checkedId));
 		response.save();
-		if (AppUtil.DEBUG) Log.i(TAG, "For Question: " + q.getQuestionIdentifier() + " Picked Response: " + response.getText());
+		if (isAdded() && !response.getText().equals("")) {
+            response.setSpecialResponse("");
+            response.save();
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        }
 	}
 
 }

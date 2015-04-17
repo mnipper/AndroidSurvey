@@ -35,9 +35,9 @@ public abstract class GridFragment extends QuestionFragment {
             mGrid = Grid.findByRemoteId(getArguments().getLong(EXTRA_GRID_ID));
             mQuestions = mGrid.questions();
         }
-        setHasOptionsMenu(true);
         init();
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -73,6 +73,36 @@ public abstract class GridFragment extends QuestionFragment {
 			}
 		}
 	}
+	
+	@Override
+	public void clearCurrentResponse() {
+		for (Question question : mGrid.questions()) {
+			Response response = mSurvey.getResponseByQuestion(question);
+			if (response != null) {
+				response.setResponse("");
+				response.save();
+			}
+		}
+		deserialize("");
+	}
+	
+	/*
+	 * Return the special response belonging to the first question in the grid since
+	 * all the questions in the grid have the same special response
+	 */
+	@Override
+	public String getSpecialResponse() {
+		if (mGrid != null && mSurvey != null) {
+			Response firstResponse = mSurvey.getResponseByQuestion(mGrid.questions().get(0));
+	    	if (firstResponse != null) {
+		        return firstResponse.getSpecialResponse();
+	    	} else {
+		        return "";
+	    	}
+		} else {
+			return "";
+		}
+    }
 
 	@Override
     public void onSaveInstanceState(Bundle outState) {

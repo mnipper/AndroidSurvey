@@ -39,6 +39,7 @@
             android:uiOptions="splitActionBarWhenNarrow"  />
         <activity android:name=".AdminActivity" />
         <activity android:name=".LoginActivity" android:noHistory="true" />
+        <activity android:name=".EncryptionPasswordActivity" android:noHistory="true" />
         <activity android:name=".ReviewPageActivity" />
         <service android:name="org.adaptlab.chpir.android.activerecordcloudsync.PollService" />
         <receiver android:name="org.adaptlab.chpir.android.survey.Receivers.StartupReceiver">

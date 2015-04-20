@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
-    public final static boolean ENCRYPT_DB = false;
+    public final static boolean ENCRYPT_DB = true;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
@@ -66,22 +67,20 @@ public class AppUtil {
             }
         }
         
-        try {
-            if (ENCRYPT_DB) {
-                ActiveAndroid.initialize(new Configuration.Builder(context)
-                    .setEncrypted(true)
-                    .setPassword("PASSWORD")
-                    .create());
-            } else {
-                ActiveAndroid.initialize(new Configuration.Builder(context)
-                    .setEncrypted(false)
-                    .create());
-            }
-        } catch (net.sqlcipher.database.SQLiteException sqe) {
-            Log.i(TAG, "WRONG PASSWORD!");
-            return;
+        if (ENCRYPT_DB) {
+            Intent i = new Intent(context, EncryptionPasswordActivity.class);
+            context.startActivity(i);
+        } else {
+            ActiveAndroid.initialize(new Configuration.Builder(context)
+                .setEncrypted(false)
+                .create());
+            
+            setupDatabase(context);
         }
-        
+
+    }
+    
+    public static void setupDatabase(Context context) {        
         setAdminSettingsInstance();
         
         ADMIN_PASSWORD_HASH = context.getResources().getString(R.string.admin_password_hash);
@@ -96,11 +95,11 @@ public class AppUtil {
         DatabaseSeed.seed(context);
 
         if (adminSettingsInstance.getDeviceIdentifier() == null) {
-        	adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());
+            adminSettingsInstance.setDeviceIdentifier(UUID.randomUUID().toString());
         }
         
         if (adminSettingsInstance.getDeviceLabel() == null) {
-        	adminSettingsInstance.setDeviceLabel("");
+            adminSettingsInstance.setDeviceLabel("");
         }
 
         ActiveRecordCloudSync.setAccessToken(ACCESS_TOKEN);

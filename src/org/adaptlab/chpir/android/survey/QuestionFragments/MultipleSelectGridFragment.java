@@ -122,12 +122,11 @@ public class MultipleSelectGridFragment extends GridFragment {
 		}
 		Response response = getSurvey().getResponseByQuestion(question);
 		response.setResponse(serialized);
-		response.save();
 		if (isAdded() && !response.getText().equals("")) {
 			response.setSpecialResponse("");
-			response.save();
 			ActivityCompat.invalidateOptionsMenu(getActivity());
 		}
+		response.save();
 	}
 
 	@Override

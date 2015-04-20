@@ -110,12 +110,11 @@ public class SingleSelectGridFragment extends GridFragment {
 	private void setResponseIndex(Question q, int checkedId) {
 		Response response = getSurvey().getResponseByQuestion(q);
 		response.setResponse(String.valueOf(checkedId));
-		response.save();
 		if (isAdded() && !response.getText().equals("")) {
             response.setSpecialResponse("");
-            response.save();
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
+		response.save();
 	}
 
 }

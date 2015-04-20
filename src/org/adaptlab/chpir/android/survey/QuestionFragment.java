@@ -168,20 +168,15 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
-    public void saveSpecialResponse(String response) {
-        if (getResponse() != null) {
-        	getResponse().setSpecialResponse(response); 
+    public void saveSpecialResponse(String specialResponse) {
+        Response response = getResponse();
+    	if (response != null) {
+        	response.setSpecialResponse(specialResponse); 
+        	response.setResponse("");
+        	response.setDeviceUser(AuthUtils.getCurrentUser());
         	saveTimeEnded();
-        	getResponse().setDeviceUser(AuthUtils.getCurrentUser());
-        	getResponse().save();
-        }
-    }
-    
-    public void clearCurrentResponse() {
-    	if (getResponse() != null) {
-            getResponse().setResponse("");
-            getResponse().save();
-            deserialize(getResponse().getText());
+        	response.save();
+        	deserialize(response.getText());
         }
     }
     

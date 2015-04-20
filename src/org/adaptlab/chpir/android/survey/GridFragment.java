@@ -67,7 +67,9 @@ public abstract class GridFragment extends QuestionFragment {
 			if (response != null) {
 				response.setSpecialResponse(specialResponse);
 				response.setDeviceUser(AuthUtils.getCurrentUser());
+				response.setResponse("");
 				response.save();
+				deserialize(response.getText());
 				if (AppUtil.DEBUG) Log.i(TAG, "Saved special response: " + response.getSpecialResponse() + 
 						" for question: " + question.getQuestionIdentifier());
 			}
@@ -75,33 +77,19 @@ public abstract class GridFragment extends QuestionFragment {
 	}
 	
 	@Override
-	public void clearCurrentResponse() {
-		for (Question question : mGrid.questions()) {
-			Response response = mSurvey.getResponseByQuestion(question);
-			if (response != null) {
-				response.setResponse("");
-				response.save();
-			}
-		}
-		deserialize("");
-	}
-	
-	/*
-	 * Return the special response belonging to the first question in the grid since
-	 * all the questions in the grid have the same special response
-	 */
-	@Override
 	public String getSpecialResponse() {
-		if (mGrid != null && mSurvey != null) {
-			Response firstResponse = mSurvey.getResponseByQuestion(mGrid.questions().get(0));
-	    	if (firstResponse != null) {
-		        return firstResponse.getSpecialResponse();
-	    	} else {
-		        return "";
-	    	}
-		} else {
+		if (mGrid == null && mSurvey == null) {
 			return "";
 		}
+		
+		for (int k = 0; k < mGrid.questions().size(); k++) {
+			Response response = mSurvey.getResponseByQuestion(mGrid.questions().get(k));
+			if (response != null && !response.getSpecialResponse().equals("")) {
+				return response.getSpecialResponse();
+			}
+		}
+		
+		return "";
     }
 
 	@Override

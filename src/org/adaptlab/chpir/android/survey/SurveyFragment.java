@@ -785,7 +785,6 @@ public class SurveyFragment extends Fragment {
      */
     private void setSpecialResponse(String response) {
         mQuestionFragment.saveSpecialResponse(response);
-        mQuestionFragment.clearCurrentResponse();
         if (isAdded()) {
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }

@@ -197,11 +197,13 @@ public class Response extends SendModel {
     @Override
     public void setAsSent(Context context) {
     	mSent = true;
+    	this.save();
+
     	if (getResponsePhoto() == null) {	
-    		this.delete(); 
+    		this.delete();
     	}
+
     	mSurvey.deleteIfComplete();
-    	Log.d(TAG, Response.getAll().size() + " responses left on device");
     }
     
     /*

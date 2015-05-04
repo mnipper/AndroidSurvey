@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.adaptlab.chpir.android.survey.Location.LocationServiceManager;
+import org.adaptlab.chpir.android.survey.Models.Grid;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
 import org.adaptlab.chpir.android.survey.Models.Question;
@@ -13,6 +14,8 @@ import org.adaptlab.chpir.android.survey.Models.Question.QuestionType;
 import org.adaptlab.chpir.android.survey.Models.Response;
 import org.adaptlab.chpir.android.survey.Models.Section;
 import org.adaptlab.chpir.android.survey.Models.Survey;
+import org.adaptlab.chpir.android.survey.QuestionFragments.MultipleSelectGridFragment;
+import org.adaptlab.chpir.android.survey.QuestionFragments.SingleSelectGridFragment;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitPerMinuteRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentSurveyLimitRule;
 import org.adaptlab.chpir.android.survey.Rules.InstrumentTimingRule;
@@ -79,6 +82,7 @@ public class SurveyFragment extends Fragment {
     private int mQuestionNumber;
     private String mMetadata;
     private Question mResumeQuestion = null;
+    private Grid mGrid;
     
     // mPreviousQuestions is a Stack, however Android does not allow you
     // to save a Stack to the savedInstanceState, so it is represented as
@@ -120,6 +124,9 @@ public class SurveyFragment extends Fragment {
             mQuestionsToSkip = savedInstanceState.getIntegerArrayList(EXTRA_QUESTIONS_TO_SKIP_IDS);
             ArrayList<Integer> skippedQuestions = savedInstanceState.getIntegerArrayList(EXTRA_SKIPPED_QUESTIONS_IDS);
             mSkippedQuestions = new LinkedHashSet<Integer>(skippedQuestions);
+            if (mQuestion.belongsToGrid()) {
+            	mGrid = mQuestion.getGrid();
+            }
         } else {
             Long instrumentId = getActivity().getIntent().getLongExtra(EXTRA_INSTRUMENT_ID, -1);
             mMetadata = getActivity().getIntent().getStringExtra(EXTRA_PARTICIPANT_METADATA);
@@ -240,7 +247,10 @@ public class SurveyFragment extends Fragment {
             mQuestionNumber = mQuestion.getNumberInInstrument() - 1;
             for (int i = 0; i < mQuestionNumber; i++)
                 mPreviousQuestions.add(i);
-        }  
+        } 
+        if (mQuestion.belongsToGrid()) {
+        	mGrid = mQuestion.getGrid();
+        }
     }
     
     @Override
@@ -320,7 +330,7 @@ public class SurveyFragment extends Fragment {
             moveToPreviousQuestion();
             return true;
         case R.id.menu_item_next:
-            if (getSpecialResponse().equals(Response.SKIP)) {
+            if (mQuestionFragment.getSpecialResponse().equals(Response.SKIP)) {
                 mQuestionFragment.saveSpecialResponse("");
             }
             moveToNextQuestion();
@@ -379,14 +389,14 @@ public class SurveyFragment extends Fragment {
 	 * Give a visual indication when a special response is selected
 	 */
 	public void showSpecialResponseSelection(Menu menu) {
-        if (mQuestionFragment.getResponse() != null && menu != null) {
-            if (getSpecialResponse().equals(Response.SKIP)) {
+        if (mQuestionFragment != null && mQuestionFragment.getSpecialResponse() != null && menu != null) {
+        	if (mQuestionFragment.getSpecialResponse().equals(Response.SKIP)) {
                 menu.findItem(R.id.menu_item_skip).setIcon(R.drawable.ic_menu_item_sk_selected);
-            } else if (getSpecialResponse().equals(Response.RF)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.RF)) {
                 menu.findItem(R.id.menu_item_rf).setIcon(R.drawable.ic_menu_item_rf_selected);                
-            } else if (getSpecialResponse().equals(Response.NA)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.NA)) {
                 menu.findItem(R.id.menu_item_na).setIcon(R.drawable.ic_menu_item_na_selected);                
-            } else if (getSpecialResponse().equals(Response.DK)) {
+            } else if (mQuestionFragment.getSpecialResponse().equals(Response.DK)) {
                 menu.findItem(R.id.menu_item_dk).setIcon(R.drawable.ic_menu_item_dk_selected);                
             }
         }
@@ -404,11 +414,13 @@ public class SurveyFragment extends Fragment {
 
         setParticipantLabel();
         updateQuestionCountLabel();
-        
-        setQuestionText(mQuestionText);
+        if (mQuestion.belongsToGrid()) {
+        	setGridLabelText(mQuestionText);
+        } else {
+        	setQuestionText(mQuestionText);
+        }
         mQuestionText.setTypeface(mInstrument.getTypeFace(getActivity().getApplicationContext()));
         createQuestionFragment();
-        
         ActivityCompat.invalidateOptionsMenu(getActivity());
         getActivity().getActionBar().setTitle(mInstrument.getTitle());
    
@@ -424,29 +436,47 @@ public class SurveyFragment extends Fragment {
         		loadOrCreateQuestion();
         if (mSurvey == null)
         		loadOrCreateSurvey();
-		FragmentManager fm = getChildFragmentManager();       
-        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
+        if (mQuestion.belongsToGrid()) {
+        	createGridFragment();
+        } else {
+			FragmentManager fm = getChildFragmentManager();       
+	        mQuestionFragment = (QuestionFragment) QuestionFragmentFactory.createQuestionFragment(mQuestion, mSurvey);
+	        switchOutFragments(fm);
+        } 
+	}
+	
+	private void createGridFragment() {
+		if (mQuestion.getQuestionType() == QuestionType.SELECT_ONE) {
+			mQuestionFragment = new SingleSelectGridFragment();
+        } else {
+        	mQuestionFragment = new MultipleSelectGridFragment();
+        }
+    	Bundle bundle = new Bundle();
+    	bundle.putLong(GridFragment.EXTRA_GRID_ID, mQuestion.getGrid().getRemoteId());
+    	bundle.putLong(GridFragment.EXTRA_SURVEY_ID, mSurvey.getId());
+    	mQuestionFragment.setArguments(bundle);
+    	FragmentManager fm = getChildFragmentManager();
+    	switchOutFragments(fm);
+	}
 
-        if (fm.findFragmentById(R.id.question_container) == null) {
-            // Add the first question fragment
+	private void switchOutFragments(FragmentManager fm) {
+		if (fm.findFragmentById(R.id.question_container) == null) {
             fm.beginTransaction()
                 .add(R.id.question_container, mQuestionFragment)
                 .commit();
         } else {
-            // Replace the question fragment if it already exist            
             fm.beginTransaction()
                 .replace(R.id.question_container, mQuestionFragment)
-                .commit();        
+                .commit();    
         }
-        
-        mSurvey.setLastQuestion(mQuestion);
+    	
+    	mSurvey.setLastQuestion(mQuestion);
         mSurvey.save();
-        
-        if (AppUtil.PRODUCTION) {
-            Crashlytics.setString("last question identifier", mQuestion.getQuestionIdentifier());
-        }
-        
         removeTextFocus();
+	}
+	
+	private void setGridLabelText(TextView view) {
+		view.append(styleTextWithHtml(mGrid.getText()));
 	}
 	
 	/*
@@ -492,7 +522,7 @@ public class SurveyFragment extends Fragment {
         		nextQuestion = getNextQuestionWhenNumberFormatException(questionIndex);
         	}
         } else {
-            nextQuestion = nextQuestionHelper(questionIndex);
+        	nextQuestion = nextQuestionHelper(questionIndex);
         }        
         Question question = getNextUnskippedQuestion(nextQuestion);
         return question;
@@ -545,7 +575,7 @@ public class SurveyFragment extends Fragment {
     private void clearSkipsForCurrentQuestion() {
     	if (!mQuestionsToSkip.isEmpty()) {
 	    	for (Question question : mQuestion.questionsToSkip()) {
-	    		mQuestionsToSkip.remove(question.getNumberInInstrument());
+	    		mQuestionsToSkip.remove(Integer.valueOf(question.getNumberInInstrument()));
 	    	} 
     	}
     } 
@@ -556,13 +586,13 @@ public class SurveyFragment extends Fragment {
 				if (mQuestionFragment.getResponsePhoto().getPicturePath() == null) {
 					mSkippedQuestions.add(mQuestion.getNumberInInstrument());
 				} else {
-					mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
+					mSkippedQuestions.remove(Integer.valueOf(mQuestion.getNumberInInstrument()));
 				}	
     		} else {
     			mSkippedQuestions.add(mQuestion.getNumberInInstrument());
     		}
     	} else {
-    		mSkippedQuestions.remove(mQuestion.getNumberInInstrument());
+    		mSkippedQuestions.remove(Integer.valueOf(mQuestion.getNumberInInstrument()));
     	}
     }
     
@@ -605,17 +635,25 @@ public class SurveyFragment extends Fragment {
     public void moveToNextQuestion() {
     	int questionsInInstrument = mInstrument.questions().size();
         if (mQuestionNumber < questionsInInstrument - 1) {    
-            mPreviousQuestions.add(mQuestionNumber);
-            mQuestion = getNextQuestion(mQuestionNumber);            
-            createQuestionFragment();
+            if (mQuestion.firstInGrid()) {
+            	mQuestionNumber = mGrid.questions().get(mGrid.questions().size() - 1).getNumberInInstrument() - 1;
+            	mPreviousQuestions.add(mQuestion.getNumberInInstrument() - 1);
+            	mQuestion = mGrid.questions().get(mGrid.questions().size() - 1);
+            } else {
+            	mPreviousQuestions.add(mQuestionNumber);
+            }
+            mQuestion = getNextQuestion(mQuestionNumber);  
+            if (mQuestion.getGrid() != null) {
+            	mGrid = mQuestion.getGrid();
+            }
+        	createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
                 setSpecialResponse(Response.LOGICAL_SKIP);
                 moveToNextQuestion();
-            }
+            }  
         } else if (isLastQuestion() && !setQuestionText(mQuestionText)) {
         	finishSurvey();
         }
-        
         updateQuestionCountLabel();
     }
     
@@ -629,6 +667,9 @@ public class SurveyFragment extends Fragment {
         if (mQuestionNumber > 0 && mQuestionNumber < mInstrument.questions().size()) {
             mQuestionNumber = mPreviousQuestions.remove(mPreviousQuestions.size() - 1);
             mQuestion = mInstrument.questions().get(mQuestionNumber);
+            if (mQuestion.getGrid() != null) {
+            	mGrid = mQuestion.getGrid();
+            }
             createQuestionFragment();
             if (!setQuestionText(mQuestionText)) {
                 moveToPreviousQuestion();
@@ -682,7 +723,7 @@ public class SurveyFragment extends Fragment {
     }
 
     public boolean hasValidResponse() {
-        if (mQuestionFragment.getResponse() != null) {
+        if (mQuestionFragment != null && mQuestionFragment.getResponse() != null) {
             return mQuestionFragment.getResponse().isValid();
         } else {
             return true;
@@ -744,20 +785,8 @@ public class SurveyFragment extends Fragment {
      */
     private void setSpecialResponse(String response) {
         mQuestionFragment.saveSpecialResponse(response);
-        clearCurrentResponse();
         if (isAdded()) {
             ActivityCompat.invalidateOptionsMenu(getActivity());
-        }
-    }
-    
-    /*
-     * Set the current response to the empty string
-     */
-    private void clearCurrentResponse() {
-        if (mQuestionFragment.getResponse() != null) {
-            mQuestionFragment.getResponse().setResponse("");
-            mQuestionFragment.getResponse().save();
-            mQuestionFragment.deserialize(mQuestionFragment.getResponse().getText());
         }
     }
           
@@ -785,13 +814,6 @@ public class SurveyFragment extends Fragment {
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
     }
-	
-	private String getSpecialResponse() {
-	    if (mQuestionFragment.getResponse() != null)
-	        return mQuestionFragment.getResponse().getSpecialResponse();
-	    else
-	        return "";
-	}
 	
 	private boolean checkRules() {
 	    return new RuleBuilder(getActivity())

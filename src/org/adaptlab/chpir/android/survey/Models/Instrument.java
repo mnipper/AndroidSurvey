@@ -242,7 +242,7 @@ public class Instrument extends ReceiveModel {
         return mTitle;
     }
     
-    private void setVersionNumber(int version) {
+    public void setVersionNumber(int version) {
         mVersionNumber = version;
     }
     
@@ -265,11 +265,8 @@ public class Instrument extends ReceiveModel {
     public boolean getPublished() {
     	return mPublished;
     }
-    
-    /*
-     * Private
-     */   
-    private void setLanguage(String language) {
+     
+    public void setLanguage(String language) {
         mLanguage = language;
     }
     
@@ -277,11 +274,11 @@ public class Instrument extends ReceiveModel {
         mAlignment = alignment;
     }
     
-    private void setQuestionCount(int num) {
+    public void setQuestionCount(int num) {
         mQuestionCount = num;
     }
     
-    private void setPublished(boolean published) {
+    public void setPublished(boolean published) {
     	mPublished = published;
     }
 }

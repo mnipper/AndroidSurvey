@@ -31,11 +31,11 @@ public abstract class QuestionFragment extends Fragment {
     protected abstract String serialize();
     protected abstract void deserialize(String responseText);
     
-    private TextView mValidationTextView;
+    public TextView mValidationTextView;
 
     private Question mQuestion;
     private Survey mSurvey;
-    private Response mResponse;
+    public Response mResponse;
     private Instrument mInstrument;
     
     @Override
@@ -91,6 +91,14 @@ public abstract class QuestionFragment extends Fragment {
     
     public Instrument getInstrument() { 
         return mInstrument;
+    }
+    
+    public String getSpecialResponse() {
+    	if (getResponse() != null) {
+	        return getResponse().getSpecialResponse();
+    	} else {
+	        return "";
+    	}
     }
     
     protected ResponsePhoto getResponsePhoto() {
@@ -160,12 +168,15 @@ public abstract class QuestionFragment extends Fragment {
         }
     }
     
-    public void saveSpecialResponse(String response) {
-        if (getResponse() != null) {
-        	getResponse().setSpecialResponse(response); 
+    public void saveSpecialResponse(String specialResponse) {
+        Response response = getResponse();
+    	if (response != null) {
+        	response.setSpecialResponse(specialResponse); 
+        	response.setResponse("");
+        	response.setDeviceUser(AuthUtils.getCurrentUser());
         	saveTimeEnded();
-        	getResponse().setDeviceUser(AuthUtils.getCurrentUser());
-        	getResponse().save();
+        	response.save();
+        	deserialize(response.getText());
         }
     }
     

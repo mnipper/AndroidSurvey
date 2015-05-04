@@ -7,6 +7,8 @@ import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceSyncEntry;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
+import org.adaptlab.chpir.android.survey.Models.Grid;
+import org.adaptlab.chpir.android.survey.Models.GridLabel;
 import org.adaptlab.chpir.android.survey.Models.Image;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
 import org.adaptlab.chpir.android.survey.Models.Option;
@@ -113,6 +115,8 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("device_users", DeviceUser.class);
         ActiveRecordCloudSync.addReceiveTable("skips", Skip.class);
         ActiveRecordCloudSync.addReceiveTable("rules", Rule.class);
+        ActiveRecordCloudSync.addReceiveTable("grids", Grid.class);
+        ActiveRecordCloudSync.addReceiveTable("grid_labels", GridLabel.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);

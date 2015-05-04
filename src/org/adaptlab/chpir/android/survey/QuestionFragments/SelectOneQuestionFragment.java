@@ -52,8 +52,13 @@ public class SelectOneQuestionFragment extends QuestionFragment {
 
     @Override
     protected void deserialize(String responseText) {
-        if (!responseText.equals(""))
-            getRadioGroup().check(Integer.parseInt(responseText));
+        if (responseText.equals("")) {
+        	int checked = getRadioGroup().getCheckedRadioButtonId();
+        	if (checked > -1)
+        		((RadioButton) getRadioGroup().getChildAt(checked)).setChecked(false);
+        } else {
+            ((RadioButton) getRadioGroup().getChildAt(Integer.parseInt(responseText))).setChecked(true);
+        }
     }
     
     protected void setResponseIndex(int index) {

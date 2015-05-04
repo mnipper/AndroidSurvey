@@ -66,6 +66,10 @@ public class Question extends ReceiveModel {
     private String mInstructions;
     @Column(name = "QuestionVersion")
     private int mQuestionVersion;
+    @Column(name = "Grid")
+    private Grid mGrid;
+    @Column(name = "FirstInGrid")
+    private boolean mFirstInGrid;
 
     public Question() {
         super();
@@ -118,7 +122,7 @@ public class Question extends ReceiveModel {
     
     public boolean hasMultiSkipPattern() {
     	for (Option option: options()) {
-    		if (option.skips() != null) {
+    		if (option.skips() != null && !option.skips().isEmpty()) {
     			return true;
     		}
     	}
@@ -254,6 +258,10 @@ public class Question extends ReceiveModel {
                     jsonObject.getString("following_up_question_identifier")
                 )
             );
+            if (!jsonObject.isNull("grid_id")) {
+            	question.setGrid(Grid.findByRemoteId(jsonObject.getLong("grid_id")));
+            }
+            question.setFirstInGrid(jsonObject.getBoolean("first_in_grid"));
             question.setRemoteId(remoteId);
             question.save();
             
@@ -418,6 +426,34 @@ public class Question extends ReceiveModel {
     public int getQuestionVersion() {
         return mQuestionVersion;
     }
+
+    public void setInstrumentVersion(int version) {
+        mInstrumentVersion = version;
+    }
+    
+    public void setOptionCount(int num) {
+        mOptionCount = num;
+    }
+    
+    public void setImageCount(int count) {
+    	mImageCount = count;
+    }
+    
+    public boolean firstInGrid() {
+    	return mFirstInGrid;
+    }
+    
+    public Grid getGrid() {
+    	return mGrid;
+    }
+    
+	public boolean belongsToGrid() {
+		if (getGrid() == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
     
     /*
      * Private
@@ -431,24 +467,12 @@ public class Question extends ReceiveModel {
         return false;
     }
     
-    private void setOptionCount(int num) {
-        mOptionCount = num;
-    }
-    
     private int getOptionCount() {
         return mOptionCount;
     }
     
-    private void setImageCount(int count) {
-    	mImageCount = count;
-    }
-    
     private int getImageCount() {
     	return mImageCount;
-    }
-    
-    private void setInstrumentVersion(int version) {
-        mInstrumentVersion = version;
     }
     
     private void setNumberInInstrument(int number) {
@@ -476,5 +500,13 @@ public class Question extends ReceiveModel {
     
     private void setQuestionVersion(int version) {
         mQuestionVersion = version;
+    }
+    
+    private void setGrid(Grid grid) {
+    	mGrid = grid;
+    }
+    
+    private void setFirstInGrid(boolean firstInGrid) {
+    	mFirstInGrid = firstInGrid;
     }
 }

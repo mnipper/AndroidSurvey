@@ -56,6 +56,16 @@ public class AppUtil {
         return -1;
     }
     
+    public static String getVersionName(Context context) {
+    	try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (NameNotFoundException nnfe) {
+            Log.e(TAG, "Error finding version code: " + nnfe);
+        }
+        return "";
+    }
+    
     public static final void appInit(Context context) {
     	mContext = context;
         if (AppUtil.REQUIRE_SECURITY_CHECKS) {

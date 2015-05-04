@@ -31,7 +31,8 @@ public class DeviceSyncEntry extends SendModel {
             
             jsonObject.put("latitude", mLocationServiceManager.getLatitude());
             jsonObject.put("longitude", mLocationServiceManager.getLongitude());
-            jsonObject.put("current_version", AppUtil.getVersionCode(AppUtil.getContext()));
+            jsonObject.put("current_version_code", AppUtil.getVersionCode(AppUtil.getContext()));
+            jsonObject.put("current_version_name", AppUtil.getVersionName(AppUtil.getContext()));
             jsonObject.put("num_surveys", Survey.getAll().size());
             jsonObject.put("current_language", Locale.getDefault().getDisplayLanguage());
             jsonObject.put("instrument_versions", instrumentVersions().toString());

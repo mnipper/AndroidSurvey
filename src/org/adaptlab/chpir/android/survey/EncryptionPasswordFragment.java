@@ -38,7 +38,7 @@ public class EncryptionPasswordFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please enter a password!", Toast.LENGTH_LONG).show();
                 } else {
                     ActiveAndroid.initialize(new Configuration.Builder(getActivity())
-                        .setEncrypted(true)
+                        .setEncrypted(false)
                         .setPassword(decryptionPassword)
                         .create());
                     

@@ -128,9 +128,7 @@ public class InstrumentFragment extends ListFragment {
             }
             if (position % 2 == 0) {
                 convertView.setBackgroundResource(R.drawable.list_background_color);
-            } else {
-                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
-            }
+            } 
 
             Instrument instrument = getItem(position);
 
@@ -170,8 +168,6 @@ public class InstrumentFragment extends ListFragment {
             }
             if (position % 2 == 0) {
                 convertView.setBackgroundResource(R.drawable.list_background_color);
-            } else {
-                convertView.setBackgroundResource(R.drawable.list_background_color_alternate);
             }
             
             Survey survey = getItem(position);

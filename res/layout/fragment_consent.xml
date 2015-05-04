@@ -4,15 +4,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView 
+        android:id="@+id/consent_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="@string/consent_title"/>
+    
     <TextView
         android:id="@+id/consent_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/consent_text"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginRight="16dp" 
+        android:padding="5dp"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:background="@drawable/question_text_layout" />
 
+    <TextView 
+        android:id="@+id/consent_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"    
+        android:text="@string/consent_name"/>
+    
     <EditText
         android:id="@+id/consent_name_edit_text"
         android:layout_width="match_parent"
@@ -23,29 +43,69 @@
         android:ems="10" >
     </EditText>
     
+   <TextView 
+        android:id="@+id/consent_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="@string/consent_email"/>
+   
    <EditText
         android:id="@+id/consent_email_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
+        android:inputType="textEmailAddress"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:ems="10" >
     </EditText>
     
-    <CheckBox android:id="@+id/email_copy_of_consent_checkbox"
+    <CheckBox 
+        android:id="@+id/email_copy_of_consent_checkbox"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="@string/send_email_copy_of_consent"
-         android:layout_marginTop="5dp" />
+         android:layout_margin="5dp" />
 
-    <Button
-        android:id="@+id/consent_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="18dp"
-        android:text="@string/consent_button"
-        android:width="200dp" />
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+                    
+	    <Button
+	        android:id="@+id/consent_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom|start"
+	        android:layout_weight="1"
+	        android:layout_marginStart="5dp"
+	        android:layout_marginEnd="5dp"
+	        android:text="@string/consent_button"
+	        android:background="@drawable/consent_button"
+	        android:textColor="#000000"
+	        android:textSize="30sp"
+	        android:shadowColor="#A8A8A8"
+	        android:shadowDx="0"
+	        android:shadowDy="0"
+	        android:shadowRadius="5" />
+    
+	    <Button 
+	        android:id="@+id/disagree_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_gravity="bottom|end"
+	        android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+	        android:text="@string/dissent_button"
+	        android:background="@drawable/disagree_button"
+	        android:textColor="#000000"
+	        android:textSize="30sp"
+	        android:shadowColor="#A8A8A8"
+	        android:shadowDx="0"
+	        android:shadowDy="0"
+	        android:shadowRadius="5" />
+
+    </LinearLayout>
 
 </LinearLayout>

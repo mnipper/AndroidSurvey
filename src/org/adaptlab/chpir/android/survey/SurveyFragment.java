@@ -106,7 +106,7 @@ public class SurveyFragment extends Fragment {
         setHasOptionsMenu(true);
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         
-        if (AppUtil.REQUIRE_CONSENT && !ConsentForm.consentGiven()) {
+        if (AppUtil.REQUIRE_CONSENT  && !ConsentForm.consentGiven()) {
             Intent i = new Intent(getActivity(), ConsentActivity.class);
             startActivity(i);
             getActivity().finish();

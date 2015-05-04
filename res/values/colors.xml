@@ -2,8 +2,9 @@
 <resources>
     <color name="emphasis">#31b6e7</color>
     <color name="bg_gray">#cecbce</color>
-    <color name="list_background_one">#C5D7F4</color>
     <color name="list_background_two">#E1F0D2</color>
+    <color name="drawer_background">#C0CD2F</color>
+    <color name="list_background_one">#DDDFE1</color>
     <color name="item_selected">#1C939D</color>
     <color name="actionbar_tabs">#FFFFFF</color>
     <color name="question_text_background">#E1F0D2</color>

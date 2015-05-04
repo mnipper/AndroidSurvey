@@ -88,4 +88,8 @@
     <string name="consent_text">You agree to all of this stuff.</string>
     <string name="send_email_copy_of_consent">Send Email Copy of Consent</string>
     <string name="consent_button">I agree</string>
+    <string name="dissent_button">I disagree</string>
+    <string name="consent_title">Carefully read the consent form below</string>
+    <string name="consent_name">Your Name</string>
+    <string name="consent_email">Your Email</string>
 </resources>

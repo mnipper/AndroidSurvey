@@ -113,7 +113,7 @@ public class AdminFragment extends Fragment {
                 AdminSettings.getInstance().setApiVersion(mApiVersionEditText.getText().toString());
                 AdminSettings.getInstance().setProjectId(mProjectIdEditText.getText().toString());
                 AdminSettings.getInstance().setApiKey(mApiKeyEditText.getText().toString());
-                AdminSettings.getInstance().setConsentApiUrl(mConsentApiUrlEditText.getText().toString());
+                AdminSettings.getInstance().setConsentApiUrl(getAdminSettingsInstanceConsentApiUrl());
 
                 // If this code is set, it will override the language selection on the device
                 // for all instrument translations.
@@ -122,7 +122,7 @@ public class AdminFragment extends Fragment {
                 PollService.setPollInterval(AdminSettings.getInstance().getSyncInterval());                
                 ActiveRecordCloudSync.setAccessToken(getAdminSettingsInstanceApiKey());
                 ActiveRecordCloudSync.setEndPoint(getAdminSettingsInstanceApiUrl());
-                ActiveRecordCloudSync.setConsentEndPoint(AdminSettings.getInstance().getConsentApiUrl());
+                ActiveRecordCloudSync.setConsentEndPoint(getAdminSettingsInstanceConsentApiUrl());
                 new ApkUpdateTask(getActivity()).execute();
                 
                 AdminSettings.getInstance().setShowSurveys(mShowSurveysCheckBox.isChecked());
@@ -161,6 +161,14 @@ public class AdminFragment extends Fragment {
 	    
 		return domainName + "api/" + AdminSettings.getInstance().getApiVersion() + "/" + 
 				"projects/" + AdminSettings.getInstance().getProjectId() + "/";
+	}
+	
+	public String getAdminSettingsInstanceConsentApiUrl() {
+		String consentApiUrl = mConsentApiUrlEditText.getText().toString();
+	    char lastChar = consentApiUrl.charAt(consentApiUrl.length() - 1);
+	    if (lastChar != '/') consentApiUrl = consentApiUrl + "/";
+	    
+		return consentApiUrl + "api/v1/";
 	}
 
 	public String getAdminSettingsInstanceSyncInterval() {

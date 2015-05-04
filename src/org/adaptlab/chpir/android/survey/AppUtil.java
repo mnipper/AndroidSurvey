@@ -1,11 +1,11 @@
 package org.adaptlab.chpir.android.survey;
 
-import java.util.Date;
 import java.util.UUID;
 
 import org.adaptlab.chpir.android.activerecordcloudsync.ActiveRecordCloudSync;
 import org.adaptlab.chpir.android.survey.Models.AdminSettings;
 import org.adaptlab.chpir.android.survey.Models.ConsentForm;
+import org.adaptlab.chpir.android.survey.Models.ConsentText;
 import org.adaptlab.chpir.android.survey.Models.DefaultAdminSettings;
 import org.adaptlab.chpir.android.survey.Models.DeviceSyncEntry;
 import org.adaptlab.chpir.android.survey.Models.DeviceUser;
@@ -38,7 +38,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
-    public static boolean REQUIRE_CONSENT = PRODUCTION;
+    public static boolean REQUIRE_CONSENT = true;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
@@ -97,6 +97,7 @@ public class AppUtil {
         ActiveRecordCloudSync.addReceiveTable("device_users", DeviceUser.class);
         ActiveRecordCloudSync.addReceiveTable("skips", Skip.class);
         ActiveRecordCloudSync.addReceiveTable("rules", Rule.class);
+        ActiveRecordCloudSync.addReceiveTable("consent_texts", ConsentText.class);
         ActiveRecordCloudSync.addSendTable("surveys", Survey.class);
         ActiveRecordCloudSync.addSendTable("responses", Response.class);
         ActiveRecordCloudSync.addSendTable("response_images", ResponsePhoto.class);
@@ -159,7 +160,7 @@ public class AppUtil {
     
     public static AdminSettings getAdminSettingsInstance() {
     	if (adminSettingsInstance == null) {
-    		setAdminSettingsInstance();
+    		AppUtil.setAdminSettingsInstance();
     	}
     	return adminSettingsInstance;
     }

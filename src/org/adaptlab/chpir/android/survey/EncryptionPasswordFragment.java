@@ -20,7 +20,6 @@ public class EncryptionPasswordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppUtil.appInit(getActivity());
     }
     
     @Override
@@ -39,7 +38,7 @@ public class EncryptionPasswordFragment extends Fragment {
                 if (decryptionPassword.isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter a password!", Toast.LENGTH_LONG).show();
                 } else {
-                    AppUtil.setupDatabase(getActivity());
+                    AppUtil.appInit(getActivity(), decryptionPassword);
                     
                     Intent i = new Intent(getActivity(), InstrumentActivity.class);
                     startActivity(i);

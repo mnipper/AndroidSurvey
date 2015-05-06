@@ -40,7 +40,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
-    public final static boolean ENCRYPT_DB = false;
+    public final static boolean ENCRYPT_DB = true;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;
@@ -60,7 +60,7 @@ public class AppUtil {
         return -1;
     }
     
-    public static final void appInit(Context context) {
+    public static final void appInit(Context context, String password) {
     	mContext = context;
         if (AppUtil.REQUIRE_SECURITY_CHECKS) {
             if (!AppUtil.runDeviceSecurityChecks(context)) {
@@ -70,15 +70,17 @@ public class AppUtil {
         }
         
         if (ENCRYPT_DB) {
-            Intent i = new Intent(context, EncryptionPasswordActivity.class);
-            context.startActivity(i);
+            ActiveAndroid.initialize(new Configuration.Builder(context)
+                .setEncrypted(true)
+                .setPassword(password)
+                .create());
         } else {
             ActiveAndroid.initialize(new Configuration.Builder(context)
                 .setEncrypted(false)
                 .create());
-            
-            setupDatabase(context);
         }
+        
+        setupDatabase(context);
 
     }
     

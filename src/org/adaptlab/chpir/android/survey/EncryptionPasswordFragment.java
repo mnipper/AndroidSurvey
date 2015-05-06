@@ -3,6 +3,7 @@ package org.adaptlab.chpir.android.survey;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class EncryptionPasswordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppUtil.appInit(getActivity());
     }
     
     @Override
@@ -37,12 +39,12 @@ public class EncryptionPasswordFragment extends Fragment {
                 if (decryptionPassword.isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter a password!", Toast.LENGTH_LONG).show();
                 } else {
-                    ActiveAndroid.initialize(new Configuration.Builder(getActivity())
-                        .setEncrypted(false)
-                        .setPassword(decryptionPassword)
-                        .create());
-                    
                     AppUtil.setupDatabase(getActivity());
+                    
+                    Intent i = new Intent(getActivity(), InstrumentActivity.class);
+                    startActivity(i);
+                    
+                    getActivity().finish();
                 }
             }
         });

@@ -40,7 +40,7 @@ public class AppUtil {
     public final static boolean PRODUCTION = false;
     public final static boolean REQUIRE_SECURITY_CHECKS = PRODUCTION;
     public static boolean DEBUG = !PRODUCTION;
-    public final static boolean ENCRYPT_DB = true;
+    public final static boolean ENCRYPT_DB = false;
     
     public static String ADMIN_PASSWORD_HASH;
     public static String ACCESS_TOKEN;

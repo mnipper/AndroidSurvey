@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
+import org.adaptlab.chpir.android.survey.Models.Instrument;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class ActiveRecordCloudSync {
     private static String mEndPoint;        // The remote API endpoint url
     private static String mAccessToken;     // API Access Key
     private static int mVersionCode;        // App version code from Manifest
+    private static String mInstrumentVersions;
     
     /**
      * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
@@ -57,6 +59,7 @@ public class ActiveRecordCloudSync {
     
     public static void syncReceiveTables(Context context) {
         NetworkNotificationUtils.showNotification(context, android.R.drawable.stat_sys_download, R.string.sync_notification_text);
+        ActiveRecordCloudSync.setInstrumentVersions();
         for (Map.Entry<String, Class<? extends ReceiveModel>> entry : mReceiveTables.entrySet()) {
             if (AppUtil.DEBUG) Log.i(TAG, "Syncing " + entry.getValue() + " from remote table " + entry.getKey());
             HttpFetchr httpFetchr = new HttpFetchr(entry.getKey(), entry.getValue());
@@ -116,7 +119,15 @@ public class ActiveRecordCloudSync {
      * before allowing an update.
      */
     public static String getParams() {
-        return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode();
+    	return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode();
+    }
+    
+    public static void setInstrumentVersions() {
+    	mInstrumentVersions = Instrument.getInstrumentVersions();
+    }
+    
+    public static String getInstrumentVersions() {
+    	return mInstrumentVersions;
     }
     
     private static String getPingAddress() {

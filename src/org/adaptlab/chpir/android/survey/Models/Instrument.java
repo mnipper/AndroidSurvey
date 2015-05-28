@@ -281,4 +281,20 @@ public class Instrument extends ReceiveModel {
     public void setPublished(boolean published) {
     	mPublished = published;
     }
+    
+    public static String getInstrumentVersions() {
+    	JSONObject json = new JSONObject();
+    	JSONObject jsonObject = new JSONObject();
+        try {
+        	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
+            for (Instrument instrument : Instrument.getAllProjectInstruments(projectId)) {
+            	jsonObject.put(Long.toString(instrument.getRemoteId()), instrument.getVersionNumber());
+            }
+            json.put("instrument_versions", jsonObject);
+        } catch (JSONException je) {
+            Log.e(TAG, "JSON exception", je);
+        }
+        return json.toString();
+    }
+
 }

@@ -106,7 +106,7 @@ public class Instrument extends ReceiveModel {
         }
     }
     
-    public int getDefaultGravity() {
+	public int getDefaultGravity() {
         if (getAlignment().equals(LEFT_ALIGNMENT)) {
             return Gravity.LEFT;
         } else {
@@ -291,19 +291,27 @@ public class Instrument extends ReceiveModel {
     	mPublished = published;
     }
     
-    public static String getInstrumentVersions() {
-    	JSONObject json = new JSONObject();
+    public static JSONObject getInstrumentVersions() {
     	JSONObject jsonObject = new JSONObject();
         try {
         	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
             for (Instrument instrument : Instrument.getAllProjectInstruments(projectId)) {
             	jsonObject.put(Long.toString(instrument.getRemoteId()), instrument.getVersionNumber());
             }
-            json.put("instrument_versions", jsonObject);
         } catch (JSONException je) {
             Log.e(TAG, "JSON exception", je);
         }
-        return json.toString();
+        return jsonObject;
+    }
+    
+    public static String getDeletedInstruments() {
+    	List<Instrument> instrumentsList = new Select().from(Instrument.class).where("Deleted = ?", 1).execute();
+    	String instrumentIds = "";
+    	for (int k = 0; k < instrumentsList.size(); k++) {
+    		instrumentIds += Long.toString(instrumentsList.get(k).getRemoteId());
+    		if (k < instrumentsList.size() - 1) instrumentIds += ",";
+    	}
+    	return instrumentIds;		
     }
 
 }

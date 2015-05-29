@@ -202,4 +202,14 @@ public class Option extends ReceiveModel {
     private void setDeleted(boolean deleted) {
     	mDeleted = deleted;
     }
+    
+    public static String getDeletedOptions() {
+    	List<Option> optionList = new Select().from(Option.class).where("Deleted = ?", 1).execute();
+    	String optionIds = "";
+    	for (int k = 0; k < optionList.size(); k++) {
+    		optionIds += Long.toString(optionList.get(k).getRemoteId());
+    		if (k < optionList.size() - 1) optionIds += ",";
+    	}
+    	return optionIds;
+    }
 }

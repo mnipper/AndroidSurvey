@@ -57,7 +57,7 @@ public class HttpFetchr {
     	try {
     		String url = ActiveRecordCloudSync.getEndPoint() + mRemoteTableName + ActiveRecordCloudSync.getParams();
     		HttpGetWithEntity get = new HttpGetWithEntity(url);
-    		StringEntity entity = new StringEntity(ActiveRecordCloudSync.getInstrumentVersions(), CharEncoding.UTF_8);
+    		StringEntity entity = new StringEntity(ActiveRecordCloudSync.getSyncEntityParams(), CharEncoding.UTF_8);
     		entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
     		get.setEntity(entity);
     		response = client.execute(get);

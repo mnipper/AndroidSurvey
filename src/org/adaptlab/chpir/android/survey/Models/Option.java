@@ -31,6 +31,8 @@ public class Option extends ReceiveModel {
     private int mNumberInQuestion;
     @Column(name = "InstrumentVersion")
     private int mInstrumentVersion;
+    @Column(name = "Deleted")
+    private boolean mDeleted;
 
     public Option() {
         super();
@@ -100,6 +102,9 @@ public class Option extends ReceiveModel {
             	option.setNumberInQuestion(jsonObject.getInt("number_in_question"));
             }
             option.setInstrumentVersion(jsonObject.getInt("instrument_version"));
+            if (!jsonObject.isNull("deleted_at")) {
+            	option.setDeleted(true);
+            }
             option.save();
             
             // Generate translations
@@ -133,7 +138,7 @@ public class Option extends ReceiveModel {
      * Finders
      */
     public static List<Option> getAll() {
-        return new Select().from(Option.class).orderBy("Id ASC").execute();
+        return new Select().from(Option.class).where("Deleted != ?", 1).orderBy("Id ASC").execute();
     }
     
     public static Option findByRemoteId(Long id) {
@@ -192,5 +197,9 @@ public class Option extends ReceiveModel {
     
     private void setInstrumentVersion(int version) {
         mInstrumentVersion = version;
+    }
+    
+    private void setDeleted(boolean deleted) {
+    	mDeleted = deleted;
     }
 }

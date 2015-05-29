@@ -45,6 +45,8 @@ public class Instrument extends ReceiveModel {
     private Long mProjectId;
     @Column(name = "Published")
     private boolean mPublished;
+    @Column(name = "Deleted")
+    private boolean mDeleted;
 
     public Instrument() {
         super();
@@ -140,6 +142,9 @@ public class Instrument extends ReceiveModel {
             instrument.setQuestionCount(jsonObject.getInt("question_count"));
             instrument.setProjectId(jsonObject.getLong("project_id"));
             instrument.setPublished(jsonObject.getBoolean("published"));
+            if (!jsonObject.isNull("deleted_at")) {
+            	instrument.setDeleted(true);
+            }
             instrument.save();
             
             // Generate translations
@@ -161,16 +166,16 @@ public class Instrument extends ReceiveModel {
      * Finders
      */
     public static List<Instrument> getAll() {
-        return new Select().from(Instrument.class).orderBy("Title").execute();
+        return new Select().from(Instrument.class).where("Deleted != ?", 1).orderBy("Title").execute();
     }
     
     public static List<Instrument> getAllProjectInstruments(Long projectId) {
     	return new Select().from(Instrument.class)
-    			.where("ProjectID = ? AND Published = ?", projectId, 1)	//sqlite saves booleans as integers
+    			.where("ProjectID = ? AND Published = ? AND Deleted != ?", projectId, 1, 1)	//sqlite saves booleans as integers
     			.orderBy("Title")
     			.execute();
     }
-      
+    
     public static Instrument findByRemoteId(Long id) {
         return new Select().from(Instrument.class).where("RemoteId = ?", id).executeSingle();
     }
@@ -180,7 +185,7 @@ public class Instrument extends ReceiveModel {
      */
     public List<Question> questions() {
         return new Select().from(Question.class)
-                .where("Instrument = ? AND InstrumentVersion = ?", getId(), getVersionNumber())
+                .where("Instrument = ? AND Deleted != ?", getId(), 1)
                 .orderBy("NumberInInstrument ASC")
                 .execute();
     }
@@ -272,6 +277,10 @@ public class Instrument extends ReceiveModel {
     
     private void setAlignment(String alignment) {
         mAlignment = alignment;
+    }
+    
+    private void setDeleted(boolean deleted) {
+    	mDeleted = deleted;
     }
     
     public void setQuestionCount(int num) {

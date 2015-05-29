@@ -70,6 +70,8 @@ public class Question extends ReceiveModel {
     private Grid mGrid;
     @Column(name = "FirstInGrid")
     private boolean mFirstInGrid;
+    @Column(name = "Deleted")
+    private boolean mDeleted;
 
     public Question() {
         super();
@@ -223,7 +225,7 @@ public class Question extends ReceiveModel {
      * number.
      */
     public boolean loaded() { 
-        return getOptionCount() == options().size() && getImageCount() == images().size() && getInstrumentVersion() == getInstrument().getVersionNumber();
+        return getOptionCount() == options().size() && getImageCount() == images().size();
     }
 
     @Override
@@ -263,6 +265,9 @@ public class Question extends ReceiveModel {
             }
             question.setFirstInGrid(jsonObject.getBoolean("first_in_grid"));
             question.setRemoteId(remoteId);
+            if (!jsonObject.isNull("deleted_at")) {
+            	question.setDeleted(true);
+            }
             question.save();
             
             // Generate translations
@@ -284,7 +289,7 @@ public class Question extends ReceiveModel {
      * Finders
      */   
     public static List<Question> getAll() {
-        return new Select().from(Question.class).orderBy("Id ASC").execute();
+        return new Select().from(Question.class).where("Deleted != ?", 1).orderBy("Id ASC").execute();
     }
     
     public static Question findByRemoteId(Long id) {
@@ -322,7 +327,7 @@ public class Question extends ReceiveModel {
 
     public List<Option> options() {
         return new Select().from(Option.class)
-                .where("Question = ? AND InstrumentVersion = ?", getId(), getInstrumentVersion())
+                .where("Question = ? AND Deleted != ?", getId(), 1)
                 .orderBy("NumberInQuestion ASC")
                 .execute();
     }
@@ -508,5 +513,9 @@ public class Question extends ReceiveModel {
     
     private void setFirstInGrid(boolean firstInGrid) {
     	mFirstInGrid = firstInGrid;
+    }
+    
+    private void setDeleted(boolean deleted) {
+    	mDeleted = deleted;
     }
 }

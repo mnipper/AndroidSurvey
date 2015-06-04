@@ -22,10 +22,10 @@ import org.apache.commons.codec.binary.Base64;
 
 public class EncryptUtil {
 
-    private int iterationCount = 1000;
-    private int keyLength = 256;
-    private SecretKey theKey = null;
-    int saltLength = keyLength / 8;
+    private static int iterationCount = 1000;
+    private static int keyLength = 256;
+    private static SecretKey theKey = null;
+    static int saltLength = keyLength / 8;
 
        public static String encrypt(String value, String password) throws NoSuchAlgorithmException, InvalidKeySpecException,
                NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
@@ -67,7 +67,7 @@ public class EncryptUtil {
            return new String(plaintext , "UTF-8");
        }
 
-       private SecretKey getKey(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+       private static SecretKey getKey(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
            if (theKey != null) return theKey;
 
            KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt,

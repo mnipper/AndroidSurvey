@@ -291,17 +291,18 @@ public class Instrument extends ReceiveModel {
     	mPublished = published;
     }
     
-    public static JSONObject getInstrumentVersions() {
-    	JSONObject jsonObject = new JSONObject();
-        try {
-        	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
-            for (Instrument instrument : Instrument.getAllProjectInstruments(projectId)) {
-            	jsonObject.put(Long.toString(instrument.getRemoteId()), instrument.getVersionNumber());
-            }
-        } catch (JSONException je) {
-            Log.e(TAG, "JSON exception", je);
-        }
-        return jsonObject;
+    public static String getInstrumentVersions() {
+    	String instrumentIds = "";
+    	String instrumentVersions = "";
+    	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
+    	List<Instrument> instruments = Instrument.getAllProjectInstruments(projectId);
+    	for (int k = 0; k < instruments.size(); k++) {
+    		instrumentIds += Long.toString(instruments.get(k).getRemoteId());
+    		instrumentVersions += instruments.get(k).getVersionNumber();
+    		if (k < instruments.size() - 1) instrumentIds += ",";
+    		if (k < instruments.size() - 1) instrumentVersions += ",";
+    	}
+    	return "&device_instrument_versions=" + instrumentVersions + "&device_instruments=" + instrumentIds;
     }
     
     public static String getDeletedInstruments() {

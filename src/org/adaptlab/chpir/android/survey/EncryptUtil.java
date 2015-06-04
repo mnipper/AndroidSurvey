@@ -27,7 +27,7 @@ public class EncryptUtil {
     private SecretKey theKey = null;
     int saltLength = keyLength / 8;
 
-       public String encrypt(String value, String password) throws NoSuchAlgorithmException, InvalidKeySpecException,
+       public static String encrypt(String value, String password) throws NoSuchAlgorithmException, InvalidKeySpecException,
                NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
                BadPaddingException, UnsupportedEncodingException {
 
@@ -47,7 +47,7 @@ public class EncryptUtil {
            return salt + "::" + iv + "::" + new String(cipherText, "UTF-8");
        }
        
-       public String decrypt(String ciphertext, String password) throws NoSuchAlgorithmException, InvalidKeySpecException,
+       public static String decrypt(String ciphertext, String password) throws NoSuchAlgorithmException, InvalidKeySpecException,
                NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException,
                BadPaddingException, UnsupportedEncodingException {
            

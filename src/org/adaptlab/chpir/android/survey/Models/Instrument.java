@@ -215,7 +215,7 @@ public class Instrument extends ReceiveModel {
     }
       
      public boolean loaded() {
-         if (questions().size() != getQuestionCount()) return false;
+    	 if (questions().size() != getQuestionCount()) return false;
          for (Question question : questions()) {
              if (!question.loaded()) return false;
          }
@@ -303,16 +303,6 @@ public class Instrument extends ReceiveModel {
     		if (k < instruments.size() - 1) instrumentVersions += ",";
     	}
     	return "&device_instrument_versions=" + instrumentVersions + "&device_instruments=" + instrumentIds;
-    }
-    
-    public static String getDeletedInstruments() {
-    	List<Instrument> instrumentsList = new Select().from(Instrument.class).where("Deleted = ?", 1).execute();
-    	String instrumentIds = "";
-    	for (int k = 0; k < instrumentsList.size(); k++) {
-    		instrumentIds += Long.toString(instrumentsList.get(k).getRemoteId());
-    		if (k < instrumentsList.size() - 1) instrumentIds += ",";
-    	}
-    	return instrumentIds;		
     }
 
 }

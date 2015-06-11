@@ -38,7 +38,6 @@ public class GridLabel extends ReceiveModel {
 			}
 			gridLabel.setGrid(Grid.findByRemoteId(jsonObject.getLong("grid_id")));
 			gridLabel.save();
-			if (AppUtil.DEBUG) Log.i(TAG, "Created GridLabel from JSON with ID: " + remoteId);
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }

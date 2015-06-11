@@ -38,7 +38,6 @@ public class Grid extends ReceiveModel {
 			grid.setName(jsonObject.getString("name"));
 			grid.setInstrument(Instrument.findByRemoteId(jsonObject.getLong("instrument_id")));
 			grid.save();
-			if (AppUtil.DEBUG) Log.i(TAG, "Created Grid from JSON with ID: " + remoteId);
 		} catch (JSONException je) {
             Log.e(TAG, "Error parsing object json", je);
         }

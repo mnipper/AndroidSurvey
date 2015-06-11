@@ -9,8 +9,6 @@ import java.util.Map;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
-import org.adaptlab.chpir.android.survey.Models.Option;
-import org.adaptlab.chpir.android.survey.Models.Question;
 
 import android.content.Context;
 import android.util.Log;
@@ -121,7 +119,7 @@ public class ActiveRecordCloudSync {
      * before allowing an update.
      */
     public static String getParams() {
-    	return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode();
+    	return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode() + getInstrumentVersions();
     }
     
     public static void setInstrumentVersions() {
@@ -130,13 +128,6 @@ public class ActiveRecordCloudSync {
     
     public static String getInstrumentVersions() {
     	return mInstrumentVersions;
-    }
-    
-	public static String getSyncEntityParams() {
-    	return "&deleted_instruments=" + Instrument.getDeletedInstruments()
-    			+ "&deleted_questions=" + Question.getDeletedQuestions()
-    			+ "&deleted_options=" + Option.getDeletedOptions()
-    			+ getInstrumentVersions();
     }
     
     private static String getPingAddress() {

@@ -518,14 +518,5 @@ public class Question extends ReceiveModel {
     private void setDeleted(boolean deleted) {
     	mDeleted = deleted;
     }
-    
-    public static String getDeletedQuestions() {
-    	List<Question> questionList = new Select().from(Question.class).where("Deleted = ?", 1).execute();
-    	String questionIds = "";
-    	for(int k = 0; k < questionList.size(); k++) {
-    		questionIds += Long.toString(questionList.get(k).getRemoteId());
-    		if (k < questionList.size() - 1) questionIds += ",";
-    	}
-    	return questionIds;
-    }
+ 
 }

@@ -215,7 +215,7 @@ public class Instrument extends ReceiveModel {
     }
       
      public boolean loaded() {
-         if (questions().size() != getQuestionCount()) return false;
+    	 if (questions().size() != getQuestionCount()) return false;
          for (Question question : questions()) {
              if (!question.loaded()) return false;
          }
@@ -291,27 +291,18 @@ public class Instrument extends ReceiveModel {
     	mPublished = published;
     }
     
-    public static JSONObject getInstrumentVersions() {
-    	JSONObject jsonObject = new JSONObject();
-        try {
-        	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
-            for (Instrument instrument : Instrument.getAllProjectInstruments(projectId)) {
-            	jsonObject.put(Long.toString(instrument.getRemoteId()), instrument.getVersionNumber());
-            }
-        } catch (JSONException je) {
-            Log.e(TAG, "JSON exception", je);
-        }
-        return jsonObject;
-    }
-    
-    public static String getDeletedInstruments() {
-    	List<Instrument> instrumentsList = new Select().from(Instrument.class).where("Deleted = ?", 1).execute();
+    public static String getInstrumentVersions() {
     	String instrumentIds = "";
-    	for (int k = 0; k < instrumentsList.size(); k++) {
-    		instrumentIds += Long.toString(instrumentsList.get(k).getRemoteId());
-    		if (k < instrumentsList.size() - 1) instrumentIds += ",";
+    	String instrumentVersions = "";
+    	Long projectId = Long.parseLong(AppUtil.getAdminSettingsInstance().getProjectId());
+    	List<Instrument> instruments = Instrument.getAllProjectInstruments(projectId);
+    	for (int k = 0; k < instruments.size(); k++) {
+    		instrumentIds += Long.toString(instruments.get(k).getRemoteId());
+    		instrumentVersions += instruments.get(k).getVersionNumber();
+    		if (k < instruments.size() - 1) instrumentIds += ",";
+    		if (k < instruments.size() - 1) instrumentVersions += ",";
     	}
-    	return instrumentIds;		
+    	return "&device_instrument_versions=" + instrumentVersions + "&device_instruments=" + instrumentIds;
     }
 
 }

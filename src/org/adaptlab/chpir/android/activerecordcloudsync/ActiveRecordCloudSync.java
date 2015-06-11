@@ -9,10 +9,6 @@ import java.util.Map;
 import org.adaptlab.chpir.android.survey.AppUtil;
 import org.adaptlab.chpir.android.survey.R;
 import org.adaptlab.chpir.android.survey.Models.Instrument;
-import org.adaptlab.chpir.android.survey.Models.Option;
-import org.adaptlab.chpir.android.survey.Models.Question;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,7 +23,7 @@ public class ActiveRecordCloudSync {
     private static String mEndPoint;        // The remote API endpoint url
     private static String mAccessToken;     // API Access Key
     private static int mVersionCode;        // App version code from Manifest
-    private static JSONObject mInstrumentVersions;
+    private static String mInstrumentVersions;
     
     /**
      * Add a ReceiveTable.  A ReceiveTable is an active record model class that extends the
@@ -123,28 +119,15 @@ public class ActiveRecordCloudSync {
      * before allowing an update.
      */
     public static String getParams() {
-    	return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode();
+    	return "?access_token=" + getAccessToken() + "&version_code=" + getVersionCode() + getInstrumentVersions();
     }
     
     public static void setInstrumentVersions() {
     	mInstrumentVersions = Instrument.getInstrumentVersions();
     }
     
-    public static JSONObject getInstrumentVersions() {
+    public static String getInstrumentVersions() {
     	return mInstrumentVersions;
-    }
-    
-    public static String getSyncEntityParams() {
-    	JSONObject json = new JSONObject();
-    	try {
-    		json.put("instrument_versions", mInstrumentVersions);
-			json.put("deleted_instruments", Instrument.getDeletedInstruments());
-			json.put("deleted_questions", Question.getDeletedQuestions());
-			json.put("deleted_options", Option.getDeletedOptions());
-		} catch (JSONException je) {
-            Log.e(TAG, "JSON exception", je);
-        }
-    	return json.toString();
     }
     
     private static String getPingAddress() {

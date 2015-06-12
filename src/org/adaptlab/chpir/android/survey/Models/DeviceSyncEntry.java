@@ -39,6 +39,8 @@ public class DeviceSyncEntry extends SendModel {
             jsonObject.put("device_uuid", AdminSettings.getInstance().getDeviceIdentifier());
             jsonObject.put("api_key", AdminSettings.getInstance().getApiKey());
             jsonObject.put("timezone", TimeZone.getDefault().getDisplayName() + " " + TimeZone.getDefault().getID());
+            jsonObject.put("project_id", AdminSettings.getInstance().getProjectId());
+            jsonObject.put("device_label", AdminSettings.getInstance().getDeviceLabel());
             
             json.put("device_sync_entry", jsonObject);
         } catch (JSONException je) {
